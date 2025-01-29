@@ -1,11 +1,16 @@
 //prueba
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-// #include "minishell.h"
 // se debe compilar con -lreadline, poner en el makefile
+#include "minishell.h"
+
+void	foo(void)
+{
+	char	*path;
+	char	**path_split;
+
+	path = getenv("PATH");
+	path_split = ft_split(path, ':');
+}
 
 int main(void)
 {
@@ -22,3 +27,7 @@ int main(void)
 	free(input); // Liberar la memoria asignada por readline
     return (0);
 }
+
+// char	*path -> getenv("PATH");
+// char	**path_split -> ft_split(path, ':');
+//execve(char *pathname,))

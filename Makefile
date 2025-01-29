@@ -14,7 +14,6 @@ MINISHELL_SRC =	src/minishell.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(addprefix src/obj/, $(notdir $(MINISHELL_SRC:.c=.o)))
-
 all: $(NAME)
 
 src/obj/%.o: src/%.c
@@ -22,7 +21,7 @@ src/obj/%.o: src/%.c
 	@$(CC) $(CFLAGS) $(MINISHELL) $(INC) -c $< -o $@
 
 $(NAME): $(MINISHELL_OBJ)
-	@$(CC) $(CFLAGS) $(MINISHELL) -o $(NAME) $(MINISHELL_OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(MINISHELL_OBJ) $(MINISHELL) $(INC)
 	@echo "$(NAME) created!"
 
 clean:
@@ -33,6 +32,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
+	@echo "$(NAME) removed!"
 
 re: fclean all
 
