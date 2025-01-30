@@ -11,36 +11,13 @@ char	*cmdcat(char *path, char *cmd)
 
 	path_len = ft_strlen(path);
 	cmd_len = ft_strlen(cmd);
-	filepath = malloc (path_len + cmd_len + 2 * sizeof(char));
+	filepath = malloc (path_len + cmd_len + 2 * sizeof(char)); // para "/" y "\0"
 	if (!filepath)
 		return (NULL);
 	filepath = ft_strcpy(filepath, path);
 	filepath = ft_strcat(filepath, "/");
 	filepath = ft_strcat(filepath, cmd);
 	return (filepath);
-}
-
-//funcion propia strcpy para poder concatenar
-char	*ft_strcpy(char *dest, const char *src)
-{
-	char *start;
-	
-	start = dest;
-	while (*src)
-		*dest++ = *src++;
-	*dest = '\0';
-	return (start);
-}
-
-char	*ft_strcat(char *dest, const char *src)
-{
-    char *start = dest;
-    while (*dest)
-        dest++;
-    while (*src)
-        *dest++ = *src++;
-    *dest = '\0';
-    return (start);
 }
 
 void	foo(void)
@@ -74,6 +51,4 @@ int main(void)
     return (0);
 }
 
-// char	*path -> getenv("PATH");
-// char	**path_split -> ft_split(path, ':');
 //execve(char *pathname, matriz con ruta, flags, argumentos), envp)
