@@ -1,3 +1,0 @@
-[submodule "libft"]
-	path = lib/libft/
-	url = https://github.com/antonimodev/libft.git
