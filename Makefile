@@ -1,8 +1,8 @@
 # Variables #
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
-MINISHELL = -lreadline
+CFLAGS = -Wall -Wextra -g # -Werror 
+MINISHELL = -lreadline # Compilar con esta flag para coger el input
 RM = rm -rf
 
 # Libraries #
@@ -11,7 +11,8 @@ MAKE_LIB = make --no-print-directory
 LIBFT = lib/libft/libft.a
 
 # Minishell sources #
-MINISHELL_SRC =	src/minishell.c
+MINISHELL_SRC =	src/minishell.c \
+				src/path_utils.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(addprefix src/obj/, $(notdir $(MINISHELL_SRC:.c=.o)))

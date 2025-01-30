@@ -1,54 +1,20 @@
-//prueba
-
-// se debe compilar con -lreadline, poner en el makefile
 #include "minishell.h"
-
-char	*cmdcat(char *path, char *cmd)
-{
-	char	*filepath;
-	int		path_len;
-	int		cmd_len;
-
-	path_len = ft_strlen(path);
-	cmd_len = ft_strlen(cmd);
-	filepath = malloc (path_len + cmd_len + 2 * sizeof(char)); // para "/" y "\0"
-	if (!filepath)
-		return (NULL);
-	filepath = ft_strcpy(filepath, path);
-	filepath = ft_strcat(filepath, "/");
-	filepath = ft_strcat(filepath, cmd);
-	return (filepath);
-}
-
-void	foo(void)
-{
-	char	*path;
-	char	**path_split;
-
-	//comprobar strchr de "/", comprobar con stat y si es true, return strdup(cmd)
-	//utilizar stat() en caso de que sea ruta relativa
-	//usar access(F_OK, X_OK) para existencia y permisos
-	path = getenv("PATH");
-	path_split = ft_split(path, ':');
-	//concatenar
-	print_matrix(path_split);
-}
 
 int main(void)
 {
     char	*input;
-    // Si existe, imprime (es una prueba)
-	//foo();
     while (1)
     {
     	input = readline("minishell> ");   // Leer una línea de entrada del usuario
 		add_history(input); // Añade input al historial de comandos introducidos
-        printf("You entered: %s\n", input);
-		if (strcmp(input, "exit") == 0)
+		execute(input);
+		if (ft_strcmp(input, "exit") == 0)
 			break;
+		free(input); // liberamos input antes de pisarlo
     }
-	free(input); // Liberar la memoria asignada por readline
+	free(input); // Liberamos input al terminar el programa
     return (0);
 }
 
-//execve(char *pathname, matriz con ruta, flags, argumentos), envp)
+//execve(char *pathname, (flags, argumentos), envp)
+//execve(char *pathname, char *const argv[], char *const envp[]);
