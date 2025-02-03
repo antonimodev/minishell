@@ -1,18 +1,29 @@
 #include "minishell.h"
 
-int main(void)
+int main(int ac, char **av, char **envp)
 {
     char	*input;
+	char	**input_matrix;
+
     while (1)
     {
-    	input = readline("minishell> ");   // Leer una línea de entrada del usuario
-		add_history(input); // Añade input al historial de comandos introducidos
-		execute(input);
-		if (ft_strcmp(input, "exit") == 0)
+		input = NULL;
+		while (!input || !input[0])
+		    input = readline("minishell> ");
+		add_history(input);
+		input_matrix = ft_split(input, ' ');
+		if (ft_strcmp(input_matrix[0], "exit") == 0)
+		{
+			free(input); // liberamos input antes de pisarlo
+			free_matrix(input_matrix); // liberamos input_matrix al terminar el programa
 			break;
-		free(input); // liberamos input antes de pisarlo
+		}
+
+		execute(input_matrix, envp);
+		free(input);
+		maricone
+		free_matrix(input_matrix);
     }
-	free(input); // Liberamos input al terminar el programa
     return (0);
 }
 

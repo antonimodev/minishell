@@ -4,25 +4,18 @@
 	//utilizar stat() en caso de que sea ruta relativa
 	//usar access(F_OK, X_OK) para existencia y permisos
 
-void	execute(char *cmd)
+void	execute(char **cmd, char **envp)
 {
-	char	*path;
-	char	**path_split;
-
+	char	*filepath;
 	//si me pasan ruta con "/" comprobar directamente
-	path = getenv("PATH");
-	path_split = ft_split(path, ':');
-	cmd_path(path_split, cmd);
-	if (!check_cmd(path_split))
+	filepath = get_path(cmd, envp);
+	if (!filepath)
 	{
 		// posiblemente aqui venga un mensaje de que cmd_path no existe
-		printf("minishell: %s: command not found\n", cmd);
-		free_matrix(path_split);
+		printf("minishell: %s: command not found\n", cmd[0]);
 		return ;
 	}
-	printf("GUCCI\n");
-	//funcion de fork y execve
-	free_matrix(path_split);
+	fork_exec(filepath, cmd, envp);
 }
 
 void	cmd_path(char **path_split, char *cmd)
@@ -55,7 +48,7 @@ char	*cmdcat(char *path, char *cmd)
 	return (filepath);
 }
 
-bool	check_cmd(char **path_split)
+char 	*get_cmd(char **path_split)
 {
 	int			i;
 
@@ -63,10 +56,10 @@ bool	check_cmd(char **path_split)
 	while (path_split[i])
 	{
 		if (is_valid(path_split[i]))
-			return (true);
+			return (path_split[i]);
 		i++;
 	}
-	return (false);
+	return (NULL);
 }
 
 bool	is_valid(char *cmd_path)

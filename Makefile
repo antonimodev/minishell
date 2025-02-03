@@ -1,9 +1,10 @@
 # Variables #
 NAME = minishell
-CC = gcc
+CC = gcc -g
 CFLAGS = -Wall -Wextra -g # -Werror 
 MINISHELL = -lreadline # Compilar con esta flag para coger el input
 RM = rm -rf
+
 
 # Libraries #
 INC = -I lib -I lib/libft
@@ -12,7 +13,10 @@ LIBFT = lib/libft/libft.a
 
 # Minishell sources #
 MINISHELL_SRC =	src/minishell.c \
-				src/path_utils.c
+				src/path_utils.c \
+				src/fork.c	\
+				src/path.c \
+				
 
 # Minishell objects #
 MINISHELL_OBJ = $(addprefix src/obj/, $(notdir $(MINISHELL_SRC:.c=.o)))
