@@ -16,12 +16,10 @@ int main(int ac, char **av, char **envp)
 		{
 			free(input); // liberamos input antes de pisarlo
 			free_matrix(input_matrix); // liberamos input_matrix al terminar el programa
-			break;
+			return (1);
 		}
-
 		execute(input_matrix, envp);
 		free(input);
-		maricone
 		free_matrix(input_matrix);
     }
     return (0);

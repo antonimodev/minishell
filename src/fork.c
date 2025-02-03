@@ -8,11 +8,10 @@ void	fork_exec(char *cmd_path, char **cmd, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		//printf("%s", cmd_path);
 		if (execve(cmd_path, cmd, envp) != 0)
 		{
 			free(cmd_path);
-			//free_matrix(cmd);
+			free_matrix(cmd);
 			printf("%s: invalid line with: ", cmd[1]);
 		}
 	}

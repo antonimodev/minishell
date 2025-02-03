@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 void	execute(char **cmd, char **envp);
-void	cmd_path(char **path_split, char *cmd);
+void	concat_path(char **path_split, char *cmd);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strcat(char *dest, const char *src);
 bool	is_valid(char *cmd_path);

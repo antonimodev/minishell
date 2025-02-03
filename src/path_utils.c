@@ -3,11 +3,12 @@
 	//comprobar strchr de "/", comprobar con stat y si es true, return strdup(cmd)
 	//utilizar stat() en caso de que sea ruta relativa
 	//usar access(F_OK, X_OK) para existencia y permisos
+	//si me pasan ruta con "/" comprobar directamente
 
 void	execute(char **cmd, char **envp)
 {
 	char	*filepath;
-	//si me pasan ruta con "/" comprobar directamente
+
 	filepath = get_path(cmd, envp);
 	if (!filepath)
 	{
@@ -16,9 +17,10 @@ void	execute(char **cmd, char **envp)
 		return ;
 	}
 	fork_exec(filepath, cmd, envp);
+	free(filepath);
 }
 
-void	cmd_path(char **path_split, char *cmd)
+void	concat_path(char **path_split, char *cmd)
 {
 	int		i;
 
@@ -38,7 +40,7 @@ char	*cmdcat(char *path, char *cmd)
 
 	path_len = ft_strlen(path);
 	cmd_len = ft_strlen(cmd);
-	filepath = malloc (path_len + cmd_len + 2 * sizeof(char)); // para "/" y "\0"
+	filepath = malloc ((path_len + cmd_len + 2) * sizeof(char)); // para "/" y "\0"
 	if (!filepath)
 		return (NULL);
 	filepath = ft_strcpy(filepath, path);
@@ -56,7 +58,7 @@ char 	*get_cmd(char **path_split)
 	while (path_split[i])
 	{
 		if (is_valid(path_split[i]))
-			return (path_split[i]);
+			return (ft_strdup(path_split[i])); // strdup para no perder el path original AQUI ESTABA EL ERROR
 		i++;
 	}
 	return (NULL);
