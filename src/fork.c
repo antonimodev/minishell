@@ -12,7 +12,6 @@ void	fork_exec(char *cmd_path, char **cmd, char **envp)
 		{
 			free(cmd_path);
 			free_matrix(cmd);
-			printf("%s: invalid line with: ", cmd[1]);
 		}
 	}
 	else

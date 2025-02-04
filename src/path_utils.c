@@ -5,22 +5,30 @@
 	//usar access(F_OK, X_OK) para existencia y permisos
 	//si me pasan ruta con "/" comprobar directamente
 
-void	execute(char **cmd, char **envp)
+void	execute(t_input *input, char **envp)
 {
 	char	*filepath;
 
-	filepath = get_path(cmd, envp);
-	if (!filepath)
-	{
-		// posiblemente aqui venga un mensaje de que cmd_path no existe
-		printf("minishell: %s: command not found\n", cmd[0]);
+	input->input_matrix = ft_split(input->user_input, ' ');
+
+	filepath = get_path(input->input_matrix, envp);
+	if (not_found(filepath, input->input_matrix))
 		return ;
-	}
-	fork_exec(filepath, cmd, envp);
+	fork_exec(filepath, input->input_matrix, envp);
 	free(filepath);
 }
 
-void	concat_path(char **path_split, char *cmd)
+bool not_found(char *filepath, char **input_matrix)
+{
+	if(!filepath)
+	{
+		printf("minishell: %s: command not found\n", input_matrix[0]);
+		return true;
+	}
+	return false;
+}
+
+void	concat_paths(char **path_split, char *cmd)
 {
 	int		i;
 
@@ -50,15 +58,18 @@ char	*cmdcat(char *path, char *cmd)
 	return (filepath);
 }
 
-char 	*get_cmd(char **path_split)
+char 	*get_cmd_path(char **splitted_paths, char **cmd_path)
 {
-	int			i;
+	int	i;
 
 	i = 0;
-	while (path_split[i])
+	while (splitted_paths[i])
 	{
-		if (is_valid(path_split[i]))
-			return (ft_strdup(path_split[i])); // strdup para no perder el path original AQUI ESTABA EL ERROR
+		if (is_valid(splitted_paths[i]))
+		{
+			(*cmd_path) = ft_strdup(splitted_paths[i]);
+			return (*cmd_path);
+		}
 		i++;
 	}
 	return (NULL);
