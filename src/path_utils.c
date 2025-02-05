@@ -1,43 +1,60 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 10:56:33 by antonimo          #+#    #+#             */
+/*   Updated: 2025/02/05 14:27:43 by antonimo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 	// OPCIONAL
 	//comprobar strchr de "/", comprobar con stat y si es true, return strdup(cmd)
 	//utilizar stat() en caso de que sea ruta relativa
 	//usar access(F_OK, X_OK) para existencia y permisos
 	//si me pasan ruta con "/" comprobar directamente
+#include "minishell.h"
 
-void	execute(t_input *input, char **envp)
+void	execute(t_minishell *minishell, char **envp)
 {
-	char	*filepath;
-
-	input->input_matrix = ft_split(input->user_input, ' ');
-
-	filepath = get_path(input->input_matrix, envp);
-	if (not_found(filepath, input->input_matrix))
-		return ;
-	fork_exec(filepath, input->input_matrix, envp);
-	free(filepath);
-}
-
-bool not_found(char *filepath, char **input_matrix)
-{
-	if(!filepath)
+	if (!minishell->cmd_path && !is_built_in(minishell))
 	{
-		printf("minishell: %s: command not found\n", input_matrix[0]);
-		return true;
+		printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
+		return;
 	}
-	return false;
+	fork_exec(minishell, envp);
+}
+bool	is_built_in(t_minishell *minishell)
+{
+	if (ft_strcmp(minishell->input_matrix[0], "echo") == 0)
+		minishell->built_in_type = FT_ECHO;
+	else if (ft_strcmp(minishell->input_matrix[0], "cd") == 0)
+		minishell->built_in_type = FT_CD;
+	else if (ft_strcmp(minishell->input_matrix[0], "pwd") == 0)
+		minishell->built_in_type = FT_PWD;
+	else if (ft_strcmp(minishell->input_matrix[0], "export") == 0)
+		minishell->built_in_type = FT_EXPORT;
+	else
+	{
+		minishell->built_in_type = FT_NULL;
+		return (false);
+	}
+	return (true);
 }
 
-void	concat_paths(char **path_split, char *cmd)
+char	**concat_paths(char **splitted_path, char *cmd)
 {
 	int		i;
 
 	i = 0;
-	while (path_split[i])
+	while (splitted_path[i])
 	{
-		path_split[i] = cmdcat(path_split[i], cmd);
+		splitted_path[i] = cmdcat(splitted_path[i], cmd);
 		i++;
 	}
+	return (splitted_path);
 }
 
 char	*cmdcat(char *path, char *cmd)
@@ -58,7 +75,7 @@ char	*cmdcat(char *path, char *cmd)
 	return (filepath);
 }
 
-char 	*get_cmd_path(char **splitted_paths, char **cmd_path)
+char 	*get_cmd_path(char **splitted_paths)
 {
 	int	i;
 
@@ -66,10 +83,7 @@ char 	*get_cmd_path(char **splitted_paths, char **cmd_path)
 	while (splitted_paths[i])
 	{
 		if (is_valid(splitted_paths[i]))
-		{
-			(*cmd_path) = ft_strdup(splitted_paths[i]);
-			return (*cmd_path);
-		}
+			return (ft_strdup(splitted_paths[i]));
 		i++;
 	}
 	return (NULL);
@@ -83,8 +97,6 @@ bool	is_valid(char *cmd_path)
         || stat(cmd_path, &buffer)
         || !S_ISREG(buffer.st_mode)
         || !(buffer.st_mode & S_IXUSR))
-    {
         return (false);
-    }
     return (true);
 }

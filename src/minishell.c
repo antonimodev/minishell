@@ -1,48 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
+/*   Updated: 2025/02/05 14:27:40 by antonimo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int main(int ac, char **av, char **envp)
 {
-	t_input	input;
+	t_minishell	minishell;
 
+	UNUSED(ac); // Macro definida para eliminar warning de params sin utilizar.
+	UNUSED(av);
     while (1)
     {
-		get_input(&input);
-		execute(&input, envp);
-		free_input(&input);
+		get_input(&minishell);
+		parse_input(&minishell, envp);
+		//check_built_in
+		execute(&minishell, envp);
+		free_minishell(&minishell);
     }
     return (0);
 }
-
-void	free_input(t_input *input)
-{
-	free(input->user_input);
-	free_matrix(input->input_matrix);
-}
-
-void get_input(t_input *input)
-{
-	ft_memset(input, 0, sizeof(t_input));
-	while (!valid_input(input->user_input))
-	{
-	    input->user_input = readline("minishell> ");
-		add_history(input->user_input);
-	}
-}
-bool	valid_input(char *input)
-{
-    if (!input || input[0] == '\0')
-	{
-		free(input);
-		return (false);
-	}
-	else if ((ft_strcmp(input, "exit") == 0))
-	{
-		free(input);
-        exit(EXIT_FAILURE);
-	}
-    return true;
-}
-
-
-//execve(char *pathname, (flags, argumentos), envp)
-//execve(char *pathname, char *const argv[], char *const envp[]);

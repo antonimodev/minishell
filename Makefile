@@ -16,6 +16,7 @@ MINISHELL_SRC =	src/minishell.c \
 				src/path_utils.c \
 				src/fork.c	\
 				src/path.c \
+				src/input.c \
 				
 
 # Minishell objects #
