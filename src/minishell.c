@@ -20,9 +20,8 @@ int main(int ac, char **av, char **envp)
 	UNUSED(av);
     while (1)
     {
-		get_input(&minishell);
+		get_input(&minishell, envp);
 		parse_input(&minishell, envp);
-		//check_built_in
 		execute(&minishell, envp);
 		free_minishell(&minishell);
     }

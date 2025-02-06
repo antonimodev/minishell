@@ -12,20 +12,23 @@
 
 #include "minishell.h"
 
-void get_input(t_minishell *minishell)
+void get_input(t_minishell *minishell, char **envp)
 {
 	ft_memset(minishell, 0, sizeof(t_minishell));
+	minishell->user = ft_getenv(envp, "USER=");
 	while (!valid_input(minishell->user_input))
 	{
-	    minishell->user_input = readline("minishell> ");
+		printf("%s ➜", minishell->user);
+		ft_pwd(minishell);
+	    minishell->user_input = readline(" $ "); // Al poner pwd no hace falta poner nada
 		add_history(minishell->user_input);
 	}
 }
 
-
 void 	parse_input(t_minishell *minishell, char **envp)
 {
-	minishell->input_matrix = ft_split(minishell->user_input, ' '); // tiene memoria de split
+	minishell->input_matrix = ft_split(minishell->user_input, ' ');
+	minishell->args_num = matrixlen(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, envp);
 }
 
@@ -46,6 +49,7 @@ bool	valid_input(char *input)
 
 void	free_minishell(t_minishell *minishell)
 {
+	//free(minishell->user);
 	free(minishell->user_input);
 	free(minishell->cmd_path);
 	free_matrix(minishell->input_matrix);

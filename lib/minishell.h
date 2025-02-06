@@ -21,18 +21,24 @@ typedef enum e_built_in
 	FT_CD,
 	FT_PWD,
 	FT_EXPORT,
+	FT_UNSET,
+	FT_ENV,
+	FT_EXIT
 } e_built_in;
 
 typedef struct s_minishell
 {
+	char		*user;
 	char		*user_input;
 	char		**input_matrix;
 	char		*cmd_path;
+	int			args_num;
 	e_built_in	built_in_type;
 }	t_minishell;
 /*-------------------- MINISHELL -------------------------*/
 
 /* --------------------- FORK.C ----------------------------*/
+void	exec_cmd(t_minishell *minishell, char **envp);
 void	fork_exec(t_minishell *minishell, char **envp);
 
 /* ------------------ PATH_UTILS.C -------------------------*/
@@ -49,13 +55,17 @@ char    *get_path(char **input_matrix, char **envp);
 char    *ft_getenv(char **envp, char *env_var);
 
 /*--------------------- INPUT.C ----------------------------*/
-void    get_input(t_minishell *minishell);
+void    get_input(t_minishell *minishell, char **envp);
 void 	parse_input(t_minishell *minishell, char **envp);
 bool	valid_input(char *input);
 void	free_minishell(t_minishell *minishell);
 
-void	exec_built_in(t_minishell *minishell);
+void	exec_built_in(t_minishell *minishell, char **envp);
 bool	is_built_in(t_minishell *minishell);
+
+/*--------------------- BUILT_IN.C -------------------------*/
 void	ft_pwd(t_minishell *minishell);
+void	ft_cd(t_minishell *minishell);
+void	ft_export(t_minishell *minishell, char **envp);
 
 #endif

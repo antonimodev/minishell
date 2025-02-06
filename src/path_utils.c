@@ -19,12 +19,17 @@
 
 void	execute(t_minishell *minishell, char **envp)
 {
-	if (!minishell->cmd_path && !is_built_in(minishell))
-	{
-		printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
-		return;
-	}
-	fork_exec(minishell, envp);
+    if (is_built_in(minishell))
+    {
+        exec_built_in(minishell, envp);
+        return;
+    }
+    if (!minishell->cmd_path)
+    {
+        printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
+        return;
+    }
+    fork_exec(minishell, envp);
 }
 bool	is_built_in(t_minishell *minishell)
 {
@@ -36,6 +41,12 @@ bool	is_built_in(t_minishell *minishell)
 		minishell->built_in_type = FT_PWD;
 	else if (ft_strcmp(minishell->input_matrix[0], "export") == 0)
 		minishell->built_in_type = FT_EXPORT;
+	else if (ft_strcmp(minishell->input_matrix[0], "unset") == 0)
+		minishell->built_in_type = FT_UNSET;
+	else if (ft_strcmp(minishell->input_matrix[0], "env") == 0)
+		minishell->built_in_type = FT_ENV;
+	else if (ft_strcmp(minishell->input_matrix[0], "exit") == 0)
+		minishell->built_in_type = FT_EXIT;
 	else
 	{
 		minishell->built_in_type = FT_NULL;
