@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/05 14:27:43 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:12:37 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 void	execute(t_minishell *minishell, char **envp)
 {
+	if (minishell->user_input == NULL)
+		return ;
     if (is_built_in(minishell))
     {
         exec_built_in(minishell, envp);
@@ -33,7 +35,9 @@ void	execute(t_minishell *minishell, char **envp)
 }
 bool	is_built_in(t_minishell *minishell)
 {
-	if (ft_strcmp(minishell->input_matrix[0], "echo") == 0)
+	if (ft_strcmp(minishell->input_matrix[0], "exit") == 0)
+		minishell->built_in_type = FT_EXIT;
+	else if (ft_strcmp(minishell->input_matrix[0], "echo") == 0)
 		minishell->built_in_type = FT_ECHO;
 	else if (ft_strcmp(minishell->input_matrix[0], "cd") == 0)
 		minishell->built_in_type = FT_CD;
@@ -45,8 +49,6 @@ bool	is_built_in(t_minishell *minishell)
 		minishell->built_in_type = FT_UNSET;
 	else if (ft_strcmp(minishell->input_matrix[0], "env") == 0)
 		minishell->built_in_type = FT_ENV;
-	else if (ft_strcmp(minishell->input_matrix[0], "exit") == 0)
-		minishell->built_in_type = FT_EXIT;
 	else
 	{
 		minishell->built_in_type = FT_NULL;

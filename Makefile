@@ -48,4 +48,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+run: re
+	@valgrind ./$(NAME) || true
+
+.PHONY: all clean fclean re run

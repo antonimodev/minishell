@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/05 14:33:58 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/02/07 13:30:39 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	fork_exec(t_minishell *minishell, char **envp)
 void	exec_built_in(t_minishell *minishell, char **envp)
 {
 	if (minishell->built_in_type == FT_PWD)
+	{
 		ft_pwd(minishell);
+		printf("\n");
+	}
 	else if (minishell->built_in_type == FT_CD)
 		ft_cd(minishell);
 	/*else if (minishell->built_in_type == FT_ECHO)
@@ -50,9 +53,9 @@ void	exec_built_in(t_minishell *minishell, char **envp)
 	/*else if (minishell->built_in_type == FT_UNSET)
 		ft_unset(minishell);
 	else if (minishell->built_in_type == FT_ENV)
-		ft_env(minishell);
+		ft_env(minishell);*/
 	else if (minishell->built_in_type == FT_EXIT)
-		ft_exit(minishell);*/
+		ft_exit(minishell);
 }
 
 void	ft_export(t_minishell *minishell, char **envp)
@@ -112,34 +115,40 @@ void	ft_cd(t_minishell *minishell)
     }
 }
 
-/*void	ft_cd(t_minishell *minishell)
+void	ft_exit(t_minishell *minishell)
 {
-    struct stat	buffer;
-
-	if (minishell->input_matrix[2])
+	if (!ft_isnumber(minishell))
+	{
+		printf("minishell: exit: %s: numeric argument required\n",\
+		minishell->input_matrix[1]);
+		free_minishell(minishell);
+		exit(EXIT_FAILURE);
+	}
+	else if (minishell->args_num > 2)
 	{
 		printf("minishell: %s: too many arguments\n", minishell->input_matrix[0]);
-		return;
+		return ;
 	}
-    if(!minishell->input_matrix[1])
-    {
-        chdir(getenv("HOME"));
-        return ;
-    }
-    if (access(minishell->input_matrix[1], F_OK) != 0)
-    {
-        printf("minishell: cd: %s: No such file or directory\n", minishell->input_matrix[1]);
-        return ;
-    }
-    if (stat(minishell->input_matrix[1], &buffer) != 0 || !S_ISDIR(buffer.st_mode))
-    {
-        printf("minishell: cd: %s: Not a directory\n", minishell->input_matrix[1]);
-        return ;
-    }
-    if (access(minishell->input_matrix[1], X_OK) != 0)
-    {
-        printf("minishell: cd: %s: Permission denied\n", minishell->input_matrix[1]);
-        return ;
-    }
-    chdir(minishell->input_matrix[1]);
-}*/
+	else
+	{
+		free_minishell(minishell);
+		exit(EXIT_SUCCESS);
+	}
+}
+
+bool	ft_isnumber(t_minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	if (minishell->args_num == 2)
+	{
+		while (minishell->input_matrix[1][i])
+		{
+			if (!ft_isdigit(minishell->input_matrix[1][i]))
+				return (false);
+			i++;
+		}	
+	}
+	return (true);
+}

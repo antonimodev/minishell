@@ -11,8 +11,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
 # define UNUSED(x) (void)(x)
 
+/* --------------------- COLORS ----------------------------*/
+# define BOLD_GREEN "\033[1;32m"
+# define BOLD_TURQUOISE "\033[1;36m"
+# define BOLD_YELLOW "\033[1;33m"
+# define RESET "\033[0m"
 
 typedef enum e_built_in
 {
@@ -28,6 +34,7 @@ typedef enum e_built_in
 
 typedef struct s_minishell
 {
+	char		**env; // Añadir variable envp para exports
 	char		*user;
 	char		*user_input;
 	char		**input_matrix;
@@ -56,10 +63,15 @@ char    *ft_getenv(char **envp, char *env_var);
 
 /*--------------------- INPUT.C ----------------------------*/
 void    get_input(t_minishell *minishell, char **envp);
+char	*clean_input(t_minishell *minishell);
+int		count_with_spaces(char  *user_input);
 void 	parse_input(t_minishell *minishell, char **envp);
 bool	valid_input(char *input);
 void	free_minishell(t_minishell *minishell);
+bool	is_empty(t_minishell *minishell);
+void	shell_prompt(t_minishell *minishell);
 
+/**/
 void	exec_built_in(t_minishell *minishell, char **envp);
 bool	is_built_in(t_minishell *minishell);
 
@@ -67,5 +79,7 @@ bool	is_built_in(t_minishell *minishell);
 void	ft_pwd(t_minishell *minishell);
 void	ft_cd(t_minishell *minishell);
 void	ft_export(t_minishell *minishell, char **envp);
+void	ft_exit(t_minishell *minishell);
+bool	ft_isnumber(t_minishell *minishell);
 
 #endif
