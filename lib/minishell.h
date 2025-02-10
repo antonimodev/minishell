@@ -32,6 +32,12 @@ typedef enum e_built_in
 	FT_EXIT
 } e_built_in;
 
+/* typedef struct s_quotes{
+	int			s_quotes;
+	int			d_quotes;
+	bool		valid_quotes;
+}	t_quotes; */
+
 typedef struct s_minishell
 {
 	char		**env; // Añadir variable envp para exports
@@ -40,6 +46,7 @@ typedef struct s_minishell
 	char		**input_matrix;
 	char		*cmd_path;
 	int			args_num;
+	//t_quotes	quotes;
 	e_built_in	built_in_type;
 }	t_minishell;
 /*-------------------- MINISHELL -------------------------*/
@@ -69,6 +76,7 @@ void 	parse_input(t_minishell *minishell, char **envp);
 bool	valid_input(char *input);
 void	free_minishell(t_minishell *minishell);
 bool	is_empty(t_minishell *minishell);
+bool	no_skip(char c);
 void	shell_prompt(t_minishell *minishell);
 
 /**/

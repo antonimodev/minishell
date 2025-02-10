@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/07 14:23:53 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/02/10 12:07:08 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void get_input(t_minishell *minishell, char **envp)
 {
@@ -53,7 +54,6 @@ void 	parse_input(t_minishell *minishell, char **envp)
 {
 	minishell->user_input = clean_input(minishell);
 	minishell->input_matrix = ft_split(minishell->user_input, ' ');
-	print_matrix(minishell->input_matrix);
 	minishell->args_num = matrixlen(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, envp);
 }
@@ -85,25 +85,24 @@ char	*clean_input(t_minishell *minishell)
     char *str;
     int len;
     int	i;
-    int	j;
 
     len = count_with_spaces(minishell->user_input);
     str = malloc(sizeof(char) * (len + 1));
     if (!str)
         return (NULL);
     i = 0;
-    j = 0;
+    len = 0;
     while (minishell->user_input[i])
     {
-        if (!ft_isspace(minishell->user_input[i])
-        ||	minishell->user_input[i] == ' ')
+		if (no_skip(minishell->user_input[i]))
         {
-            str[j] = minishell->user_input[i];
-            j++;
+			//check_quotes(minishell, i);
+            str[len] = minishell->user_input[i];
+            len++;
         }
         i++;
     }
-    str[j] = '\0';
+    str[len] = '\0';
     free(minishell->user_input);
     return (str);
 }
@@ -117,9 +116,31 @@ int	count_with_spaces(char *user_input)
 	count = 0;
 	while (user_input[i])
 	{
-		if (!ft_isspace(user_input[i]) || user_input[i] == ' ')
+		if (no_skip(user_input[i]))
 			count++;
 		i++;
 	}
 	return (count);
 }
+
+/* 
+me tocaba demasiado los cojones esta condición que antes era:
+if (!ft_isspace(minishell->user_input[i])
+||	minishell->user_input[i] == ' ')
+*/
+bool no_skip(char c)
+{	
+    if (c != '\\' && c != '\n' && c != '\t' && \
+        c != '\v' && c != '\f' && c != '\r' && \
+        c != ';')
+        return (true);
+    return (false);
+}
+/*
+void	check_quotes(t_minishell *minishell, int pos)
+{
+	if(minishell->user_input[pos] == '"')
+		minishell->quotes.d_quotes++;
+	else if(minishell->user_input[pos] == '\'')
+		minishell->quotes.s_quotes++;
+}*/
