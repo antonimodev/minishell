@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/10 12:07:08 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:03:24 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,8 @@ void	shell_prompt(t_minishell *minishell)
 void 	parse_input(t_minishell *minishell, char **envp)
 {
 	minishell->user_input = clean_input(minishell);
-	printf("%s", minishell->user_input);
 	//hacer una funcion que si encuentra comillas cerradas, mantenga eso como un unico argumento
-	minishell->input_matrix = ft_split(minishell->user_input, ' ');
+	minishell->input_matrix = custom_split(minishell->user_input);
 	minishell->args_num = matrixlen(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, envp);
 }
@@ -98,7 +97,6 @@ char	*clean_input(t_minishell *minishell)
     {
 		if (no_skip(minishell->user_input[i]))
         {
-			//check_quotes(minishell, i);
             str[len] = minishell->user_input[i];
             len++;
         }
@@ -147,50 +145,3 @@ void	check_quotes(t_minishell *minishell, int pos)
 	if (minishell->quotes.s_quotes % 2 == 0 && minishell->quotes.d_quote % 2 == 0)
 		
 }*/
-
-char    **custom_split(char *str)
-{
-    char    **result;
-    int     i;
-    int     start;
-    int     in_quotes;
-
-    // Asumir que result ya tiene memoria asignada.
-    i = 0;
-    start = 0;
-    in_quotes = 0;
-    while (str[i])
-    {
-        if (str[i] == '"' || str[i] == '\'')
-            in_quotes = !in_quotes;
-        else if (str[i] == ' ' && !in_quotes)
-        {
-            if (i > start)
-                add_word_without_quotes(result, str, start, i);
-            start = i + 1;
-        }
-        i++;
-    }
-    if (i > start)
-        add_word_without_quotes(result, str, start, i);
-    return result;
-}
-
-void    add_word_without_quotes(char **result, char *str, int start, int end)
-{
-    int i;
-    int j;
-    char *word;
-
-    word = malloc(end - start + 1);
-    i = start;
-    j = 0;
-    while (i < end)
-    {
-        if (str[i] != '"' && str[i] != '\'')
-            word[j++] = str[i];
-        i++;
-    }
-    word[j] = '\0';
-    *result++ = word;
-}

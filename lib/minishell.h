@@ -37,6 +37,21 @@ typedef enum e_built_in
 	int			d_quotes;
 	bool		valid_quotes;
 }	t_quotes; */
+typedef struct s_tokenizer
+{
+    char	**matrix;
+    int		matrix_index;
+}	t_tokenizer;
+
+typedef struct s_token_state
+{
+    bool in_quotes; // flag para abierto/cerrado
+    char current_quote; // guarda si es single o double
+    int j; // iterador para word
+    char *token; // word
+	int	len;
+} t_token_state;
+
 
 typedef struct s_minishell
 {
@@ -50,6 +65,8 @@ typedef struct s_minishell
 	e_built_in	built_in_type;
 }	t_minishell;
 /*-------------------- MINISHELL -------------------------*/
+char  **clean_split(t_tokenizer *split);
+void	free_matrix_error(char **matrix, int i);
 
 /* --------------------- FORK.C ----------------------------*/
 void	exec_cmd(t_minishell *minishell, char **envp);
@@ -89,5 +106,11 @@ void	ft_cd(t_minishell *minishell);
 void	ft_export(t_minishell *minishell, char **envp);
 void	ft_exit(t_minishell *minishell);
 bool	ft_isnumber(t_minishell *minishell);
+
+/*--------------------- TESTING_NEW_SPLIT.C ----------------------------*/
+char	**custom_split(char *user_input);
+void	fill_tokens(char *user_input, t_tokenizer *split);
+void	handle_quotes(char *str, int *i, t_token_state *state);
+char	*build_token(char *user_input, int *i_pos);
 
 #endif

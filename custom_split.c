@@ -67,8 +67,8 @@ static char	*build_token(char *str, int *pi)
  */
 static int	fill_tokens(char *str, t_tokenizer *tz)
 {
-    int	i;
-    int	count;
+    int     i;
+    int     count;
     char	*token;
 
     i = 0;
@@ -130,7 +130,7 @@ int	main(void)
         "ls \"-l -a\"",
         "  ls   -l   ",
         "echo 'He said \"hi\"'",
-        "l\"s\"",
+        "\" l\"s",
         "l\"s\" -l"
     };
     int		test_count;
