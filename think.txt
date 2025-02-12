@@ -1,0 +1,112 @@
+ls -'l'"a"
+
+t_matrix matrix;
+	- int		matrix_id;
+	- char		**matrix;
+	- char		*word;
+	- t_quote	quote;
+
+t_quote quote;
+	- bool	open;
+	- enum	type;
+
+------------------------------------------------------------------------------------------------------------------------------
+
+while (user_input[i])
+	if 	noskip(user_input[i])
+		if(matrix.quote.open == false) 
+		{
+			if	(user_input[i] == espacio?)
+				addmatrix();
+			else if (user_input[i] == quote?)
+			{
+				if (matrix.quote.open)
+					if (user_input[i] == matrix.quote.type)
+						addmatrix()
+						matrix.quote.open = false;
+						matrix.quote.type = NULL;
+					else
+						ft_concat(word, user_input[i]);
+				else
+					matrix.quote.open = true;
+			}
+			else
+				ft_concat(matrix.word, user_input[i]);
+		}
+		else if (user_input[i] == ' ')
+			addmatrix();
+		else
+			ft_concat(matrix.word, user_input[i]);
+
+
+
+tamaño de la matrix? -> podemos hacer la guarra y deespues otra para limpiar? maybe
+
+void addmatrix(matrix)
+{
+	calculamos len de matrix->word;
+
+	reservamos malloc de matrix[matrix_id]
+
+	metemos la word en la matrix con dup;
+
+	free(matrix.word);
+
+	matrix_id++;
+}
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+process_quote(user_input[i], t_quote *quote)
+
+if user_input[i] == quote->type? si es igual a la quote que encontré abierta
+	if (quote.open)
+		if (s[i] == quote.type)
+			quote.open = false;
+			quote.type = NULL;
+			addmatrix(quote); // añadimos el word actual al index de la matriz. Tamaño? xd
+		else
+			ft_concat(quote.word, s[i]); //
+	else
+		activamos flag de abierto d_quote
+else // si el caracter actual de user_input no es comillas
+	ft_concat(quote.word, s[i]);
+
+
+
+encontramos ':
+
+comprobamos si estába abierta ya
+
+	no?
+	activamos flag de abierto s_quote
+	guardamos posicion donde empieza esa s_quote
+

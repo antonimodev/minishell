@@ -61,7 +61,7 @@ void	fill_tokens(char *user_input, t_tokenizer *split)
     char	*word; // str para almacenar palabras
 
     i = 0;
-    while (user_input[i]) // "l"s -la
+    while (user_input[i]) // 'l"s"'
     {
         while (user_input[i] == ' ') // limpia los espacios
             i++;

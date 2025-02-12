@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/12 14:03:24 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:30:20 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ bool no_skip(char c)
 {	
     return (c != '\\' && c != '\n' && c != '\t' && \
         c != '\v' && c != '\f' && c != '\r' && \
-        c != ';' && c != '"' && c != '\'');
+        c != ';');
 }
 /*
 void	check_quotes(t_minishell *minishell, int pos)
