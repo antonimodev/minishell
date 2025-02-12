@@ -13,30 +13,50 @@ t_quote quote;
 ------------------------------------------------------------------------------------------------------------------------------
 
 while (user_input[i])
-	if 	noskip(user_input[i])
-		if(matrix.quote.open == false) 
-		{
-			if	(user_input[i] == espacio?)
-				addmatrix();
-			else if (user_input[i] == quote?)
-			{
-				if (matrix.quote.open)
-					if (user_input[i] == matrix.quote.type)
-						addmatrix()
-						matrix.quote.open = false;
-						matrix.quote.type = NULL;
-					else
-						ft_concat(word, user_input[i]);
-				else
-					matrix.quote.open = true;
-			}
-			else
-				ft_concat(matrix.word, user_input[i]);
-		}
-		else if (user_input[i] == ' ')
-			addmatrix();
-		else
-			ft_concat(matrix.word, user_input[i]);
+        if noskip(user_input[i])
+        {
+                if(matrix.quote.open == false) // si aún no se ha abierto
+                {
+                        if (user_input[i] == espacio?) // si es espacio almacenamos el matrix->word actual
+                                addmatrix();
+                        else if (user_input[i] == quote?) // si es quote
+                        {
+                                if (matrix.quote.open) // comprobamos que había uno antes o no
+                                {
+                                        if (user_input[i] == matrix.quote.type) // si es el mismo quote que teniamos, almacenamos ese tramo
+                                        {
+                                                addmatrix()
+                                                matrix.quote.open = false;
+                                                matrix.quote.type = NULL;
+                                        }
+                                        else // si no es el mismo tipo de quote que teniamos, seguimos concatenando en word
+                                                ft_concat(word, user_input[i]);
+                                }
+                                else // si no habia quote antes, abrimos
+                                {
+                                        matrix.quote.open = true;
+                                        matrix.quote.type = user_input[i];
+                                }
+                        }
+                        else // si user_input[i] no es epacio ni quote, seguimos formando word
+                                ft_concat(matrix.word, user_input[i]);
+                }
+                else if (user_input[i] == matrix.quote.type) // si quote esta abierto de antes y resulta que es el mismo que teniamos primero
+                {
+                    matrix.quote.open = false;
+                    matrix.quote.type = NULL;
+                }        
+                else // si es otro cualquier caracter y quote estaba abierto, concatenamos word
+                    ft_concat(matrix.word, user_input[i]);
+        }
+
+
+
+// falta darle vuelta a $
+
+
+if (word)	// falta control de la ultima word
+    addmatrix();
 
 
 
