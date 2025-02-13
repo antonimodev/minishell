@@ -64,14 +64,13 @@ char **think(t_minishell *minishell)
                     {
                         if (minishell->user_input[i] == minishell->matrix.quote.type) // si es el mismo quote que teniamos, almacenamos ese tramo
                         {
-                            addmatrix(minishell);
                             minishell->matrix.quote.closed = false;
                             minishell->matrix.quote.type = '\0';
                         }
                         else // si no es el mismo tipo de quote que teniamos, seguimos concatenando en word
                             str_append_char(minishell, minishell->user_input[i]);
                     }
-                    else
+                    else // si no hay ningun quote anterior a ibierto
                     {
                         minishell->matrix.quote.closed = false;
                         minishell->matrix.quote.type = minishell->user_input[i];
