@@ -52,12 +52,25 @@ typedef struct s_token_state
 	int	len;
 } t_token_state;
 
+typedef struct quote{
+	bool	closed;
+	char	type;
+} t_quote;
+
+typedef struct matrix{
+	int		matrix_id;
+	char	**matrix;
+	char	*word;
+	t_quote	quote;
+} t_matrix;
+
 
 typedef struct s_minishell
 {
 	char		**env; // Añadir variable envp para exports
 	char		*user;
 	char		*user_input;
+	t_matrix	matrix;
 	char		**input_matrix;
 	char		*cmd_path;
 	int			args_num;
@@ -108,6 +121,7 @@ void	ft_exit(t_minishell *minishell);
 bool	ft_isnumber(t_minishell *minishell);
 
 /*--------------------- TESTING_NEW_SPLIT.C ----------------------------*/
+char	**think(t_minishell *minishell);
 char	**custom_split(char *user_input);
 void	fill_tokens(char *user_input, t_tokenizer *split);
 void	handle_quotes(char *str, int *i, t_token_state *state);

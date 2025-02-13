@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/07 13:30:39 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:16:04 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_cd(t_minishell *minishell)
     {
         if (stat(arg, &buffer) || !S_ISDIR(buffer.st_mode))
             printf("minishell: cd: %s: Not a directory\n", arg);
-        else if (access(arg, X_OK))
+        else if (access(arg, X_OK)) // chekiar
             printf("minishell: cd: %s: Permission denied\n", arg);
         else if (chdir(arg))
             printf("minishell: cd: %s: Failed to change directory\n", arg);

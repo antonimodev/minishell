@@ -17,7 +17,8 @@ MINISHELL_SRC =	src/minishell.c \
 				src/fork.c	\
 				src/path.c \
 				src/input.c \
-				src/testing_new_split.c # testing new split function
+				src/testing_new_split.c \
+				src/think.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(addprefix src/obj/, $(notdir $(MINISHELL_SRC:.c=.o)))
@@ -37,7 +38,11 @@ $(NAME): $(LIBFT) $(MINISHELL_OBJ)
 clean:
 	@$(RM) src/obj
 	@$(RM) .DS_Store
-	@$(RM) .vscode
+
+
+
+
+
 	@$(MAKE_LIB) -C lib/libft clean
 	@echo Objects removed
 

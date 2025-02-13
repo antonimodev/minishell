@@ -50,8 +50,6 @@ while (user_input[i])
                     ft_concat(matrix.word, user_input[i]);
         }
 
-
-
 // falta darle vuelta a $
 
 
