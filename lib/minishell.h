@@ -57,24 +57,15 @@ typedef struct quote{
 	char	type;
 } t_quote;
 
-typedef struct matrix{
-	int		matrix_id;
-	char	**matrix;
-	char	*word;
-	t_quote	quote;
-} t_matrix;
-
 
 typedef struct s_minishell
 {
 	char		**env; // Añadir variable envp para exports
 	char		*user;
 	char		*user_input;
-	t_matrix	matrix;
 	char		**input_matrix;
 	char		*cmd_path;
 	int			args_num;
-	//t_quotes	quotes;
 	e_built_in	built_in_type;
 }	t_minishell;
 /*-------------------- MINISHELL -------------------------*/

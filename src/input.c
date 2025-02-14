@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/13 14:13:30 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:57:24 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void 	parse_input(t_minishell *minishell, char **envp)
 	//hacer una funcion que si encuentra comillas cerradas, mantenga eso como un unico argumento
 	//minishell->input_matrix = custom_split(minishell->user_input);
 	minishell->input_matrix = think(minishell);
-	minishell->args_num = matrixlen(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, envp);
 }
 
@@ -80,6 +79,7 @@ void	free_minishell(t_minishell *minishell)
 		free(minishell->cmd_path);
 	if (minishell->input_matrix)
 		free_matrix(minishell->input_matrix);
+	
 }
 
 char	*clean_input(t_minishell *minishell)
