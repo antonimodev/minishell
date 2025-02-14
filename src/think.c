@@ -32,7 +32,7 @@ static char	*str_append_char(char *word, char c)
 	char 	*new_str;
 	
 	len = ft_strlen(word);
-    new_str = malloc(len + 2); // +1 for the new char and +1 for the null terminator
+    new_str = malloc(len + 2);
 	len = 0;
     if (!new_str)
 	return NULL;
@@ -56,7 +56,7 @@ char **think(t_minishell *minishell)
 
 	matrix = malloc(sizeof(char *));
 	ft_bzero(matrix, sizeof(char *));
-    word = ft_strdup(""); // tiene malloc
+    word = ft_strdup("");
     quote.closed = true;
     quote.type = '\0';
 
@@ -68,7 +68,7 @@ char **think(t_minishell *minishell)
             if (quote.closed) // si aún no se ha abierto
             {
                 if (minishell->user_input[i] == ' ') // si es espacio almacenamos el word actual
-                    matrix = addmatrix(matrix, &word);
+                    matrix = addmatrix(matrix, &word); // movidón de punteros, dup en copia
                 else if (minishell->user_input[i] == '"' || minishell->user_input[i] == '\'') // si es quote
                 {
                     quote.closed = false;
