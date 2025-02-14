@@ -7,7 +7,8 @@ static char	**addmatrix(char **matrix, char **word)
     char    **new_matrix;
 
 	len = matrixlen(matrix);
-    new_matrix = malloc(sizeof(char **) * (len + 2));
+    new_matrix = malloc(sizeof(char **) * (len + 2)); // + 1 por el nulo y + 1 por la nueva palabra \
+    en caso de ser la primera iteracion, len = 0 y la primera pos para la nueva palabra y segunda para nulo
     if (!new_matrix)
         return NULL;
     i = 0;
@@ -26,7 +27,7 @@ static char	**addmatrix(char **matrix, char **word)
     return (new_matrix);
 }
 
-static char	*str_append_char(char *word, char c)
+static char	*str_append_char(char *word, char c) // probablemente haya que mandarlo como ** para liberar
 {
     size_t	len;
 	char 	*new_str;
@@ -35,7 +36,7 @@ static char	*str_append_char(char *word, char c)
     new_str = malloc(len + 2);
 	len = 0;
     if (!new_str)
-	return NULL;
+	    return NULL;
     while (word[len])
 	{
 		new_str[len] = word[len];
@@ -44,7 +45,7 @@ static char	*str_append_char(char *word, char c)
     new_str[len] = c;
 	new_str[len + 1] = '\0';
     
-    free(word);
+    free(word); // liberar
     return (new_str);
 }
 

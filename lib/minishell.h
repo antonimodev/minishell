@@ -118,4 +118,8 @@ void	fill_tokens(char *user_input, t_tokenizer *split);
 void	handle_quotes(char *str, int *i, t_token_state *state);
 char	*build_token(char *user_input, int *i_pos);
 
+/* ---- TESTING ---- */
+char	*custom_strtrim(char *str, char c);
+void	skip_middle_spaces(char *user_input, int *i);
+
 #endif

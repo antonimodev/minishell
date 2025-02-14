@@ -88,6 +88,7 @@ char	*clean_input(t_minishell *minishell)
     int len;
     int	i;
 
+	minishell->user_input = custom_strtrim(minishell->user_input, ' ');
     len = count_with_spaces(minishell->user_input);
     str = malloc(sizeof(char) * (len + 1));
     if (!str)
@@ -98,6 +99,8 @@ char	*clean_input(t_minishell *minishell)
     {
 		if (no_skip(minishell->user_input[i]))
         {
+			if (minishell->user_input[i] == ' ')
+				skip_middle_spaces(minishell->user_input, &i);
             str[len] = minishell->user_input[i];
             len++;
         }
@@ -124,25 +127,45 @@ int	count_with_spaces(char *user_input)
 	return (count);
 }
 
-/* 
-me tocaba demasiado los cojones esta condición que antes era:
-if (!ft_isspace(minishell->user_input[i])
-||	minishell->user_input[i] == ' ')
-*/
 bool no_skip(char c)
 {	
     return (c != '\\' && c != '\n' && c != '\t' && \
         c != '\v' && c != '\f' && c != '\r' && \
         c != ';');
 }
-/*
-void	check_quotes(t_minishell *minishell, int pos)
-{
-	if(minishell->user_input[pos] == '"')
-		minishell->quotes.d_quotes++;
-	else if(minishell->user_input[pos] == '\'')
-		minishell->quotes.s_quotes++;
 
-	if (minishell->quotes.s_quotes % 2 == 0 && minishell->quotes.d_quote % 2 == 0)
-		
-}*/
+void	skip_middle_spaces(char *user_input, int *i)
+{
+	while (user_input[*i] && user_input[*i] == ' ')
+		(*i)++;
+	if (user_input[*i] != '\0')
+			(*i)--;
+}
+
+char    *custom_strtrim(char *str, char c)
+{
+    int     start;
+    int     end;
+    int     len;
+    int     i;
+    char    *new_str;
+
+    if (!str)
+        return (NULL);
+    start = 0;
+    end = ft_strlen(str) - 1; // -1 para no leer desde null
+    while (str[start] == c && str[start])
+        start++;
+    while (end > start && str[end] == c)
+        end--;
+    len = end - start + 1; // por quitarle -1 anteriormente
+    new_str = malloc((len + 1) * sizeof(char));
+    if (!new_str)
+        return (NULL);
+    i = 0;
+    while (start <= end)
+        new_str[i++] = str[start++];
+    new_str[i] = '\0';
+	free(str);
+    return (new_str);
+}
