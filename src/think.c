@@ -7,8 +7,7 @@ static char	**addmatrix(char **matrix, char **word)
     char    **new_matrix;
 
 	len = matrixlen(matrix);
-    new_matrix = malloc(sizeof(char **) * (len + 2)); // + 1 por el nulo y + 1 por la nueva palabra \
-    en caso de ser la primera iteracion, len = 0 y la primera pos para la nueva palabra y segunda para nulo
+    new_matrix = malloc(sizeof(char **) * (len + 2)); // + 1 por el nulo y + 1 por la nueva palabra \en caso de ser la primera iteracion, len = 0 y la primera pos para la nueva palabra y segunda para nulo
     if (!new_matrix)
         return NULL;
     i = 0;
@@ -49,11 +48,15 @@ static char	*str_append_char(char *word, char c) // probablemente haya que manda
     return (new_str);
 }
 
+
 char **think(t_minishell *minishell)
 {
 	char **matrix;
 	char *word;
 	t_quote quote;
+
+    if (!minishell->user_input)
+        return (NULL);
 
 	matrix = malloc(sizeof(char *));
 	ft_bzero(matrix, sizeof(char *));
@@ -62,6 +65,7 @@ char **think(t_minishell *minishell)
     quote.type = '\0';
 
     int i = 0;
+
     while (minishell->user_input[i])
     {
         if (no_skip(minishell->user_input[i]))
@@ -80,7 +84,7 @@ char **think(t_minishell *minishell)
             }
             else if (minishell->user_input[i] == quote.type) // si quote esta abierto de antes y resulta que es el mismo que teniamos primero
             {
-                quote.closed = true; // update to correct logic for closing quotes
+                quote.closed = true;
                 quote.type = '\0';
             }
             else // si es otro cualquier caracter y quote está abierto, concatenamos word
@@ -93,5 +97,12 @@ char **think(t_minishell *minishell)
         matrix = addmatrix(matrix, &word);
 		free(word);
 	}
+
+    // add makefile
+    /* if (quote.close)
+    {
+        free_matrix(matrix);
+        return (NULL);
+    } */
     return (matrix);
 }

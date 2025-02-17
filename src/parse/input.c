@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/14 11:57:24 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/02/17 13:49:25 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool check_quotes_balance(char *str);
 
 
 void get_input(t_minishell *minishell, char **envp)
@@ -53,9 +55,13 @@ void	shell_prompt(t_minishell *minishell)
 void 	parse_input(t_minishell *minishell, char **envp)
 {
 	minishell->user_input = clean_input(minishell);
-	//hacer una funcion que si encuentra comillas cerradas, mantenga eso como un unico argumento
-	//minishell->input_matrix = custom_split(minishell->user_input);
-	minishell->input_matrix = think(minishell);
+	if (!check_quotes_balance(minishell->user_input))
+    {
+        free(minishell->user_input);
+        minishell->user_input = NULL;
+        return ;
+    }
+	minishell->input_matrix = think_v2(minishell);
 	minishell->cmd_path = get_path(minishell->input_matrix, envp);
 }
 
@@ -168,4 +174,32 @@ char    *custom_strtrim(char *str, char c)
     new_str[i] = '\0';
 	free(str);
     return (new_str);
+}
+static bool check_quotes_balance(char *str)
+{
+    int     i;
+    t_quote quote;
+    
+    i = 0;
+    quote.type = '\0';  // Initialize quote type
+    quote.closed = true;
+    
+    while (str[i])
+    {
+        if (str[i] == '"' || str[i] == '\'')
+        {
+            if (!quote.type)
+            {
+                quote.type = str[i];
+                quote.closed = !quote.closed;
+            }
+            else if (str[i] == quote.type)
+            {
+                quote.closed = !quote.closed;
+                quote.type = '\0';
+            }
+        }
+        i++;
+    }
+    return (quote.closed);
 }

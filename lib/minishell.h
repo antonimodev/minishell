@@ -113,6 +113,7 @@ bool	ft_isnumber(t_minishell *minishell);
 
 /*--------------------- TESTING_NEW_SPLIT.C ----------------------------*/
 char	**think(t_minishell *minishell);
+char	**think_v2(t_minishell *minishell);
 char	**custom_split(char *user_input);
 void	fill_tokens(char *user_input, t_tokenizer *split);
 void	handle_quotes(char *str, int *i, t_token_state *state);

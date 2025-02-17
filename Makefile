@@ -18,7 +18,7 @@ MINISHELL_SRC =	src/minishell.c \
 				src/path.c \
 				src/input.c \
 				src/testing_new_split.c \
-				src/think.c
+				src/think_v2.c \
 
 # Minishell objects #
 MINISHELL_OBJ = $(addprefix src/obj/, $(notdir $(MINISHELL_SRC:.c=.o)))
