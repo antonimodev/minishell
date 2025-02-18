@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
 # define UNUSED(x) (void)(x)
 
 /* --------------------- COLORS ----------------------------*/
@@ -106,6 +105,7 @@ bool	is_built_in(t_minishell *minishell);
 
 /*--------------------- BUILT_IN.C -------------------------*/
 void	ft_pwd(t_minishell *minishell);
+void    ft_echo(t_minishell *minishell);
 void	ft_cd(t_minishell *minishell);
 void	ft_export(t_minishell *minishell, char **envp);
 void	ft_exit(t_minishell *minishell);

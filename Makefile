@@ -16,12 +16,12 @@ MINISHELL_SRC =	src/minishell.c \
 				src/path_utils.c \
 				src/fork.c	\
 				src/path.c \
-				src/input.c \
-				src/testing_new_split.c \
-				src/think_v2.c \
+				src/parse/input.c \
+				src/parse/think_v2.c \
+				src/built-ins/echo.c
 
 # Minishell objects #
-MINISHELL_OBJ = $(addprefix src/obj/, $(notdir $(MINISHELL_SRC:.c=.o)))
+MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):

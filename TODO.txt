@@ -2,3 +2,5 @@
 
 - modularizar think.c
 - añadir comprobacion de quote.closed antes de enviar la matriz
+- pwd -L
+- pwd -P

@@ -46,10 +46,10 @@ void	exec_built_in(t_minishell *minishell, char **envp)
 	}
 	else if (minishell->built_in_type == FT_CD)
 		ft_cd(minishell);
-	/*else if (minishell->built_in_type == FT_ECHO)
-		ft_echo(minishell);*/
-	else if (minishell->built_in_type == FT_EXPORT)
-		ft_export(minishell, envp);
+	else if (minishell->built_in_type == FT_ECHO)
+		ft_echo(minishell);
+	/*else if (minishell->built_in_type == FT_EXPORT)
+		ft_export(minishell, envp);*/
 	/*else if (minishell->built_in_type == FT_UNSET)
 		ft_unset(minishell);
 	else if (minishell->built_in_type == FT_ENV)
@@ -131,6 +131,8 @@ void	ft_exit(t_minishell *minishell)
 	}
 	else
 	{
+		// sería ético que si tiene un codigo de error valido, \
+		con el codigo del primer argumento, input_matrix[1], que pa algo está.
 		free_minishell(minishell);
 		exit(EXIT_SUCCESS);
 	}
