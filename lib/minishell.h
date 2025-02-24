@@ -36,7 +36,7 @@ typedef enum e_built_in
 	int			d_quotes;
 	bool		valid_quotes;
 }	t_quotes; */
-typedef struct s_tokenizer
+/* typedef struct s_tokenizer
 {
     char	**matrix;
     int		matrix_index;
@@ -49,9 +49,10 @@ typedef struct s_token_state
     int j; // iterador para word
     char *token; // word
 	int	len;
-} t_token_state;
+} t_token_state; */
 
-typedef struct quote{
+typedef struct quote
+{
 	bool	closed;
 	char	type;
 } t_quote;
@@ -59,7 +60,7 @@ typedef struct quote{
 
 typedef struct s_minishell
 {
-	char		**env; // Añadir variable envp para exports
+	char		**envp; // Añadir variable envp para exports
 	char		*user;
 	char		*user_input;
 	char		**input_matrix;
@@ -67,16 +68,18 @@ typedef struct s_minishell
 	int			args_num;
 	e_built_in	built_in_type;
 }	t_minishell;
+
+
 /*-------------------- MINISHELL -------------------------*/
-char  **clean_split(t_tokenizer *split);
+/* char  **clean_split(t_tokenizer *split); */
 void	free_matrix_error(char **matrix, int i);
 
 /* --------------------- FORK.C ----------------------------*/
 void	exec_cmd(t_minishell *minishell, char **envp);
-void	fork_exec(t_minishell *minishell, char **envp);
+void	fork_exec(t_minishell *minishell);
 
 /* ------------------ PATH_UTILS.C -------------------------*/
-void	execute(t_minishell *minishell, char **envp);
+void	execute(t_minishell *minishell);
 char	**concat_paths(char **splitted_path, char *cmd);
 char	*cmdcat(char *path, char *cmd);
 char 	*get_cmd_path(char **splitted_paths);
@@ -89,10 +92,10 @@ char    *get_path(char **input_matrix, char **envp);
 char    *ft_getenv(char **envp, char *env_var);
 
 /*--------------------- INPUT.C ----------------------------*/
-void    get_input(t_minishell *minishell, char **envp);
+void    get_input(t_minishell *minishell);
 char	*clean_input(t_minishell *minishell);
 int		count_with_spaces(char  *user_input);
-void 	parse_input(t_minishell *minishell, char **envp);
+void 	parse_input(t_minishell *minishell);
 bool	valid_input(char *input);
 void	free_minishell(t_minishell *minishell);
 bool	is_empty(t_minishell *minishell);
@@ -100,14 +103,14 @@ bool	no_skip(char c);
 void	shell_prompt(t_minishell *minishell);
 
 /**/
-void	exec_built_in(t_minishell *minishell, char **envp);
+void	exec_built_in(t_minishell *minishell);
 bool	is_built_in(t_minishell *minishell);
 
 /*--------------------- BUILT_IN.C -------------------------*/
 void	ft_pwd(t_minishell *minishell);
 void    ft_echo(t_minishell *minishell);
 void	ft_cd(t_minishell *minishell);
-void	ft_export(t_minishell *minishell, char **envp);
+void	ft_export(t_minishell *minishell);
 void	ft_exit(t_minishell *minishell);
 bool	ft_isnumber(t_minishell *minishell);
 
@@ -115,12 +118,17 @@ bool	ft_isnumber(t_minishell *minishell);
 char	**think(t_minishell *minishell);
 char	**think_v2(t_minishell *minishell);
 char	**custom_split(char *user_input);
-void	fill_tokens(char *user_input, t_tokenizer *split);
-void	handle_quotes(char *str, int *i, t_token_state *state);
+/* void	fill_tokens(char *user_input, t_tokenizer *split);
+void	handle_quotes(char *str, int *i, t_token_state *state); */
 char	*build_token(char *user_input, int *i_pos);
 
 /* ---- TESTING ---- */
 char	*custom_strtrim(char *str, char c);
 void	skip_middle_spaces(char *user_input, int *i);
+
+char    **matrix_cpy(char **src);
+void	ft_env(t_minishell *minishell);
+void	check_envp(t_minishell *minishell, char **envp);
+void	init_minishell(t_minishell *minishell, char **envp);
 
 #endif

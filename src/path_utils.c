@@ -17,13 +17,13 @@
 	//si me pasan ruta con "/" comprobar directamente
 #include "minishell.h"
 
-void	execute(t_minishell *minishell, char **envp)
+void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
     if (is_built_in(minishell))
     {
-        exec_built_in(minishell, envp);
+        exec_built_in(minishell);
         return;
     }
     if (!minishell->cmd_path)
@@ -31,7 +31,7 @@ void	execute(t_minishell *minishell, char **envp)
         printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
         return;
     }
-    fork_exec(minishell, envp);
+    fork_exec(minishell);
 }
 bool	is_built_in(t_minishell *minishell)
 {

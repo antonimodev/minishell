@@ -15,10 +15,8 @@
 static bool check_quotes_balance(char *str);
 
 
-void get_input(t_minishell *minishell, char **envp)
-{
-	ft_memset(minishell, 0, sizeof(t_minishell));
-	minishell->user = ft_getenv(envp, "USER=");
+void get_input(t_minishell *minishell)
+{   
 	while (!valid_input(minishell->user_input))
 	{
 		shell_prompt(minishell);
@@ -52,7 +50,7 @@ void	shell_prompt(t_minishell *minishell)
 	ft_pwd(minishell);
 }
 
-void 	parse_input(t_minishell *minishell, char **envp)
+void 	parse_input(t_minishell *minishell)
 {
 	minishell->user_input = clean_input(minishell);
 	if (!check_quotes_balance(minishell->user_input))
@@ -62,7 +60,7 @@ void 	parse_input(t_minishell *minishell, char **envp)
         return ;
     }
 	minishell->input_matrix = think_v2(minishell);
-	minishell->cmd_path = get_path(minishell->input_matrix, envp);
+	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }
 
 bool	valid_input(char *input)
@@ -85,7 +83,6 @@ void	free_minishell(t_minishell *minishell)
 		free(minishell->cmd_path);
 	if (minishell->input_matrix)
 		free_matrix(minishell->input_matrix);
-	
 }
 
 char	*clean_input(t_minishell *minishell)

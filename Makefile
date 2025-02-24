@@ -18,7 +18,8 @@ MINISHELL_SRC =	src/minishell.c \
 				src/path.c \
 				src/parse/input.c \
 				src/parse/think_v2.c \
-				src/built-ins/echo.c
+				src/built-ins/echo.c \
+				src/built-ins/env.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)

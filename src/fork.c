@@ -12,22 +12,14 @@
 
 #include "minishell.h"
 
-/*void	exec_cmd(t_minishell *minishell, char **envp)
-{
-	if (minishell->built_in_type)
-		exec_built_in(minishell, envp);
-	else
-		fork_exec(minishell, envp);
-}*/
-
-void	fork_exec(t_minishell *minishell, char **envp)
+void	fork_exec(t_minishell *minishell)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if(execve(minishell->cmd_path, minishell->input_matrix, envp) != 0)
+		if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
 		{
 			free_minishell(minishell);
 			exit(EXIT_FAILURE);
@@ -37,7 +29,7 @@ void	fork_exec(t_minishell *minishell, char **envp)
 		waitpid(pid, NULL, 0);
 }
 
-void	exec_built_in(t_minishell *minishell, char **envp)
+void	exec_built_in(t_minishell *minishell)
 {
 	if (minishell->built_in_type == FT_PWD)
 	{
@@ -49,16 +41,16 @@ void	exec_built_in(t_minishell *minishell, char **envp)
 	else if (minishell->built_in_type == FT_ECHO)
 		ft_echo(minishell);
 	/*else if (minishell->built_in_type == FT_EXPORT)
-		ft_export(minishell, envp);*/
+		ft_export(minishell);*/
 	/*else if (minishell->built_in_type == FT_UNSET)
-		ft_unset(minishell);
+		ft_unset(minishell);*/
 	else if (minishell->built_in_type == FT_ENV)
-		ft_env(minishell);*/
+		ft_env(minishell);
 	else if (minishell->built_in_type == FT_EXIT)
 		ft_exit(minishell);
 }
 
-void	ft_export(t_minishell *minishell, char **envp)
+void	ft_export(t_minishell *minishell)
 {
 	int		i;
 
@@ -68,9 +60,9 @@ void	ft_export(t_minishell *minishell, char **envp)
 		return ;
 	}
 	i = 0;
-	while (envp[i])
+	while (minishell->envp[i])
 	{
-		printf("declare -x %s\n", envp[i]);
+		printf("declare -x %s\n", minishell->envp[i]);
 		i++;
 	}
 }
@@ -121,6 +113,8 @@ void	ft_exit(t_minishell *minishell)
 	{
 		printf("minishell: exit: %s: numeric argument required\n",\
 		minishell->input_matrix[1]);
+		if (minishell->envp)
+			free_matrix(minishell->envp);
 		free_minishell(minishell);
 		exit(EXIT_FAILURE);
 	}
@@ -133,6 +127,8 @@ void	ft_exit(t_minishell *minishell)
 	{
 		// sería ético que si tiene un codigo de error valido, \
 		con el codigo del primer argumento, input_matrix[1], que pa algo está.
+		if (minishell->envp)
+			free_matrix(minishell->envp);
 		free_minishell(minishell);
 		exit(EXIT_SUCCESS);
 	}

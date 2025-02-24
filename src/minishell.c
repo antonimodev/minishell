@@ -12,17 +12,47 @@
 
 #include "minishell.h"
 
+void	check_envp(t_minishell *minishell, char **envp)
+{
+	bool	flag;
+	char	**envp_matrix;
+
+	flag = false;
+	if (minishell->envp)
+	{
+		flag = true;
+		envp_matrix = matrix_cpy(minishell->envp);
+		free_matrix(minishell->envp);
+	}
+	ft_memset(minishell, 0, sizeof(t_minishell));
+	if (flag)
+	{
+		minishell->envp = matrix_cpy(envp_matrix);
+		free_matrix(envp_matrix);
+	}
+	else
+		minishell->envp = matrix_cpy(envp);
+}
+
+void	init_minishell(t_minishell *minishell, char **envp)
+{
+	check_envp(minishell, envp);
+	minishell->user = ft_getenv(minishell->envp, "USER=");
+}
+
 int main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
-
+	
 	UNUSED(ac); // Macro definida para eliminar warning de params sin utilizar.
 	UNUSED(av);
+	ft_memset(&minishell, 0, sizeof(t_minishell));
     while (1)
     {
-		get_input(&minishell, envp);
-		parse_input(&minishell, envp);
-		execute(&minishell, envp);
+		init_minishell(&minishell, envp);
+		get_input(&minishell);
+		parse_input(&minishell);
+		execute(&minishell);
 		free_minishell(&minishell);
     }
     return (0);
