@@ -7,33 +7,44 @@ void    ft_env(t_minishell *minishell)
         printf("This command executes without arguments\n");
         return ;
     }
-    print_matrix(minishell->envp); // Habrá que hacer una copia de envp de padre a minishell->envp
-    // Tener en cuenta que cuando se vaya a hacer export hay que meterlo en minishell->envpp
+    print_matrix(minishell->envp);
 }
 
-char    **matrix_cpy(char **src) // funcion para copiar las variables de entorno a mi variable de minishell
+/**
+ * Copy from matrix to new matrix
+ * @param src Matrix to be copied
+ * @param extra_slots slots to add for future appends (default: 0)
+ * @returns A pointer to the new copied matrix, or NULL if memory allocation fails.
+ */
+char    **matrix_cpy(char **src, int extra_slots) // Puede que int deba ser unsigned para evitar negativos
 {
     char    **matrix;
     int     len;
     int     i;
     
-    len = matrixlen(src);
+    len = matrixlen(src) + extra_slots;
     matrix = malloc((len + 1) * sizeof(char *));
     if (!matrix)
         return (NULL); // revisar este return segun a la altura a la que se implemente
     i = 0;
-    while (i < len)
+    while (src[i] && i < len)
     {
     	matrix[i] = ft_strdup(src[i]);
 		if (!matrix[i]) // quiere decir que ha fallado el dup
 		{
-			while (--i >= 0)
-				free(matrix[i]);
-			free (matrix);
+			free_matrix_error(matrix, i);
 			return (NULL); // revisar tambien este return segun la altura
 		}
         i++;
     }
-    matrix[i] = '\0';
+    while (i <= len)
+        matrix[i++] = NULL;
     return (matrix);
+}
+
+void	free_matrix_error(char **matrix, int i)
+{
+    while (i-- > 0)
+        free(matrix[i]);
+    free(matrix);
 }

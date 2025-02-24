@@ -1,6 +1,5 @@
 --------- TODO LIST ---------
 
-- modularizar think.c
-- añadir comprobacion de quote.closed antes de enviar la matriz
+- repasar thinkv2.c, casi terminado
 - pwd -L
 - pwd -P

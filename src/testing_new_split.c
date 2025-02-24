@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	free_matrix_error(char **matrix, int i)
-{
-    while (i-- > 0)
-        free(matrix[i]);
-    free(matrix);
-}
 char	**clean_split(t_tokenizer *split)
 {
     char	**new;

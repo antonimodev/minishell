@@ -60,6 +60,7 @@ void 	parse_input(t_minishell *minishell)
         return ;
     }
 	minishell->input_matrix = think_v2(minishell);
+    minishell->args_num = matrixlen(minishell->input_matrix); // set args_num
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }
 
