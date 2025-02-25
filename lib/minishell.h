@@ -1,6 +1,17 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+/* --------------------- DEFINES ---------------------------*/
+# define _POSIX_C_SOURCE 199309L
+# define UNUSED(x) (void)(x)
+
+/* --------------------- COLORS ----------------------------*/
+# define BOLD_GREEN "\033[1;32m"
+# define BOLD_TURQUOISE "\033[1;36m"
+# define BOLD_YELLOW "\033[1;33m"
+# define RESET "\033[0m"
+
+/* --------------------- INCLUDES --------------------------*/
 #include "libft.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -10,15 +21,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <signal.h>
 
-# define UNUSED(x) (void)(x)
-
-/* --------------------- COLORS ----------------------------*/
-# define BOLD_GREEN "\033[1;32m"
-# define BOLD_TURQUOISE "\033[1;36m"
-# define BOLD_YELLOW "\033[1;33m"
-# define RESET "\033[0m"
-
+/* --------------------- ENUMS -----------------------------*/
 typedef enum e_built_in
 {
 	FT_NULL,
@@ -134,5 +139,7 @@ void	set_envp(t_minishell *minishell, char **envp);
 void	init_minishell(t_minishell *minishell, char **envp);
 void	ft_unset(t_minishell *minishell);
 bool	valid_symbols(char *str);
+void	setup_signals(void);
+void 	handle_sign(int sign);
 
 #endif

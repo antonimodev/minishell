@@ -16,6 +16,7 @@ MINISHELL_SRC =	src/minishell.c \
 				src/path_utils.c \
 				src/fork.c	\
 				src/path.c \
+				src/signals.c \
 				src/parse/input.c \
 				src/parse/think_v2.c \
 				src/built-ins/cd.c \

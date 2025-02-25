@@ -6,6 +6,7 @@
 		"string": "c",
 		"vector": "c",
 		"iterator": "c",
-		"string_view": "c"
+		"string_view": "c",
+		"libft.h": "c"
 	}
 }

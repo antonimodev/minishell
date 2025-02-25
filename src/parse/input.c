@@ -21,7 +21,12 @@ void get_input(t_minishell *minishell)
 	{
 		shell_prompt(minishell);
 	    minishell->user_input = readline(BOLD_YELLOW " ✦ " RESET); // Al poner pwd no hace falta poner nada
-		if (!is_empty(minishell))
+		if (minishell->user_input == NULL)
+        {
+            printf("exit\n");
+            exit(EXIT_SUCCESS);
+        }
+        if (!is_empty(minishell))
 			add_history(minishell->user_input);
 	}
 }
@@ -71,7 +76,6 @@ bool	valid_input(char *input)
 		free(input);
 		return (false);
 	}
-	// Hemos movido el "exit" para hacerlo en un built-in
 	return (true);
 }
 
