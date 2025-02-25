@@ -126,10 +126,13 @@ char	*build_token(char *user_input, int *i_pos);
 char	*custom_strtrim(char *str, char c);
 void	skip_middle_spaces(char *user_input, int *i);
 
+char	**matrix_substract(char **matrix, unsigned int index);
 char    **matrix_cpy(char **src, int extra_slots);
 char	**matrix_append(char **matrix, char *new_str);
 void	ft_env(t_minishell *minishell);
 void	set_envp(t_minishell *minishell, char **envp);
 void	init_minishell(t_minishell *minishell, char **envp);
+void	ft_unset(t_minishell *minishell);
+bool	valid_symbols(char *str);
 
 #endif

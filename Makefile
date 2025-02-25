@@ -23,7 +23,8 @@ MINISHELL_SRC =	src/minishell.c \
 				src/built-ins/env.c \
 				src/built-ins/exit.c \
 				src/built-ins/export.c \
-				src/built-ins/pwd.c
+				src/built-ins/pwd.c \
+				src/built-ins/unset.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)
