@@ -11,7 +11,7 @@ static char	**addmatrix(char **matrix, char **word)
     int     len;
     char    **new_matrix;
 
-	len = matrixlen(matrix);
+	len = matrix_len(matrix);
     new_matrix = malloc(sizeof(char **) * (len + 2)); // + 1 por el nulo y + 1 por la nueva palabra \en caso de ser la primera iteracion, len = 0 y la primera pos para la nueva palabra y segunda para nulo
     if (!new_matrix)
         return NULL;

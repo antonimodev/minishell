@@ -1,0 +1,28 @@
+#ifndef MATRIX_UTILS_H
+#define MATRIX_UTILS_H
+
+#include "libft.h"
+
+/* ------------------------------ CREATE_MATRIX ------------------------------ */
+char	**create_matrix(int n);
+
+/* ------------------------------ MATRIX_APPEND ------------------------------ */
+char	**matrix_append(char **matrix, char *new_str);
+
+/* ------------------------------ MATRIX_SUBSTRACT ------------------------------ */
+char	**matrix_substract(char **matrix, unsigned int index);
+
+/* ------------------------------ MATRIX_CPY ------------------------------ */
+char    **matrix_cpy(char **src, int extra_slots);
+
+/* ------------------------------ FREE_MATRIX ------------------------------ */
+void	free_matrix(char **matrix);
+void	free_matrix_error(char **matrix, int i);
+
+/* ------------------------------ MATRIX_LEN ------------------------------ */
+int		matrix_len(char **matrix);
+
+/* ------------------------------ PRINT_MATRIX ------------------------------ */
+void	print_matrix(char **matrix);
+
+#endif

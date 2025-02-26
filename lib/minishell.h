@@ -13,6 +13,7 @@
 
 /* --------------------- INCLUDES --------------------------*/
 #include "libft.h"
+#include "matrix_utils.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
@@ -36,31 +37,19 @@ typedef enum e_built_in
 	FT_EXIT
 } e_built_in;
 
-/* typedef struct s_quotes{
-	int			s_quotes;
-	int			d_quotes;
-	bool		valid_quotes;
-}	t_quotes; */
-/* typedef struct s_tokenizer
+typedef	struct s_prompt
 {
-    char	**matrix;
-    int		matrix_index;
-}	t_tokenizer;
+	char	*user; // guardar el usuario (minishell->user)
+	char	*arrow; // guardar la flecha con formato de color
+	char	*pwd; // ft_pwd que habra que modificar
+	char	*prompt; // res final
+}	t_prompt;
 
-typedef struct s_token_state
-{
-    bool in_quotes; // flag para abierto/cerrado
-    char current_quote; // guarda si es single o double
-    int j; // iterador para word
-    char *token; // word
-	int	len;
-} t_token_state; */
-
-typedef struct quote
+typedef struct s_quote
 {
 	bool	closed;
 	char	type;
-} t_quote;
+}	t_quote;
 
 
 typedef struct s_minishell
@@ -71,13 +60,12 @@ typedef struct s_minishell
 	char		**input_matrix;
 	char		*cmd_path;
 	int			args_num;
+	t_prompt	shell_prompt;
 	e_built_in	built_in_type;
 }	t_minishell;
 
 
 /*-------------------- MINISHELL -------------------------*/
-/* char  **clean_split(t_tokenizer *split); */
-void	free_matrix_error(char **matrix, int i);
 
 /* --------------------- FORK.C ----------------------------*/
 void	exec_cmd(t_minishell *minishell, char **envp);
@@ -89,7 +77,6 @@ char	**concat_paths(char **splitted_path, char *cmd);
 char	*cmdcat(char *path, char *cmd);
 char 	*get_cmd_path(char **splitted_paths);
 bool	is_valid(char *cmd_path);
-
 
 /*---------------------- PATH.C ----------------------------*/
 char	**set_raw(char **envp);
@@ -111,7 +98,7 @@ void	shell_prompt(t_minishell *minishell);
 void	exec_built_in(t_minishell *minishell);
 bool	is_built_in(t_minishell *minishell);
 
-/*--------------------- BUILT_IN.C -------------------------*/
+/*--------------------- BUILT_INS -------------------------*/
 void	ft_pwd(t_minishell *minishell);
 void    ft_echo(t_minishell *minishell);
 void	ft_cd(t_minishell *minishell);
@@ -119,13 +106,8 @@ void	ft_export(t_minishell *minishell);
 void	ft_exit(t_minishell *minishell);
 bool	ft_isnumber(t_minishell *minishell);
 
-/*--------------------- TESTING_NEW_SPLIT.C ----------------------------*/
-char	**think(t_minishell *minishell);
+/*--------------------- PARSE ----------------------------*/
 char	**think_v2(t_minishell *minishell);
-char	**custom_split(char *user_input);
-/* void	fill_tokens(char *user_input, t_tokenizer *split);
-void	handle_quotes(char *str, int *i, t_token_state *state); */
-char	*build_token(char *user_input, int *i_pos);
 
 /* ---- TESTING ---- */
 char	*custom_strtrim(char *str, char c);

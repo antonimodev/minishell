@@ -44,10 +44,10 @@ int main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 	
-	UNUSED(ac); // Macro definida para eliminar warning de params sin utilizar.
+	UNUSED(ac);
 	UNUSED(av);
-	setup_signals();
 	ft_memset(&minishell, 0, sizeof(t_minishell));
+	setup_signals();
     while (1)
     {
 		init_minishell(&minishell, envp);
