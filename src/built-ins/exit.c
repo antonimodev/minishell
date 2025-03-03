@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
+/*   Updated: 2025/03/03 14:19:55 by antonimo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+static bool	ft_isnumber(t_minishell *minishell);
 
 void ft_exit(t_minishell *minishell)
 {
@@ -11,7 +25,7 @@ void ft_exit(t_minishell *minishell)
         free_minishell(minishell);
         exit(exit_code);
     }
-    if (!ft_isnumber(minishell))
+    if (!exit_is_number(minishell))
     {
         printf("minishell: exit: %s: numeric argument required\n", 
                minishell->input_matrix[1]);
@@ -27,4 +41,21 @@ void ft_exit(t_minishell *minishell)
         free_matrix(minishell->envp);
     free_minishell(minishell);
     exit(exit_code);
+}
+
+static bool	exit_is_number(t_minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	if (minishell->args_num == 2)
+	{
+		while (minishell->input_matrix[1][i])
+		{
+			if (!ft_isdigit(minishell->input_matrix[1][i]))
+				return (false);
+			i++;
+		}	
+	}
+	return (true);
 }

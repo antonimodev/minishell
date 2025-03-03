@@ -1,11 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   think_v2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 14:02:33 by antonimo          #+#    #+#             */
+/*   Updated: 2025/03/03 14:23:15 by antonimo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static bool init_vars(char ***matrix, char **word, t_quote *quote);
-static void quote_state(char current_char, t_quote *quote);
-static char **process_character(char current_char, char **matrix, char **word, t_quote *quote);
-static char **finalize_parsing(char **matrix, char **word);
-
-static char	**addmatrix(char **matrix, char **word)
+char	**addmatrix(char **matrix, char **word)
 {
     int     i;
     int     len;
@@ -23,15 +30,13 @@ static char	**addmatrix(char **matrix, char **word)
     }
     new_matrix[i] = ft_strdup(*word);
 	new_matrix[i + 1] = NULL;
-	
 	free(*word);
 	free_matrix(matrix);
-	
 	*word = ft_strdup("");
     return (new_matrix);
 }
 
-static char	*str_append_char(char *word, char c) // probablemente haya que mandarlo como ** para liberar
+char	*str_append_char(char *word, char c) // probablemente haya que mandarlo como ** para liberar
 {
     size_t	len;
 	char 	*new_str;
@@ -53,7 +58,7 @@ static char	*str_append_char(char *word, char c) // probablemente haya que manda
     return (new_str);
 }
 
-static char **finalize_parsing(char **matrix, char **word)
+char **finalize_parsing(char **matrix, char **word)
 {
     if (*word)
 	{
@@ -63,7 +68,7 @@ static char **finalize_parsing(char **matrix, char **word)
     return matrix;
 }
 
-static void quote_state(char current_char, t_quote *quote) 
+void quote_state(char current_char, t_quote *quote) 
 {
     if (quote->closed && (current_char == '"' || current_char == '\''))
 	{
@@ -77,7 +82,7 @@ static void quote_state(char current_char, t_quote *quote)
     }
 }
 
-static char **process_character(char current_char, char **matrix, char **word, t_quote *quote)
+char **process_character(char current_char, char **matrix, char **word, t_quote *quote)
 {
     if (quote->closed)
 	{
@@ -95,7 +100,7 @@ static char **process_character(char current_char, char **matrix, char **word, t
         else
             *word = str_append_char(*word, current_char);
     }
-    return matrix;
+    return (matrix);
 }
 
 char **think_v2(t_minishell *minishell)
@@ -120,10 +125,9 @@ char **think_v2(t_minishell *minishell)
         }
         i++;
     }
-    return finalize_parsing(matrix, &word);
+    return (finalize_parsing(matrix, &word));
 }
-
-static bool init_vars(char ***matrix, char **word, t_quote *quote)
+bool    init_vars(char ***matrix, char **word, t_quote *quote)
 {
     *matrix = malloc(sizeof(char *));
     if (!*matrix)

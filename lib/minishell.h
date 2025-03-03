@@ -65,14 +65,19 @@ typedef struct s_minishell
 }	t_minishell;
 
 
-/*-------------------- MINISHELL -------------------------*/
+/*-------------------- MINISHELL_UTILS.C-------------------------*/
+void	init_minishell(t_minishell *minishell, char **envp);
+void	set_envp(t_minishell *minishell, char **envp);
+char    *ft_getenv(char **envp, char *env_var);
+void	free_minishell(t_minishell *minishell);
 
-/* --------------------- FORK.C ----------------------------*/
-void	exec_cmd(t_minishell *minishell, char **envp);
+/* --------------------- EXEC.C ----------------------------*/
+void	execute(t_minishell *minishell);
 void	fork_exec(t_minishell *minishell);
+bool	is_built_in(t_minishell *minishell);
+void	exec_built_in(t_minishell *minishell);
 
 /* ------------------ PATH_UTILS.C -------------------------*/
-void	execute(t_minishell *minishell);
 char	**concat_paths(char **splitted_path, char *cmd);
 char	*cmdcat(char *path, char *cmd);
 char 	*get_cmd_path(char **splitted_paths);
@@ -81,30 +86,28 @@ bool	is_valid(char *cmd_path);
 /*---------------------- PATH.C ----------------------------*/
 char	**set_raw(char **envp);
 char    *get_path(char **input_matrix, char **envp);
-char    *ft_getenv(char **envp, char *env_var);
 
 /*--------------------- INPUT.C ----------------------------*/
 void    get_input(t_minishell *minishell);
+bool	valid_input(char *input);
+void 	parse_input(t_minishell *minishell);
+
+/* --------------------- INPUT_UTILS.C ----------------------*/
 char	*clean_input(t_minishell *minishell);
 int		count_with_spaces(char  *user_input);
-void 	parse_input(t_minishell *minishell);
-bool	valid_input(char *input);
-void	free_minishell(t_minishell *minishell);
 bool	is_empty(t_minishell *minishell);
-bool	no_skip(char c);
 void	shell_prompt(t_minishell *minishell);
+bool	no_skip(char c);
 
-/**/
-void	exec_built_in(t_minishell *minishell);
-bool	is_built_in(t_minishell *minishell);
 
 /*--------------------- BUILT_INS -------------------------*/
-void	ft_pwd(t_minishell *minishell);
-void    ft_echo(t_minishell *minishell);
 void	ft_cd(t_minishell *minishell);
-void	ft_export(t_minishell *minishell);
+void    ft_echo(t_minishell *minishell);
+void	ft_env(t_minishell *minishell);
 void	ft_exit(t_minishell *minishell);
-bool	ft_isnumber(t_minishell *minishell);
+void	ft_export(t_minishell *minishell);
+void	ft_pwd(t_minishell *minishell);
+void	ft_unset(t_minishell *minishell);
 
 /*--------------------- PARSE ----------------------------*/
 char	**think_v2(t_minishell *minishell);
@@ -112,16 +115,14 @@ char	**think_v2(t_minishell *minishell);
 /* ---- TESTING ---- */
 char	*custom_strtrim(char *str, char c);
 void	skip_middle_spaces(char *user_input, int *i);
-
-char	**matrix_substract(char **matrix, unsigned int index);
-char    **matrix_cpy(char **src, int extra_slots);
-char	**matrix_append(char **matrix, char *new_str);
-void	ft_env(t_minishell *minishell);
-void	set_envp(t_minishell *minishell, char **envp);
-void	init_minishell(t_minishell *minishell, char **envp);
-void	ft_unset(t_minishell *minishell);
 bool	valid_symbols(char *str);
 void	setup_signals(void);
 void 	handle_sign(int sign);
+bool	check_quotes_balance(char *str);
+char	**process_character(char current_char, char **matrix, char **word, t_quote *quote);
+char	**addmatrix(char **matrix, char **word);
+char 	*finalize_parsing(char **matrix, char **word);
+bool	init_vars(char ***matrix, char **word, t_quote *quote);
+void	quote_state(char current_char, t_quote *quote);
 
 #endif

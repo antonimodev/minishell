@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
+/*   Updated: 2025/03/03 13:55:49 by antonimo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* 
@@ -24,22 +36,4 @@ void setup_signals(void)
     sigemptyset(&sa.sa_mask);
     if (sigaction(SIGINT, &sa, NULL) == -1)
         perror("sigaction");
-}
-
-void shell_prompt(t_minishell *minishell)
-{
-    minishell->shell_prompt.user = ft_strjoin(BOLD_TURQUOISE, minishell->user);
-    minishell->shell_prompt.user = ft_strjoin_gnl(minishell->shell_prompt.user, RESET);
-
-    minishell->shell_prompt.pwd = getcwd(NULL, 0);
-
-    minishell->shell_prompt.arrow = ft_strdup(BOLD_GREEN " ➜ " RESET);
-
-    minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.user, minishell->shell_prompt.arrow);
-	free(minishell->shell_prompt.arrow);
-
-    minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.prompt, minishell->shell_prompt.pwd);
-    free(minishell->shell_prompt.pwd);
-    
-    minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.prompt, BOLD_YELLOW " ✦ " RESET);
 }

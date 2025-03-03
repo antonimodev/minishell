@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:28 by antonimo          #+#    #+#             */
-/*   Updated: 2025/02/07 14:12:06 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:56:41 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,4 @@ char    *get_path(char **input_matrix, char **envp)
     cmd_path = get_cmd_path(splitted_paths); //cmd_path tiene memoria
     free_matrix(splitted_paths);
     return (cmd_path);
-}
-
-char    *ft_getenv(char **envp, char *env_var)
-{
-    int i;
-    int len;
-    
-    i = 0;
-    len = ft_strlen(env_var);
-    while (envp[i])
-    {
-        if (ft_strncmp(envp[i], env_var, len) == 0)
-            return (envp[i] + len);
-        i++;
-    }
-    return (NULL);
 }
