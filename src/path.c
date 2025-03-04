@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:28 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 13:56:41 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 10:36:58 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	**set_raw(char **envp)
 	splitted_paths = ft_split(raw_env, ':');
     return(splitted_paths);
 }
-
 
 char    *get_path(char **input_matrix, char **envp)
 {

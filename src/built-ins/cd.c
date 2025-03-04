@@ -6,12 +6,23 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 13:40:19 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:54:35 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Changes the current working directory.
+ *
+ * This function handles the `cd` command in the minishell. It changes the
+ * current working directory based on the arguments provided. If no arguments
+ * are given, it changes to the home directory. It also handles various error
+ * cases such as too many arguments, non-existent directories, non-directory
+ * paths, and permission issues.
+ *
+ * @param minishell A pointer to the minishell structure containing the input matrix and argument count.
+ */
 void	ft_cd(t_minishell *minishell)
 {
 	struct stat	buffer;

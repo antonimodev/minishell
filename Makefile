@@ -34,14 +34,19 @@ MINISHELL_SRC =	src/minishell.c \
                 src/signals.c \
                 src/parse/input.c \
 				src/parse/input_utils.c \
-                src/parse/think_v2.c \
+                src/parse/split.c \
+				src/parse/split_utils.c \
                 src/built-ins/cd.c \
                 src/built-ins/echo.c \
                 src/built-ins/env.c \
                 src/built-ins/exit.c \
                 src/built-ins/export.c \
                 src/built-ins/pwd.c \
-                src/built-ins/unset.c
+                src/built-ins/unset.c \
+				src/validations/valid_cmd.c \
+				src/validations/valid_input.c \
+				src/validations/valid_symbols.c \
+				src/var_exp.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)
@@ -70,7 +75,7 @@ src/obj/%.o: src/%.c
 	@printf "\r$(BAR_COLOR)[%-50s] %s$(RESET)" \
 	    "$$(printf '%*s' $$(($(PROGRESS) / 2)) | tr ' ' '#')$$(printf '%*s' $$((50 - $(PROGRESS) / 2)) | tr ' ' '.')" \
 	    "$(PERCENT_DISPLAY)"
-	@sleep 0.06
+	@sleep 0.04
 	@$(CC) $(CFLAGS) $(MINISHELL) $(INC) -c $< -o $@
 
 $(NAME): $(MATRIX_UTILS) $(MINISHELL_OBJ)

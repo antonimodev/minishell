@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 13:55:49 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:55:25 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ Manejar CTRL + D -> (EOF) La condición que maneja es si user_input == NULL - EX
 Manejar CTRL + \ -> NADA
 */
 
+/**
+ * @brief Signal handler for SIGINT (Ctrl+C).
+ *
+ * This function handles the SIGINT signal, which is typically triggered by
+ * pressing Ctrl+C. It stops the current execution, moves to a new line,
+ * and redisplays the prompt.
+ *
+ * @param sign The signal number (unused).
+ */
 void handle_sign(int sign)
 {
     UNUSED(sign);
@@ -27,6 +36,12 @@ void handle_sign(int sign)
     rl_redisplay();
 }
 
+/**
+ * @brief Sets up signal handling for the minishell.
+ *
+ * This function sets up the signal handler for SIGINT using `sigaction`.
+ * It configures the signal action to use the `handle_sign` function.
+ */
 void setup_signals(void)
 {
     struct sigaction sa;

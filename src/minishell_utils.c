@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 13:56:39 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:56:10 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char    *ft_getenv(char **envp, char *env_var)
 
 void	free_minishell(t_minishell *minishell)
 {
-	//free(minishell->user);
 	if (minishell->user_input)
 		free(minishell->user_input);
 	if (minishell->cmd_path)

@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 14:21:17 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 11:42:16 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,9 @@ char 	*get_cmd_path(char **splitted_paths)
 	i = 0;
 	while (splitted_paths[i])
 	{
-		if (is_valid(splitted_paths[i]))
+		if (valid_cmd(splitted_paths[i]))
 			return (ft_strdup(splitted_paths[i]));
 		i++;
 	}
 	return (NULL);
-}
-
-bool	is_valid(char *cmd_path)
-{
-    struct stat	buffer;
-
-    if (access(cmd_path, F_OK | X_OK)
-        || stat(cmd_path, &buffer)
-        || !S_ISREG(buffer.st_mode)
-        || !(buffer.st_mode & S_IXUSR))
-        return (false);
-    return (true);
 }

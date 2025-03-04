@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   think_v2.c                                         :+:      :+:    :+:   */
+/*   split_input.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,28 +34,6 @@ char	**addmatrix(char **matrix, char **word)
 	free_matrix(matrix);
 	*word = ft_strdup("");
     return (new_matrix);
-}
-
-char	*str_append_char(char *word, char c) // probablemente haya que mandarlo como ** para liberar
-{
-    size_t	len;
-	char 	*new_str;
-	
-	len = ft_strlen(word);
-    new_str = malloc(len + 2);
-	len = 0;
-    if (!new_str)
-	    return NULL;
-    while (word[len])
-	{
-		new_str[len] = word[len];
-		len++;
-	}
-    new_str[len] = c;
-	new_str[len + 1] = '\0';
-    
-    free(word); // liberar
-    return (new_str);
 }
 
 char **finalize_parsing(char **matrix, char **word)
@@ -103,7 +81,7 @@ char **process_character(char current_char, char **matrix, char **word, t_quote 
     return (matrix);
 }
 
-char **think_v2(t_minishell *minishell)
+char **split_input(t_minishell *minishell)
 {
     char **matrix;
     char *word;
@@ -116,9 +94,9 @@ char **think_v2(t_minishell *minishell)
         return (NULL);
     i = 0;
     while (minishell->user_input[i])
-	{
+    {
         if (no_skip(minishell->user_input[i]))
-		{
+        {
             matrix = process_character(minishell->user_input[i], matrix, &word, &quote);
             if (!matrix)
                 return (NULL);
@@ -127,20 +105,3 @@ char **think_v2(t_minishell *minishell)
     }
     return (finalize_parsing(matrix, &word));
 }
-bool    init_vars(char ***matrix, char **word, t_quote *quote)
-{
-    *matrix = malloc(sizeof(char *));
-    if (!*matrix)
-        return false;
-    ft_bzero(*matrix, sizeof(char *));
-    *word = ft_strdup("");
-    if (!*word)
-	{
-        free(*matrix);
-        return false;
-    }
-    quote->closed = true;
-    quote->type = '\0';
-    return true;
-}
-

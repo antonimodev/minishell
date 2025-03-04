@@ -81,7 +81,6 @@ void	exec_built_in(t_minishell *minishell);
 char	**concat_paths(char **splitted_path, char *cmd);
 char	*cmdcat(char *path, char *cmd);
 char 	*get_cmd_path(char **splitted_paths);
-bool	is_valid(char *cmd_path);
 
 /*---------------------- PATH.C ----------------------------*/
 char	**set_raw(char **envp);
@@ -89,7 +88,6 @@ char    *get_path(char **input_matrix, char **envp);
 
 /*--------------------- INPUT.C ----------------------------*/
 void    get_input(t_minishell *minishell);
-bool	valid_input(char *input);
 void 	parse_input(t_minishell *minishell);
 
 /* --------------------- INPUT_UTILS.C ----------------------*/
@@ -109,20 +107,28 @@ void	ft_export(t_minishell *minishell);
 void	ft_pwd(t_minishell *minishell);
 void	ft_unset(t_minishell *minishell);
 
-/*--------------------- PARSE ----------------------------*/
-char	**think_v2(t_minishell *minishell);
+/*--------------------- VALIDATIONS -------------------------*/
+bool	valid_cmd(char *cmd_path);
+bool	valid_symbols(char *str);
+bool	valid_input(char *input);
 
-/* ---- TESTING ---- */
+
+/*--------------------- SPLIT.C ----------------------------*/
+char	**addmatrix(char **matrix, char **word);
+char	**process_character(char current_char, char **matrix, char **word, t_quote *quote);
+char	**split_input(t_minishell *minishell);
+void	quote_state(char current_char, t_quote *quote);
+char 	**finalize_parsing(char **matrix, char **word);
+
+/*------------------- SPLIT_UTILS.C -------------------------*/
+bool	init_vars(char ***matrix, char **word, t_quote *quote);
+char	*str_append_char(char *word, char c);
+bool	check_quotes_balance(char *str);
 char	*custom_strtrim(char *str, char c);
 void	skip_middle_spaces(char *user_input, int *i);
-bool	valid_symbols(char *str);
+
+/*------------------- SIGNALS.C -------------------------*/
 void	setup_signals(void);
 void 	handle_sign(int sign);
-bool	check_quotes_balance(char *str);
-char	**process_character(char current_char, char **matrix, char **word, t_quote *quote);
-char	**addmatrix(char **matrix, char **word);
-char 	*finalize_parsing(char **matrix, char **word);
-bool	init_vars(char ***matrix, char **word, t_quote *quote);
-void	quote_state(char current_char, t_quote *quote);
 
 #endif

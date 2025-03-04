@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/03/03 14:00:16 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:50:03 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ bool	is_empty(t_minishell *minishell)
 	minishell->user_input = NULL;
 	return (true);
 }
-
-
 
 void	shell_prompt(t_minishell *minishell)
 {

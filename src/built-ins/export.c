@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:27 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 13:41:29 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/04 11:39:02 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,4 @@ void ft_export(t_minishell *minishell)
         printf("declare -x %s\n", minishell->envp[i]);
         i++;
     }
-}
-
-bool	valid_symbols(char *str)
-{
-	int	i;
-
-	i = 0;
-	// proteccion de si no existe str?
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (false);
-		i++;
-	}
-	return (true);
 }
