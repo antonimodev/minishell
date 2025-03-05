@@ -15,8 +15,11 @@
 /* Debemos de añadir una flag en t_minishell para ver si debemos expandir o no la variable*/
 void	valid_expansion_var(t_minishell *minishell)
 {
-	// BUSCAR $ -> Si lo encuentra, seguimos
-	// SI LA VARIABLE DESPUES DE $ ES VALIDA -> Si lo es, seguimos
+	// Buscar $ -> Si lo encuentra, empezar a concatenar en un string para almacenar el nombre de la var
+	// Cada vez que se concatena, se comprueba si existe con getenv.
+	// 		Si existe -> getenv del nombre, sustituimos desde el $ hasta la terminacion de la variable con 
+	// 					 el valor que tenga en el env y seguimos buscando y concatenando Ej: $HOME!$PATH
+	//		No existe -> seguimos concatenando hasta encontrar un caracter que termine el str ( espacios o catacteres invalidos )
 	// ESTA RODEADO POR COMILLAS SIMPLES? -> Si, return ;
 }
 
@@ -29,7 +32,10 @@ void	valid_expansion_var(t_minishell *minishell)
 ${PATH}		-> Si se puede hacer
 "$PATH"		-> Si se puede hacer
 $PATH		-> Si se puede hacer
+$PATH$HOME	-> Si se puede hacer
+$HOME!		-> Si, devuelve home y al final concatena el !
 
+$HOME!$PATH	-> wtf?
 -----------------------------------------
 
 "'$PATH'"	-> No se puede hacer
