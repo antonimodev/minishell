@@ -16,11 +16,12 @@ bool    init_vars(char ***matrix, char **word, t_quote *quote)
 {
     *matrix = malloc(sizeof(char *));
     if (!*matrix)
-    return false;
-ft_bzero(*matrix, sizeof(char *));
-*word = ft_strdup("");
-if (!*word)
-	{
+        return false;
+    
+    ft_bzero(*matrix, sizeof(char *));
+    *word = ft_strdup("");
+    if (!*word)
+    {
         free(*matrix);
         return false;
     }
@@ -57,24 +58,12 @@ bool	check_quotes_balance(char *str)
 	t_quote quote;
 	
 	i = 0;
-	quote.type = '\0';  // Initialize quote type
+	quote.type = '\0';
 	quote.closed = true;
 	
 	while (str[i])
 	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			if (!quote.type)
-			{
-				quote.type = str[i];
-				quote.closed = !quote.closed;
-			}
-			else if (str[i] == quote.type)
-			{
-				quote.closed = !quote.closed;
-				quote.type = '\0';
-			}
-		}
+		quote_status(&quote, i, str[i]);
 		i++;
 	}
 	return (quote.closed);
@@ -114,4 +103,22 @@ void	skip_middle_spaces(char *user_input, int *i)
 		(*i)++;
 	if (user_input[*i] != '\0')
 			(*i)--;
+}
+
+/* HAY QUE MOVERLA */
+void	quote_status(t_quote *quote, unsigned int index, char c)
+{
+	if (c == '"' || c == '\'')
+	{
+		if (!quote->type)
+		{
+			quote->type = c;
+			quote->closed = !quote->closed;
+		}
+		else if (c == quote->type)
+		{
+			quote->closed = !quote->closed;
+			quote->type = '\0';
+		}
+	}
 }

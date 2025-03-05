@@ -126,9 +126,12 @@ char	*str_append_char(char *word, char c);
 bool	check_quotes_balance(char *str);
 char	*custom_strtrim(char *str, char c);
 void	skip_middle_spaces(char *user_input, int *i);
+void	quote_status(t_quote *quote, unsigned int index, char c); /* Hay que moverla */
 
 /*------------------- SIGNALS.C -------------------------*/
 void	setup_signals(void);
 void 	handle_sign(int sign);
+
+/* --- TESTING --- */
 
 #endif
