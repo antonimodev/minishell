@@ -46,6 +46,10 @@ bool	expansion_quotes_var(t_minishell *minishell)
 	return (prev(&quote, i, minishell->user_input)
 		&& post(&quote, i, minishell->user_input));
 }
+/*
+	echo "       'hola ' $HOME "
+	echo "       'hola ' '$HOME'" el resultado de esta es que no estan cerradas las comillas cuando si lo estan con prev y post
+*/
 
 bool	prev(t_quote *quote, unsigned int index, char *str)
 {

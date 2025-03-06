@@ -46,6 +46,7 @@ MINISHELL_SRC =	src/minishell.c \
 				src/validations/valid_cmd.c \
 				src/validations/valid_input.c \
 				src/validations/valid_symbols.c \
+				src/thinking_again.c \
 				#src/var_exp.c
 
 # Minishell objects #
@@ -60,6 +61,7 @@ $(MATRIX_UTILS):
 	@$(MAKE_LIB) -C lib/matrix_utils
 
 src/obj/%.o: src/%.c
+	@clear
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(eval PROGRESS=$(shell echo $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))
@@ -102,5 +104,10 @@ re: fclean all
 
 run: re
 	@valgrind ./$(NAME) || true
+
+git: 
+	@git submodule init
+	@git submodule update
+	@echo "$(GREEN)libft added!$(RESET)"
 
 .PHONY: all clean fclean re run

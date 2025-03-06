@@ -63,7 +63,7 @@ bool	check_quotes_balance(char *str)
 	
 	while (str[i])
 	{
-		quote_status(&quote, i, str[i]);
+		quote_status(&quote,str[i]);
 		i++;
 	}
 	return (quote.closed);
@@ -105,7 +105,7 @@ void	skip_middle_spaces(char *user_input, int *i)
 			(*i)--;
 }
 
-/* HAY QUE MOVERLA */
+/* HAY QUE MOVERLA
 void	quote_status(t_quote *quote, unsigned int index, char c)
 {
 	if (c == '"' || c == '\'')
@@ -121,4 +121,4 @@ void	quote_status(t_quote *quote, unsigned int index, char c)
 			quote->type = '\0';
 		}
 	}
-}
+}*/
