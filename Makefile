@@ -115,6 +115,8 @@ push: fclean
 	git add .
 	@git commit -m "updated by makefile"
 	@git push
-	@echo "$(GREEN)$(NAME) updated!$(RESET)"
+	@echo "$(GREEN)╔═════════════════════════════╗$(RESET)"
+	@echo "$(GREEN)║      MINISHELL UPDATED      ║$(RESET)"
+	@echo "$(GREEN)╚═════════════════════════════╝$(RESET)"
 
 .PHONY: all clean fclean re run
