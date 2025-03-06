@@ -34,9 +34,8 @@ char	*str_append_char(char *word, char c) // probablemente haya que mandarlo com
 {
     size_t	len;
 	char 	*new_str;
-	
-	len = ft_strlen(word);
-    new_str = malloc(len + 2);
+
+    new_str = malloc(ft_strlen(word) + 2);
 	len = 0;
     if (!new_str)
 	    return NULL;
@@ -47,7 +46,7 @@ char	*str_append_char(char *word, char c) // probablemente haya que mandarlo com
 	}
     new_str[len] = c;
 	new_str[len + 1] = '\0';
-    
+
     free(word); // liberar
     return (new_str);
 }
@@ -63,7 +62,7 @@ bool	check_quotes_balance(char *str)
 	
 	while (str[i])
 	{
-		quote_status(&quote,str[i]);
+		quote_status(&quote, str[i]);
 		i++;
 	}
 	return (quote.closed);

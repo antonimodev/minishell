@@ -37,42 +37,40 @@ void	comprobacion(t_minishell *minishell, unsigned int *i, t_quote *quote, char	
 	int  var_len;
 	char *env_var;
 
-	var_len = 0;
-	env_var = NULL;
+	var_len = *i;
+	env_var = ft_strdup("");
 
 	// EL CARACTER ACTUAL ES $?
 	if (minishell->user_input[*i] == '$' && quote->type != '\'')
 	{
 		// VAMOS A MONTAR LA VARIABLE DE ENTORNO
-		while (minishell->user_input[*i + var_len] && minishell->user_input[*i + var_len] != ' ') // hasta encontrar un char delimitante ( igual hay mas delimitantes )
+		while (minishell->user_input[var_len] && minishell->user_input[var_len] != ' ') // hasta encontrar un char delimitante ( igual hay mas delimitantes )
 		{
 			// MONTAMOS ENV_VAR
-			env_var = str_append_char(env_var, minishell->user_input[*i + var_len]);
+			env_var = str_append_char(env_var, minishell->user_input[var_len]);
 			var_len++;
 		}
-		
+
 		// BUSCAMOS ENV_VAR MONTADO EN FT_GETENV
-		if (ft_getenv(minishell->envp, env_var)) // Si existe, concatenar con el valor de la variable
+		char *random = ft_getenv(minishell->envp, env_var);
+		if (random) // Si existe, concatenar con el valor de la variable en la posicion de i
 		{
-			expanded_str = ft_strjoin_gnl(expanded_str, ft_getenv(minishell->envp, env_var));
-			*i += ft_strlen_gnl(ft_getenv(minishell->envp, env_var));	// movemos i hasta el fin de esa variable de entorno
+			expanded_str = ft_strjoin_gnl(expanded_str, env_var);
 		}
-		else // NO EXISTE? -> liberamos env_var, concatenar el $
-		{
-			expanded_str = str_append_char(expanded_str, '$');
-		}
-		free(env_var);
-	} else	// NO ES $? -> concatenar el char actual
+		*i += ft_strlen_gnl(env_var);	// movemos i hasta el fin de esa variable de entorno
+	}
+	else	// NO ES $? -> concatenar el char actual
 		expanded_str = str_append_char(expanded_str, minishell->user_input[*i]);
+	free(env_var);
 }
 
 void expand_env(t_minishell *minishell)
 {
-	char *expanded_str;
-	t_quote	quote;
+	char			*expanded_str;
+	t_quote			quote;
 	unsigned int	i;
 
-	expanded_str = NULL;
+	expanded_str = ft_strdup("");
 	quote.type = '\0';
 	quote.closed = true;
 	i = 0;
@@ -83,4 +81,5 @@ void expand_env(t_minishell *minishell)
 		comprobacion(minishell, &i, &quote, expanded_str);
 		i++;
 	}
+	minishell->user_input = ft_strjoin_gnl(minishell->user_input, expanded_str);
 }

@@ -110,4 +110,11 @@ git:
 	@git submodule update
 	@echo "$(GREEN)libft added!$(RESET)"
 
+push: fclean
+	git status
+	git add .
+	@git commit -m "updated by makefile"
+	@git push
+	@echo "$(GREEN)$(NAME) updated!$(RESET)"
+
 .PHONY: all clean fclean re run
