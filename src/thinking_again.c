@@ -32,32 +32,45 @@ void	quote_status(t_quote *quote, char c)
 	}
 }
 
-void	comprobacion(t_minishell *minishell, unsigned int *i, t_quote *quote, char	*expanded_str)
+void mount_env(char *user_input, char *env_var, unsigned int i)
 {
-	int  var_len;
+	// VAMOS A MONTAR LA VARIABLE DE ENTORNO
+	while (user_input[i] && user_input[i] != ' ') // hasta encontrar un char delimitante ( igual hay mas delimitantes )
+	{
+		// MONTAMOS ENV_VAR
+		env_var = str_append_char(env_var, user_input[i]);
+		i++;
+	}
+}
+
+void	add_env(char *expanded_str, char *env_var, unsigned int *i)
+{
+	expanded_str = ft_strjoin_gnl(expanded_str, env_var);
+	*i += (ft_strlen_gnl(env_var) - 1); // igual es -2, hay que debugar
+}
+
+void valid_env(t_minishell *minishell, char *env_var, char *expanded_str, unsigned int *i)
+{
+	char *exist_env;
+
+	// BUSCAMOS ENV_VAR MONTADO EN FT_GETENV
+	exist_env = ft_getenv(minishell->envp, env_var);
+	if (exist_env)
+		add_env(expanded_str, env_var, i);
+	else
+		expanded_str = str_append_char(expanded_str, '$');
+}
+
+void	process_env(t_minishell *minishell, unsigned int *i, t_quote *quote, char	*expanded_str)
+{
 	char *env_var;
 
-	var_len = *i;
 	env_var = ft_strdup("");
-
 	// EL CARACTER ACTUAL ES $?
 	if (minishell->user_input[*i] == '$' && quote->type != '\'')
 	{
-		// VAMOS A MONTAR LA VARIABLE DE ENTORNO
-		while (minishell->user_input[var_len] && minishell->user_input[var_len] != ' ') // hasta encontrar un char delimitante ( igual hay mas delimitantes )
-		{
-			// MONTAMOS ENV_VAR
-			env_var = str_append_char(env_var, minishell->user_input[var_len]);
-			var_len++;
-		}
-
-		// BUSCAMOS ENV_VAR MONTADO EN FT_GETENV
-		char *random = ft_getenv(minishell->envp, env_var);
-		if (random) // Si existe, concatenar con el valor de la variable en la posicion de i
-		{
-			expanded_str = ft_strjoin_gnl(expanded_str, env_var);
-		}
-		*i += ft_strlen_gnl(env_var);	// movemos i hasta el fin de esa variable de entorno
+		mount_env(minishell->user_input ,env_var, *i);
+		valid_env(minishell, env_var, expanded_str, i);		
 	}
 	else	// NO ES $? -> concatenar el char actual
 		expanded_str = str_append_char(expanded_str, minishell->user_input[*i]);
@@ -78,8 +91,9 @@ void expand_env(t_minishell *minishell)
 	while(minishell->user_input[i])
 	{
 		quote_status(&quote, minishell->user_input[i]);
-		comprobacion(minishell, &i, &quote, expanded_str);
+		process_env(minishell, &i, &quote, expanded_str);
 		i++;
 	}
 	minishell->user_input = ft_strjoin_gnl(minishell->user_input, expanded_str);
+	free(expanded_str);
 }
