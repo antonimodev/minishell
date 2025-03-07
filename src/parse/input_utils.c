@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/03/04 12:50:03 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:13:56 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	shell_prompt(t_minishell *minishell)
 
 bool	no_skip(char c)
 {	
-	return (c != '\\' && c != '\n' && c != '\t' && \
-		c != '\v' && c != '\f' && c != '\r' && \
-		c != ';');
+	return (c != '\n' && c != '\t' && \
+		c != '\v' && c != '\f' && c != '\r');
 }

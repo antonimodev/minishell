@@ -97,10 +97,9 @@ bool	is_empty(t_minishell *minishell);
 void	shell_prompt(t_minishell *minishell);
 bool	no_skip(char c);
 
-
 /*--------------------- BUILT_INS -------------------------*/
 void	ft_cd(t_minishell *minishell);
-void    ft_echo(t_minishell *minishell);
+void	ft_echo(t_minishell *minishell);
 void	ft_env(t_minishell *minishell);
 void	ft_exit(t_minishell *minishell);
 void	ft_export(t_minishell *minishell);
@@ -111,7 +110,6 @@ void	ft_unset(t_minishell *minishell);
 bool	valid_cmd(char *cmd_path);
 bool	valid_symbols(char *str);
 bool	valid_input(char *input);
-
 
 /*--------------------- SPLIT.C ----------------------------*/
 char	**addmatrix(char **matrix, char **word);
@@ -126,12 +124,12 @@ char	*str_append_char(char *word, char c);
 bool	check_quotes_balance(char *str);
 char	*custom_strtrim(char *str, char c);
 void	skip_middle_spaces(char *user_input, int *i);
-void	quote_status(t_quote *quote, char c); /* Hay que moverla */
 
 /*------------------- SIGNALS.C -------------------------*/
 void	setup_signals(void);
 void 	handle_sign(int sign);
 
 /* --- TESTING --- */
-
+char	*handle_variable_expansion(t_minishell *minishell);
+char	*expand_env(t_minishell *minishell);
 #endif

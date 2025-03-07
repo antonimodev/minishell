@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 13:56:36 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:52:52 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ void 	parse_input(t_minishell *minishell)
 		minishell->user_input = NULL;
 		return ;
 	}
+	/* minishell->user_input = handle_variable_expansion(minishell);
+	if (!minishell->user_input)
+		return; */
+	/* minishell->user_input = expand_env(minishell); */
 	minishell->input_matrix = split_input(minishell);
-	// SI LA FLAG DE VAR_EXP = TRUE, ENTONCES SUSTITUIMOS EL INDICE DE LA MATRIX POR GET_ENV
 	minishell->args_num = matrix_len(minishell->input_matrix); // set args_num
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }

@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:47:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 11:14:27 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:06:09 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	check_quotes_balance(char *str)
 	
 	while (str[i])
 	{
-		quote_status(&quote, str[i]);
+		quote_state(str[i], &quote);
 		i++;
 	}
 	return (quote.closed);
@@ -105,7 +105,7 @@ void	skip_middle_spaces(char *user_input, int *i)
 }
 
 /* HAY QUE MOVERLA
-void	quote_status(t_quote *quote, unsigned int index, char c)
+void	quote_state(t_quote *quote, unsigned int index, char c)
 {
 	if (c == '"' || c == '\'')
 	{

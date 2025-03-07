@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 13:13:10 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 13:52:52 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:14:47 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	prev(t_quote *quote, unsigned int index, char *str)
 {
 	while (index != 0)
 	{
-		quote_status(quote, index, str[index]);
+		quote_state(quote, index, str[index]);
 		index--;
 	}
 	return (quote->closed);
@@ -64,7 +64,7 @@ bool	post(t_quote *quote, unsigned int index, char *str)
 {
 	while (str[index])
 	{
-		quote_status(quote, index, str[index]);
+		quote_state(quote, index, str[index]);
 		index++;
 	}
 	return (quote->closed);
