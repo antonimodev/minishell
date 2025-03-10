@@ -46,7 +46,8 @@ MINISHELL_SRC =	src/minishell.c \
 				src/validations/valid_cmd.c \
 				src/validations/valid_input.c \
 				src/validations/valid_symbols.c \
-				src/claude_revision.c \
+				src/variable_expansion.c \
+#				src/claude_revision.c \
 				src/thinking_again.c \
 				#src/var_exp.c
 

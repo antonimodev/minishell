@@ -30,17 +30,19 @@ void	get_input(t_minishell *minishell)
 
 void 	parse_input(t_minishell *minishell)
 {
-	minishell->user_input = clean_input(minishell);
 	if (!check_quotes_balance(minishell->user_input))
 	{
 		free(minishell->user_input);
 		minishell->user_input = NULL;
 		return ;
 	}
+	minishell->user_input = clean_input(minishell);
+	// VALID -> TIENE DOLAR Y SE ENCUENTRA EN EL ENVIRONMENT
+		//HAGO LA FUNCION QUE ESTAMOS HACIENDO
 	/* minishell->user_input = handle_variable_expansion(minishell);
 	if (!minishell->user_input)
 		return; */
-	/* minishell->user_input = expand_env(minishell); */
+	set_expand_var(minishell);
 	minishell->input_matrix = split_input(minishell);
 	minishell->args_num = matrix_len(minishell->input_matrix); // set args_num
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);

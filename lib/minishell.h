@@ -130,6 +130,7 @@ void	setup_signals(void);
 void 	handle_sign(int sign);
 
 /* --- TESTING --- */
-char	*handle_variable_expansion(t_minishell *minishell);
-char	*expand_env(t_minishell *minishell);
+/* char	*handle_variable_expansion(t_minishell *minishell);
+char	*expand_env(t_minishell *minishell); */
+void	set_expand_var(t_minishell *minishell);
 #endif

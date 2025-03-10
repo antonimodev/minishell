@@ -1,8 +1,9 @@
+// filepath: /workspaces/minishell/.vscode/launch.json
 {
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Minishell",
+            "name": "GDB Debug",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/minishell",
@@ -19,7 +20,13 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build"
+            "preLaunchTask": "C/C++: make",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "logging": {
+                "trace": true,
+                "traceResponse": true,
+                "engineLogging": true
+            }
         }
     ]
 }

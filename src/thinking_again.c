@@ -59,6 +59,7 @@ static void	process_env(t_minishell *minishell, unsigned int *i, t_quote *quote,
 	}
 	else
 		expanded_str = str_append_char(expanded_str, minishell->user_input[*i]);
+	free(env_var);
 }
 
 char	*expand_env(t_minishell *minishell)
