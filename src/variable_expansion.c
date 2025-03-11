@@ -67,7 +67,7 @@ static char	*expand(t_minishell *minishell)
 // minishell->user_input = set_expand_var();
 void	set_expand_var(t_minishell *minishell)
 {
-	char    		*expanded_var;
+	char	*expanded_var;
 
 	if (!ft_strchr_gnl(minishell->user_input, '$'))
 		return ;
