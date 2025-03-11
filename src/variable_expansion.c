@@ -6,20 +6,11 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:08:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/11 13:10:14 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:56:46 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Formato -> [ORDEN] + 2 palabras (como máximo)
-/*
-- GET
-- SET
-- EXIT
-- VALID
-- UPDATE
-*/
 
 static char	*expand(t_minishell *minishell);
 static char	*set_env_var(t_minishell *minishell, unsigned int *i);
@@ -46,10 +37,7 @@ static char	*set_env_var(t_minishell *minishell, unsigned int *i)
 	}
 	while (minishell->user_input[*i]
 		&& is_valid_var_char(minishell->user_input[*i]))
-	{
-		var_name = str_append_char(var_name, minishell->user_input[*i]);
-		(*i)++;
-	}
+		var_name = str_append_char(var_name, minishell->user_input[(*i)++]);
 	var_value = ft_getenv(minishell->envp, var_name);
 	if (var_value)
 		var_value = ft_strdup(var_value + 1);

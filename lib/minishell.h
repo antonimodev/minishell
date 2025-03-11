@@ -103,7 +103,7 @@ void	ft_echo(t_minishell *minishell);
 void	ft_env(t_minishell *minishell);
 void	ft_exit(t_minishell *minishell);
 void	ft_export(t_minishell *minishell);
-void	ft_pwd(t_minishell *minishell);
+void	ft_pwd();
 void	ft_unset(t_minishell *minishell);
 
 /*--------------------- VALIDATIONS -------------------------*/
@@ -129,8 +129,7 @@ void	skip_middle_spaces(char *user_input, int *i);
 void	setup_signals(void);
 void 	handle_sign(int sign);
 
-/* --- TESTING --- */
-/* char	*handle_variable_expansion(t_minishell *minishell);
-char	*expand_env(t_minishell *minishell); */
+/*------------------- VARIABLE_EXPANSION.C -------------------------*/
+
 void	set_expand_var(t_minishell *minishell);
 #endif

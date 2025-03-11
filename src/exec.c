@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/03 14:21:44 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:06:34 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	exec_built_in(t_minishell *minishell)
 {
 	if (minishell->built_in_type == FT_PWD)
 	{
-		ft_pwd(minishell);
+		ft_pwd();
 		printf("\n");
 	}
 	else if (minishell->built_in_type == FT_CD)
