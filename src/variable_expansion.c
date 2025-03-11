@@ -76,3 +76,5 @@ void	set_expand_var(t_minishell *minishell)
 	minishell->user_input = ft_strdup(expanded_var);
 	free(expanded_var);
 }
+
+https://prod.liveshare.vsengsaas.visualstudio.com/join?922B1FC705625835608941DF40D69FD51BDB
