@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/03/07 13:13:56 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:38:25 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	is_empty(t_minishell *minishell)
 		else
 			return (false);
 	}
-	free(minishell->user_input); // readline reserva mem, libera
+	free(minishell->user_input);
 	minishell->user_input = NULL;
 	return (true);
 }

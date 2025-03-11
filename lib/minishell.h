@@ -109,7 +109,7 @@ void	ft_unset(t_minishell *minishell);
 /*--------------------- VALIDATIONS -------------------------*/
 bool	valid_cmd(char *cmd_path);
 bool	valid_symbols(char *str);
-bool	valid_input(char *input);
+bool	valid_input(t_minishell *minishell);
 
 /*--------------------- SPLIT.C ----------------------------*/
 char	**addmatrix(char **matrix, char **word);
