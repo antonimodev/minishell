@@ -119,4 +119,11 @@ push: fclean
 	@echo "$(GREEN)║      MINISHELL UPDATED      ║$(RESET)"
 	@echo "$(GREEN)╚═════════════════════════════╝$(RESET)"
 
-.PHONY: all clean fclean re run
+t: re
+	@$(CC) -o tester src/tester.c
+	@echo "$(YELLOW)╔═════════════════════════════╗$(RESET)"
+	@echo "$(YELLOW)║      TESTING MINISHELL      ║$(RESET)"
+	@echo "$(YELLOW)╚═════════════════════════════╝$(RESET)"
+	@./tester
+
+.PHONY: all clean fclean re run tester
