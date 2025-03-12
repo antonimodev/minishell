@@ -15,7 +15,7 @@
 3    [❓] Gestión de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
 	3.1	[❓] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
 6	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
-	6.1	[❓] Rutas absolutas (cd ~, cd /bin/ls)
+	6.1	[❓] Rutas absolutas (cd ~ funciona con /)
 
 
 Formato -> [ORDEN] + 2 palabras (como máximo)

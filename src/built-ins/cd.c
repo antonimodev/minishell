@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 12:54:35 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:27:04 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_cd(t_minishell *minishell)
 
     if (minishell->args_num > 2)
         printf("minishell: %s: too many arguments\n", cmd);
-    else if (minishell->args_num == 1)
+    else if (arg[0] == '~' || minishell->args_num == 1)
         chdir(getenv("HOME"));
     else if (access(arg, F_OK))
         printf("minishell: %s: No such file or directory\n", arg);
