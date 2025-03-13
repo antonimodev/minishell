@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/12 14:27:04 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/13 10:49:09 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ void	ft_cd(t_minishell *minishell)
     const char	*arg;
 	
 	cmd = minishell->input_matrix[0];
-	arg = minishell->input_matrix[1];
+	if (minishell->input_matrix[1])
+		arg = minishell->input_matrix[1];
+	else
+		arg = NULL;
 
     if (minishell->args_num > 2)
         printf("minishell: %s: too many arguments\n", cmd);
-    else if (arg[0] == '~' || minishell->args_num == 1)
+    else if ((arg && arg[0] == '~') || minishell->args_num == 1)
         chdir(getenv("HOME"));
     else if (access(arg, F_OK))
         printf("minishell: %s: No such file or directory\n", arg);

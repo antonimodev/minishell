@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:08:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/11 13:56:46 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/13 11:41:26 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ static char	*set_env_var(t_minishell *minishell, unsigned int *i)
 		free(var_name);
 		(*i)--;
 		return (ft_strdup("$"));
+	} else if (minishell->user_input[*i] == '?') // si la siguiente del $ es ?, devolvemos el estado en forma de str
+	{
+		free(var_name);
+		(*i)--;
+		return (ft_itoa(minishell->exit_status));
 	}
 	while (minishell->user_input[*i]
 		&& is_valid_var_char(minishell->user_input[*i]))
@@ -91,6 +96,7 @@ void	set_expand_var(t_minishell *minishell)
 
 	if (!minishell->user_input || !ft_strchr_gnl(minishell->user_input, '$'))
 		return ;
+	printf("Exit status: %d", minishell->exit_status);
 	expanded_var = expand(minishell);
 	if (expanded_var)
 	{

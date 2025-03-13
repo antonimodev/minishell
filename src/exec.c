@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/11 14:06:34 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/13 11:26:32 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	execute(t_minishell *minishell)
 		return ;
     if (is_built_in(minishell))
     {
+		// suggest: hacer que exec_built_in devuelva su exit status y almacenar en var global $?
         exec_built_in(minishell);
         return;
     }
@@ -29,21 +30,28 @@ void	execute(t_minishell *minishell)
     fork_exec(minishell);
 }
 
-void	fork_exec(t_minishell *minishell)
+void fork_exec(t_minishell *minishell)
 {
-	pid_t	pid;
+    pid_t pid;
+    int status;
 
-	pid = fork();
-	if (pid == 0)
-	{
-		if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
-		{
-			free_minishell(minishell);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-		waitpid(pid, NULL, 0);
+    pid = fork();
+    if (pid == 0)
+    {
+        if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
+        {
+            free_minishell(minishell);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            minishell->exit_status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            minishell->exit_status = 128 + WTERMSIG(status);
+    }
 }
 
 bool	is_built_in(t_minishell *minishell)

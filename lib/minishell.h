@@ -55,6 +55,7 @@ typedef struct s_quote
 typedef struct s_minishell
 {
 	char		**envp; // Añadir variable envp para exports
+	int			exit_status;
 	char		*user;
 	char		*user_input;
 	char		**input_matrix;
