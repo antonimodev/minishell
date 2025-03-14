@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/13 11:42:04 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:27:05 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_minishell(t_minishell *minishell, char **envp)
 {
-	// cambiar nombre a set_envp -> checkpoint()?
+	// suggest: cambiar nombre a set_envp -> checkpoint()?
 	set_envp(minishell, envp);
 	minishell->user = ft_getenv(minishell->envp, "USER=");
 }
@@ -23,7 +23,7 @@ void	set_envp(t_minishell *minishell, char **envp)
 {
 	bool	flag;
 	char	**envp_matrix;
-	int		last_exit_status; // añadido
+	int		last_exit_status; // suggest: añadido
 
 	flag = false;
 	last_exit_status = 0;
@@ -34,6 +34,7 @@ void	set_envp(t_minishell *minishell, char **envp)
 		free_matrix(minishell->envp);
 	}
 
+	// suggest
 	if (minishell->exit_status) // si existe, guardamos el estado de salida
 		last_exit_status = minishell->exit_status;
 	ft_memset(minishell, 0, sizeof(t_minishell));
@@ -45,6 +46,7 @@ void	set_envp(t_minishell *minishell, char **envp)
 	else
 		minishell->envp = matrix_cpy(envp, 0);
 
+	// suggest
 	if (last_exit_status)
 		minishell->exit_status = last_exit_status;
 }
@@ -75,4 +77,70 @@ void	free_minishell(t_minishell *minishell)
 		free_matrix(minishell->input_matrix);
 	if (minishell->shell_prompt.prompt)
 		free(minishell->shell_prompt.prompt);
+}
+
+// suggest
+void print_minishell(t_minishell *minishell)
+{
+    int i;
+
+    printf("\n\033[1;36m--- MINISHELL DEBUG INFO ---\033[0m\n\n");
+    
+    // Información general
+    printf("\033[1mExit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
+    printf("\033[1mUser:\033[0m \033[33m%s\033[0m\n", minishell->user ? minishell->user : "(null)");
+    printf("\033[1mUser input:\033[0m \033[33m%s\033[0m\n", minishell->user_input ? minishell->user_input : "(null)");
+    printf("\033[1mCommand path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
+    printf("\033[1mArguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
+    
+    // Tipo de built-in usando if en lugar de switch
+    printf("\033[1mBuilt-in type:\033[0m ");
+    if (minishell->built_in_type == FT_NULL)
+        printf("\033[33mNULL\033[0m\n");
+    else if (minishell->built_in_type == FT_EXIT)
+        printf("\033[33mEXIT\033[0m\n");
+    else if (minishell->built_in_type == FT_ECHO)
+        printf("\033[33mECHO\033[0m\n");
+    else if (minishell->built_in_type == FT_CD)
+        printf("\033[33mCD\033[0m\n");
+    else if (minishell->built_in_type == FT_PWD)
+        printf("\033[33mPWD\033[0m\n");
+    else if (minishell->built_in_type == FT_EXPORT)
+        printf("\033[33mEXPORT\033[0m\n");
+    else if (minishell->built_in_type == FT_UNSET)
+        printf("\033[33mUNSET\033[0m\n");
+    else if (minishell->built_in_type == FT_ENV)
+        printf("\033[33mENV\033[0m\n");
+    else
+        printf("\033[33mUNKNOWN (%d)\033[0m\n", minishell->built_in_type);
+    
+    // Matriz de entrada
+    printf("\n\033[1mInput matrix:\033[0m\n");
+    if (minishell->input_matrix)
+    {
+        i = 0;
+        while (minishell->input_matrix[i])
+        {
+            printf("  [%d]: \033[33m'%s'\033[0m\n", i, minishell->input_matrix[i]);
+            i++;
+        }
+    }
+    else
+        printf("  \033[33m(null)\033[0m\n");
+       
+    /* // Variables de entorno
+    printf("\n\033[1mEnvironment variables:\033[0m\n");
+    if (minishell->envp)
+    {
+        i = 0;
+        while (minishell->envp[i])
+        {
+            printf("  [%d]: \033[33m%s\033[0m\n", i, minishell->envp[i]);
+            i++;
+        }
+    }
+    else
+        printf("  \033[33m(null)\033[0m\n"); */
+    
+    printf("\n\033[1;36m---------------------------\033[0m\n");
 }

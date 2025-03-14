@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 10:39:15 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:56:04 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ void ft_exit(t_minishell *minishell)
     }
     if (!exit_is_number(minishell))
     {
+		// suggest: este es curioso
+		minishell->exit_status = 1;		
         printf("minishell: exit: %s: numeric argument required\n", 
                minishell->input_matrix[1]);
     }
     else if (minishell->args_num > 2)
     {
         printf("minishell: exit: too many arguments\n");
+		minishell->exit_status = 1;
         return;
     }
     else

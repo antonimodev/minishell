@@ -71,6 +71,7 @@ void	init_minishell(t_minishell *minishell, char **envp);
 void	set_envp(t_minishell *minishell, char **envp);
 char    *ft_getenv(char **envp, char *env_var);
 void	free_minishell(t_minishell *minishell);
+void	print_minishell(t_minishell *minishell);
 
 /* --------------------- EXEC.C ----------------------------*/
 void	execute(t_minishell *minishell);

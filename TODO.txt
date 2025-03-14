@@ -17,6 +17,15 @@
 6	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
 	6.1	[✅] Rutas absolutas (cd ~ funciona con /)
 
+SUGGEST: 
+- subir el nivel de comprobacion de quote_balance
+	- Ahora mismo se encuentra dentro de parse input()
+	- Diría de ponerlo dentro de valid input que está en get_input()
+
+ARREGLAR:
+- echo "               pito    "
+- export darius
+- comprobar si el env existe antes de hacer export
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET
@@ -24,3 +33,11 @@ Formato -> [ORDEN] + 2 palabras (como máximo)
 - EXIT
 - VALID
 - UPDATE
+
+Tipos de errores para exit_status
+- 0: Éxito
+- 1: Error general
+- 2: Error de sintaxis o uso incorrecto
+- 126: El comando existe pero no es ejecutable
+- 127: El comando no fue encontrado
+- 128+n: El programa terminó debido a una señal n

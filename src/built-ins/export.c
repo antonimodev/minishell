@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:27 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 11:39:02 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:06:42 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ void ft_export(t_minishell *minishell)
 		if (valid_symbols(minishell->input_matrix[1]))
         	minishell->envp = matrix_append(minishell->envp, minishell->input_matrix[1]);
 		else
+		{
+			// suggest
 			printf("%s not a valid identifier\n", minishell->input_matrix[1]);
+			minishell->exit_status = 1;
+		}
         return;
     }
     i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/12 12:51:16 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:48:26 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ void	get_input(t_minishell *minishell)
 
 void 	parse_input(t_minishell *minishell)
 {
-	if (!check_quotes_balance(minishell->user_input))
-	{
-		free(minishell->user_input);
-		minishell->user_input = NULL;
-		return ;
-	}
 	minishell->user_input = clean_input(minishell);
 	set_expand_var(minishell);
 	minishell->input_matrix = split_input(minishell);

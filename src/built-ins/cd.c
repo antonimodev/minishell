@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/13 10:49:09 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:53:45 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,49 @@ void	ft_cd(t_minishell *minishell)
     const char	*arg;
 	
 	cmd = minishell->input_matrix[0];
+	// suggest
+	minishell->exit_status = 0;
 	if (minishell->input_matrix[1])
 		arg = minishell->input_matrix[1];
 	else
 		arg = NULL;
-
     if (minishell->args_num > 2)
-        printf("minishell: %s: too many arguments\n", cmd);
+	{
+        printf("minishell: %s: too many arguments\n", cmd); 
+		// suggest
+		minishell->exit_status = 1;
+	}
     else if ((arg && arg[0] == '~') || minishell->args_num == 1)
-        chdir(getenv("HOME"));
+	{
+		// suggest
+        if (chdir(getenv("HOME")))
+			minishell->exit_status = 1;
+	}
     else if (access(arg, F_OK))
+	{
         printf("minishell: %s: No such file or directory\n", arg);
+		// suggest
+		minishell->exit_status = 1;
+	}
     else
     {
         if (stat(arg, &buffer) || !S_ISDIR(buffer.st_mode))
+		{
             printf("minishell: cd: %s: Not a directory\n", arg);
+			// suggest
+			minishell->exit_status = 1;
+		}
         else if (access(arg, X_OK)) // chekiar
-            printf("minishell: cd: %s: Permission denied\n", arg);
+        {    
+			printf("minishell: cd: %s: Permission denied\n", arg);
+			// suggest
+			minishell->exit_status = 1;
+		}
         else if (chdir(arg))
-            printf("minishell: cd: %s: Failed to change directory\n", arg);
+        {    
+			printf("minishell: cd: %s: Failed to change directory\n", arg);
+			// suggest
+			minishell->exit_status = 1;
+		}
     }
 }
