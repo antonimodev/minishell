@@ -40,7 +40,7 @@ void	ft_cd(t_minishell *minishell)
 	{
         printf("minishell: %s: too many arguments\n", cmd); 
 		// suggest
-		minishell->exit_status = 1;
+		minishell->exit_status = 150;
 	}
     else if ((arg && arg[0] == '~') || minishell->args_num == 1)
 	{

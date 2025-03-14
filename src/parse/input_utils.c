@@ -14,9 +14,10 @@
 
 char	*clean_input(t_minishell *minishell)
 {
-	char *str;
-	int len;
 	int	i;
+	int len;
+	char *str;
+	// meter quote para evitar casos como cd "      perro    " que debe dar invalido si tiene quotes
 
 	minishell->user_input = custom_strtrim(minishell->user_input, ' ');
 	len = count_with_spaces(minishell->user_input);
@@ -29,6 +30,7 @@ char	*clean_input(t_minishell *minishell)
 	{
 		if (no_skip(minishell->user_input[i]))
 		{
+			// suggest && !quote.type
 			if (minishell->user_input[i] == ' ')
 				skip_middle_spaces(minishell->user_input, &i);
 			str[len] = minishell->user_input[i];
@@ -62,6 +64,11 @@ bool	is_empty(t_minishell *minishell)
 	int	i;
 
 	i = 0;
+	if (!minishell->user_input)
+	{
+		free_minishell(minishell);
+		exit(EXIT_SUCCESS);
+	}
 	while (minishell->user_input[i])
 	{
 		if (ft_isspace(minishell->user_input[i]))

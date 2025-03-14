@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+// Si hacemos export hola=jeje y luego hacemos export hola=perro debería de sustituirse
+// planteamiento: funcion que checkee si en nuestro minishell->envp existe "hola=" si es así,
+// liberar esa variable de entorno y establecer en la misma posición una nueva con el contenido actualizado
+
 void ft_export(t_minishell *minishell)
 {
     int i;
@@ -23,12 +27,15 @@ void ft_export(t_minishell *minishell)
     }
     if (minishell->args_num == 2)
     {
-		if (valid_symbols(minishell->input_matrix[1]))
+        // esta condicion es para evitar duplicar la misma variable
+        if (ft_getenv(minishell->envp, minishell->input_matrix[1]))
+            return ;
+		else if (valid_symbols(minishell->input_matrix[1]))
         	minishell->envp = matrix_append(minishell->envp, minishell->input_matrix[1]);
 		else
 		{
+            printf("%s not a valid identifier\n", minishell->input_matrix[1]);
 			// suggest
-			printf("%s not a valid identifier\n", minishell->input_matrix[1]);
 			minishell->exit_status = 1;
 		}
         return;

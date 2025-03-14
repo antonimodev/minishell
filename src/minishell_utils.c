@@ -87,14 +87,14 @@ void print_minishell(t_minishell *minishell)
     printf("\n\033[1;36m--- MINISHELL DEBUG INFO ---\033[0m\n\n");
     
     // Información general
-    printf("\033[1mExit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
-    printf("\033[1mUser:\033[0m \033[33m%s\033[0m\n", minishell->user ? minishell->user : "(null)");
-    printf("\033[1mUser input:\033[0m \033[33m%s\033[0m\n", minishell->user_input ? minishell->user_input : "(null)");
-    printf("\033[1mCommand path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
-    printf("\033[1mArguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
+    printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
+    printf("\033[1m▶ User:\033[0m \033[33m%s\033[0m\n", minishell->user ? minishell->user : "(null)");
+    printf("\033[1m▶ User input:\033[0m \033[33m%s\033[0m\n", minishell->user_input ? minishell->user_input : "(null)");
+    printf("\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
+    printf("\033[1m▶ Arguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
     
     // Tipo de built-in usando if en lugar de switch
-    printf("\033[1mBuilt-in type:\033[0m ");
+    printf("\033[1m▶ Built-in type:\033[0m ");
     if (minishell->built_in_type == FT_NULL)
         printf("\033[33mNULL\033[0m\n");
     else if (minishell->built_in_type == FT_EXIT)
@@ -115,7 +115,7 @@ void print_minishell(t_minishell *minishell)
         printf("\033[33mUNKNOWN (%d)\033[0m\n", minishell->built_in_type);
     
     // Matriz de entrada
-    printf("\n\033[1mInput matrix:\033[0m\n");
+    printf("\n\033[1m▶ Input matrix:\033[0m\n");
     if (minishell->input_matrix)
     {
         i = 0;
@@ -129,7 +129,7 @@ void print_minishell(t_minishell *minishell)
         printf("  \033[33m(null)\033[0m\n");
        
     /* // Variables de entorno
-    printf("\n\033[1mEnvironment variables:\033[0m\n");
+    printf("\n\033[1m▶ Environment variables:\033[0m\n");
     if (minishell->envp)
     {
         i = 0;

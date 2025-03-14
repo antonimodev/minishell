@@ -13,19 +13,6 @@ BLUE = \033[0;34m
 PURPLE = \033[0;35m
 RESET = \033[0m
 
-# Commands for testing #
-RANDOM = "randominput"
-ECHO = "echo "HelloWorld""
-LS = "ls" "ls -a"
-PWD = "pwd"
-CD = "cd" "cd .." "cd /" "cd ~" "cd /Users" "cd /Users/$(USER)"
-EXPORT = "export VALID_ENV" "echo "$$VALID_ENV"" "export _novalid_ENV" "echo "$$_novalid_ENV""
-UNSET = "unset" "unset VALID_ENV" "echo $$VALID_ENV" "unset $$HOME" "echo "$$HOME""
-EXIT = "exit 255"
-QUOTES = "echo "'$$HOME'"" "echo '"$HOME"'" "echo '"'$$HOME'"'"
-TEST = $(RANDOM) $(ECHO) $(LS) $(PWD) $(CD) $(EXPORT) $(UNSET) $(EXIT)
-
-
 # Progress Bar #
 TOTAL_FILES = $(words $(MINISHELL_SRC))
 CURRENT_FILE = 0
@@ -115,7 +102,7 @@ fclean: clean
 re: fclean all
 
 run: re
-	@valgrind ./$(NAME) || true
+	@valgrind ./$(NAME)
 	@echo "$(GREEN)════════════════════════════════════$(RESET)"
 
 pull: 

@@ -16,16 +16,11 @@
 	3.1	[❓] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
 6	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
 	6.1	[✅] Rutas absolutas (cd ~ funciona con /)
+	6.2 [❓] Export revisarlo para sobreescribir variables (Planteamiento comentado en export.c)
 
-SUGGEST: 
-- subir el nivel de comprobacion de quote_balance
-	- Ahora mismo se encuentra dentro de parse input()
-	- Diría de ponerlo dentro de valid input que está en get_input()
 
 ARREGLAR:
-- echo "               pito    "
-- export darius
-- comprobar si el env existe antes de hacer export
+- echo "               hola    "
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET

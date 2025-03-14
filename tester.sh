@@ -88,7 +88,7 @@ echo -e "${YELLOW}║          TESTING MINISHELL             ║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
 
 # Run all the test categories
-run_test "echo" "echo \"HelloWorld\""
+run_test "echo" "echo \"HelloWorld\"" "echo "       spaces!     "
 run_test "ls" "/bin/ls" "ls -a"
 run_test "pwd" "pwd"
 run_test "cd" "cd" "cd .." "cd /" "cd ~" "cd /Users" "cd /Users/$(whoami)"
