@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/04 11:42:16 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:22:45 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

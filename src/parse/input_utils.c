@@ -6,32 +6,44 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/03/11 12:38:25 by antonimo         ###   ########.fr       */
+	/*   Updated: 2025/03/17 11:19:23 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*clean_input(t_minishell *minishell)
-{
-	int	i;
-	int len;
-	char *str;
-	// meter quote para evitar casos como cd "      perro    " que debe dar invalido si tiene quotes
 
-	minishell->user_input = custom_strtrim(minishell->user_input, ' ');
-	len = count_with_spaces(minishell->user_input);
+static char	*str_alloc(char **user_input)
+{
+	char	*str;
+	int		len;
+
+	*user_input = custom_strtrim(*user_input, ' ');
+	len = count_with_spaces(*user_input);
 	str = malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
+	return (str);
+}
+
+char	*clean_input(t_minishell *minishell)
+{
+	int		i;
+	int		len;
+	char	*str;
+	t_quote	quote;
+
 	i = 0;
 	len = 0;
+	quote.type = '\0';
+	quote.closed = true;
+	str = str_alloc(&minishell->user_input);
 	while (minishell->user_input[i])
 	{
 		if (no_skip(minishell->user_input[i]))
 		{
-			// suggest && !quote.type
-			if (minishell->user_input[i] == ' ')
+			quote_state(minishell->user_input[i], &quote);
+			if (minishell->user_input[i] == ' ' && quote.closed)
 				skip_middle_spaces(minishell->user_input, &i);
 			str[len] = minishell->user_input[i];
 			len++;

@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/14 12:42:20 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:10:23 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	execute(t_minishell *minishell)
 {
-	// print_minishell(minishell);
 	if (minishell->user_input == NULL)
 		return ;
     if (is_built_in(minishell))
@@ -25,7 +24,6 @@ void	execute(t_minishell *minishell)
     if (!minishell->cmd_path)
     {
         printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
-		// suggest
 		minishell->exit_status = 127;
         return;
     }
@@ -42,7 +40,6 @@ void fork_exec(t_minishell *minishell)
     {
         if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
         {
-			// suggest
 			minishell->exit_status = 127;
             free_minishell(minishell);
             exit(EXIT_FAILURE);
@@ -84,6 +81,7 @@ bool	is_built_in(t_minishell *minishell)
 
 void	exec_built_in(t_minishell *minishell)
 {
+	minishell->exit_status = 0;
 	if (minishell->built_in_type == FT_PWD)
 	{
 		ft_pwd();

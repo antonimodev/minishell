@@ -1,11 +1,9 @@
-https://prod.liveshare.vsengsaas.visualstudio.com/join?BE1E7804731C209A5293A3F99F163999159E
-
 📒 __________ TODO LIST __________ 📒
 
 -	 [✅] Mostrar una entrada mientras esperas comando.
 -	 [✅] Tener un historial funcional.
 -	 [✅] Buscar y ejecutar basado en la variable PATH.
-2	 [  ] Ejecutar mediante ruta relativa/absoluta (incluye minishell).
+2	 [❓] Ejecutar mediante ruta relativa/absoluta (incluye minishell).
 -  	 [❓] Evitar el uso más de 1 variable global para la recepción de una señal.
 -	 [✅] No interpretar comillas sin cerrar, \ o ;.
 -	 [✅] Gestionar que ' interprete metacaracteres dentro de la secuencia entre ""
@@ -13,7 +11,7 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?BE1E7804731C209A5293A3F99
 5	 [  ] Implementación de redirecciones (<, >, <<, >>).
 4	 [  ] Implementación de pipes (|).
 -	 [✅] Expansión de variables de entorno.
-1	 [  ] Gestión de $?.
+1	 [✅] Gestión de $?.
 3    [❓] Gestión de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
 	3.1	[❓] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
 6	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
@@ -22,7 +20,6 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?BE1E7804731C209A5293A3F99
 
 
 ARREGLAR:
-- echo "               hola    "
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET

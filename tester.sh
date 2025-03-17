@@ -88,11 +88,11 @@ echo -e "${YELLOW}║          TESTING MINISHELL             ║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
 
 # Run all the test categories
-run_test "echo" "echo \"HelloWorld\"" "echo "       spaces!     "
+run_test "echo" "echo \"HelloWorld\"" "echo "       spaces!     ""
 run_test "ls" "/bin/ls" "ls -a"
 run_test "pwd" "pwd"
 run_test "cd" "cd" "cd .." "cd /" "cd ~" "cd /Users" "cd /Users/$(whoami)"
-run_test "export" "export VALID_ENV" "echo \"$VALID_ENV\"" "export _novalid_ENV" "echo \"$_novalid_ENV\""
+run_test "export" "export VALID_ENV" "echo \"$VALID_ENV\"" "export _novalid_ENV" "echo \"$_novalid_ENV\"" "echo "exit status: \$?""
 run_test "unset" "unset" "unset VALID_ENV" "echo $VALID_ENV" "unset $HOME" "echo \"$HOME\""
 run_test "exit" "exit 255"
 run_test "quotes" "echo '$HOME'" "echo \"$HOME\"" "echo '$HOME'"

@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/14 11:52:46 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:10:39 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ void    ft_echo(t_minishell *minishell)
 
     i = 1;
     flag = false;
-	// suggest
-	minishell->exit_status = 0;
-    while (minishell->input_matrix[i] && ft_strcmp(minishell->input_matrix[i], "-n") == 0)
+    while (minishell->input_matrix[i]
+		&& !ft_strcmp(minishell->input_matrix[i], "-n"))
     {
         flag = true;
         i++;
