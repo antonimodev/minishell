@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:47:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/07 13:06:09 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/17 10:59:37 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char    *custom_strtrim(char *str, char c)
 {
 	int     start;
 	int     end;
-	int     len;
 	int     i;
 	char    *new_str;
 
@@ -84,8 +83,7 @@ char    *custom_strtrim(char *str, char c)
 		start++;
 	while (end > start && str[end] == c)
 		end--;
-	len = end - start + 1; // por quitarle -1 anteriormente
-	new_str = malloc((len + 1) * sizeof(char));
+	new_str = malloc((end - start  + 2) * sizeof(char));
 	if (!new_str)
 		return (NULL);
 	i = 0;
