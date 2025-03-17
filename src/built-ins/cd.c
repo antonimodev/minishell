@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/17 13:58:06 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:24:39 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	ft_cd(t_minishell *minishell)
     const char	*arg;
 	
 	cmd = minishell->input_matrix[0];
-	minishell->exit_status = 0;
 	if (minishell->input_matrix[1])
 		arg = minishell->input_matrix[1];
 	else	
