@@ -1,3 +1,5 @@
+https://prod.liveshare.vsengsaas.visualstudio.com/join?002D37E4E59AA00A8F6AC560FCC1CD6837FF
+
 📒 __________ TODO LIST __________ 📒
 
 -	 [✅] Mostrar una entrada mientras esperas comando.
