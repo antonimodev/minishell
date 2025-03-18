@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:08:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/14 13:08:58 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:02:53 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,34 @@ static bool	is_valid_var_char(char c)
 // suggest
 static char	*set_env_var(t_minishell *minishell, unsigned int *i)
 {
-    char	*var_name;
-    char	*var_value;
-
-    (*i)++;  // Avanzamos pasado el $
-    
-    // Caso 1: Final de cadena
-    if (!minishell->user_input[*i])
-        return (ft_strdup("$"));
-    
-    // Caso 2: Variable especial $?
-    if (minishell->user_input[*i] == '?')
-        return (ft_itoa(minishell->exit_status));
-    
-    // Caso 3: No es un carácter válido para una variable
-    if (!is_valid_var_char(minishell->user_input[*i]))
-        return (ft_strdup("$"));
-    
-    // Caso 4: Variable normal
-    var_name = ft_strdup("");
-    while (minishell->user_input[*i] && is_valid_var_char(minishell->user_input[*i]))
-        var_name = str_append_char(var_name, minishell->user_input[(*i)++]);
-    
+	char	*var_name;
+	char	*var_value;
+	
+	(*i)++;  // Avanzamos pasado el $
+	
+	// Caso 1: Final de cadena
+	if (!minishell->user_input[*i])
+		return (ft_strdup("$"));
+	
+	// Caso 2: Variable especial $?
+	if (minishell->user_input[*i] == '?')
+		return (ft_itoa(minishell->exit_status));
+	
+	// Caso 3: No es un carácter válido para una variable
+	if (!is_valid_var_char(minishell->user_input[*i]))
+		return (ft_strdup("$"));
+	
+	// Caso 4: Variable normal
+	var_name = ft_strdup("");
+	while (minishell->user_input[*i] && is_valid_var_char(minishell->user_input[*i]))
+		var_name = str_append_char(var_name, minishell->user_input[(*i)++]);
+	var_name = ft_strjoin_gnl(var_name, "=");
     var_value = ft_getenv(minishell->envp, var_name);
     free(var_name);
-    
+
     (*i)--;  // Compensamos el incremento del bucle principal
 	if (var_value)
-		return (ft_strdup(var_value + 1));
+		return (ft_strdup(var_value));
 	else
 		return (ft_strdup(""));
 }

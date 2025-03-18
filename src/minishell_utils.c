@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/14 11:27:05 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:57:22 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ char    *ft_getenv(char **envp, char *env_var)
 {
     int i;
     int len;
-    
+
     i = 0;
     len = ft_strlen(env_var);
     while (envp[i])
     {
-        if (ft_strncmp(envp[i], env_var, len) == 0)
+        if (!ft_strncmp(envp[i], env_var, len))
             return (envp[i] + len);
         i++;
     }

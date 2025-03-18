@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/17 14:24:39 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:39:43 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,49 @@
 
 static void	cd_home(t_minishell *minishell);
 static void	cd_error(t_minishell *minishell);
+static char *expand_tilde(t_minishell *minishell, char *arg);
+static bool valid_arg(t_minishell *minishell);
+
+static char	*expand_tilde(t_minishell *minishell, char *arg)
+{
+    char	*home;
+    char	*new_path;
+
+    home = ft_getenv(minishell->envp, "HOME=");
+    if (!home)
+        return (NULL);
+    new_path = ft_strjoin(home, arg + 1);
+	free(arg);
+    return (new_path);
+}
+
+static bool valid_arg(t_minishell *minishell)
+{
+	char		*arg;
+
+	arg = NULL;
+	if (minishell->args_num == 2)
+	{
+		arg = ft_strdup(minishell->input_matrix[1]);
+		if (access(arg, F_OK))
+		{
+			if (arg[0] == '~')
+				arg = expand_tilde(minishell, arg);
+		}
+		if (!access(arg, F_OK))
+			chdir(arg);
+		else
+		{
+			printf("minishell: cd: %s: No such file or directory\n", \
+			minishell->input_matrix[1]);
+			minishell->exit_status = 1;
+		}
+		free(arg);
+		return (true);
+	}
+	return (false);
+}
+
 /**
  * @brief Changes the current working directory.
  *
@@ -25,26 +68,20 @@ static void	cd_error(t_minishell *minishell);
  *
  * @param minishell A pointer to the minishell structure containing the input matrix and argument count.
  */
-void	ft_cd(t_minishell *minishell)
+ void	ft_cd(t_minishell *minishell)
 {
-    const char	*cmd;
-    const char	*arg;
+	const char	*cmd;
 	
 	cmd = minishell->input_matrix[0];
-	if (minishell->input_matrix[1])
-		arg = minishell->input_matrix[1];
-	else	
+	if (valid_arg(minishell))
+		return ;
+	if (minishell->args_num > 2)
 	{
-		arg = NULL;
-
-		if (minishell->args_num > 2)
-		{
-			printf("minishell: %s: too many arguments\n", cmd); 
-			minishell->exit_status = 150;
-			return;
-		}
+		printf("minishell: %s: too many arguments\n", cmd); 
+		minishell->exit_status = 150;
+		return ;
 	}
-    if ((arg && arg[0] == '~') || minishell->args_num == 1)
+	if (minishell->args_num == 1)
 		cd_home(minishell);
 	else
 		cd_error(minishell);
@@ -54,14 +91,14 @@ static void cd_home(t_minishell *minishell)
 {
     const char *home;
     
-    home = ft_getenv(minishell->envp, "HOME");
+    home = ft_getenv(minishell->envp, "HOME=");
     if (!home || home[0] == '\0')
     {
         printf("minishell: cd: No such file or directory\n");
         minishell->exit_status = 1;
         return;
     }
-    if (chdir(home + 1))
+    if (chdir(home))
     {
         printf("minishell: cd: %s: Failed to change directory\n", home);
         minishell->exit_status = 1;
@@ -85,7 +122,6 @@ static void cd_error(t_minishell *minishell)
 		error_msg = "Permission denied";
 	else if (chdir(path))
 		error_msg = "Failed to change directory";
-	
 	if (error_msg)
 	{
 		printf("minishell: cd: %s: %s\n", path, error_msg);
