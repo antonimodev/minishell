@@ -132,6 +132,9 @@ void	setup_signals(void);
 void 	handle_sign(int sign);
 
 /*------------------- VARIABLE_EXPANSION.C -------------------------*/
-
 void	set_expand_var(t_minishell *minishell);
+
+
+/* TEST */
+char *expand_pipe(t_minishell *minishell);
 #endif

@@ -47,6 +47,7 @@ MINISHELL_SRC =	src/minishell.c \
 				src/validations/valid_input.c \
 				src/validations/valid_symbols.c \
 				src/variable_expansion.c \
+				src/pipes_and_redirections/foo1.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)
