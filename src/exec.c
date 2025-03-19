@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/17 14:24:36 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:25:30 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 void	execute(t_minishell *minishell)
 {
+	//existe fd o redireccion? entonces entro en la funcion:
+		// forkear para modificar valores de minishell en el hijo
+		// funcion que hace toda la movida parseando el minishell->input_matrix
+		// redireccionar a la pipe el resultado
+		// fork_exec con la nueva info
 	if (minishell->user_input == NULL)
 		return ;
     if (is_built_in(minishell))
     {
         exec_built_in(minishell);
-        return;
+        return ;
     }
     if (!minishell->cmd_path)
     {
         printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
 		minishell->exit_status = 127;
-        return;
+        return ;
     }
     fork_exec(minishell);
 }

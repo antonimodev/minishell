@@ -1,5 +1,3 @@
-https://prod.liveshare.vsengsaas.visualstudio.com/join?B0851D6C5BBFC79F33D644B267BA5004A4C7
-
 📒 __________ TODO LIST __________ 📒
 
 -	 [✅] Mostrar una entrada mientras esperas comando.
@@ -16,9 +14,9 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?B0851D6C5BBFC79F33D644B26
 -	 [✅] Gestión de $?.
 2    [❓] Gestión de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
 	2.1	[❓] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
-1	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
+	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
 		[✅] Rutas absolutas (cd ~ funciona con /)
-	1.1 [❓] Export revisarlo para sobreescribir variables (Planteamiento comentado en export.c)
+		[✅] Export revisarlo para sobreescribir variables (Planteamiento comentado en export.c)
 
 
 ARREGLAR:

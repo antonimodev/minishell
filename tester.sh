@@ -2,8 +2,10 @@
 
 # Colors
 RED="\033[0;31m"
-GREEN="\033[0;32m"
-YELLOW="\033[0;33m"
+UNDERLINE_RED="\033[4;31m"
+GREEN="\033[1;32m"
+UNDERLINE_GREEN="\033[4;32m"
+YELLOW="\033[1;33m"
 BLUE="\033[0;34m"
 PURPLE="\033[0;35m"
 RESET="\033[0m"
@@ -29,7 +31,7 @@ run_test() {
     local test_name=$1
     shift
     
-    echo -e "${PURPLE}▶ Testing ${test_name^^} commands:${RESET}"
+    echo -e "${PURPLE}▶ Testing ${YELLOW}${test_name^^} ${PURPLE}commands:${RESET}"
     
     # Format the test name for the log file
     local log_file_name=$(echo "$test_name" | tr ' ' '_')
@@ -92,13 +94,13 @@ run_test "echo" "echo \"HelloWorld\"" "echo "       spaces!     ""
 run_test "ls" "/bin/ls" "ls -a"
 run_test "pwd" "pwd"
 run_test "cd" "cd" "cd .." "cd /" "cd ~" "cd /Users" "cd /Users/$(whoami)"
-run_test "export" "export VALID_ENV" "echo \"$VALID_ENV\"" "export _novalid_ENV" "echo \"$_novalid_ENV\"" "echo "exit status: \$?""
-run_test "unset" "unset" "unset VALID_ENV" "echo $VALID_ENV" "unset $HOME" "echo \"$HOME\""
+run_test "export" "export VALID_ENV" "echo \"$VALID_ENV\"" "export _#novalid_ENV" "echo \"$_novalid_ENV\"" "echo "exit status: \$?""
+run_test "unset" "unset" "unset VALID_ENV" "echo \"$VALID_ENV\"" "unset $HOME" "echo \"$HOME\""
 run_test "exit" "exit 255"
 run_test "quotes" "echo '$HOME'" "echo \"$HOME\"" "echo '$HOME'"
 run_test "random" "randominput"
 
-echo -e "${GREEN}✓ All tests completed!${RESET}"
+echo -e "${UNDERLINE_GREEN}✓ All tests completed!${RESET}"
 echo
 echo -e "${YELLOW}╔════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║        MEMORY LEAK ANALYSIS     🔎     ║${RESET}"
@@ -122,7 +124,7 @@ for log in temp_logs/*.log; do
         echo -e "${GREEN}✓ No memory leaks in $test_name test${RESET}"
         echo
     else
-        echo -e "${RED}▶ Memory leaks found in $test_name test:${RESET}"
+        echo -e "${UNDERLINE_RED}▶ Memory leaks found in $test_name test:${RESET}"
         grep -A 3 "LEAK SUMMARY:" "$log"
         echo
         leaks_found=1

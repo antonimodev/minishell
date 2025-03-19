@@ -25,4 +25,6 @@ int		matrix_len(char **matrix);
 /* ------------------------------ PRINT_MATRIX ------------------------------ */
 void	print_matrix(char **matrix);
 
+/* ------------------------------ MATRIX_REPLACE ------------------------------ */
+void	matrix_replace(char **matrix, int index, char *new_value);
 #endif

@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:27 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/19 10:34:05 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:18:55 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,10 @@
 // prototipo matrix_replace ->
 // recibe minishell->envp, indice despues de buscar la coincidencia, y lo que quieres meter en ese indice
 
-static void matrix_replace(char **matrix, int index, char *new_value);
 static char *get_envp_var_name(char *env_var);
+static int	ft_getenv_index(char **envp, char *env_var);
 static void replace_env_var(t_minishell *minishell, char *var_name);
 static void process_export_var(t_minishell *minishell);
-
-static void	matrix_replace(char **matrix, int index, char *new_value)
-{
-	free(matrix[index]);
-	matrix[index] = ft_strdup(new_value);
-}
 
 static char	*get_envp_var_name(char *env_var)
 {
@@ -57,13 +51,15 @@ static int	ft_getenv_index(char **envp, char *env_var)
             return (i);
         i++;
     }
-    return (0);
+    return (-1);
 }
 static void	replace_env_var(t_minishell *minishell, char *var_name)
 {
 	int	index;
 
 	index = ft_getenv_index(minishell->envp, var_name);
+	if (index < 0)
+		return ;
 	matrix_replace(minishell->envp, index, minishell->input_matrix[1]);
 }
 

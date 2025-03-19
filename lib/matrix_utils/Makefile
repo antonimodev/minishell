@@ -17,7 +17,8 @@ MATRIX_UTILS_SRC =	src/create_matrix.c \
                     src/matrix_cpy.c \
                     src/matrix_len.c \
                     src/matrix_substract.c \
-                    src/print_matrix.c
+                    src/print_matrix.c \
+					src/matrix_replace.c
 
 # Matrix_utils objects #
 MATRIX_UTILS_OBJ = $(MATRIX_UTILS_SRC:src/%.c=src/obj/%.o)
