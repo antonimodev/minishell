@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/19 12:25:30 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:07:36 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,45 @@ void	execute(t_minishell *minishell)
     fork_exec(minishell);
 }
 
+void	charmander(t_minishell *minishell)
+{
+	if (soy un hijo de lo que sea)
+	{
+		if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
+		{
+			minishell->exit_status = 127;
+		    free_minishell(minishell);
+		    exit(EXIT_FAILURE);
+		}
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            minishell->exit_status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            minishell->exit_status = 128 + WTERMSIG(status);
+    }
+}
+
 void fork_exec(t_minishell *minishell)
 {
     pid_t pid;
     int status;
 
-    pid = fork();
+	if (minishell->elhijoquesea) // eres un niño?
+	{
+		execve(); // muere
+	}
+    pid = fork(); // vas a ser padre
     if (pid == 0)
     {
-        if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
-        {
+		if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
+		{
 			minishell->exit_status = 127;
-            free_minishell(minishell);
-            exit(EXIT_FAILURE);
-        }
+		    free_minishell(minishell);
+		    exit(EXIT_FAILURE);
+		}
     }
     else
     {

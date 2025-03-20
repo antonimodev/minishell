@@ -18,20 +18,26 @@ static void set_operator_type(t_minishell *minishell, char *str);
 
 void	set_pipes_or_redirection(t_minishell *minishell)
 {
-	char	*clean_input;
-	char	**cmd;
-	char	**matrix;
 	int		i;
+	char	**cmd;
+	pid_t	child;
+	int		operator;
+	char	**matrix;
 
 	i = 0;
+	operator = 0;
 	if (!ft_strchr_gnl(minishell->user_input, '|')
 	&&	!ft_strchr_gnl(minishell->user_input, '<'))
+	{
+		minishell->input_matrix = split_input(minishell);
 		return ;
+	}
 	minishell->user_input = expand_pipe(minishell);
 	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0)
 	||	is_pipe_or_redirection_at_pos(minishell->user_input, ft_strlen(minishell->user_input)))
 	{
-		// error
+		printf("spabila\n");
+		return ; 
 	}
 	matrix = ft_split(minishell->user_input, ' ');
 	while (matrix[i])
@@ -39,33 +45,38 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 		if (is_pipe_or_redirection_at_pos(matrix[i], 0))
 		{
 			set_operator_type(minishell, matrix[i]);
-			//podemos hacer fork a
-			cmd = matrix_from_matrix(matrix, i);
-		}
-			// si hacemos fork
-			// if (fork == 0)
-				// return
-			// minishell->cmd_path = get_path(cmd, minishell->envp);
-			//se va al fork exec
-			// ejecutar cmd con la redireccion
+			cmd = matrix_from_matrix(matrix, operator, i);
+			operator = i;
+			child = fork();
+			if (child == 0)
+			{
+				minishell->input_matrix = cmd;
+				return ;
+			}
+			else
+				waitpid(child, NULL, 0);
 		}
 		i++;
+	}
+	minishell->input_matrix = matrix_from_matrix(matrix, operator, matrix_len(matrix));
+	free_matrix(matrix);
 }
+// matrix[0] = ls
+// matrix[1] = |
+// matrix[2] = grep
 
-char	**matrix_from_matrix(char **src_matrix, int index)
+char	**matrix_from_matrix(char **src_matrix, int start, int end)
 {
-	int		i;
 	char	*str;
 	char	**new_matrix;
-	
-	i = 0;
+
 	str = ft_strdup("");
-	while (i < index)
+	while (start < end)
 	{
-		str = ft_strjoin_gnl(str, src_matrix[i]);
-		if ((i + 1) < index)
+		str = ft_strjoin_gnl(str, src_matrix[start]);
+		if ((start + 1) < end)
 			str = ft_strjoin_gnl(str, ' ');
-	i++;
+		start++;
 	}
 	new_matrix = ft_split(str, ' ');
 	free(str);
