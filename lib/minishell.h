@@ -35,7 +35,17 @@ typedef enum e_built_in
 	FT_UNSET,
 	FT_ENV,
 	FT_EXIT
-} e_built_in;
+}	e_built_in;
+
+typedef enum e_redirection
+{
+    NONE,           // No es un operador
+    PIPE,           // |
+    REDIR_IN,       // <
+    REDIR_OUT,      // >
+    REDIR_APPEND,   // >>
+    REDIR_HEREDOC   // <<
+}	e_redirection;
 
 typedef	struct s_prompt
 {
@@ -51,18 +61,18 @@ typedef struct s_quote
 	char	type;
 }	t_quote;
 
-
 typedef struct s_minishell
 {
-	char		**envp; // Añadir variable envp para exports
-	int			exit_status;
-	char		*user;
-	char		*user_input;
-	char		**input_matrix;
-	char		*cmd_path;
-	int			args_num;
-	t_prompt	shell_prompt;
-	e_built_in	built_in_type;
+	char			**envp; // Añadir variable envp para exports
+	int				exit_status;
+	char			*user;
+	char			*user_input;
+	char			**input_matrix;
+	char			*cmd_path;
+	int				args_num;
+	t_prompt		shell_prompt;
+	e_redirection	redirection;
+	e_built_in		built_in_type;
 }	t_minishell;
 
 
@@ -136,5 +146,6 @@ void	set_expand_var(t_minishell *minishell);
 
 
 /* TEST */
-char *expand_pipe(t_minishell *minishell);
+char 	*expand_pipe(t_minishell *minishell);
+void	set_pipes_or_redirection(t_minishell *minishell);
 #endif

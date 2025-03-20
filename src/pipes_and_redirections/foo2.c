@@ -1,35 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   foo2.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 12:50:03 by frmarian          #+#    #+#             */
+/*   Updated: 2025/03/20 12:50:03 by frmarian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // ls -la|grep data -> ls -la | grep data
 // | ls
-/*
-void set_pipes_or_redirection(t_minishell *minishell)
+static void set_operator_type(t_minishell *minishell, char *str);
+
+void	set_pipes_or_redirection(t_minishell *minishell)
 {
 	char	*clean_input;
-	
-	if (ft_strchr_gnl(minishell->user_input, '|')
-	||	ft_strchr_gnl(minishell->user_input, '<'))
-	minishell->user_input = expand_pipe(minishell); // minishell->user_input = ls -la | grep data
-
-	// comprobacion de index 0 y len para ver si las pipes no están ni al inicio ni al final
-	// minishell->user_input = ls -la | grep data
 	char	**cmd;
-	char	**matrix = ft_split(minishell->user_input, ' ');
-	int	i = 0;
+	char	**matrix;
+	int		i;
+
+	i = 0;
+	if (!ft_strchr_gnl(minishell->user_input, '|')
+	&&	!ft_strchr_gnl(minishell->user_input, '<'))
+		return ;
+	minishell->user_input = expand_pipe(minishell);
+	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0)
+	||	is_pipe_or_redirection_at_pos(minishell->user_input, ft_strlen(minishell->user_input)))
+	{
+		// error
+	}
+	matrix = ft_split(minishell->user_input, ' ');
 	while (matrix[i])
 	{
-		if (is_pipe_or_redirection(matrix[i]))
+		if (is_pipe_or_redirection_at_pos(matrix[i], 0))
 		{
+			set_operator_type(minishell, matrix[i]);
+			//podemos hacer fork a
 			cmd = matrix_from_matrix(matrix, i);
-			// si hacemos fork, el hijo debe hacer return
+		}
+			// si hacemos fork
+			// if (fork == 0)
+				// return
+			// minishell->cmd_path = get_path(cmd, minishell->envp);
+			//se va al fork exec
 			// ejecutar cmd con la redireccion
 		}
 		i++;
-	}
 }
-*/
 
-/*char	**matrix_from_matrix(char **src_matrix, int index)
+char	**matrix_from_matrix(char **src_matrix, int index)
 {
 	int		i;
 	char	*str;
@@ -41,44 +64,42 @@ void set_pipes_or_redirection(t_minishell *minishell)
 	{
 		str = ft_strjoin_gnl(str, src_matrix[i]);
 		if ((i + 1) < index)
-		str = ft_strjoin_gnl(str, ' ');
+			str = ft_strjoin_gnl(str, ' ');
 	i++;
+	}
+	new_matrix = ft_split(str, ' ');
+	free(str);
+	return (new_matrix);
 }
-new_matrix = ft_split(str, ' ');
-free(str);
-return (new_matrix);
-}
-/*
-bool is_pipe_or_redirection(char *user_input)
-{
-	if (user_input == '|'
-	||	user_input == '<'
-	||	user_input == '>'
-	||	ft_strncmp(user_input, ">>", 2) == 0
-	||	ft_strncmp(user_input, "<<", 2) == 0)
-		return (true);
-	return (false);
-}
-*/
-/*
+
 bool	check_pipes_or_redirection(char **matrix)
 {
 	int	i;
 	
     i = 0;
-    while (matrix[i])
-    {
 	if (matrix[i][0] == '|'
-		||	matrix[i][0] == '<'
-		||	matrix[i][0] == '>'
-		||	ft_strncmp(matrix[i], ">>", 2) == 0
-		||	ft_strncmp(matrix[i], "<<", 2) == 0)
+	||	matrix[i][0] == '<'
+	||	matrix[i][0] == '>')
 		return (true);
         i++;
-    }
     return (false);
 }
-*/
+
+static void set_operator_type(t_minishell *minishell, char *str)
+{
+    if (!str || !str[0])
+        minishell->redirection = NONE;
+    else if (str[0] == '|' && !str[1])
+        minishell->redirection = PIPE;
+    else if (str[0] == '<' && !str[1])
+        minishell->redirection = REDIR_IN;
+    else if (str[0] == '>' && !str[1])
+        minishell->redirection = REDIR_OUT;
+    else if (str[0] == '>' && str[1] == '>' && !str[2])
+        minishell->redirection = REDIR_APPEND;
+    else if (str[0] == '<' && str[1] == '<' && !str[2])
+        minishell->redirection = REDIR_HEREDOC;
+}
 
 // ls -la|grep data
 

@@ -39,17 +39,13 @@ static void add_spaces(char **clean_input, char *user_input, int *pos)
 {
 	if (user_input[*pos - 1] != ' ')
 		*clean_input = str_append_char(*clean_input, ' ');
-
-	// Add the first character of the operator
 	*clean_input = str_append_char(*clean_input, user_input[*pos]);
-
-	// If we have a double operator (>> or <<), add the second character
 	if ((user_input[*pos] == '>' || user_input[*pos] == '<')
 	&&	user_input[*pos + 1]
 	&&	user_input[*pos + 1] == user_input[*pos])
 	{
 		*clean_input = str_append_char(*clean_input, user_input[*pos + 1]);
-		(*pos)++; // Skip the next character since we already processed it
+		(*pos)++;
 	}
 	if (user_input[*pos + 1] != ' ')
 		*clean_input = str_append_char(*clean_input, ' ');
@@ -66,7 +62,6 @@ char *expand_pipe(t_minishell *minishell)
 	quote.type = '\0';
 	quote.closed = true;
 	clean_input = ft_strdup("");
-	// ls -la>>grep data
 	while (minishell->user_input[i])
 	{
 		quote_state(minishell->user_input[i], &quote);
