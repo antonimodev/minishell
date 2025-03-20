@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/18 12:57:22 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:23:51 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	set_envp(t_minishell *minishell, char **envp)
 	// suggest
 	if (last_exit_status)
 		minishell->exit_status = last_exit_status;
+
+	minishell->pid = 1;
 }
 
 char    *ft_getenv(char **envp, char *env_var)

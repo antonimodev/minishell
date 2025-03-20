@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/20 14:07:36 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:24:25 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,54 +35,35 @@ void	execute(t_minishell *minishell)
     fork_exec(minishell);
 }
 
-void	charmander(t_minishell *minishell)
+void charmander(t_minishell *minishell)
 {
-	if (soy un hijo de lo que sea)
+	// Ejecuta el comando y maneja errores
+	if (execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
 	{
-		if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
-		{
-			minishell->exit_status = 127;
-		    free_minishell(minishell);
-		    exit(EXIT_FAILURE);
-		}
-    }
-    else
-    {
-        waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-            minishell->exit_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            minishell->exit_status = 128 + WTERMSIG(status);
-    }
+	    minishell->exit_status = 127;
+	    free_minishell(minishell);
+	    exit(EXIT_FAILURE);
+	}
 }
 
 void fork_exec(t_minishell *minishell)
 {
-    pid_t pid;
-    int status;
+	int		status;
+	pid_t	pid;
 
-	if (minishell->elhijoquesea) // eres un niño?
+	if (minishell->pid == 0)
+		charmander(minishell);
+	pid = fork();
+	if (pid == 0)
+		charmander(minishell);
+	else
 	{
-		execve(); // muere
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			minishell->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			minishell->exit_status = 128 + WTERMSIG(status);
 	}
-    pid = fork(); // vas a ser padre
-    if (pid == 0)
-    {
-		if(execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
-		{
-			minishell->exit_status = 127;
-		    free_minishell(minishell);
-		    exit(EXIT_FAILURE);
-		}
-    }
-    else
-    {
-        waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-            minishell->exit_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            minishell->exit_status = 128 + WTERMSIG(status);
-    }
 }
 
 bool	is_built_in(t_minishell *minishell)

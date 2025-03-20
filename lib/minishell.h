@@ -63,6 +63,7 @@ typedef struct s_quote
 
 typedef struct s_minishell
 {
+	int				pid;
 	char			**envp; // Añadir variable envp para exports
 	int				exit_status;
 	char			*user;
