@@ -27,4 +27,7 @@ void	print_matrix(char **matrix);
 
 /* ------------------------------ MATRIX_REPLACE ------------------------------ */
 void	matrix_replace(char **matrix, int index, char *new_value);
+
+/* ------------------------------ MATRIX_FROM_MATRIX ------------------------------ */
+char	**matrix_from_matrix(char **src_matrix, int start, int end);
 #endif

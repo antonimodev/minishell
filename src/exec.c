@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/20 14:24:25 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:51:59 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ void	execute(t_minishell *minishell)
     fork_exec(minishell);
 }
 
-void charmander(t_minishell *minishell)
+void exec_pid(t_minishell *minishell)
 {
-	// Ejecuta el comando y maneja errores
 	if (execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
 	{
 	    minishell->exit_status = 127;
@@ -51,13 +50,25 @@ void fork_exec(t_minishell *minishell)
 	int		status;
 	pid_t	pid;
 
-	if (minishell->pid == 0)
-		charmander(minishell);
-	pid = fork();
-	if (pid == 0)
-		charmander(minishell);
+	if (minishell->pid == CHILD)
+	{
+		print_minishell(minishell);
+		exec_pid(minishell);
+
+	}
 	else
 	{
+		pid = fork();
+	}
+	
+	if (pid == 0)
+	{
+		print_minishell(minishell);
+		exec_pid(minishell);
+	}
+	else
+	{
+		print_minishell(minishell);
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			minishell->exit_status = WEXITSTATUS(status);

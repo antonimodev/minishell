@@ -47,6 +47,12 @@ typedef enum e_redirection
     REDIR_HEREDOC   // <<
 }	e_redirection;
 
+typedef enum e_process
+{
+	PARENT,
+	CHILD
+}	e_process;
+
 typedef	struct s_prompt
 {
 	char	*user; // guardar el usuario (minishell->user)
@@ -63,7 +69,6 @@ typedef struct s_quote
 
 typedef struct s_minishell
 {
-	int				pid;
 	char			**envp; // Añadir variable envp para exports
 	int				exit_status;
 	char			*user;
@@ -74,6 +79,7 @@ typedef struct s_minishell
 	t_prompt		shell_prompt;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
+	e_process		pid;
 }	t_minishell;
 
 
@@ -149,4 +155,5 @@ void	set_expand_var(t_minishell *minishell);
 /* TEST */
 char 	*expand_pipe(t_minishell *minishell);
 void	set_pipes_or_redirection(t_minishell *minishell);
+bool is_pipe_or_redirection_at_pos(const char *str, int pos);
 #endif

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static bool is_pipe_or_redirection_at_pos(const char *str, int pos)
+bool is_pipe_or_redirection_at_pos(const char *str, int pos)
 {
     if (!str || str[pos] == '\0')
         return (false);

@@ -15,6 +15,8 @@
 // ls -la|grep data -> ls -la | grep data
 // | ls
 static void set_operator_type(t_minishell *minishell, char *str);
+//static bool	check_pipes_or_redirection(char **matrix);
+static void set_operator_type(t_minishell *minishell, char *str);
 
 void	set_pipes_or_redirection(t_minishell *minishell)
 {
@@ -50,6 +52,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 			child = fork();
 			if (child == 0)
 			{
+				// asignar que he hecho un fork en este punto
 				minishell->input_matrix = cmd;
 				return ;
 			}
@@ -65,25 +68,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 // matrix[1] = |
 // matrix[2] = grep
 
-char	**matrix_from_matrix(char **src_matrix, int start, int end)
-{
-	char	*str;
-	char	**new_matrix;
-
-	str = ft_strdup("");
-	while (start < end)
-	{
-		str = ft_strjoin_gnl(str, src_matrix[start]);
-		if ((start + 1) < end)
-			str = ft_strjoin_gnl(str, ' ');
-		start++;
-	}
-	new_matrix = ft_split(str, ' ');
-	free(str);
-	return (new_matrix);
-}
-
-bool	check_pipes_or_redirection(char **matrix)
+/* static bool	check_pipes_or_redirection(char **matrix)
 {
 	int	i;
 	
@@ -94,7 +79,7 @@ bool	check_pipes_or_redirection(char **matrix)
 		return (true);
         i++;
     return (false);
-}
+} */
 
 static void set_operator_type(t_minishell *minishell, char *str)
 {

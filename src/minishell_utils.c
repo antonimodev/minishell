@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/20 14:23:51 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:45:52 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init_minishell(t_minishell *minishell, char **envp)
 	// suggest: cambiar nombre a set_envp -> checkpoint()?
 	set_envp(minishell, envp);
 	minishell->user = ft_getenv(minishell->envp, "USER=");
+	minishell->pid = PARENT;
 }
 
 void	set_envp(t_minishell *minishell, char **envp)
@@ -89,11 +90,12 @@ void print_minishell(t_minishell *minishell)
     printf("\n\033[1;36m--- MINISHELL DEBUG INFO ---\033[0m\n\n");
     
     // Información general
-    printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
+	printf("\033[1m▶ PID status:\033[0m \033[33m%d\033[0m\n", minishell->pid);
     printf("\033[1m▶ User:\033[0m \033[33m%s\033[0m\n", minishell->user ? minishell->user : "(null)");
     printf("\033[1m▶ User input:\033[0m \033[33m%s\033[0m\n", minishell->user_input ? minishell->user_input : "(null)");
-    printf("\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
     printf("\033[1m▶ Arguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
+    printf("\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
+    printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
     
     // Tipo de built-in usando if en lugar de switch
     printf("\033[1m▶ Built-in type:\033[0m ");
