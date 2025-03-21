@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-// ls -la|grep data -> ls -la | grep data
+// ls -la|grep data -> ls -la  grep data
 // | ls
 static void set_operator_type(t_minishell *minishell, char *str);
+static bool check_redir_input(t_minishell *minishell);
 //static bool	check_pipes_or_redirection(char **matrix);
-static void set_operator_type(t_minishell *minishell, char *str);
 
 void	set_pipes_or_redirection(t_minishell *minishell)
 {
@@ -29,18 +29,14 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	i = 0;
 	operator = 0;
 	if (!ft_strchr_gnl(minishell->user_input, '|')
-	&&	!ft_strchr_gnl(minishell->user_input, '<'))
+	&&	!ft_strchr_gnl(minishell->user_input, '<')
+	&&	!ft_strchr_gnl(minishell->user_input, '>'))
 	{
 		minishell->input_matrix = split_input(minishell);
 		return ;
 	}
-	minishell->user_input = expand_pipe(minishell);
-	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0)
-	||	is_pipe_or_redirection_at_pos(minishell->user_input, ft_strlen(minishell->user_input)))
-	{
-		printf("spabila\n");
-		return ; 
-	}
+	if (!check_redir_input(minishell))
+		return ;
 	matrix = ft_split(minishell->user_input, ' ');
 	while (matrix[i])
 	{
@@ -52,7 +48,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 			child = fork();
 			if (child == 0)
 			{
-				// asignar que he hecho un fork en este punto
+				minishell->pid = CHILD;
 				minishell->input_matrix = cmd;
 				return ;
 			}
@@ -80,6 +76,17 @@ void	set_pipes_or_redirection(t_minishell *minishell)
         i++;
     return (false);
 } */
+static bool check_redir_input(t_minishell *minishell)
+{
+	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0) ||
+		is_pipe_or_redirection_at_pos(minishell->user_input, 
+		ft_strlen(minishell->user_input)))
+	{
+		printf("spabila\n"); // mensaje de que la pipe no es válida ya que esta en pos 0 o len
+		return (false);
+	}
+	return (true);
+}
 
 static void set_operator_type(t_minishell *minishell, char *str)
 {
@@ -117,5 +124,7 @@ COMANDO 2> ERROR.LOG  # Guarda los errores en un archivo
 COMANDO > SALIDA 2>&1 # Guarda salida + errores en un archivo
 
 COMANDO << FIN        # Escribe varias líneas hasta encontrar "FIN"
+
+<< SIGNIFICA HEREDOC
 
 */

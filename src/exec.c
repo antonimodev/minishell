@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/21 10:51:59 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:28:47 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,15 @@ void fork_exec(t_minishell *minishell)
 	int		status;
 	pid_t	pid;
 
+	//printf("\nPID:%d\n", getpid()); testing
 	if (minishell->pid == CHILD)
-	{
-		print_minishell(minishell);
 		exec_pid(minishell);
-
-	}
 	else
-	{
 		pid = fork();
-	}
-	
 	if (pid == 0)
-	{
-		print_minishell(minishell);
 		exec_pid(minishell);
-	}
 	else
 	{
-		print_minishell(minishell);
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			minishell->exit_status = WEXITSTATUS(status);

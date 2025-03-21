@@ -49,8 +49,8 @@ typedef enum e_redirection
 
 typedef enum e_process
 {
-	PARENT,
-	CHILD
+	CHILD,
+	PARENT
 }	e_process;
 
 typedef	struct s_prompt
