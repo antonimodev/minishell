@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/21 10:45:52 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:55:37 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ void print_minishell(t_minishell *minishell)
     printf("\033[1m▶ Arguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
     printf("\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
     printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
+	printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipe.read_pipe);
+	printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipe.write_pipe);
+
     
     // Tipo de built-in usando if en lugar de switch
     printf("\033[1m▶ Built-in type:\033[0m ");

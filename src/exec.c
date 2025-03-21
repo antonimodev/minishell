@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/21 11:28:47 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:02:55 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	execute(t_minishell *minishell)
     fork_exec(minishell);
 }
 
-void exec_pid(t_minishell *minishell)
+void exec(t_minishell *minishell)
 {
 	if (execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
 	{
@@ -50,13 +50,15 @@ void fork_exec(t_minishell *minishell)
 	int		status;
 	pid_t	pid;
 
-	//printf("\nPID:%d\n", getpid()); testing
 	if (minishell->pid == CHILD)
-		exec_pid(minishell);
+	{
+		redirect(minishell);
+		exec(minishell);
+	}
 	else
 		pid = fork();
 	if (pid == 0)
-		exec_pid(minishell);
+		exec(minishell);
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -65,6 +67,20 @@ void fork_exec(t_minishell *minishell)
 		else if (WIFSIGNALED(status))
 			minishell->exit_status = 128 + WTERMSIG(status);
 	}
+}
+
+void	redirect(t_minishell *minishell)
+{
+	if (minishell->redirection == PIPE)
+		ft_pipe();
+	else if (minishell->redirection == REDIR_IN)
+		ft_redir_in();
+	else if (minishell->redirection == REDIR_OUT)
+		ft_redir_out();
+	else if (minishell->redirection == REDIR_APPEND)
+		ft_redir_append();
+	else if (minishell->redirection == REDIR_HEREDOC)
+		ft_redir_heredoc();
 }
 
 bool	is_built_in(t_minishell *minishell)

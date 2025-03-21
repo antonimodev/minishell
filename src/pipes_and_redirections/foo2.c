@@ -12,71 +12,100 @@
 
 #include "minishell.h"
 
-// ls -la|grep data -> ls -la  grep data
-// | ls
+static bool check_redirection(t_minishell *minishell);
+static bool	check_redir_existence(t_minishell *minishell);
+static bool check_valid_redir(t_minishell *minishell);
 static void set_operator_type(t_minishell *minishell, char *str);
-static bool check_redir_input(t_minishell *minishell);
+static bool handle_operator(t_minishell *minishell, char **matrix, 
+	int *operator_pos, int current_pos);
+static bool is_child_process(t_minishell *minishell, pid_t child);
 //static bool	check_pipes_or_redirection(char **matrix);
+
+static bool is_child_process(t_minishell *minishell, pid_t child)
+{
+/* 	if (child == -1)
+		perror("minishell: error creating fork"); */
+	if (child == 0)
+	{
+		minishell->pipe = create_pipe();
+		minishell->pid = CHILD;
+		return (true);
+	}
+	return (false);
+}
 
 void	set_pipes_or_redirection(t_minishell *minishell)
 {
 	int		i;
-	char	**cmd;
-	pid_t	child;
 	int		operator;
 	char	**matrix;
 
 	i = 0;
 	operator = 0;
-	if (!ft_strchr_gnl(minishell->user_input, '|')
-	&&	!ft_strchr_gnl(minishell->user_input, '<')
-	&&	!ft_strchr_gnl(minishell->user_input, '>'))
-	{
-		minishell->input_matrix = split_input(minishell);
-		return ;
-	}
-	if (!check_redir_input(minishell))
+	if (!check_redirection(minishell))
 		return ;
 	matrix = ft_split(minishell->user_input, ' ');
 	while (matrix[i])
 	{
 		if (is_pipe_or_redirection_at_pos(matrix[i], 0))
 		{
-			set_operator_type(minishell, matrix[i]);
-			cmd = matrix_from_matrix(matrix, operator, i);
-			operator = i;
-			child = fork();
-			if (child == 0)
+			if (handle_operator(minishell, matrix, &operator, i))
 			{
-				minishell->pid = CHILD;
-				minishell->input_matrix = cmd;
-				return ;
+				free_matrix(matrix);
+				return;
 			}
-			else
-				waitpid(child, NULL, 0);
 		}
 		i++;
 	}
 	minishell->input_matrix = matrix_from_matrix(matrix, operator, matrix_len(matrix));
 	free_matrix(matrix);
 }
-// matrix[0] = ls
-// matrix[1] = |
-// matrix[2] = grep
 
-/* static bool	check_pipes_or_redirection(char **matrix)
+static bool handle_operator(t_minishell *minishell, char **matrix, 
+	int *operator_pos, int current_pos)
 {
-	int	i;
-	
-    i = 0;
-	if (matrix[i][0] == '|'
-	||	matrix[i][0] == '<'
-	||	matrix[i][0] == '>')
+	pid_t child;
+	char **cmd;
+
+	set_operator_type(minishell, matrix[current_pos]);
+	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
+	*operator_pos = current_pos;
+
+	child = fork();
+	if (is_child_process(minishell, child))
+	{
+		minishell->input_matrix = cmd;
 		return (true);
-        i++;
-    return (false);
-} */
-static bool check_redir_input(t_minishell *minishell)
+	}
+
+	waitpid(child, NULL, 0);
+	free_matrix(cmd);
+	return (false);
+}
+
+static bool check_redirection(t_minishell *minishell)
+{
+	if (!check_redir_existence(minishell))
+	{
+		minishell->input_matrix = split_input(minishell);
+		return (false);
+	}
+	minishell->user_input = expand_pipe(minishell);
+	if (!check_valid_redir(minishell))
+		return (false);
+	return (true);
+}
+
+static bool	check_redir_existence(t_minishell *minishell)
+{
+	if (!ft_strchr_gnl(minishell->user_input, '|')
+	&&	!ft_strchr_gnl(minishell->user_input, '<')
+	&&	!ft_strchr_gnl(minishell->user_input, '>'))
+		return (false);
+	return (true);
+}
+
+static bool check_valid_redir(t_minishell *minishell)
 {
 	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0) ||
 		is_pipe_or_redirection_at_pos(minishell->user_input, 

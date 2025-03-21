@@ -76,10 +76,12 @@ typedef struct s_minishell
 	char			**input_matrix;
 	char			*cmd_path;
 	int				args_num;
+	bool			first_cmd;
 	t_prompt		shell_prompt;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
 	e_process		pid;
+	t_pipe			pipe;
 }	t_minishell;
 
 
@@ -156,4 +158,11 @@ void	set_expand_var(t_minishell *minishell);
 char 	*expand_pipe(t_minishell *minishell);
 void	set_pipes_or_redirection(t_minishell *minishell);
 bool is_pipe_or_redirection_at_pos(const char *str, int pos);
+
+/*------------------- REDIRECTIONS -------------------------*/
+void	ft_pipe(t_minishell *minishell);
+void	ft_redir_in(t_minishell *minishell);
+void	ft_redir_out(t_minishell *minishell);
+void	ft_redir_append(t_minishell *minishell);
+void	ft_redir_heredoc(t_minishell *minishell);
 #endif
