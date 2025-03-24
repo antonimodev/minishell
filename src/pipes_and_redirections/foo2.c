@@ -27,7 +27,7 @@ static bool is_child_process(t_minishell *minishell, pid_t child)
 		perror("minishell: error creating fork"); */
 	if (child == 0)
 	{
-		minishell->pipe = create_pipe();
+		//minishell->pipe = create_pipe(); Lo hemos puesto fuera, ya que pipex lo crea fuera para que compartan las pipes
 		minishell->pid = CHILD;
 		return (true);
 	}
@@ -45,6 +45,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	if (!check_redirection(minishell))
 		return ;
 	matrix = ft_split(minishell->user_input, ' ');
+	minishell->pipe = create_pipe();
 	while (matrix[i])
 	{
 		if (is_pipe_or_redirection_at_pos(matrix[i], 0))
@@ -58,9 +59,9 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 		i++;
 	}
 	minishell->input_matrix = matrix_from_matrix(matrix, operator, matrix_len(matrix));
+//	print_minishell(minishell);
 	free_matrix(matrix);
 }
-
 static bool handle_operator(t_minishell *minishell, char **matrix, 
 	int *operator_pos, int current_pos)
 {
@@ -71,15 +72,15 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
 	*operator_pos = current_pos + 1;
 
-	count_operators(minishell);
+	minishell->first_cmd++;
 	child = fork();
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
-		print_minishell(minishell);
 		return (true);
 	}
-	waitpid(child, NULL, 0);
+	waitpid(child, NULL, 0); // Uncommented to wait for the child process
+	minishell->first_cmd++;
 	free_matrix(cmd);
 	return (false);
 }
@@ -113,7 +114,7 @@ static bool check_valid_redir(t_minishell *minishell)
 {
 	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0) ||
 		is_pipe_or_redirection_at_pos(minishell->user_input, 
-		ft_strlen(minishell->user_input)))
+		ft_strlen(minishell->user_input) - 1))
 	{
 		printf("spabila\n"); // mensaje de que la pipe no es válida ya que esta en pos 0 o len
 		return (false);

@@ -2,8 +2,7 @@
 
 void	count_operators(t_minishell *minishell) // probablemente pipe_utils.c
 {
-	if (minishell->redirection)
-		minishell->first_cmd++;
+	minishell->first_cmd++;
 }
 
 void	redirect(t_minishell *minishell)

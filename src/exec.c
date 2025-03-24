@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/24 13:15:43 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:13:11 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void exec(t_minishell *minishell)
 	}
 }
 
-void fork_exec(t_minishell *minishell)
+void fork_exec(t_minishell *minishell) // LS | GREP "SRC"
 {
 	int		status;
 	pid_t	pid;
@@ -63,7 +63,7 @@ void fork_exec(t_minishell *minishell)
 	if (pid == 0)
 	{
 		exec(minishell);
-		print_minishell(minishell);
+		//print_minishell(minishell);
 	}
 	else
 	{
