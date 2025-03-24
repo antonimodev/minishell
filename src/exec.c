@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/21 13:02:55 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:15:43 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	execute(t_minishell *minishell)
 {
+	//print_minishell(minishell);
 	//existe fd o redireccion? entonces entro en la funcion:
 		// forkear para modificar valores de minishell en el hijo
 		// funcion que hace toda la movida parseando el minishell->input_matrix
@@ -21,18 +22,18 @@ void	execute(t_minishell *minishell)
 		// fork_exec con la nueva info
 	if (minishell->user_input == NULL)
 		return ;
-    if (is_built_in(minishell))
-    {
-        exec_built_in(minishell);
-        return ;
-    }
-    if (!minishell->cmd_path)
-    {
-        printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
+	if (is_built_in(minishell))
+	{
+		exec_built_in(minishell);
+		return ;
+	}
+	if (!minishell->cmd_path)
+	{
+		printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
 		minishell->exit_status = 127;
-        return ;
-    }
-    fork_exec(minishell);
+		return ;
+	}
+	fork_exec(minishell);
 }
 
 void exec(t_minishell *minishell)
@@ -50,15 +51,20 @@ void fork_exec(t_minishell *minishell)
 	int		status;
 	pid_t	pid;
 
-	if (minishell->pid == CHILD)
+	status = 0; // inicializar de prueba
+	pid = 1; // inicializar de prueba
+	if (minishell->pid == CHILD) // Si el input tiene una redirección (|, <, <<, >>)
 	{
 		redirect(minishell);
 		exec(minishell);
 	}
-	else
+	else // Si soy un comando normal de toda la vida
 		pid = fork();
 	if (pid == 0)
+	{
 		exec(minishell);
+		print_minishell(minishell);
+	}
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -67,20 +73,6 @@ void fork_exec(t_minishell *minishell)
 		else if (WIFSIGNALED(status))
 			minishell->exit_status = 128 + WTERMSIG(status);
 	}
-}
-
-void	redirect(t_minishell *minishell)
-{
-	if (minishell->redirection == PIPE)
-		ft_pipe();
-	else if (minishell->redirection == REDIR_IN)
-		ft_redir_in();
-	else if (minishell->redirection == REDIR_OUT)
-		ft_redir_out();
-	else if (minishell->redirection == REDIR_APPEND)
-		ft_redir_append();
-	else if (minishell->redirection == REDIR_HEREDOC)
-		ft_redir_heredoc();
 }
 
 bool	is_built_in(t_minishell *minishell)
@@ -127,4 +119,7 @@ void	exec_built_in(t_minishell *minishell)
 		ft_env(minishell);
 	else if (minishell->built_in_type == FT_EXIT)
 		ft_exit(minishell);
+
+	if (minishell->pid == CHILD) // Redirecciones se salen
+		exit(EXIT_SUCCESS);
 }

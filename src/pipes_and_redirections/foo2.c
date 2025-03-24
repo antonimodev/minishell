@@ -52,7 +52,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 			if (handle_operator(minishell, matrix, &operator, i))
 			{
 				free_matrix(matrix);
-				return;
+				return ;
 			}
 		}
 		i++;
@@ -69,15 +69,16 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 
 	set_operator_type(minishell, matrix[current_pos]);
 	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
-	*operator_pos = current_pos;
+	*operator_pos = current_pos + 1;
 
+	count_operators(minishell);
 	child = fork();
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
+		print_minishell(minishell);
 		return (true);
 	}
-
 	waitpid(child, NULL, 0);
 	free_matrix(cmd);
 	return (false);
@@ -90,9 +91,12 @@ static bool check_redirection(t_minishell *minishell)
 		minishell->input_matrix = split_input(minishell);
 		return (false);
 	}
-	minishell->user_input = expand_pipe(minishell);
+	minishell->user_input = expand_pipe(minishell); // ls -la | grep data
 	if (!check_valid_redir(minishell))
+	{
+		minishell->input_matrix = split_input(minishell);
 		return (false);
+	}
 	return (true);
 }
 

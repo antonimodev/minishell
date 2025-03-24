@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/21 12:55:37 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:11:30 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,9 @@ void print_minishell(t_minishell *minishell)
 {
     int i;
 
-    printf("\n\033[1;36m--- MINISHELL DEBUG INFO ---\033[0m\n\n");
+    printf("\n\033[1;36m--- MINISHELL PID:%d INFO ---\033[0m\n\n", minishell->pid);
     
     // Información general
-	printf("\033[1m▶ PID status:\033[0m \033[33m%d\033[0m\n", minishell->pid);
     printf("\033[1m▶ User:\033[0m \033[33m%s\033[0m\n", minishell->user ? minishell->user : "(null)");
     printf("\033[1m▶ User input:\033[0m \033[33m%s\033[0m\n", minishell->user_input ? minishell->user_input : "(null)");
     printf("\033[1m▶ Arguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
@@ -98,8 +97,9 @@ void print_minishell(t_minishell *minishell)
     printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
 	printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipe.read_pipe);
 	printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipe.write_pipe);
+	printf("\033[1m▶ Redirection:\033[0m \033[33m%d\033[0m\n", minishell->redirection);
+	printf("\033[1m▶ First command:\033[0m \033[33m%d\033[0m\n", minishell->first_cmd);    
 
-    
     // Tipo de built-in usando if en lugar de switch
     printf("\033[1m▶ Built-in type:\033[0m ");
     if (minishell->built_in_type == FT_NULL)

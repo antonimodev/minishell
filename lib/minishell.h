@@ -37,7 +37,7 @@ typedef enum e_built_in
 	FT_EXIT
 }	e_built_in;
 
-typedef enum e_redirection
+typedef enum e_redirection // ls >> grep
 {
     NONE,           // No es un operador
     PIPE,           // |
@@ -76,7 +76,7 @@ typedef struct s_minishell
 	char			**input_matrix;
 	char			*cmd_path;
 	int				args_num;
-	bool			first_cmd;
+	int				first_cmd;
 	t_prompt		shell_prompt;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
@@ -157,7 +157,14 @@ void	set_expand_var(t_minishell *minishell);
 /* TEST */
 char 	*expand_pipe(t_minishell *minishell);
 void	set_pipes_or_redirection(t_minishell *minishell);
-bool is_pipe_or_redirection_at_pos(const char *str, int pos);
+bool	is_pipe_or_redirection_at_pos(const char *str, int pos);
+void	set_first_pipe(t_minishell *minishell);
+
+/*PIPE_UTILS.C*/
+void	redirect(t_minishell *minishell);
+void	count_operators(t_minishell *minishell);
+void	fd_redirection(int from, int to);
+void 	exec(t_minishell *minishell);
 
 /*------------------- REDIRECTIONS -------------------------*/
 void	ft_pipe(t_minishell *minishell);

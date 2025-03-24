@@ -1,32 +1,46 @@
 #include "minishell.h"
 
-void	ft_pipe(t_minishell)
+/* void	ft_pipe(t_minishell)
 {
 	if ()
 	fd_redirection(STDIN_FILENO, fd);
 	fd_redirection(STDOUT_FILENO, pipe.write_pipe);
 	close(pipe.read_pipe);
 	close(pipe.write_pipe);
+} */
+
+void	fd_redirection(int from, int to)
+{
+	if (dup2(to, from) == -1)
+	{
+		perror("dup2: error duplicating fd");
+		exit(EXIT_FAILURE);
+	}
 }
 
-
-void ft_pipe(t_minishell *minishell, int pipe_fd[2])
+void ft_pipe(t_minishell *minishell)
 {
-    // For the first command (writes to pipe)
-    if (minishell->redirection == PIPE && minishell->first_cmd)
+    if (minishell->first_cmd == 1)
     {
-        // First command reads from stdin (default)
         // First command writes to pipe
-        fd_redirection(STDOUT_FILENO, pipe_fd[1]);
-        close(pipe_fd[0]); // Close unused read end
+        fd_redirection(STDOUT_FILENO, minishell->pipe.write_pipe);
+        
+        // Only close the read end that this process won't use
+        close(minishell->pipe.read_pipe);
+        
+        // DON'T close write_pipe here - the command needs to write to it
+        // The descriptor will be closed automatically when the process exits
     }
-    // For the second command (reads from pipe)
-    else if (minishell->redirection == PIPE && !minishell->first_cmd)
+    else if (minishell->first_cmd != 1)
     {
         // Second command reads from pipe
-        fd_redirection(STDIN_FILENO, pipe_fd[0]);
-        // Second command writes to stdout (default)
-        close(pipe_fd[1]); // Close unused write end
+        fd_redirection(STDIN_FILENO, minishell->pipe.read_pipe);
+        
+        // Only close the write end that this process won't use
+        close(minishell->pipe.write_pipe);
+        
+        // DON'T close read_pipe here - the command needs to read from it
+        // The descriptor will be closed automatically when the process exits
     }
 }
 
