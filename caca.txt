@@ -13,9 +13,7 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?C2EBD4D53E56959E550ED6D41
 -	 [✅] Gestionar que ' interprete metacaracteres dentro de la secuencia entre ""
 -	 [✅] Gestionar que " interprete metacaracteres exceptuando el $.
 4	 [  ] Implementación de redirecciones (<, >, <<, >>).
-3	 [❓] Implementación de pipes (|).
-		[  ] Redireciona pero acaba el proceso.
-		[  ] No acepta argumentos entre comillas, hay que hacer clean_input.
+3	 [  ] Implementación de pipes (|).
 -	 [✅] Expansión de variables de entorno.
 -	 [✅] Gestión de $?.
 2    [❓] Gestión de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
@@ -26,8 +24,6 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?C2EBD4D53E56959E550ED6D41
 
 
 ARREGLAR:
-
-wowo
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET

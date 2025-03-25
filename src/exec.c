@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/25 13:10:07 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:15:34 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 void	execute(t_minishell *minishell)
 {
-	//print_minishell(minishell);
-	//existe fd o redireccion? entonces entro en la funcion:
-		// forkear para modificar valores de minishell en el hijo
-		// funcion que hace toda la movida parseando el minishell->input_matrix
-		// redireccionar a la pipe el resultado
-		// fork_exec con la nueva info
 	if (minishell->user_input == NULL)
 		return ;
 	if (is_built_in(minishell))
@@ -59,20 +53,20 @@ void fork_exec(t_minishell *minishell) // LS | GREP "SRC"
 		exec(minishell);
 	}
 	else // Si soy un comando normal de toda la vida
+	{
 		pid = fork();
-	if (pid == 0)
-	{
-		exec(minishell);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		print_minishell(minishell);
-		printf("\nPIPES del padre:\n- Entrada: %d\n- Salida: %d\n", minishell->pipe.read_pipe, minishell->pipe.write_pipe);
-		if (WIFEXITED(status))
-			minishell->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			minishell->exit_status = 128 + WTERMSIG(status);
+		if (pid == 0)
+		{
+			exec(minishell);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				minishell->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				minishell->exit_status = 128 + WTERMSIG(status);
+		}
 	}
 }
 

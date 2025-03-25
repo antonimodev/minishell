@@ -1,19 +1,11 @@
 #include "minishell.h"
 
-/* void	ft_pipe(t_minishell)
-{
-	if ()
-	fd_redirection(STDIN_FILENO, fd);
-	fd_redirection(STDOUT_FILENO, pipe.write_pipe);
-	close(pipe.read_pipe);
-	close(pipe.write_pipe);
-} */
-
 void	fd_redirection(int from, int to)
 {
-	if (dup2(to, from) == -1)
+    //printf("fd_redirection -> from: %d, to: %d\n", from, to);
+    if (dup2(to, from) == -1)
 	{
-		perror("dup2: error duplicating fd");
+        perror("dup2: error duplicating fd");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -27,9 +19,7 @@ void ft_pipe(t_minishell *minishell)
         
         // Only close the read end that this process won't use
         close(minishell->pipe.read_pipe);
-        
-        // DON'T close write_pipe here - the command needs to write to it
-        // The descriptor will be closed automatically when the process exits
+        close(minishell->pipe.write_pipe);
     }
     else if (minishell->first_cmd != 1)
     {
@@ -38,9 +28,7 @@ void ft_pipe(t_minishell *minishell)
         
         // Only close the write end that this process won't use
         close(minishell->pipe.write_pipe);
-        
-        // DON'T close read_pipe here - the command needs to read from it
-        // The descriptor will be closed automatically when the process exits
+        close(minishell->pipe.read_pipe);
     }
 }
 

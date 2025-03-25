@@ -24,6 +24,8 @@
 #include <stdbool.h>
 #include <signal.h>
 
+#include <fcntl.h>
+
 /* --------------------- ENUMS -----------------------------*/
 typedef enum e_built_in
 {
