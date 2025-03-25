@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/24 14:13:11 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:10:07 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@ void fork_exec(t_minishell *minishell) // LS | GREP "SRC"
 	if (pid == 0)
 	{
 		exec(minishell);
-		//print_minishell(minishell);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		print_minishell(minishell);
+		printf("\nPIPES del padre:\n- Entrada: %d\n- Salida: %d\n", minishell->pipe.read_pipe, minishell->pipe.write_pipe);
 		if (WIFEXITED(status))
 			minishell->exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
