@@ -48,7 +48,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	minishell->pipe = create_pipe();
 	while (matrix[i])
 	{
-		if (is_pipe_or_redirection_at_pos(matrix[i], 0))
+		if (is_pipe_or_redirection_at_pos(minishell, 0))
 		{
 			if (handle_operator(minishell, matrix, &operator, i))
 			{
@@ -118,8 +118,8 @@ static bool	check_redir_existence(t_minishell *minishell)
 
 static bool check_valid_redir(t_minishell *minishell)
 {
-	if (is_pipe_or_redirection_at_pos(minishell->user_input, 0) ||
-		is_pipe_or_redirection_at_pos(minishell->user_input, 
+	if (is_pipe_or_redirection_at_pos(minishell, 0) ||
+		is_pipe_or_redirection_at_pos(minishell, 
 		ft_strlen(minishell->user_input) - 1))
 	{
 		printf("spabila\n"); // mensaje de que la pipe no es válida ya que esta en pos 0 o len

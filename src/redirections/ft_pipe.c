@@ -16,15 +16,15 @@ void ft_pipe(t_minishell *minishell)
     {
         // First command writes to pipe
         fd_redirection(STDOUT_FILENO, minishell->pipe.write_pipe);
-        
-        // Only close the read end that this process won't use
         close(minishell->pipe.read_pipe);
         close(minishell->pipe.write_pipe);
     }
     else if (minishell->first_cmd != 1)
     {
         // Second command reads from pipe
+		write(1, "holis\n", 6);
         fd_redirection(STDIN_FILENO, minishell->pipe.read_pipe);
+       	fd_redirection(STDOUT_FILENO, minishell->pipe.write_pipe);
         
         // Only close the write end that this process won't use
         close(minishell->pipe.write_pipe);
@@ -37,3 +37,11 @@ Probablemente hagamos una funcion en la que comprobemos en handle_operator si el
 en el caso de que lo sea, tendremos un contador i = 0 y haremos i++, comprobar que esa i == 1, para
 activar la flag minishell->first_cmd, y si es != 1, entonces se desactiva.
 */
+
+
+// Contar pipes del clean input para saber cuantos segmentos guardar con create_pipe();
+
+pipe_matrix[NUMERO DE T_PIPES][read_or_write]
+
+fd_redirection(STDOUT_FILENO, pipe_matrix[0].write_pipe);
+fd_redirection(STDOUT_FILENO, minishell->pipe.write_pipe);

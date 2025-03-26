@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/25 14:15:34 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:41:06 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ void fork_exec(t_minishell *minishell) // LS | GREP "SRC"
 	{
 		pid = fork();
 		if (pid == 0)
-		{
 			exec(minishell);
-		}
 		else
 		{
 			waitpid(pid, &status, 0);

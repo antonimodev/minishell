@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/24 13:11:30 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:27:21 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_minishell(t_minishell *minishell, char **envp)
 	set_envp(minishell, envp);
 	minishell->user = ft_getenv(minishell->envp, "USER=");
 	minishell->pid = PARENT;
+	store_pipes(minishell);
 }
 
 void	set_envp(t_minishell *minishell, char **envp)
@@ -98,7 +99,8 @@ void print_minishell(t_minishell *minishell)
 	printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipe.read_pipe);
 	printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipe.write_pipe);
 	printf("\033[1m▶ Redirection:\033[0m \033[33m%d\033[0m\n", minishell->redirection);
-	printf("\033[1m▶ First command:\033[0m \033[33m%d\033[0m\n", minishell->first_cmd);    
+	printf("\033[1m▶ First command:\033[0m \033[33m%d\033[0m\n", minishell->first_cmd);
+	printf("\033[1m▶ Pipe number:\033[0m \033[33m%d\033[0m\n", minishell->pipe_num);
 
     // Tipo de built-in usando if en lugar de switch
     printf("\033[1m▶ Built-in type:\033[0m ");

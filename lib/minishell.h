@@ -69,6 +69,11 @@ typedef struct s_quote
 	char	type;
 }	t_quote;
 
+typedef struct s_std_pipes{
+	int STDIN;
+	int STDOUT;
+} t_std_pipes;
+
 typedef struct s_minishell
 {
 	char			**envp; // Añadir variable envp para exports
@@ -79,11 +84,13 @@ typedef struct s_minishell
 	char			*cmd_path;
 	int				args_num;
 	int				first_cmd;
-	t_prompt		shell_prompt;
+	int				pipe_num;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
 	e_process		pid;
+	t_prompt		shell_prompt;
 	t_pipe			pipe;
+	t_std_pipes		std_pipes;
 }	t_minishell;
 
 
@@ -99,6 +106,7 @@ void	execute(t_minishell *minishell);
 void	fork_exec(t_minishell *minishell);
 bool	is_built_in(t_minishell *minishell);
 void	exec_built_in(t_minishell *minishell);
+void 	exec(t_minishell *minishell);
 
 /* ------------------ PATH_UTILS.C -------------------------*/
 char	**concat_paths(char **splitted_path, char *cmd);
@@ -155,18 +163,18 @@ void 	handle_sign(int sign);
 /*------------------- VARIABLE_EXPANSION.C -------------------------*/
 void	set_expand_var(t_minishell *minishell);
 
-
-/* TEST */
+/*------------------- TEST -------------------*/
 char 	*expand_pipe(t_minishell *minishell);
 void	set_pipes_or_redirection(t_minishell *minishell);
-bool	is_pipe_or_redirection_at_pos(const char *str, int pos);
+bool	is_pipe_or_redirection_at_pos(t_minishell *minishell, int pos);
 void	set_first_pipe(t_minishell *minishell);
 
-/*PIPE_UTILS.C*/
+/*------------------- PIPE_UTILS.C -------------------*/
 void	redirect(t_minishell *minishell);
 void	count_operators(t_minishell *minishell);
-void	fd_redirection(int from, int to);
-void 	exec(t_minishell *minishell);
+void	fd_redirection(int from, int to); // no lo tenemos en este archivo, esta en libft
+void	store_pipes(t_minishell *minishell);
+void	reset_pipes(t_minishell *minishell);
 
 /*------------------- REDIRECTIONS -------------------------*/
 void	ft_pipe(t_minishell *minishell);
