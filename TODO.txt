@@ -1,6 +1,6 @@
 
 https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
-https://prod.liveshare.vsengsaas.visualstudio.com/join?C2EBD4D53E56959E550ED6D41672C2A7887E
+https://prod.liveshare.vsengsaas.visualstudio.com/join?37E4A1707B084B739E71D83DC7B25FC41FFD
 
 📒 __________ TODO LIST __________ 📒
 
@@ -27,7 +27,8 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?C2EBD4D53E56959E550ED6D41
 
 ARREGLAR:
 
-wowo
+echo prueba > a > b > c
+mkdir a cd a mkdir b rm -rf a pwd
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET
