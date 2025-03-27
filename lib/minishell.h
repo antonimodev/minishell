@@ -57,16 +57,16 @@ typedef enum e_process
 
 typedef	struct s_prompt
 {
-	char	*user; // guardar el usuario (minishell->user)
-	char	*arrow; // guardar la flecha con formato de color
+	char	*user;
+	char	*arrow;
 	char	*pwd; // ft_pwd que habra que modificar
-	char	*prompt; // res final
+	char	*prompt;
 }	t_prompt;
 
 typedef struct s_quote
 {
-	bool	closed;
 	char	type;
+	bool	closed;
 }	t_quote;
 
 typedef struct s_pipe
@@ -75,16 +75,17 @@ typedef struct s_pipe
 	int	write_pipe;
 }	t_pipe;
 
-typedef struct s_pipes{
-	int			pipe_count;
-	t_pipe		pipe;
+typedef struct s_pipe_tools
+{
+	t_pipe		*pipes;
+	int			pipe_count; // puede que sea index en lugar de count bueno vale tio
 	int			STDIN;
 	int			STDOUT;
-}	t_pipes;
+}	t_pipe_tools;
 
 typedef struct s_minishell
 {
-	char			**envp; // Añadir variable envp para exports
+	char			**envp;
 	int				exit_status;
 	char			*user;
 	char			*user_input;
@@ -92,12 +93,11 @@ typedef struct s_minishell
 	char			*cmd_path;
 	int				args_num;
 	int				first_cmd;
-	//int				pipe_num;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
 	e_process		pid;
 	t_prompt		shell_prompt;
-	t_pipes			pipes;
+	t_pipe_tools	pipe_tools;
 }	t_minishell;
 
 

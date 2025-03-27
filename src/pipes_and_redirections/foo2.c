@@ -19,7 +19,9 @@ static void set_operator_type(t_minishell *minishell, char *str);
 static bool handle_operator(t_minishell *minishell, char **matrix, 
 	int *operator_pos, int current_pos);
 static bool is_child_process(t_minishell *minishell, pid_t child);
-//static bool	check_pipes_or_redirection(char **matrix);
+static void	set_parent_input(t_minishell *minishell);
+static void	pipe_append(t_minishell *minishell, t_pipe *pipe);
+static void	count_redir(t_minishell *minishell);
 
 static bool is_child_process(t_minishell *minishell, pid_t child)
 {
@@ -45,11 +47,11 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	if (!check_redirection(minishell))
 		return ;
 	matrix = ft_split(minishell->user_input, ' ');
-	minishell->pipes.pipe = create_pipe();
 	while (matrix[i])
 	{
 		if (is_pipe_or_redirection_at_pos(minishell, 0))
 		{
+			count_redir(minishell);
 			if (handle_operator(minishell, matrix, &operator, i))
 			{
 				free_matrix(matrix);
@@ -81,10 +83,8 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	}
 	else
 	{
-		waitpid(child, NULL, 0); // Uncommented to wait for the child process
-		fd_redirection(STDIN_FILENO, minishell->pipes.pipe.read_pipe);
-		close(minishell->pipes.pipe.write_pipe);
-		close(minishell->pipes.pipe.read_pipe);
+		waitpid(child, NULL, 0);
+		set_parent_input(minishell);
 	}
 	minishell->first_cmd++;
 	free_matrix(cmd);
@@ -168,3 +168,47 @@ COMANDO << FIN        # Escribe varias líneas hasta encontrar "FIN"
 << SIGNIFICA HEREDOC
 
 */
+
+static void	count_redir(t_minishell *minishell)
+{
+	t_pipe	pipe;
+
+	minishell->pipe_tools.pipe_count++;
+	pipe = create_pipe();
+	pipe_append(minishell, &pipe);
+}
+
+static void	pipe_append(t_minishell *minishell, t_pipe *pipe)
+{
+	t_pipe	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = malloc((minishell->pipe_tools.pipe_count) * sizeof(t_pipe));
+	if (!tmp)
+	{
+		perror("malloc");
+		return;
+	}
+	while (i < minishell->pipe_tools.pipe_count - 1)
+	{
+		tmp[i] = minishell->pipe_tools.pipes[i];
+		i++;
+	}
+	tmp[i] = *pipe;
+	if (minishell->pipe_tools.pipes)
+		free(minishell->pipe_tools.pipes);
+	minishell->pipe_tools.pipes = tmp;
+}
+
+static void	set_parent_input(t_minishell *minishell)
+{
+	t_pipe pipe;
+
+	if (minishell->pipe_tools.pipe_count <= 0)
+		return;
+	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1];
+	fd_redirection(STDIN_FILENO, pipe.read_pipe);
+	close(pipe.write_pipe);
+	close(pipe.read_pipe);
+}	

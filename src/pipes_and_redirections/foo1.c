@@ -2,28 +2,25 @@
 
 bool is_pipe_or_redirection_at_pos(t_minishell *minishell, int pos)
 {
-    if (!minishell->user_input || minishell->user_input[pos] == '\0')
-        return (false);
-    
-    if (minishell->user_input[pos] == '|')
+	if (!minishell->user_input || minishell->user_input[pos] == '\0')
+		return (false);
+	
+	if (minishell->user_input[pos] == '|')
+		return (true);
+	else if (minishell->user_input[pos] == '>')
 	{
-		minishell->pipes.pipe_count++;
-        return (true);
+		if (minishell->user_input[pos + 1] && minishell->user_input[pos + 1] == '>')  // Check for ">>"
+			return (true);
+		return (true);  // Single ">"
 	}
-    else if (minishell->user_input[pos] == '>')
-    {
-        if (minishell->user_input[pos + 1] && minishell->user_input[pos + 1] == '>')  // Check for ">>"
-            return (true);
-        return (true);  // Single ">"
-    }
-    else if (minishell->user_input[pos] == '<')
-    {
-        if (minishell->user_input[pos + 1] && minishell->user_input[pos + 1] == '<')  // Check for "<<"
-            return (true);
-        return (true);  // Single "<"
-    }
-    
-    return (false);
+	else if (minishell->user_input[pos] == '<')
+	{
+		if (minishell->user_input[pos + 1] && minishell->user_input[pos + 1] == '<')  // Check for "<<"
+			return (true);
+		return (true);  // Single "<"
+	}
+	
+	return (false);
 }
 
 static bool is_surrounded(char *str, int index)

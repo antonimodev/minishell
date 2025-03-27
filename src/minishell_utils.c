@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/27 11:02:11 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:24:58 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ void print_minishell(t_minishell *minishell)
     printf("\033[1m▶ Arguments count:\033[0m \033[33m%d\033[0m\n", minishell->args_num);
     printf("\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n", minishell->cmd_path ? minishell->cmd_path : "(null)");
     printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n", minishell->exit_status);
-	printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.read_pipe);
-	printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.write_pipe);
 	printf("\033[1m▶ Redirection:\033[0m \033[33m%d\033[0m\n", minishell->redirection);
+	//printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.read_pipe);
+	//printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.write_pipe);
+	//printf("\033[1m▶ Pipe number:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe_count);
 	printf("\033[1m▶ First command:\033[0m \033[33m%d\033[0m\n", minishell->first_cmd);
-	printf("\033[1m▶ Pipe number:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe_count);
 
     // Tipo de built-in usando if en lugar de switch
     printf("\033[1m▶ Built-in type:\033[0m ");

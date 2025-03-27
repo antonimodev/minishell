@@ -22,17 +22,17 @@ void	redirect(t_minishell *minishell)
 
 void	store_pipes(t_minishell *minishell)
 {
-	minishell->pipes.STDIN = dup(STDIN_FILENO);
-	minishell->pipes.STDOUT = dup(STDOUT_FILENO);
+	minishell->pipe_tools.STDIN = dup(STDIN_FILENO);
+	minishell->pipe_tools.STDOUT = dup(STDOUT_FILENO);
 }
 
 void	reset_pipes(t_minishell *minishell)
 {
     if (minishell->redirection)
     {
-        fd_redirection(STDIN_FILENO, minishell->pipes.STDIN);
-        fd_redirection(STDOUT_FILENO, minishell->pipes.STDOUT);
-        close(minishell->pipes.STDIN);
-        close(minishell->pipes.STDOUT);
+        fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
+        fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
+        close(minishell->pipe_tools.STDIN);
+        close(minishell->pipe_tools.STDOUT);
     }
 }
