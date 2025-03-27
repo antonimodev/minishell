@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:24:58 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:25:12 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void print_minishell(t_minishell *minishell)
 {
     int i;
 
-    printf("\n\033[1;36m--- MINISHELL PID:%d INFO ---\033[0m\n\n", minishell->pid);
+    printf("\n\033[1;36m=== MINISHELL PID:%d INFO ===\033[0m\n\n", minishell->pid);
     
     // Información general
     printf("\033[1m▶ User:\033[0m \033[33m%s\033[0m\n", minishell->user ? minishell->user : "(null)");
@@ -102,7 +102,7 @@ void print_minishell(t_minishell *minishell)
 	//printf("\033[1m▶ Pipe number:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe_count);
 	printf("\033[1m▶ First command:\033[0m \033[33m%d\033[0m\n", minishell->first_cmd);
 
-    // Tipo de built-in usando if en lugar de switch
+    // Tipo de built-in
     printf("\033[1m▶ Built-in type:\033[0m ");
     if (minishell->built_in_type == FT_NULL)
         printf("\033[33mNULL\033[0m\n");
@@ -133,9 +133,22 @@ void print_minishell(t_minishell *minishell)
             printf("  [%d]: \033[33m'%s'\033[0m\n", i, minishell->input_matrix[i]);
             i++;
         }
+    } 
+	else
+    	printf("  \033[33m(null)\033[0m\n");
+
+	// Mostrar el array de pipes
+	printf("\n\033[1m▶ Pipe count: %d\033[0m\n", minishell->pipe_tools.pipe_count);
+    printf("\033[1m▶ Saved STDIN:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.STDIN);
+    printf("\033[1m▶ Saved STDOUT:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.STDOUT);
+    
+    for (int i = 0; i < minishell->pipe_tools.pipe_count; i++)
+    {
+        printf("Pipe[%d]: read_pipe: %d, write_pipe: %d\n", 
+            i, 
+            minishell->pipe_tools.pipes[i].read_pipe, 
+            minishell->pipe_tools.pipes[i].write_pipe);
     }
-    else
-        printf("  \033[33m(null)\033[0m\n");
        
     /* // Variables de entorno
     printf("\n\033[1m▶ Environment variables:\033[0m\n");
@@ -151,5 +164,5 @@ void print_minishell(t_minishell *minishell)
     else
         printf("  \033[33m(null)\033[0m\n"); */
     
-    printf("\n\033[1;36m---------------------------\033[0m\n");
+    printf("\n\033[1;36m===========================\033[0m\n");
 }

@@ -51,6 +51,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	{
 		if (is_pipe_or_redirection_at_pos(minishell, 0))
 		{
+			// wtf is this? printf("DENTRO\n");
 			count_redir(minishell);
 			if (handle_operator(minishell, matrix, &operator, i))
 			{
@@ -76,6 +77,7 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 
 	minishell->first_cmd++;
 	child = fork();
+	print_minishell(minishell);
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
