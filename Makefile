@@ -50,6 +50,7 @@ MINISHELL_SRC =	src/minishell.c \
 				src/pipes_and_redirections/foo1.c \
 				src/pipes_and_redirections/foo2.c \
 				src/pipes_and_redirections/pipes_utils.c \
+				src/pipes_and_redirections/pipe_libft.c \
 				src/redirections/ft_pipe.c \
 				src/redirections/ft_redir_append.c \
 				src/redirections/ft_redir_heredoc.c \

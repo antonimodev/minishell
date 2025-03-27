@@ -45,7 +45,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	if (!check_redirection(minishell))
 		return ;
 	matrix = ft_split(minishell->user_input, ' ');
-	minishell->pipe = create_pipe();
+	minishell->pipes.pipe = create_pipe();
 	while (matrix[i])
 	{
 		if (is_pipe_or_redirection_at_pos(minishell, 0))
@@ -82,9 +82,9 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	else
 	{
 		waitpid(child, NULL, 0); // Uncommented to wait for the child process
-		fd_redirection(STDIN_FILENO, minishell->pipe.read_pipe);
-		close(minishell->pipe.write_pipe);
-		close(minishell->pipe.read_pipe);
+		fd_redirection(STDIN_FILENO, minishell->pipes.pipe.read_pipe);
+		close(minishell->pipes.pipe.write_pipe);
+		close(minishell->pipes.pipe.read_pipe);
 	}
 	minishell->first_cmd++;
 	free_matrix(cmd);

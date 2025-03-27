@@ -7,7 +7,7 @@ bool is_pipe_or_redirection_at_pos(t_minishell *minishell, int pos)
     
     if (minishell->user_input[pos] == '|')
 	{
-		minishell->pipe_num++;
+		minishell->pipes.pipe_count++;
         return (true);
 	}
     else if (minishell->user_input[pos] == '>')

@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   pipe_libft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/27 11:05:39 by frmarian         ###   ########.fr       */
+/*   Created: 2024/10/14 12:52:07 by antonimo          #+#    #+#             */
+/*   Updated: 2025/03/27 10:46:51 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int ac, char **av, char **envp)
+t_pipe	create_pipe(void)
 {
-	t_minishell	minishell;
-	
-	UNUSED(ac);
-	UNUSED(av);
-	ft_memset(&minishell, 0, sizeof(t_minishell));
-	setup_signals();
-	while (1)
+	t_pipe	pipe_struct;
+	int		pipe_fd[2];
+
+	if (pipe(pipe_fd) == -1)
 	{
-		init_minishell(&minishell, envp);
-		get_input(&minishell);
-		parse_input(&minishell);
-		execute(&minishell);
-		reset_pipes(&minishell);
-		print_minishell(&minishell);
-		free_minishell(&minishell);
+		perror("Error creating a pipe");
+		exit(EXIT_FAILURE);
 	}
-	return (0);
+	pipe_struct.read_pipe = pipe_fd[0];
+	pipe_struct.write_pipe = pipe_fd[1];
+	return (pipe_struct);
 }

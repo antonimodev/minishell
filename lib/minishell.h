@@ -69,10 +69,18 @@ typedef struct s_quote
 	char	type;
 }	t_quote;
 
-typedef struct s_std_pipes{
-	int STDIN;
-	int STDOUT;
-} t_std_pipes;
+typedef struct s_pipe
+{
+	int	read_pipe;
+	int	write_pipe;
+}	t_pipe;
+
+typedef struct s_pipes{
+	int			pipe_count;
+	t_pipe		pipe;
+	int			STDIN;
+	int			STDOUT;
+}	t_pipes;
 
 typedef struct s_minishell
 {
@@ -84,13 +92,12 @@ typedef struct s_minishell
 	char			*cmd_path;
 	int				args_num;
 	int				first_cmd;
-	int				pipe_num;
+	//int				pipe_num;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
 	e_process		pid;
 	t_prompt		shell_prompt;
-	t_pipe			pipe;
-	t_std_pipes		std_pipes;
+	t_pipes			pipes;
 }	t_minishell;
 
 
@@ -172,9 +179,12 @@ void	set_first_pipe(t_minishell *minishell);
 /*------------------- PIPE_UTILS.C -------------------*/
 void	redirect(t_minishell *minishell);
 void	count_operators(t_minishell *minishell);
-void	fd_redirection(int from, int to); // no lo tenemos en este archivo, esta en libft
+void	fd_redirection(int from, int to);
 void	store_pipes(t_minishell *minishell);
 void	reset_pipes(t_minishell *minishell);
+
+// CREATE PIPE
+t_pipe	create_pipe(void);
 
 /*------------------- REDIRECTIONS -------------------------*/
 void	ft_pipe(t_minishell *minishell);
