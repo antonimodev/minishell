@@ -1,21 +1,21 @@
 #include "minishell.h"
 
-bool is_pipe_or_redirection_at_pos(t_minishell *minishell, int pos)
+bool is_redirection(char *str, int pos)
 {
-	if (!minishell->user_input || minishell->user_input[pos] == '\0')
+	if (!str || str[pos] == '\0')
 		return (false);
 	
-	if (minishell->user_input[pos] == '|')
+	if (str[pos] == '|')
 		return (true);
-	else if (minishell->user_input[pos] == '>')
+	else if (str[pos] == '>')
 	{
-		if (minishell->user_input[pos + 1] && minishell->user_input[pos + 1] == '>')  // Check for ">>"
+		if (str[pos + 1] && str[pos + 1] == '>')  // Check for ">>"
 			return (true);
 		return (true);  // Single ">"
 	}
-	else if (minishell->user_input[pos] == '<')
+	else if (str[pos] == '<')
 	{
-		if (minishell->user_input[pos + 1] && minishell->user_input[pos + 1] == '<')  // Check for "<<"
+		if (str[pos + 1] && str[pos + 1] == '<')  // Check for "<<"
 			return (true);
 		return (true);  // Single "<"
 	}
@@ -65,7 +65,7 @@ char *expand_pipe(t_minishell *minishell)
 	while (minishell->user_input[i])
 	{
 		quote_state(minishell->user_input[i], &quote);
-		if (is_pipe_or_redirection_at_pos(minishell, i) && 
+		if (is_redirection(minishell->user_input, i) &&
 			is_surrounded(minishell->user_input, i) && 
 			quote.closed)
 			add_spaces(&clean_input, minishell->user_input, &i);

@@ -173,7 +173,7 @@ void	set_expand_var(t_minishell *minishell);
 /*------------------- TEST -------------------*/
 char 	*expand_pipe(t_minishell *minishell);
 void	set_pipes_or_redirection(t_minishell *minishell);
-bool	is_pipe_or_redirection_at_pos(t_minishell *minishell, int pos);
+bool	is_redirection(char *str, int pos);
 void	set_first_pipe(t_minishell *minishell);
 
 /*------------------- PIPE_UTILS.C -------------------*/

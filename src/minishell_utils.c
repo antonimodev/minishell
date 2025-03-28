@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/27 14:08:22 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:05:43 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	free_minishell(t_minishell *minishell)
 		free_matrix(minishell->input_matrix);
 	if (minishell->shell_prompt.prompt)
 		free(minishell->shell_prompt.prompt);
+	if (minishell->pipe_tools.pipes)
+        free(minishell->pipe_tools.pipes);
 }
 
 // suggest

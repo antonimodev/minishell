@@ -44,3 +44,4 @@ Tipos de errores para exit_status
 - 126: El comando existe pero no es ejecutable
 - 127: El comando no fue encontrado
 - 128+n: El programa terminó debido a una señal n
+

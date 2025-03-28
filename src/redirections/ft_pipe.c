@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/03/27 12:47:18 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:47:28 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,30 @@ void	fd_redirection(int from, int to)
 
 void ft_pipe(t_minishell *minishell)
 {
+	int		pipe_index;
+	//t_pipe	current_pipe;
+	//t_pipe	prev_pipe;
+//
+	//pipe_index = minishell->pipe_tools.pipe_count - 1;
+	//current_pipe = minishell->pipe_tools.pipes[pipe_index];
+	//ft_memset(&prev_pipe, 0, sizeof(t_pipe));
 	if (minishell->first_cmd == 1)
 	{
-		// First command writes to pipe
 		fd_redirection(STDOUT_FILENO, minishell->pipe_tools.pipes[0].write_pipe);
 		close(minishell->pipe_tools.pipes[0].read_pipe);
-		close(minishell->pipe_tools.pipes[0].write_pipe);
+		//close(minishell->pipe_tools.pipes[0].write_pipe);
 	}
-	/* else if (minishell->first_cmd != 1)
+	else if (minishell->first_cmd != 1)
 	{
-		// Second command reads from pipe
-		write(1, "holis\n", 6);
-		fd_redirection(STDIN_FILENO, minishell->pipes.pipe.read_pipe);
-		fd_redirection(STDOUT_FILENO, minishell->pipes.pipe.write_pipe);
-		
-		// Only close the write end that this process won't use
-		close(minishell->pipes.pipe.write_pipe);
-		close(minishell->pipes.pipe.read_pipe);
-	} */
+		//system("lsof -c minishell");
+		//prev_pipe = minishell->pipe_tools.pipes[pipe_index - 1];
+		fd_redirection(STDIN_FILENO, minishell->pipe_tools.pipes[0].read_pipe);
+		fd_redirection(STDOUT_FILENO, minishell->pipe_tools.pipes[1].write_pipe);
+		//close(minishell->pipe_tools.pipes[0].read_pipe);
+		close(minishell->pipe_tools.pipes[0].write_pipe);
+		close(minishell->pipe_tools.pipes[1].read_pipe);
+		//system("lsof -c minishell");
+	}
 }
 
 /*

@@ -49,9 +49,8 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	matrix = ft_split(minishell->user_input, ' ');
 	while (matrix[i])
 	{
-		if (is_pipe_or_redirection_at_pos(minishell, 0))
+		if (is_redirection(matrix[i], 0))
 		{
-			// wtf is this? printf("DENTRO\n");
 			count_redir(minishell);
 			if (handle_operator(minishell, matrix, &operator, i))
 			{
@@ -61,6 +60,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 		}
 		i++;
 	}
+	set_parent_input(minishell);
 	minishell->input_matrix = matrix_from_matrix(matrix, operator, matrix_len(matrix));
 	free_matrix(matrix);
 }
@@ -77,17 +77,13 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 
 	minishell->first_cmd++;
 	child = fork();
-	print_minishell(minishell);
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
 		return (true);
 	}
 	else
-	{
 		waitpid(child, NULL, 0);
-		set_parent_input(minishell);
-	}
 	minishell->first_cmd++;
 	free_matrix(cmd);
 	return (false);
@@ -120,8 +116,8 @@ static bool	check_redir_existence(t_minishell *minishell)
 
 static bool check_valid_redir(t_minishell *minishell)
 {
-	if (is_pipe_or_redirection_at_pos(minishell, 0) ||
-		is_pipe_or_redirection_at_pos(minishell, 
+	if (is_redirection(minishell->user_input, 0) ||
+		is_redirection(minishell->user_input, 
 		ft_strlen(minishell->user_input) - 1))
 	{
 		printf("spabila\n"); // mensaje de que la pipe no es válida ya que esta en pos 0 o len
@@ -211,6 +207,7 @@ static void	set_parent_input(t_minishell *minishell)
 		return;
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1];
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
+	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
 	close(pipe.write_pipe);
 	close(pipe.read_pipe);
-}	
+}
