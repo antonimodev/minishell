@@ -199,9 +199,22 @@ static void	pipe_append(t_minishell *minishell, t_pipe *pipe)
 	minishell->pipe_tools.pipes = tmp;
 }
 
-static void	set_parent_input(t_minishell *minishell)
+static void set_parent_input(t_minishell *minishell)
 {
 	t_pipe pipe;
+
+	if (minishell->pipe_tools.pipe_count <= 0)
+		return;
+
+	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1];
+	fd_redirection(STDIN_FILENO, pipe.read_pipe);
+	
+	//fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
+
+	close(pipe.write_pipe);
+	close(pipe.read_pipe);
+}
+/* 	t_pipe pipe;
 
 	if (minishell->pipe_tools.pipe_count <= 0)
 		return;
@@ -209,5 +222,5 @@ static void	set_parent_input(t_minishell *minishell)
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
 	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
 	close(pipe.write_pipe);
-	close(pipe.read_pipe);
-}
+	close(pipe.read_pipe); 
+}*/

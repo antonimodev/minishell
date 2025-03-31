@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/03/28 14:53:39 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:20:26 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,47 @@ void	fd_redirection(int from, int to)
 
 void ft_pipe(t_minishell *minishell)
 {
-	int		pipe_index;
-	t_pipe	current_pipe;
-	t_pipe	prev_pipe;
+	int pipe_index = minishell->pipe_tools.pipe_count - 1;
+	t_pipe current_pipe = minishell->pipe_tools.pipes[pipe_index];
 
-	pipe_index = minishell->pipe_tools.pipe_count - 1;
-	current_pipe = minishell->pipe_tools.pipes[pipe_index];
-	ft_memset(&prev_pipe, 0, sizeof(t_pipe));
 	if (minishell->first_cmd == 1)
 	{
-		fd_redirection(STDOUT_FILENO, current_pipe.write_pipe);
-		close(current_pipe.read_pipe);
-		close(current_pipe.write_pipe);
+		close(current_pipe.read_pipe); // cierra pipe_read
+		fd_redirection(STDOUT_FILENO, current_pipe.write_pipe); // escribe en pipe 0
+		close(current_pipe.write_pipe); // cierra pipe_write 0
+	}
+	else
+	{
+		t_pipe prev_pipe = minishell->pipe_tools.pipes[pipe_index - 1];
+
+		fd_redirection(STDIN_FILENO, prev_pipe.read_pipe); // lee de pipe 0
+		close(prev_pipe.read_pipe); // cierro la pipe_read
+		fd_redirection(STDOUT_FILENO, current_pipe.write_pipe); // escribe en pipe1
+		close(current_pipe.write_pipe); // cierro pipe_write 1
+	}
+}
+
+
+/* void ft_pipe(t_minishell *minishell)
+{
+	int fd1, fd2;
+	
+	if (minishell->first_cmd == 1)
+	{
+		fd1 = open("file1.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+		fd_redirection(STDOUT_FILENO, fd1);
+		close(fd1);
 	}
 	else if (minishell->first_cmd != 1)
 	{
-		//system("lsof -c minishell");
-		prev_pipe = minishell->pipe_tools.pipes[pipe_index - 1];
-		fd_redirection(STDIN_FILENO, prev_pipe.read_pipe);
-		fd_redirection(STDOUT_FILENO, current_pipe.write_pipe);
-		close(prev_pipe.read_pipe);
-		close(current_pipe.write_pipe);
-		//system("lsof -c minishell");
+		fd1 = open("file1.txt", O_RDONLY);
+		fd2 = open("file2.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+		fd_redirection(STDIN_FILENO, fd1);
+		fd_redirection(STDOUT_FILENO, fd2);
+		close(fd1);
+		close(fd2);
 	}
-}
+} */
 
 /*
 Probablemente hagamos una funcion en la que comprobemos en handle_operator si el operador es PIPE

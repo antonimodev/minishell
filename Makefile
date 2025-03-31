@@ -1,7 +1,7 @@
 # Variables #
 NAME = minishell
 CC = gcc -g
-CFLAGS = -Wall -Wextra -g -Werror
+CFLAGS = -Wall -Wextra -g #-Werror
 MINISHELL = -lreadline # Compilar con esta flag para coger el input
 RM = rm -rf
 
