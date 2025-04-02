@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/26 12:41:06 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:10:53 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
+	if(minishell->pid == CHILD)
+		redirect(minishell);
 	if (is_built_in(minishell))
-	{
+	{ 
 		exec_built_in(minishell);
 		return ;
 	}
@@ -40,18 +42,15 @@ void exec(t_minishell *minishell)
 	}
 }
 
-void fork_exec(t_minishell *minishell) // LS | GREP "SRC"
+void fork_exec(t_minishell *minishell)
 {
 	int		status;
 	pid_t	pid;
 
-	status = 0; // inicializar de prueba
-	pid = 1; // inicializar de prueba
-	if (minishell->pid == CHILD) // Si el input tiene una redirección (|, <, <<, >>)
-	{
-		redirect(minishell);
+	status = 0;
+	pid = 1;
+	if (minishell->pid == CHILD)
 		exec(minishell);
-	}
 	else // Si soy un comando normal de toda la vida
 	{
 		pid = fork();
@@ -114,5 +113,8 @@ void	exec_built_in(t_minishell *minishell)
 		ft_exit(minishell);
 
 	if (minishell->pid == CHILD) // Redirecciones se salen
+	{
+		free_minishell(minishell);
 		exit(EXIT_SUCCESS);
+	}
 }

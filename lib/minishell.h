@@ -75,13 +75,16 @@ typedef struct s_pipe
 	int	write_pipe;
 }	t_pipe;
 
+// Add to your t_pipe_tools struct in minishell.h
 typedef struct s_pipe_tools
 {
-	t_pipe		*pipes;
-	int			pipe_count; // puede que sea index en lugar de count bueno vale tio
-	int			STDIN;
-	int			STDOUT;
-}	t_pipe_tools;
+    t_pipe      *pipes;
+    int         pipe_count; 
+    int         total_cmds;   // Total commands in pipeline
+    int         cmd_position; // Current command position (1-indexed)
+    int         STDIN;
+    int         STDOUT;
+}   t_pipe_tools;
 
 typedef struct s_minishell
 {
@@ -92,7 +95,6 @@ typedef struct s_minishell
 	char			**input_matrix;
 	char			*cmd_path;
 	int				args_num;
-	int				first_cmd;
 	e_redirection	redirection;
 	e_built_in		built_in_type;
 	e_process		pid;

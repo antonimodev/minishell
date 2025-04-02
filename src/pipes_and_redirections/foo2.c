@@ -39,11 +39,11 @@ static bool is_child_process(t_minishell *minishell, pid_t child)
 void	set_pipes_or_redirection(t_minishell *minishell)
 {
 	int		i;
-	int		operator;
+	int		operator_pos;
 	char	**matrix;
 
 	i = 0;
-	operator = 0;
+	operator_pos = 0;
 	if (!check_redirection(minishell))
 		return ;
 	matrix = ft_split(minishell->user_input, ' ');
@@ -52,7 +52,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 		if (is_redirection(matrix[i], 0))
 		{
 			count_redir(minishell);
-			if (handle_operator(minishell, matrix, &operator, i))
+			if (handle_operator(minishell, matrix, &operator_pos, i))
 			{
 				free_matrix(matrix);
 				return ;
@@ -61,7 +61,7 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 		i++;
 	}
 	set_parent_input(minishell);
-	minishell->input_matrix = matrix_from_matrix(matrix, operator, matrix_len(matrix));
+	minishell->input_matrix = matrix_from_matrix(matrix, operator_pos, matrix_len(matrix));
 	free_matrix(matrix);
 }
 
@@ -75,7 +75,6 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
 	*operator_pos = current_pos + 1;
 
-	minishell->first_cmd++;
 	child = fork();
 	if (is_child_process(minishell, child))
 	{
@@ -84,7 +83,6 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	}
 	else
 		waitpid(child, NULL, 0);
-	minishell->first_cmd++;
 	free_matrix(cmd);
 	return (false);
 }
@@ -208,8 +206,7 @@ static void set_parent_input(t_minishell *minishell)
 
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1];
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
-	
-	//fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
+	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); //el padre siempre mira al STDOUT
 
 	close(pipe.write_pipe);
 	close(pipe.read_pipe);

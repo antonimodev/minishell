@@ -2,7 +2,7 @@
 
 void	count_operators(t_minishell *minishell) // probablemente pipe_utils.c
 {
-	minishell->first_cmd++;
+	minishell->pipe_tools.pipe_count++;
 }
 
 void	redirect(t_minishell *minishell)
@@ -31,7 +31,7 @@ void	reset_pipes(t_minishell *minishell)
     if (minishell->redirection)
     {
         fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
-        fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
+        //fd_redirection(STDOUT_FILENO, 1);
         close(minishell->pipe_tools.STDIN);
         close(minishell->pipe_tools.STDOUT);
     }

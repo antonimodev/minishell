@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/31 11:21:33 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:16:00 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	set_envp(t_minishell *minishell, char **envp)
 		envp_matrix = matrix_cpy(minishell->envp, 0);
 		free_matrix(minishell->envp);
 	}
-
-	// suggest
 	if (minishell->exit_status) // si existe, guardamos el estado de salida
 		last_exit_status = minishell->exit_status;
 	ft_memset(minishell, 0, sizeof(t_minishell));
@@ -47,11 +45,8 @@ void	set_envp(t_minishell *minishell, char **envp)
 	}
 	else
 		minishell->envp = matrix_cpy(envp, 0);
-
-	// suggest
 	if (last_exit_status)
 		minishell->exit_status = last_exit_status;
-
 	minishell->pid = 1;
 }
 
@@ -101,7 +96,7 @@ void print_minishell(t_minishell *minishell)
 	//printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.read_pipe);
 	//printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.write_pipe);
 	//printf("\033[1m▶ Pipe number:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe_count);
-	printf("\033[1m▶ First command:\033[0m \033[33m%d\033[0m\n", minishell->first_cmd);	
+	printf("\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.pipe_count);	
 	// Tipo de built-in
 	printf("\033[1m▶ Built-in type:\033[0m ");
 	if (minishell->built_in_type == FT_NULL)

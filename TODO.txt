@@ -45,3 +45,12 @@ Tipos de errores para exit_status
 - 127: El comando no fue encontrado
 - 128+n: El programa terminó debido a una señal n
 
+
+PRIMER HIJO = 2948310
+SEGUNDO HIJO = 2953163
+
+PRIMERA PIPE = 22402880
+SEGUNDA PIPE = 22409036
+
+shell ls -l /proc/2931495/fd
+lsof -nP | grep 22361925
