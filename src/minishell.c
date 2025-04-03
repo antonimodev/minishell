@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/02 11:16:15 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:24:42 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
-	
+
 	UNUSED(ac);
 	UNUSED(av);
 	ft_memset(&minishell, 0, sizeof(t_minishell));

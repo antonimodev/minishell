@@ -1,6 +1,6 @@
 
 https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
-https://prod.liveshare.vsengsaas.visualstudio.com/join?BC2116339109CBC032B9A29AB9057876CC02
+https://prod.liveshare.vsengsaas.visualstudio.com/join?32B6D1010755643A362F9697307257F573D7
 
 📒 __________ TODO LIST __________ 📒
 
@@ -54,3 +54,23 @@ SEGUNDA PIPE = 22409036
 
 shell ls -l /proc/2931495/fd
 lsof -nP | grep 22361925
+
+
+📝 __________ GDB DEBUGGING GUIDE __________ 📝
+
+FORK DEBUGGING:
+- Start GDB: `gdb -tui ./minishell`
+- Follow child process after fork: `set follow-fork-mode child`
+- Set up before running: `set detach-on-fork off`
+- Set initial breakpoints: `b ft_pipe` `b execute_cmd`
+- Run program: `r`
+- List all forked processes: `info inferiors`
+- Switch between processes: `inferior num`
+- Analyze pipes: `p minishell->pipe_tools.pipes[0]`
+- Check FDs: `shell ls -l /proc/$(pid)/fd`
+- Switch process: `inferior 2` (child process)
+
+USEFUL VARIABLES TO WATCH:
+- Process info: `p getpid()`
+- Fork result: `p fork_pid`
+- Pipe FDs: `p minishell->pipe_tools.pipes[0].read_pipe` `p minishell->pipe_tools.pipes[0].write_pipe`

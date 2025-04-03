@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/02 13:25:57 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:19:20 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ void ft_pipe(t_minishell *minishell)
 {
     int cmd_position = minishell->pipe_tools.pipe_count;
     int total_cmds = minishell->pipe_tools.pipe_count + 1;
-    
+
     printf("DEBUG: Command position %d of %d\n", cmd_position, total_cmds);
-    
+
     // First command in the pipeline
     if (cmd_position == 1)
     {
-        t_pipe current_pipe = minishell->pipe_tools.pipes[0];
-        
+        t_pipe		current_pipe;
+		current_pipe = minishell->pipe_tools.pipes[0];
+    
         // First command only needs to redirect stdout to the pipe's write end
         close(current_pipe.read_pipe);
         fd_redirection(STDOUT_FILENO, current_pipe.write_pipe);
@@ -54,6 +55,7 @@ void ft_pipe(t_minishell *minishell)
         close(current_pipe.write_pipe);
     }
     // Last command in the pipeline
+	// suggest: aqui el padre llega?
     else if (cmd_position == total_cmds)
     {
         t_pipe prev_pipe = minishell->pipe_tools.pipes[cmd_position - 2];
