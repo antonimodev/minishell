@@ -46,14 +46,14 @@ Tipos de errores para exit_status
 - 128+n: El programa terminó debido a una señal n
 
 
-PRIMER HIJO = 2948310
-SEGUNDO HIJO = 2953163
+PRIMER HIJO = 1759104
+SEGUNDO HIJO = 
 
-PRIMERA PIPE = 22402880
-SEGUNDA PIPE = 22409036
+PRIMERA PIPE = 21447590
+SEGUNDA PIPE = 
 
-shell ls -l /proc/2931495/fd
-lsof -nP | grep 22361925
+- Ver pipes: shell ls -l /proc/PID/fd
+- Procesos que usan la pipe: lsof -nP | grep FD
 
 
 📝 __________ GDB DEBUGGING GUIDE __________ 📝

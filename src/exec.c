@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/02 13:10:53 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:16:52 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execute(t_minishell *minishell)
 }
 
 void exec(t_minishell *minishell)
-{
+ {
 	if (execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
 	{
 	    minishell->exit_status = 127;
