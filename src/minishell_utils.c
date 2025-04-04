@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/02 11:16:00 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:54:26 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void print_minishell(t_minishell *minishell)
 	    i = 0;
 	    while (minishell->input_matrix[i])
 	    {
-			printf("  [%d]: \033[33m'%s'\033[0m\n", i, minishell->input_matrix[i]);
+			printf("  [%d]: \033[33m%s\033[0m\n", i, minishell->input_matrix[i]);
 			i++;
 	    }
 	} 
@@ -135,14 +135,6 @@ void print_minishell(t_minishell *minishell)
 	printf("\n\033[1m▶ Pipe count: %d\033[0m\n", minishell->pipe_tools.pipe_count);
 	printf("\033[1m▶ Saved STDIN:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.STDIN);
 	printf("\033[1m▶ Saved STDOUT:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.STDOUT);
-	
-	for (int i = 0; i < minishell->pipe_tools.pipe_count; i++)
-	{
-		printf("Pipe[%d]: read_pipe: %d, write_pipe: %d\n", 
-			i, 
-			minishell->pipe_tools.pipes[i].read_pipe, 
-			minishell->pipe_tools.pipes[i].write_pipe);
-	}
 	
 	/* // Variables de entorno
 	printf("\n\033[1m▶ Environment variables:\033[0m\n");

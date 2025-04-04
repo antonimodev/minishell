@@ -95,20 +95,20 @@ bool	is_empty(t_minishell *minishell)
 
 void	shell_prompt(t_minishell *minishell)
 {
-    minishell->shell_prompt.user = ft_strjoin(BOLD_TURQUOISE, minishell->user);
-    minishell->shell_prompt.user = ft_strjoin_gnl(minishell->shell_prompt.user, RESET);
-
-    minishell->shell_prompt.pwd = getcwd(NULL, 0);
-
-    minishell->shell_prompt.arrow = ft_strdup(BOLD_GREEN " ➜ " RESET);
-
-    minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.user, minishell->shell_prompt.arrow);
+	minishell->shell_prompt.user = ft_strjoin("\001" BOLD_TURQUOISE "\002", minishell->user);
+	minishell->shell_prompt.user = ft_strjoin_gnl(minishell->shell_prompt.user, "\001" RESET "\002");
+	
+	minishell->shell_prompt.pwd = getcwd(NULL, 0);
+	
+	minishell->shell_prompt.arrow = ft_strdup("\001" BOLD_GREEN "\002 ➜ \001" RESET "\002");
+	
+	minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.user, minishell->shell_prompt.arrow);
 	free(minishell->shell_prompt.arrow);
-
-    minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.prompt, minishell->shell_prompt.pwd);
-    free(minishell->shell_prompt.pwd);
-    
-    minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.prompt, BOLD_YELLOW " ✦ " RESET);
+	
+	minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.prompt, minishell->shell_prompt.pwd);
+	free(minishell->shell_prompt.pwd);
+	
+	minishell->shell_prompt.prompt = ft_strjoin_gnl(minishell->shell_prompt.prompt, "\001" BOLD_YELLOW "\002 ✦ \001" RESET "\002");
 }
 
 bool	no_skip(char c)

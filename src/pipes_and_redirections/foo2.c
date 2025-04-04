@@ -73,16 +73,23 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 
 	set_operator_type(minishell, matrix[current_pos]);
 	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
+	// AQUI
 	*operator_pos = current_pos + 1;
 
 	child = fork();
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
+		print_minishell(minishell);
 		return (true);
 	}
 	else
+	{
+		static int i = 0;
+		close(minishell->pipe_tools.pipes[i].write_pipe);
+		i++;
 		waitpid(child, NULL, 0);
+	}
 	free_matrix(cmd);
 	return (false);
 }
@@ -94,7 +101,7 @@ static bool check_redirection(t_minishell *minishell)
 		minishell->input_matrix = split_input(minishell);
 		return (false);
 	}
-	minishell->user_input = expand_pipe(minishell); // ls -la | grep data
+	minishell->user_input = expand_pipe(minishell); // ls "src" | grep "split_utils.c"
 	if (!check_valid_redir(minishell))
 	{
 		minishell->input_matrix = split_input(minishell);

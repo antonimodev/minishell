@@ -69,11 +69,11 @@ typedef struct s_quote
 	bool	closed;
 }	t_quote;
 
-typedef struct s_pipe
+/*typedef struct s_pipe
 {
 	int	read_pipe;
 	int	write_pipe;
-}	t_pipe;
+}	t_pipe;*/
 
 // Add to your t_pipe_tools struct in minishell.h
 typedef struct s_pipe_tools
