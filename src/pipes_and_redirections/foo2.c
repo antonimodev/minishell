@@ -75,19 +75,16 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
 	// AQUI
 	*operator_pos = current_pos + 1;
-
 	child = fork();
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
-		print_minishell(minishell);
+		//print_minishell(minishell);
 		return (true);
 	}
 	else
 	{
-		static int i = 0;
-		close(minishell->pipe_tools.pipes[i].write_pipe);
-		i++;
+		close(minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1].write_pipe);
 		waitpid(child, NULL, 0);
 	}
 	free_matrix(cmd);

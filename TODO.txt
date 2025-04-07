@@ -24,9 +24,28 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?32B6D1010755643A362F96973
 		[✅] Rutas absolutas (cd ~ funciona con /)
 		[✅] Export revisarlo para sobreescribir variables (Planteamiento comentado en export.c)
 
+📒 __________ NORMINETTE LIST __________ 📒
+
+ 📁 [❓] src
+	-	 [✅] minishell.c
+	-	 [✅] update_minishell.c
+	-	 [  ] exec.c
+	-	 [  ] path_utils.c
+	-	 [  ] path.c
+	-	 [  ] signals.c
+	-	 [  ] variable_expansion.c
+	 📁 [❓] parse
+		-	 [❓] input_utils.c (muchas funciones)
+
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
 
 ARREGLAR:
-
+ls | wc -l | grep 9
 echo prueba > a > b > c
 mkdir a cd a mkdir b rm -rf a pwd
 

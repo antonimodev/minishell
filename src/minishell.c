@@ -6,13 +6,13 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/03 11:24:42 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:18:31 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 
@@ -27,7 +27,6 @@ int main(int ac, char **av, char **envp)
 		parse_input(&minishell);
 		execute(&minishell);
 		reset_pipes(&minishell);
-		//print_minishell(&minishell);
 		free_minishell(&minishell);
 	}
 	return (0);

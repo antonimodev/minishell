@@ -55,13 +55,13 @@ typedef enum e_process
 	PARENT
 }	e_process;
 
-typedef	struct s_prompt
+/*typedef	struct s_prompt
 {
 	char	*user;
 	char	*arrow;
 	char	*pwd; // ft_pwd que habra que modificar
 	char	*prompt;
-}	t_prompt;
+}	t_prompt;*/
 
 typedef struct s_quote
 {
@@ -91,6 +91,7 @@ typedef struct s_minishell
 	char			**envp;
 	int				exit_status;
 	char			*user;
+	char			*shell_prompt;
 	char			*user_input;
 	char			**input_matrix;
 	char			*cmd_path;
@@ -98,14 +99,14 @@ typedef struct s_minishell
 	e_redirection	redirection;
 	e_built_in		built_in_type;
 	e_process		pid;
-	t_prompt		shell_prompt;
 	t_pipe_tools	pipe_tools;
 }	t_minishell;
 
 
 /*-------------------- MINISHELL_UTILS.C-------------------------*/
 void	init_minishell(t_minishell *minishell, char **envp);
-void	set_envp(t_minishell *minishell, char **envp);
+//void	set_envp(t_minishell *minishell, char **envp);
+void	update_minishell(t_minishell *minishell, char **envp);
 char    *ft_getenv(char **envp, char *env_var);
 void	free_minishell(t_minishell *minishell);
 void	print_minishell(t_minishell *minishell);
@@ -134,7 +135,7 @@ void 	parse_input(t_minishell *minishell);
 char	*clean_input(t_minishell *minishell);
 int		count_with_spaces(char  *user_input);
 bool	is_empty(t_minishell *minishell);
-void	shell_prompt(t_minishell *minishell);
+void	shell_prompt(t_minishell *m);
 bool	no_skip(char c);
 
 /*--------------------- BUILT_INS -------------------------*/
@@ -149,7 +150,7 @@ void	ft_unset(t_minishell *minishell);
 /*--------------------- VALIDATIONS -------------------------*/
 bool	valid_cmd(char *cmd_path);
 bool	valid_symbols(char *str);
-bool	valid_input(t_minishell *minishell);
+bool	valid_rl_input(t_minishell *minishell);
 
 /*--------------------- SPLIT.C ----------------------------*/
 char	**addmatrix(char **matrix, char **word);

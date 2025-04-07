@@ -3,31 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/04 14:03:10 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/04/07 13:52:46 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	free_last_input(t_minishell *minishell)
+{
+	if (minishell->user_input)
+	{
+		free(minishell->user_input);
+		minishell->user_input = NULL;
+	}
+}
+
 void	get_input(t_minishell *minishell)
 {
-	while (!valid_input(minishell))
+	while (!valid_rl_input(minishell))
 	{
 		shell_prompt(minishell);
-		minishell->user_input = readline(minishell->shell_prompt.prompt);
-		if (!is_empty(minishell))
-			add_history(minishell->user_input);
-		free(minishell->shell_prompt.prompt);
-		minishell->shell_prompt.prompt = NULL;
+		free_last_input(minishell);
+		minishell->user_input = readline(minishell->shell_prompt);
+		add_history(minishell->user_input);
+		free(minishell->shell_prompt);
+		minishell->shell_prompt = NULL;
 	}
 }
 
 void	parse_input(t_minishell *minishell)
 {
-	minishell->user_input = clean_input(minishell); // ls | grep "src"
+	minishell->user_input = clean_input(minishell);
 	set_expand_var(minishell);
 	set_pipes_or_redirection(minishell);
 	minishell->args_num = matrix_len(minishell->input_matrix);

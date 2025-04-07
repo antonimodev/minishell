@@ -28,6 +28,7 @@ MATRIX_UTILS = lib/matrix_utils/matrix_utils.a
 # Minishell sources #
 MINISHELL_SRC =	src/minishell.c \
 				src/minishell_utils.c \
+				src/update_minishell.c \
                 src/path_utils.c \
                 src/exec.c	\
                 src/path.c \
@@ -44,7 +45,7 @@ MINISHELL_SRC =	src/minishell.c \
                 src/built-ins/pwd.c \
                 src/built-ins/unset.c \
 				src/validations/valid_cmd.c \
-				src/validations/valid_input.c \
+				src/validations/valid_rl_input.c \
 				src/validations/valid_symbols.c \
 				src/variable_expansion.c \
 				src/pipes_and_redirections/foo1.c \
