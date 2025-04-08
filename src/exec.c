@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/03 13:16:52 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/08 10:56:24 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@ void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
-	if(minishell->pid == CHILD)
+	if (minishell->pid == CHILD)
 		redirect(minishell);
 	if (is_built_in(minishell))
-	{ 
+	{
 		exec_built_in(minishell);
 		return ;
 	}
 	if (!minishell->cmd_path)
 	{
-		printf("minishell: %s: command not found\n", minishell->input_matrix[0]);
+		printf("minishell: %s: command not found\n", \
+			minishell->input_matrix[0]);
 		minishell->exit_status = 127;
 		return ;
 	}
@@ -33,12 +34,12 @@ void	execute(t_minishell *minishell)
 }
 
 void exec(t_minishell *minishell)
- {
+{
 	if (execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
 	{
-	    minishell->exit_status = 127;
-	    free_minishell(minishell);
-	    exit(EXIT_FAILURE);
+		minishell->exit_status = 127;
+		free_minishell(minishell);
+		exit(EXIT_FAILURE);
 	}
 }
 

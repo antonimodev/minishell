@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:47:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/17 10:59:37 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:30:15 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,18 @@ bool	check_quotes_balance(char *str)
 	return (quote.closed);
 }
 
-char    *custom_strtrim(char *str, char c)
+char    *strtrim_and_free(char *str, char *c)
+{
+	char    *new_str;
+
+	if (!str)
+		return (NULL);
+	new_str = ft_strtrim(str, c);
+	free(str);
+	return (new_str);
+}
+
+/* char    *strtrim_and_free(char *str, char *c)
 {
 	int     start;
 	int     end;
@@ -79,9 +90,9 @@ char    *custom_strtrim(char *str, char c)
 		return (NULL);
 	start = 0;
 	end = ft_strlen(str) - 1; // -1 para no leer desde null
-	while (str[start] == c && str[start])
+	while (str[start] == *c && str[start])
 		start++;
-	while (end > start && str[end] == c)
+	while (end > start && str[end] == *c)
 		end--;
 	new_str = malloc((end - start  + 2) * sizeof(char));
 	if (!new_str)
@@ -92,30 +103,23 @@ char    *custom_strtrim(char *str, char c)
 	new_str[i] = '\0';
 	free(str);
 	return (new_str);
+} */
+
+void skip_middle_spaces(char *user_input, int *i)
+{
+    int start_i = *i;
+    
+    while (user_input[*i] && user_input[*i] == ' ')
+        (*i)++;
+    if (user_input[*i] == '\0')
+        *i = start_i;
+    else if (*i > start_i)
+        (*i)--;
 }
 
-void	skip_middle_spaces(char *user_input, int *i)
+/* void skip_middle_spaces(char *user_input, int *i)
 {
-	while (user_input[*i] && user_input[*i] == ' ')
-		(*i)++;
-	if (user_input[*i] != '\0')
-			(*i)--;
-}
-
-/* HAY QUE MOVERLA
-void	quote_state(t_quote *quote, unsigned int index, char c)
-{
-	if (c == '"' || c == '\'')
-	{
-		if (!quote->type)
-		{
-			quote->type = c;
-			quote->closed = !quote->closed;
-		}
-		else if (c == quote->type)
-		{
-			quote->closed = !quote->closed;
-			quote->type = '\0';
-		}
-	}
-}*/
+    // Skip consecutive spaces but stop at the last one
+    while (user_input[*i + 1] && user_input[*i + 1] == ' ')
+        (*i)++;
+} */

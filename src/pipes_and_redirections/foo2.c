@@ -79,7 +79,6 @@ static bool handle_operator(t_minishell *minishell, char **matrix,
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = cmd;
-		//print_minishell(minishell);
 		return (true);
 	}
 	else

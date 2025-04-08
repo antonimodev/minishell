@@ -136,7 +136,7 @@ char	*clean_input(t_minishell *minishell);
 int		count_with_spaces(char  *user_input);
 bool	is_empty(t_minishell *minishell);
 void	shell_prompt(t_minishell *m);
-bool	no_skip(char c);
+bool	valid_chr(char c);
 
 /*--------------------- BUILT_INS -------------------------*/
 void	ft_cd(t_minishell *minishell);
@@ -163,7 +163,7 @@ char 	**finalize_parsing(char **matrix, char **word);
 bool	init_vars(char ***matrix, char **word, t_quote *quote);
 char	*str_append_char(char *word, char c);
 bool	check_quotes_balance(char *str);
-char	*custom_strtrim(char *str, char c);
+char	*strtrim_and_free(char *str, char *c);
 void	skip_middle_spaces(char *user_input, int *i);
 
 /*------------------- SIGNALS.C -------------------------*/

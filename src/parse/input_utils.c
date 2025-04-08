@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	*str_alloc(char **user_input)
+/* static char	*str_alloc(char **user_input)
 {
 	char	*str;
 	int		len;
@@ -22,7 +22,9 @@ static char	*str_alloc(char **user_input)
 	if (!str)
 		return (NULL);
 	return (str);
-}
+} 
+// "ls   "         "                -la"
+// "ls   " "                -la"
 
 char	*clean_input(t_minishell *minishell)
 {
@@ -35,11 +37,11 @@ char	*clean_input(t_minishell *minishell)
 	len = 0;
 	quote.type = '\0';
 	quote.closed = true;
-	minishell->user_input = custom_strtrim(minishell->user_input, ' ');
+	minishell->user_input = strtrim_and_free(minishell->user_input, " ");
 	str = str_alloc(&minishell->user_input);
 	while (minishell->user_input[i])
 	{
-		if (no_skip(minishell->user_input[i]))
+		if (valid_chr(minishell->user_input[i]))
 		{
 			quote_state(minishell->user_input[i], &quote);
 			if (minishell->user_input[i] == ' ' && quote.closed)
@@ -63,12 +65,40 @@ int	count_with_spaces(char *user_input)
 	count = 0;
 	while (user_input[i])
 	{
-		if (skip_invalid_chr(user_input[i]))
+		if (valid_chr(user_input[i]))
 			count++;
 		i++;
 	}
 	return (count);
 }
+
+/* 
+
+int	count_with_spaces(char *user_input)
+{
+	int		i;
+	int		count;
+	t_quote	quote;
+
+	i = 0;
+	count = 0;
+	quote.type = '\0';
+	quote.closed = true;
+	while (user_input[i])
+	{
+		if (valid_chr(user_input[i]))
+		{
+			quote_state(user_input[i], &quote);
+			if (user_input[i] == ' ' && quote.closed)
+				skip_middle_spaces(user_input, &i);
+			count++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+*/
 
 bool	is_empty(t_minishell *minishell)
 {
@@ -97,18 +127,18 @@ void	shell_prompt(t_minishell *minishell)
 	user = minishell->user;
 	pwd = getcwd(NULL, 0);
 	user = ft_strjoin("\001" BOLD_TURQUOISE "\002", user);
-	user = ft_strjoin_gnl(user, "\001" RESET "\002");
+	user = strjoin_and_free(user, "\001" RESET "\002");
 	arrow = ft_strdup("\001" BOLD_GREEN "\002 ➜ \001" RESET "\002");
-	prompt = ft_strjoin_gnl(user, arrow);
-	prompt = ft_strjoin_gnl(prompt, pwd);
-	prompt = ft_strjoin_gnl(prompt, "\001" BOLD_YELLOW \
+	prompt = strjoin_and_free(user, arrow);
+	prompt = strjoin_and_free(prompt, pwd);
+	prompt = strjoin_and_free(prompt, "\001" BOLD_YELLOW \
 		"\002 ✦ \001" RESET "\002");
 	minishell->shell_prompt = prompt;
 	free(arrow);
 	free(pwd);
 }
 
-bool	skip_invalid_chr(char c) //no_skip() previamente
+bool	valid_chr(char c) //no_skip() previamente
 {
 	return (c != '\n' && c != '\t' && \
 		c != '\v' && c != '\f' && c != '\r');

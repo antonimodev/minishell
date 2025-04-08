@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/07 14:18:31 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:37:47 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int ac, char **av, char **envp)
 		get_input(&minishell);
 		parse_input(&minishell);
 		execute(&minishell);
+		//print_minishell(&minishell);
 		reset_pipes(&minishell);
 		free_minishell(&minishell);
 	}

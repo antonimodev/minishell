@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:08:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/18 13:02:53 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:33:42 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*set_env_var(t_minishell *minishell, unsigned int *i)
 	var_name = ft_strdup("");
 	while (minishell->user_input[*i] && is_valid_var_char(minishell->user_input[*i]))
 		var_name = str_append_char(var_name, minishell->user_input[(*i)++]);
-	var_name = ft_strjoin_gnl(var_name, "=");
+	var_name = strjoin_and_free(var_name, "=");
     var_value = ft_getenv(minishell->envp, var_name);
     free(var_name);
 
@@ -98,7 +98,7 @@ static void	handle_variable_expansion(t_minishell *minishell, unsigned int *i,
 		var_value = set_env_var(minishell, i);
 	if (var_value)
 	{
-		*expanded_user_input = ft_strjoin_gnl(*expanded_user_input, var_value);
+		*expanded_user_input = strjoin_and_free(*expanded_user_input, var_value);
 		free(var_value);
 	}
 	else

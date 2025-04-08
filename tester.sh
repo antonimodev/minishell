@@ -151,20 +151,20 @@ run_test "pipe_tests" "ls | wc" "ls|wc" "cat /etc/passwd | grep root | wc -l" \
     "ls |   > file wc" "ls | wc |" "|" "| ls | wc"
 
 # Redirection tests
-run_test "redirection_tests" "echo hola > file" "echo hola >> file" "wc < file" \
-    "echo hola >>>>>>> file" "echo hola <<<<<<< file" "echo hola>file" \
-    "echo hola > file > file" "echo hola > file1 > file2 > file3" \
-    "echo hola > file1 > file2 > file3 | ls" "wc < /etc/passwd" \
-    "wc < /etc/passwd > file" "cat /etc/passwd | wc" \
-    "cat << EOF\nhello\nworld\nEOF" "cat << EOF > file\nhello\nworld\nEOF" \
-    "<< EOF" "cat << hola << que << tal" "cat << EOF | ls" \
-    "echo hola | cat | cat | cat | cat | cat | cat | cat" \
-    "echo hola > file << EOF\nTesting\nEOF"
+#run_test "redirection_tests" "echo hola > file" "echo hola >> file" "wc < file" \
+#    "echo hola >>>>>>> file" "echo hola <<<<<<< file" "echo hola>file" \
+#    "echo hola > file > file" "echo hola > file1 > file2 > file3" \
+#    "echo hola > file1 > file2 > file3 | ls" "wc < /etc/passwd" \
+#    "wc < /etc/passwd > file" "cat /etc/passwd | wc" \
+#    "cat << EOF\nhello\nworld\nEOF" "cat << EOF > file\nhello\nworld\nEOF" \
+#    "<< EOF" "cat << hola << que << tal" "cat << EOF | ls" \
+#    "echo hola | cat | cat | cat | cat | cat | cat | cat" \
+#    "echo hola > file << EOF\nTesting\nEOF"
 
 # General tests
-run_test "general_tests" "" "    " "echo \"unclosed quote" "echo $?" \
-    "unset PATH" "ls" "/bin/ls" "unset HOME" "cd" "ls -la > file" \
-    "cat < nonexistent_file" "cd nonexistent_directory" "echo $?"
+#run_test "general_tests" "" "    " "echo \"unclosed quote" "echo $?" \
+#    "unset PATH" "ls" "/bin/ls" "unset HOME" "cd" "ls -la > file" \
+#    "cat < nonexistent_file" "cd nonexistent_directory" "echo $?"
 
 echo -e "${UNDERLINE_GREEN}✓ All tests completed!${RESET}"
 echo

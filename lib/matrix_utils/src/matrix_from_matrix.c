@@ -8,9 +8,9 @@ char	**matrix_from_matrix(char **src_matrix, int start, int end)
 	str = ft_strdup("");
 	while (start < end)
 	{
-		str = ft_strjoin_gnl(str, src_matrix[start]);
+		str = strjoin_and_free(str, src_matrix[start]);
 		if ((start + 1) < end)
-			str = ft_strjoin_gnl(str, " ");
+			str = strjoin_and_free(str, " ");
 		start++;
 	}
 	new_matrix = ft_split(str, ' ');

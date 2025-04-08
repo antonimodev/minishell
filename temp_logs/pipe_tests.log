@@ -1,0 +1,29 @@
+==180554== Memcheck, a memory error detector
+==180554== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==180554== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==180554== Command: ./minishell
+==180554== Parent PID: 180394
+==180554== 
+==180554== 
+==180554== Process terminating with default action of signal 2 (SIGINT)
+==180554==    at 0x4026B16: __open_nocancel (open64_nocancel.c:39)
+==180554==    by 0x4006978: open_verify.constprop.0 (dl-load.c:1626)
+==180554==    by 0x4007107: open_path (dl-load.c:1922)
+==180554==    by 0x400A6B0: _dl_map_object (dl-load.c:2158)
+==180554==    by 0x4003494: openaux (dl-deps.c:64)
+==180554==    by 0x401D349: _dl_catch_exception (dl-error-skeleton.c:208)
+==180554==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==180554==    by 0x402339F: dl_main (rtld.c:1970)
+==180554==    by 0x401F83B: _dl_sysdep_start (dl-sysdep.c:256)
+==180554==    by 0x4021597: _dl_start_final (rtld.c:507)
+==180554==    by 0x4021597: _dl_start (rtld.c:596)
+==180554==    by 0x4020297: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==180554== 
+==180554== HEAP SUMMARY:
+==180554==     in use at exit: 0 bytes in 0 blocks
+==180554==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==180554== 
+==180554== All heap blocks were freed -- no leaks are possible
+==180554== 
+==180554== For lists of detected and suppressed errors, rerun with: -s
+==180554== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

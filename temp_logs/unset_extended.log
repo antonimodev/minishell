@@ -1,0 +1,166 @@
+==180472== Memcheck, a memory error detector
+==180472== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==180472== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==180472== Command: ./minishell
+==180472== Parent PID: 180394
+==180472== 
+==180472== Invalid read of size 1
+==180472==    at 0x484ED16: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x493ED30: __vfprintf_internal (vfprintf-internal.c:1517)
+==180472==    by 0x492879E: printf (printf.c:33)
+==180472==    by 0x109732: print_minishell (minishell_utils.c:60)
+==180472==    by 0x109515: main (minishell.c:29)
+==180472==  Address 0x4b708b5 is 5 bytes inside a block of size 14 free'd
+==180472==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10DCCE: free_matrix (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10E073: matrix_substract (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10B89E: ft_unset (unset.c:33)
+==180472==    by 0x10A132: exec_built_in (exec.c:110)
+==180472==    by 0x109DB4: execute (exec.c:23)
+==180472==    by 0x109509: main (minishell.c:28)
+==180472==  Block was alloc'd at
+==180472==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10CF5B: ft_strdup (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10DE8D: matrix_cpy (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x109A98: set_last_envp (update_minishell.c:37)
+==180472==    by 0x109B81: update_minishell (update_minishell.c:62)
+==180472==    by 0x109556: init_minishell (minishell_utils.c:17)
+==180472==    by 0x1094E5: main (minishell.c:25)
+==180472== 
+==180472== Invalid read of size 1
+==180472==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x493ED30: __vfprintf_internal (vfprintf-internal.c:1517)
+==180472==    by 0x492879E: printf (printf.c:33)
+==180472==    by 0x109732: print_minishell (minishell_utils.c:60)
+==180472==    by 0x109515: main (minishell.c:29)
+==180472==  Address 0x4b708b6 is 6 bytes inside a block of size 14 free'd
+==180472==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10DCCE: free_matrix (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10E073: matrix_substract (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10B89E: ft_unset (unset.c:33)
+==180472==    by 0x10A132: exec_built_in (exec.c:110)
+==180472==    by 0x109DB4: execute (exec.c:23)
+==180472==    by 0x109509: main (minishell.c:28)
+==180472==  Block was alloc'd at
+==180472==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10CF5B: ft_strdup (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10DE8D: matrix_cpy (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x109A98: set_last_envp (update_minishell.c:37)
+==180472==    by 0x109B81: update_minishell (update_minishell.c:62)
+==180472==    by 0x109556: init_minishell (minishell_utils.c:17)
+==180472==    by 0x1094E5: main (minishell.c:25)
+==180472== 
+==180472== Invalid read of size 1
+==180472==    at 0x4953734: _IO_new_file_xsputn (fileops.c:1218)
+==180472==    by 0x4953734: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==180472==    by 0x493F00B: outstring_func (vfprintf-internal.c:239)
+==180472==    by 0x493F00B: __vfprintf_internal (vfprintf-internal.c:1517)
+==180472==    by 0x492879E: printf (printf.c:33)
+==180472==    by 0x109732: print_minishell (minishell_utils.c:60)
+==180472==    by 0x109515: main (minishell.c:29)
+==180472==  Address 0x4b708bc is 12 bytes inside a block of size 14 free'd
+==180472==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10DCCE: free_matrix (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10E073: matrix_substract (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10B89E: ft_unset (unset.c:33)
+==180472==    by 0x10A132: exec_built_in (exec.c:110)
+==180472==    by 0x109DB4: execute (exec.c:23)
+==180472==    by 0x109509: main (minishell.c:28)
+==180472==  Block was alloc'd at
+==180472==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10CF5B: ft_strdup (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10DE8D: matrix_cpy (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x109A98: set_last_envp (update_minishell.c:37)
+==180472==    by 0x109B81: update_minishell (update_minishell.c:62)
+==180472==    by 0x109556: init_minishell (minishell_utils.c:17)
+==180472==    by 0x1094E5: main (minishell.c:25)
+==180472== 
+==180472== Invalid read of size 1
+==180472==    at 0x48534F0: mempcpy (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x4953664: _IO_new_file_xsputn (fileops.c:1235)
+==180472==    by 0x4953664: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==180472==    by 0x493F00B: outstring_func (vfprintf-internal.c:239)
+==180472==    by 0x493F00B: __vfprintf_internal (vfprintf-internal.c:1517)
+==180472==    by 0x492879E: printf (printf.c:33)
+==180472==    by 0x109732: print_minishell (minishell_utils.c:60)
+==180472==    by 0x109515: main (minishell.c:29)
+==180472==  Address 0x4b708b5 is 5 bytes inside a block of size 14 free'd
+==180472==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10DCCE: free_matrix (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10E073: matrix_substract (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10B89E: ft_unset (unset.c:33)
+==180472==    by 0x10A132: exec_built_in (exec.c:110)
+==180472==    by 0x109DB4: execute (exec.c:23)
+==180472==    by 0x109509: main (minishell.c:28)
+==180472==  Block was alloc'd at
+==180472==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10CF5B: ft_strdup (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10DE8D: matrix_cpy (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x109A98: set_last_envp (update_minishell.c:37)
+==180472==    by 0x109B81: update_minishell (update_minishell.c:62)
+==180472==    by 0x109556: init_minishell (minishell_utils.c:17)
+==180472==    by 0x1094E5: main (minishell.c:25)
+==180472== 
+==180472== Invalid read of size 1
+==180472==    at 0x48534FE: mempcpy (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x4953664: _IO_new_file_xsputn (fileops.c:1235)
+==180472==    by 0x4953664: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==180472==    by 0x493F00B: outstring_func (vfprintf-internal.c:239)
+==180472==    by 0x493F00B: __vfprintf_internal (vfprintf-internal.c:1517)
+==180472==    by 0x492879E: printf (printf.c:33)
+==180472==    by 0x109732: print_minishell (minishell_utils.c:60)
+==180472==    by 0x109515: main (minishell.c:29)
+==180472==  Address 0x4b708b7 is 7 bytes inside a block of size 14 free'd
+==180472==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10DCCE: free_matrix (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10E073: matrix_substract (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10B89E: ft_unset (unset.c:33)
+==180472==    by 0x10A132: exec_built_in (exec.c:110)
+==180472==    by 0x109DB4: execute (exec.c:23)
+==180472==    by 0x109509: main (minishell.c:28)
+==180472==  Block was alloc'd at
+==180472==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==180472==    by 0x10CF5B: ft_strdup (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10DE8D: matrix_cpy (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x109A98: set_last_envp (update_minishell.c:37)
+==180472==    by 0x109B81: update_minishell (update_minishell.c:62)
+==180472==    by 0x109556: init_minishell (minishell_utils.c:17)
+==180472==    by 0x1094E5: main (minishell.c:25)
+==180472== 
+==180472== Invalid read of size 1
+==180472==    at 0x10CCAF: ft_strlen (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10D0EF: ft_strjoin (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10A742: shell_prompt (input_utils.c:129)
+==180472==    by 0x10A39B: get_input (input.c:28)
+==180472==    by 0x1094F1: main (minishell.c:26)
+==180472==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==180472== 
+==180472== 
+==180472== Process terminating with default action of signal 11 (SIGSEGV)
+==180472==  Access not within mapped region at address 0x0
+==180472==    at 0x10CCAF: ft_strlen (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10D0EF: ft_strjoin (in /sgoinfre/students/frmarian/minishell/minishell)
+==180472==    by 0x10A742: shell_prompt (input_utils.c:129)
+==180472==    by 0x10A39B: get_input (input.c:28)
+==180472==    by 0x1094F1: main (minishell.c:26)
+==180472==  If you believe this happened as a result of a stack
+==180472==  overflow in your program's main thread (unlikely but
+==180472==  possible), you can try to increase the size of the
+==180472==  main thread stack using the --main-stacksize= flag.
+==180472==  The main thread stack size used in this run was 8388608.
+==180472== 
+==180472== HEAP SUMMARY:
+==180472==     in use at exit: 222,854 bytes in 380 blocks
+==180472==   total heap usage: 1,791 allocs, 1,411 frees, 314,080 bytes allocated
+==180472== 
+==180472== LEAK SUMMARY:
+==180472==    definitely lost: 0 bytes in 0 blocks
+==180472==    indirectly lost: 0 bytes in 0 blocks
+==180472==      possibly lost: 0 bytes in 0 blocks
+==180472==    still reachable: 222,854 bytes in 380 blocks
+==180472==         suppressed: 0 bytes in 0 blocks
+==180472== Reachable blocks (those to which a pointer was found) are not shown.
+==180472== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==180472== 
+==180472== For lists of detected and suppressed errors, rerun with: -s
+==180472== ERROR SUMMARY: 51 errors from 6 contexts (suppressed: 0 from 0)

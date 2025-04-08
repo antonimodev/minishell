@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:27 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/19 11:18:55 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:33:53 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_envp_var_name(char *env_var)
 	while (env_var[i] && env_var[i] != '=')
 		i++;
 	var_name = ft_substr(env_var, 0, i);
-	//var_name = ft_strjoin_gnl(var_name, "="); esto era para el nombre con "="
+	//var_name = strjoin_and_free(var_name, "="); esto era para el nombre con "="
 	return (var_name);
 }
 // probablemente cambiemos el nombre o hagamos algo con la funcionalidad, es literalmente
