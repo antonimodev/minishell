@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/07 13:07:27 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:25:09 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void print_minishell(t_minishell *minishell)
 	//printf("\033[1m▶ Read pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.read_pipe);
 	//printf("\033[1m▶ Write pipe:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe.write_pipe);
 	//printf("\033[1m▶ Pipe number:\033[0m \033[33m%d\033[0m\n", minishell->pipes.pipe_count);
-	printf("\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.pipe_count);	
+	printf("\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.redir_count);	
 	// Tipo de built-in
 	printf("\033[1m▶ Built-in type:\033[0m ");
 	if (minishell->built_in_type == FT_NULL)
@@ -102,7 +102,7 @@ void print_minishell(t_minishell *minishell)
 	else
 		printf("  \033[33m(null)\033[0m\n");	
 	// Mostrar el array de pipes
-	printf("\n\033[1m▶ Pipe count: %d\033[0m\n", minishell->pipe_tools.pipe_count);
+	printf("\n\033[1m▶ Pipe count: %d\033[0m\n", minishell->pipe_tools.redir_count);
 	printf("\033[1m▶ Saved STDIN:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.STDIN);
 	printf("\033[1m▶ Saved STDOUT:\033[0m \033[33m%d\033[0m\n", minishell->pipe_tools.STDOUT);
 	

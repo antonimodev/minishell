@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/04 13:39:58 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:45:17 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void ft_pipe(t_minishell *minishell)
 {
 	// ps aux | grep root | wc -l
 	// ps aux
-    int cmd_position = minishell->pipe_tools.pipe_count;
-    int total_cmds = minishell->pipe_tools.pipe_count + 1;
+    int cmd_position = minishell->pipe_tools.redir_count;
+    int total_cmds = minishell->pipe_tools.redir_count + 1;
 
     // First command in the pipeline
     if (cmd_position == 1)

@@ -79,7 +79,7 @@ typedef struct s_quote
 typedef struct s_pipe_tools
 {
     t_pipe      *pipes;
-    int         pipe_count; 
+    int         redir_count; 
     int         total_cmds;   // Total commands in pipeline
     int         cmd_position; // Current command position (1-indexed)
     int         STDIN;
@@ -175,7 +175,7 @@ void	set_expand_var(t_minishell *minishell);
 
 /*------------------- TEST -------------------*/
 char 	*expand_pipe(t_minishell *minishell);
-void	set_pipes_or_redirection(t_minishell *minishell);
+void	set_redirections(t_minishell *minishell);
 bool	is_redirection(char *str, int pos);
 void	set_first_pipe(t_minishell *minishell);
 
@@ -195,4 +195,10 @@ void	ft_redir_in(t_minishell *minishell);
 void	ft_redir_out(t_minishell *minishell);
 void	ft_redir_append(t_minishell *minishell);
 void	ft_redir_heredoc(t_minishell *minishell);
+
+/* ------------------- TEST ----------------- */
+
+bool check_valid_redir(t_minishell *minishell);
+bool check_redir_existence(t_minishell *minishell);
+
 #endif

@@ -13,30 +13,27 @@
 #include "minishell.h"
 
 static bool check_redirection(t_minishell *minishell);
-static bool	check_redir_existence(t_minishell *minishell);
-static bool check_valid_redir(t_minishell *minishell);
-static void set_operator_type(t_minishell *minishell, char *str);
-static bool handle_operator(t_minishell *minishell, char **matrix, 
+//static bool	check_redir_existence(t_minishell *minishell);
+//static bool check_valid_redir(t_minishell *minishell);
+static void set_redir_type(t_minishell *minishell, char *str);
+static bool process_child_cmd(t_minishell *minishell, char **matrix, 
 	int *operator_pos, int current_pos);
 static bool is_child_process(t_minishell *minishell, pid_t child);
 static void	set_parent_input(t_minishell *minishell);
 static void	pipe_append(t_minishell *minishell, t_pipe *pipe);
-static void	count_redir(t_minishell *minishell);
+static void	add_redir(t_minishell *minishell);
 
 static bool is_child_process(t_minishell *minishell, pid_t child)
 {
-/* 	if (child == -1)
-		perror("minishell: error creating fork"); */
 	if (child == 0)
 	{
-		//minishell->pipe = create_pipe(); Lo hemos puesto fuera, ya que pipex lo crea fuera para que compartan las pipes
 		minishell->pid = CHILD;
 		return (true);
 	}
 	return (false);
 }
 
-void	set_pipes_or_redirection(t_minishell *minishell)
+void	set_redirections(t_minishell *minishell)
 {
 	int		i;
 	int		operator_pos;
@@ -44,15 +41,15 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 
 	i = 0;
 	operator_pos = 0;
-	if (!check_redirection(minishell))
-		return ;
-	matrix = ft_split(minishell->user_input, ' ');
+	matrix = split_input(minishell);
 	while (matrix[i])
 	{
 		if (is_redirection(matrix[i], 0))
 		{
-			count_redir(minishell);
-			if (handle_operator(minishell, matrix, &operator_pos, i))
+			minishell->pipe_tools.redir_count++;
+			add_redir(minishell); // append a array de pipes
+			set_redir_type(minishell, matrix[i]);
+			if (process_child_cmd(minishell, matrix, &operator_pos, i))
 			{
 				free_matrix(matrix);
 				return ;
@@ -65,34 +62,29 @@ void	set_pipes_or_redirection(t_minishell *minishell)
 	free_matrix(matrix);
 }
 
-static bool handle_operator(t_minishell *minishell, char **matrix, 
+static bool process_child_cmd(t_minishell *minishell, char **matrix, 
 	int *operator_pos, int current_pos)
 {
 	pid_t child;
-	char **cmd;
 
-	set_operator_type(minishell, matrix[current_pos]);
-	cmd = matrix_from_matrix(matrix, *operator_pos, current_pos);
-	// AQUI
-	*operator_pos = current_pos + 1;
 	child = fork();
 	if (is_child_process(minishell, child))
 	{
-		minishell->input_matrix = cmd;
+		minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos, current_pos);
 		return (true);
 	}
 	else
 	{
-		close(minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1].write_pipe);
+		close(minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1].write_pipe);
 		waitpid(child, NULL, 0);
 	}
-	free_matrix(cmd);
+	*operator_pos = current_pos + 1;
 	return (false);
 }
 
 static bool check_redirection(t_minishell *minishell)
 {
-	if (!check_redir_existence(minishell))
+	if (check_redir_existence(minishell))
 	{
 		minishell->input_matrix = split_input(minishell);
 		return (false);
@@ -103,10 +95,10 @@ static bool check_redirection(t_minishell *minishell)
 		minishell->input_matrix = split_input(minishell);
 		return (false);
 	}
-	return (true);
+	return (false);
 }
 
-static bool	check_redir_existence(t_minishell *minishell)
+bool	check_redir_existence(t_minishell *minishell)
 {
 	if (!ft_strchr_gnl(minishell->user_input, '|')
 	&&	!ft_strchr_gnl(minishell->user_input, '<')
@@ -115,7 +107,7 @@ static bool	check_redir_existence(t_minishell *minishell)
 	return (true);
 }
 
-static bool check_valid_redir(t_minishell *minishell)
+bool check_valid_redir(t_minishell *minishell)
 {
 	if (is_redirection(minishell->user_input, 0) ||
 		is_redirection(minishell->user_input, 
@@ -127,7 +119,7 @@ static bool check_valid_redir(t_minishell *minishell)
 	return (true);
 }
 
-static void set_operator_type(t_minishell *minishell, char *str)
+static void set_redir_type(t_minishell *minishell, char *str)
 {
     if (!str || !str[0])
         minishell->redirection = NONE;
@@ -168,11 +160,10 @@ COMANDO << FIN        # Escribe varias líneas hasta encontrar "FIN"
 
 */
 
-static void	count_redir(t_minishell *minishell)
+static void	add_redir(t_minishell *minishell)
 {
 	t_pipe	pipe;
 
-	minishell->pipe_tools.pipe_count++;
 	pipe = create_pipe();
 	pipe_append(minishell, &pipe);
 }
@@ -183,13 +174,13 @@ static void	pipe_append(t_minishell *minishell, t_pipe *pipe)
 	int		i;
 
 	i = 0;
-	tmp = malloc((minishell->pipe_tools.pipe_count) * sizeof(t_pipe));
+	tmp = malloc((minishell->pipe_tools.redir_count) * sizeof(t_pipe));
 	if (!tmp)
 	{
 		perror("malloc");
 		return;
 	}
-	while (i < minishell->pipe_tools.pipe_count - 1)
+	while (i < minishell->pipe_tools.redir_count - 1)
 	{
 		tmp[i] = minishell->pipe_tools.pipes[i];
 		i++;
@@ -204,10 +195,10 @@ static void set_parent_input(t_minishell *minishell)
 {
 	t_pipe pipe;
 
-	if (minishell->pipe_tools.pipe_count <= 0)
+	if (minishell->pipe_tools.redir_count <= 0)
 		return;
 
-	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1];
+	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
 	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); //el padre siempre mira al STDOUT
 
@@ -216,9 +207,9 @@ static void set_parent_input(t_minishell *minishell)
 }
 /* 	t_pipe pipe;
 
-	if (minishell->pipe_tools.pipe_count <= 0)
+	if (minishell->pipe_tools.redir_count <= 0)
 		return;
-	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.pipe_count - 1];
+	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
 	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
 	close(pipe.write_pipe);
