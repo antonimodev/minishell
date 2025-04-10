@@ -82,22 +82,6 @@ static bool process_child_cmd(t_minishell *minishell, char **matrix,
 	return (false);
 }
 
-static bool check_redirection(t_minishell *minishell)
-{
-	if (check_redir_existence(minishell))
-	{
-		minishell->input_matrix = split_input(minishell);
-		return (false);
-	}
-	minishell->user_input = expand_pipe(minishell); // ls "src" | grep "split_utils.c"
-	if (!check_valid_redir(minishell))
-	{
-		minishell->input_matrix = split_input(minishell);
-		return (false);
-	}
-	return (false);
-}
-
 bool	check_redir_existence(t_minishell *minishell)
 {
 	if (!ft_strchr_gnl(minishell->user_input, '|')
@@ -112,10 +96,7 @@ bool check_valid_redir(t_minishell *minishell)
 	if (is_redirection(minishell->user_input, 0) ||
 		is_redirection(minishell->user_input, 
 		ft_strlen(minishell->user_input) - 1))
-	{
-		printf("spabila\n"); // mensaje de que la pipe no es válida ya que esta en pos 0 o len
 		return (false);
-	}
 	return (true);
 }
 

@@ -92,6 +92,7 @@ typedef struct s_minishell
 	int				exit_status;
 	char			*user;
 	char			*shell_prompt;
+	char			*last_prompt;
 	char			*user_input;
 	char			**input_matrix;
 	char			*cmd_path;

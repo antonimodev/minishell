@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/09 14:25:09 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:02:08 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_minishell(t_minishell *minishell, char **envp)
 	store_pipes(minishell);
 	minishell->pid = PARENT;
 	minishell->user = ft_getenv(minishell->envp, "USER=");
+	minishell->user_input = ft_strdup(""); //añadido
 }
 
 char	*ft_getenv(char **envp, char *env_var)

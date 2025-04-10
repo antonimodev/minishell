@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/09 14:25:06 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:08:48 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,10 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (0);
 }
+
+
+//static last_prompt = ft_strdup(minishell->shell_prompt);
+
+//EN EXIT Y EN CTRL + D
+//if (minishell->shell_prompt)
+	// free(minishell->shell_promt)	ANOTU
