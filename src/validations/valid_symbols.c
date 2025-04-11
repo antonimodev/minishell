@@ -1,16 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid_symbols.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 14:05:37 by frmarian          #+#    #+#             */
+/*   Updated: 2025/04/11 14:05:38 by frmarian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-bool valid_symbols(char *str)
+bool	valid_symbols(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || !*str)
-	    return (false);
-
-	// Verificar primer carácter (no puede ser un número)
+		return (false);
 	if (ft_isdigit(str[0]))
 		return (false);
-
 	i = 0;
 	while (str[i] && str[i] != '=')
 	{

@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/10 13:03:0232 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:12:27 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute(t_minishell *minishell)
 	}
 	if (!minishell->cmd_path)
 	{
-		printf("minishell: %s: command not found\n", \
+		printf("minishell: %s: command not found\n",
 			minishell->input_matrix[0]);
 		minishell->exit_status = 127;
 		return ;
@@ -33,9 +33,10 @@ void	execute(t_minishell *minishell)
 	fork_exec(minishell);
 }
 
-void exec(t_minishell *minishell)
+void	exec(t_minishell *minishell)
 {
-	if (execve(minishell->cmd_path, minishell->input_matrix, minishell->envp) != 0)
+	if (execve(minishell->cmd_path, minishell->input_matrix,
+			minishell->envp) != 0)
 	{
 		minishell->exit_status = 127;
 		free_minishell(minishell);
@@ -43,7 +44,7 @@ void exec(t_minishell *minishell)
 	}
 }
 
-void fork_exec(t_minishell *minishell)
+void	fork_exec(t_minishell *minishell)
 {
 	int		status;
 	pid_t	pid;
@@ -52,7 +53,7 @@ void fork_exec(t_minishell *minishell)
 	pid = 1;
 	if (minishell->pid == CHILD)
 		exec(minishell);
-	else // Si soy un comando normal de toda la vida
+	else
 	{
 		pid = fork();
 		if (pid == 0)
@@ -112,8 +113,7 @@ void	exec_built_in(t_minishell *minishell)
 		ft_env(minishell);
 	else if (minishell->built_in_type == FT_EXIT)
 		ft_exit(minishell);
-
-	if (minishell->pid == CHILD) // Redirecciones se salen
+	if (minishell->pid == CHILD)
 	{
 		free_minishell(minishell);
 		exit(EXIT_SUCCESS);

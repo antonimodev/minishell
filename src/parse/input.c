@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/10 11:27:077 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/04/11 11:53:49 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,35 +33,14 @@ void	get_input(t_minishell *minishell)
 		minishell->shell_prompt = NULL;
 	}
 }
-/* 
-void	parse_input (t_minishell *minishell) // ls | wc
+
+void	parse_input(t_minishell *minishell)
 {
 	set_expand_var(minishell);
 	if (check_redir_existence(minishell))
-	{
 		minishell->user_input = expand_pipe(minishell);
-		if (check_valid_redir(minishell))
-			set_redirections(minishell); //set_redirectionss
-	}
-	else
-		minishell->input_matrix = split_input(minishell);
-	minishell->args_num = matrix_len(minishell->input_matrix);
-	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
-} */
-
-void	parse_input (t_minishell *minishell) // ls | wc |
-{
-	bool	flag; //para las pipes abiertas
-
-	flag = false;
-	set_expand_var(minishell);
-	if (check_redir_existence(minishell)) //setea la flag
-	{
-		minishell->user_input = expand_pipe(minishell);
-		flag = true;
-	}
-	if (flag && check_valid_redir(minishell))
-			set_redirections(minishell); //set_redirections
+	if (minishell->redir_existence && check_valid_redir(minishell))
+		set_redirections(minishell);
 	else
 		minishell->input_matrix = split_input(minishell);
 	minishell->args_num = matrix_len(minishell->input_matrix);

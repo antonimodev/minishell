@@ -33,6 +33,7 @@ MINISHELL_SRC =	src/minishell.c \
                 src/exec.c	\
                 src/path.c \
                 src/signals.c \
+				src/quote_utils.c \
                 src/parse/input.c \
 				src/parse/input_utils.c \
                 src/parse/split.c \
@@ -47,16 +48,18 @@ MINISHELL_SRC =	src/minishell.c \
 				src/validations/valid_cmd.c \
 				src/validations/valid_rl_input.c \
 				src/validations/valid_symbols.c \
+				src/validations/valid_env_char.c \
 				src/variable_expansion.c \
-				src/pipes_and_redirections/foo1.c \
+				src/pipes_and_redirections/expand_redir.c \
 				src/pipes_and_redirections/foo2.c \
-				src/pipes_and_redirections/pipes_utils.c \
 				src/pipes_and_redirections/pipe_libft.c \
+				src/pipes_and_redirections/pipes_utils.c \
 				src/redirections/ft_pipe.c \
 				src/redirections/ft_redir_append.c \
 				src/redirections/ft_redir_heredoc.c \
 				src/redirections/ft_redir_in.c \
-				src/redirections/ft_redir_out.c
+				src/redirections/ft_redir_out.c \
+				src/redirections/redirections_utils.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)

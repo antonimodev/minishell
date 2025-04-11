@@ -6,14 +6,14 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:49:01 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/10 11:02:04 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:08:34 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_last_envp(t_minishell *minishell, bool *flag, \
-	char ***temp_envp)
+static void	check_last_envp(t_minishell *minishell, bool *flag,
+		char ***temp_envp)
 {
 	if (minishell->envp)
 	{
@@ -29,8 +29,8 @@ static void	store_exit_status(t_minishell *minishell, int *temp_exit_status)
 		*temp_exit_status = minishell->exit_status;
 }
 
-static void	set_last_envp(t_minishell *minishell, char ***temp_envp, \
-char **envp, bool flag)
+static void	set_last_envp(t_minishell *minishell, char ***temp_envp,
+		char **envp, bool flag)
 {
 	if (flag)
 	{
