@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:08:00 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:26:48 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*cmdcat(char *path, char *cmd)
 	return (filepath);
 }
 
-char	*get_cmd_path(char **splitted_paths)
 {
 	int	i;
 
