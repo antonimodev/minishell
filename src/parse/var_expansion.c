@@ -20,6 +20,7 @@ static char	*get_var_name(t_minishell *minishell, char **var_name,
 		&& valid_env_char(minishell->user_input[*i]))
 		*var_name = str_append_char(*var_name, minishell->user_input[(*i)++]);
 	*var_name = strjoin_and_free(*var_name, "=");
+	return (*var_name);
 }
 
 static char	*set_env_var(t_minishell *minishell, unsigned int *i)

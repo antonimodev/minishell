@@ -19,10 +19,10 @@ static void	set_parent_input(t_minishell *minishell)
 	if (minishell->pipe_tools.redir_count <= 0)
 		return ;
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
-	fd_redirection(STDIN_FILENO, pipe.read_pipe);
-	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
 	close(pipe.write_pipe);
+	fd_redirection(STDIN_FILENO, pipe.read_pipe);
 	close(pipe.read_pipe);
+	//fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
 }
 
 static bool	is_child_process(t_minishell *minishell, pid_t child)

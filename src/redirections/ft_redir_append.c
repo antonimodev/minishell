@@ -11,3 +11,10 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void    ft_redir_append(t_minishell *minishell)
+{
+    int fd;
+
+    // ls > hola.txt > adios.txt
+}

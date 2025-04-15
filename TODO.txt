@@ -7,18 +7,18 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?39CF7E0C5956A88BE9999D9C4
 -	 [✅] Tener un historial funcional.
 -	 [✅] Buscar y ejecutar basado en la variable PATH.
 -	 [✅] Ejecutar mediante ruta relativa/absoluta (incluye minishell).
--  	 [❓] Evitar el uso más de 1 variable global para la recepción de una señal.
+-  	 [ ❓] Evitar el uso más de 1 variable global para la recepción de una señal.
 -	 [✅] No interpretar comillas sin cerrar, \ o ;.
 -	 [✅] Gestionar que ' interprete metacaracteres dentro de la secuencia entre ""
 -	 [✅] Gestionar que " interprete metacaracteres exceptuando el $.
 4	 [  ] Implementación de redirecciones (<, >, <<, >>).
-3	 [❓] Implementación de pipes (|).
-		[  ] Redireciona pero acaba el proceso.
-		[  ] No acepta argumentos entre comillas, hay que hacer clean_input.
+3	 [✅] Implementación de pipes (|).
+		[✅] Redireciona pero acaba el proceso.
+		[✅] No acepta argumentos entre comillas, hay que hacer clean_input.
 -	 [✅] Expansión de variables de entorno.
 -	 [✅] Gestión de $?.
-2    [❓] Gestión de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
-	2.1	[❓] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
+2    [✅] Gestión de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
+	2.1	[✅] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
 	 [✅] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
 		[✅] Rutas absolutas (cd ~ funciona con /)
 		[✅] Export revisarlo para sobreescribir variables (Planteamiento comentado en export.c)
@@ -42,6 +42,9 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?39CF7E0C5956A88BE9999D9C4
 -	 [  ] archivos
 -	 [  ] archivos
 -	 [  ] archivos
+
+NOS QUEDAMOS EN:
+problema cuando hacemos redir out que sea ls > hola.txt > adios.txt
 
 ARREGLAR:
 ls | wc -l | grep 9

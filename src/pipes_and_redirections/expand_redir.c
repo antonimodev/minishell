@@ -14,29 +14,35 @@
 
 static bool	is_surrounded(char *str, int index)
 {
-	if (index == 0 || !str[index + 1] || !str[index - 1])
-		return (false);
-	if (str[index - 1]
-		&& str[index + 1]
-		&& (!ft_isspace(str[index - 1])
-			|| ft_isspace(str[index + 1])))
-		return (true);
-	return (false);
+    if (index == 0 || !str[index + 1])
+        return (false);
+    if (index > 0 && !ft_isspace(str[index - 1]))
+        return (true);
+    if (str[index + 1] && !ft_isspace(str[index + 1]))
+        return (true);
+    return (false);
 }
 
 static void	add_spaces(char **clean_input, char *user_input, int *pos)
 {
-	if (user_input[*pos - 1] != ' ')
+	char current_char;
+	char prev_char;
+	char next_char;
+
+	current_char = user_input[*pos];
+	next_char = user_input[*pos + 1];
+	prev_char = user_input[*pos - 1];
+	if (prev_char != ' ')
 		*clean_input = str_append_char(*clean_input, ' ');
-	*clean_input = str_append_char(*clean_input, user_input[*pos]);
-	if ((user_input[*pos] == '>' || user_input[*pos] == '<')
-		&& user_input[*pos + 1]
-		&& user_input[*pos + 1] == user_input[*pos])
+	*clean_input = str_append_char(*clean_input, current_char);
+	if ((current_char == '>' || current_char == '<')
+		&& next_char
+		&& next_char == current_char)
 	{
-		*clean_input = str_append_char(*clean_input, user_input[*pos + 1]);
+		*clean_input = str_append_char(*clean_input, next_char);
 		(*pos)++;
 	}
-	if (user_input[*pos + 1] != ' ')
+	if (next_char != ' ')
 		*clean_input = str_append_char(*clean_input, ' ');
 }
 

@@ -12,27 +12,46 @@
 
 #include "minishell.h"
 
-void	ft_pipe(t_minishell *minishell) // rehacer funcion, es para |
+static void close_unused_pipes(t_minishell *minishell, int cmd_position)
 {
-	int cmd_position = minishell->pipe_tools.redir_count;
-	int total_cmds = minishell->pipe_tools.redir_count + 1;
+    int	i;
 
-	if (cmd_position == 1)
+    i = 0;
+    while (i < (cmd_position - 1))
+        close(minishell->pipe_tools.pipes[i++].read_pipe);
+}
+
+void set_pipe_mode(int mode, t_pipe pipe) // cambio de nombre??
+{
+	if (mode == STDIN_FILENO)
 	{
-		t_pipe	current_pipe;
-		current_pipe = minishell->pipe_tools.pipes[0];
-		close(current_pipe.read_pipe);
-		fd_redirection(STDOUT_FILENO, current_pipe.write_pipe);
-		close(current_pipe.write_pipe);
+		close(pipe.write_pipe);
+		fd_redirection(STDIN_FILENO, pipe.read_pipe);
+		close(pipe.read_pipe);
 	}
-	else if (cmd_position < total_cmds)
+	else if (mode == STDOUT_FILENO)
 	{
-		t_pipe prev_pipe = minishell->pipe_tools.pipes[cmd_position - 2];
-		t_pipe current_pipe = minishell->pipe_tools.pipes[cmd_position - 1];
-		fd_redirection(STDIN_FILENO, prev_pipe.read_pipe);
-		close(prev_pipe.read_pipe);
-		close(current_pipe.read_pipe);
-		fd_redirection(STDOUT_FILENO, current_pipe.write_pipe);
-		close(current_pipe.write_pipe);
+		close(pipe.read_pipe);
+		fd_redirection(STDOUT_FILENO, pipe.write_pipe);
+		close(pipe.write_pipe);
+	}
+}
+
+void	ft_pipe(t_minishell *minishell)
+{
+	int		cmd_position;
+	t_pipe	current_pipe;
+	t_pipe	prev_pipe;
+
+	cmd_position = minishell->pipe_tools.redir_count - 1;
+	current_pipe = minishell->pipe_tools.pipes[cmd_position];
+	if (cmd_position == 0)
+		set_pipe_mode(STDOUT_FILENO, current_pipe);
+	else
+	{
+		prev_pipe = minishell->pipe_tools.pipes[cmd_position - 1];
+		close_unused_pipes(minishell, cmd_position);
+		set_pipe_mode(STDIN_FILENO, prev_pipe);
+		set_pipe_mode(STDOUT_FILENO, current_pipe);
 	}
 }

@@ -26,32 +26,33 @@ LIBFT = lib/libft/libft.a
 MATRIX_UTILS = lib/matrix_utils/matrix_utils.a
 
 # Minishell sources #
-MINISHELL_SRC =	src/minishell.c \
-				src/minishell_utils.c \
-				src/update_minishell.c \
-                src/path_utils.c \
+MINISHELL_SRC =	src/main/minishell.c \
+				src/main/minishell_utils.c \
+				src/main/update_minishell.c \
                 src/exec.c	\
-                src/path.c \
                 src/signals.c \
-				src/quote_utils.c \
+                src/parse/path.c \
+                src/parse/path_utils.c \
+				src/parse/quote_utils.c \
                 src/parse/input.c \
 				src/parse/input_utils.c \
                 src/parse/split.c \
 				src/parse/split_utils.c \
-                src/built-ins/cd.c \
-                src/built-ins/echo.c \
-                src/built-ins/env.c \
-                src/built-ins/exit.c \
-                src/built-ins/export.c \
-                src/built-ins/pwd.c \
-                src/built-ins/unset.c \
+				src/parse/var_expansion.c \
+                src/built_ins/cd.c \
+                src/built_ins/echo.c \
+                src/built_ins/env.c \
+                src/built_ins/exit.c \
+                src/built_ins/export.c \
+                src/built_ins/pwd.c \
+                src/built_ins/unset.c \
+				src/built_ins/built_ins.c \
 				src/validations/valid_cmd.c \
 				src/validations/valid_rl_input.c \
 				src/validations/valid_symbols.c \
 				src/validations/valid_env_char.c \
-				src/variable_expansion.c \
 				src/pipes_and_redirections/expand_redir.c \
-				src/pipes_and_redirections/foo2.c \
+				src/pipes_and_redirections/fork_redir.c \
 				src/pipes_and_redirections/pipe_libft.c \
 				src/pipes_and_redirections/pipes_utils.c \
 				src/redirections/ft_pipe.c \

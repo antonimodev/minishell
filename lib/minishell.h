@@ -161,6 +161,9 @@ void	ft_export(t_minishell *minishell);
 void	ft_pwd();
 /* UNSET.C ----------------------*/
 void	ft_unset(t_minishell *minishell);
+/* BUILT-INS.C ----------------- */
+bool	is_built_in(t_minishell *minishell);
+void	exec_built_in(t_minishell *minishell);
 
 
 /*------------------- VARIABLE_EXPANSION.C -------------------------*/
@@ -217,6 +220,7 @@ void	pipe_append(t_minishell *minishell, t_pipe *pipe);
 t_pipe	create_pipe(void);
 
 /*---------------- REDIRECTIONS --------------------*/
+void	set_pipe_mode(int mode, t_pipe pipe);
 void	ft_pipe(t_minishell *minishell);
 void	ft_redir_in(t_minishell *minishell);
 void	ft_redir_out(t_minishell *minishell);

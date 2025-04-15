@@ -11,3 +11,11 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void    ft_redir_out(t_minishell *minishell)
+{
+    int file;
+
+    file = open("", O_WRONLY, O_CREAT, O_TRUNC, 644);
+    fd_redirection(STDOUT_FILENO, file);
+}

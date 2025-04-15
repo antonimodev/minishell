@@ -43,6 +43,7 @@ char	*cmdcat(char *path, char *cmd)
 	return (filepath);
 }
 
+char 	*get_cmd_path(char **splitted_paths)
 {
 	int	i;
 
