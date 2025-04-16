@@ -12,12 +12,67 @@
 
 #include "minishell.h"
 
-void	redirect(t_minishell *minishell)
+// ls > hola.txt
+/* static void	foo(t_minishell *minishell, int pipe_fd)
+{
+	int		file;
+	char	c;
+
+	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (file == -1)
+    {
+        perror("Error al abrir el archivo");
+        return;
+    }
+	while (read(pipe_fd, &c, 1) > 0)
+	{
+		if (write(file, &c, 1) != 1)
+		{
+			perror("Error al escribir en la salida estándar");
+			break;
+		}
+	}
+	close(file);
+} */
+
+static void ft_redir_out_parent(t_minishell *minishell)
+{
+    int     pipe_read;
+	int		file;
+	char	c;
+
+    pipe_read = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1].read_pipe;
+	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (file == -1)
+    {
+        perror("Error al abrir el archivo");
+        return;
+    }
+	while (read(pipe_read, &c, 1) > 0)
+	{
+		if (write(file, &c, 1) != 1)
+		{
+			perror("Error al escribir en la salida estándar");
+			break;
+		}
+	}
+	close(file);
+}
+
+void    redirect(t_minishell *minishell)
+{
+    if (minishell->pid == CHILD)
+        redirect_child(minishell);
+    else if (minishell->redirection != PIPE)
+        redirect_parent(minishell);
+}
+
+void	redirect_child(t_minishell *minishell)
 {
 	if (minishell->redirection == PIPE)
 		ft_pipe(minishell);
 	else if (minishell->redirection == REDIR_OUT)
-			ft_redir_out(minishell);
+		ft_redir_out(minishell);
 	/* 	else if (minishell->redirection == REDIR_IN)
 			ft_redir_in();
 		else if (minishell->redirection == REDIR_APPEND)
@@ -25,6 +80,34 @@ void	redirect(t_minishell *minishell)
 		else if (minishell->redirection == REDIR_HEREDOC)
 			ft_redir_heredoc(); */
 }
+
+void	redirect_parent(t_minishell *minishell)
+{
+	if (minishell->redirection == PIPE)
+		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
+	else if (minishell->redirection == REDIR_OUT) // >
+		ft_redir_out_parent(minishell);
+	/* 	else if (minishell->redirection == REDIR_IN)
+			ft_redir_in();
+		else if (minishell->redirection == REDIR_APPEND)
+				ft_redir_append(minishell);
+		else if (minishell->redirection == REDIR_HEREDOC)
+			ft_redir_heredoc(); */
+}
+
+/* void	redirect(t_minishell *minishell)    ESTE ES EL ORIGINAL
+{
+	if (minishell->redirection == PIPE)
+		ft_pipe(minishell);
+	else if (minishell->redirection == REDIR_OUT)
+		ft_redir_out(minishell);
+	/* 	else if (minishell->redirection == REDIR_IN)
+			ft_redir_in();
+		else if (minishell->redirection == REDIR_APPEND)
+				ft_redir_append(minishell);
+		else if (minishell->redirection == REDIR_HEREDOC)
+			ft_redir_heredoc();
+} */
 
 void	fd_redirection(int from, int to)
 {

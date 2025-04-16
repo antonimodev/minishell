@@ -16,6 +16,25 @@ void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
+	redirect(minishell);
+	if (is_built_in(minishell))
+	{
+		exec_built_in(minishell);
+		return ;
+	}
+	if (!minishell->cmd_path)
+	{
+		printf("minishell: %s: command not found\n",
+			minishell->input_matrix[0]);
+		minishell->exit_status = 127;
+		return ;
+	}
+	fork_exec(minishell);
+}
+/* void	execute(t_minishell *minishell)
+{
+	if (minishell->user_input == NULL)
+		return ;
 	if (minishell->pid == CHILD)
 		redirect(minishell);
 	if (is_built_in(minishell))
@@ -31,7 +50,7 @@ void	execute(t_minishell *minishell)
 		return ;
 	}
 	fork_exec(minishell);
-}
+} */
 
 void	exec(t_minishell *minishell)
 {
@@ -66,10 +85,7 @@ void	fork_exec(t_minishell *minishell)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
-			// --
 			exec(minishell);
-		}
 		else
 			get_exit_status(minishell, pid);
 	}

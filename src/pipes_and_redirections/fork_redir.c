@@ -21,8 +21,8 @@ static void	set_parent_input(t_minishell *minishell)
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
 	close(pipe.write_pipe);
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
-	close(pipe.read_pipe);
-	//fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
+	//close(pipe.read_pipe); No cerrar el pipe de lectura aquí, ya que se necesita para leer el contenido
+	//del pipe en el proceso padre.
 }
 
 static bool	is_child_process(t_minishell *minishell, pid_t child)
@@ -57,7 +57,7 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 	return (false);
 }
 
-void	set_redirections(t_minishell *minishell)
+void	handle_redir(t_minishell *minishell)
 {
 	int		i;
 	int		operator_pos;

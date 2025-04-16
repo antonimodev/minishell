@@ -33,9 +33,9 @@ bool	check_valid_redir(t_minishell *minishell)
 
 void	set_redir_type(t_minishell *minishell, char *str)
 {
-	if (!str || !str[0])
-		minishell->redirection = NONE;
-	else if (str[0] == '|' && !str[1])
+	if (minishell->redirection)
+		minishell->prev_redir = minishell->redirection;
+	if (str[0] == '|' && !str[1])
 		minishell->redirection = PIPE;
 	else if (str[0] == '<' && !str[1])
 		minishell->redirection = REDIR_IN;

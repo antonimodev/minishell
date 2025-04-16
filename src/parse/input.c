@@ -40,7 +40,7 @@ void	parse_input(t_minishell *minishell)
 	if (check_redir_existence(minishell))
 		minishell->user_input = expand_pipe(minishell);
 	if (minishell->redir_existence && check_valid_redir(minishell))
-		set_redirections(minishell);
+		handle_redir(minishell);
 	else
 		minishell->input_matrix = split_input(minishell);
 	minishell->args_num = matrix_len(minishell->input_matrix);

@@ -41,7 +41,6 @@ typedef enum e_built_in
 
 typedef enum e_redirection // ls >> grep
 {
-    NONE,           // No es un operador
     PIPE,           // |
     REDIR_IN,       // <
     REDIR_OUT,      // >
@@ -55,14 +54,6 @@ typedef enum e_process
 	PARENT
 }	e_process;
 
-/*typedef	struct s_prompt
-{
-	char	*user;
-	char	*arrow;
-	char	*pwd; // ft_pwd que habra que modificar
-	char	*prompt;
-}	t_prompt;*/
-
 typedef struct s_quote
 {
 	char	type;
@@ -75,13 +66,10 @@ typedef struct s_quote
 	int	write_pipe;
 }	t_pipe;*/
 
-// Add to your t_pipe_tools struct in minishell.h
 typedef struct s_pipe_tools
 {
     t_pipe      *pipes;
     int         redir_count; 
-    int         total_cmds;   // Total commands in pipeline
-    int         cmd_position; // Current command position (1-indexed)
     int         STDIN;
     int         STDOUT;
 }   t_pipe_tools;
@@ -92,13 +80,13 @@ typedef struct s_minishell
 	int				exit_status;
 	char			*user;
 	char			*shell_prompt;
-	char			*last_prompt;
 	char			*user_input;
 	char			**input_matrix;
 	char			*cmd_path;
 	int				args_num;
 	bool			redir_existence;
 	e_redirection	redirection;
+	e_redirection	prev_redir;
 	e_built_in		built_in_type;
 	e_process		pid;
 	t_pipe_tools	pipe_tools;
@@ -205,7 +193,7 @@ void 	handle_sign(int sign);
 /*--------------- PIPES_AND_REDIRECTION -----------------*/
 
 /* EXPAND_REDIR.C --------------*/
-void	set_redirections(t_minishell *minishell);
+void	handle_redir(t_minishell *minishell);
 bool	is_redirection(char *str, int pos);
 char 	*expand_pipe(t_minishell *minishell);
 
