@@ -51,4 +51,7 @@ void    ft_redir_out(t_minishell *minishell)
     create_empty_file(minishell->input_matrix[0]);
     
     pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
+	// No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
+	// Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
+	// close_unused_pipes que la tenemos static en ft_pipe()
 }
