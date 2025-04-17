@@ -17,6 +17,12 @@ void	execute(t_minishell *minishell)
 	if (minishell->user_input == NULL)
 		return ;
 	redirect(minishell);
+
+	// Condicion provisional para evitar el "cmd not found"
+	if (minishell->redirection == REDIR_OUT && minishell->pid == PARENT)
+		return ;
+	// 
+
 	if (is_built_in(minishell))
 	{
 		exec_built_in(minishell);

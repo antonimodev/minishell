@@ -41,6 +41,7 @@ typedef enum e_built_in
 
 typedef enum e_redirection // ls >> grep
 {
+	NONE,
     PIPE,           // |
     REDIR_IN,       // <
     REDIR_OUT,      // >
@@ -215,5 +216,8 @@ void	ft_redir_out(t_minishell *minishell);
 void	ft_redir_append(t_minishell *minishell);
 void	ft_redir_heredoc(t_minishell *minishell);
 
+
+/* --- */
+void	pipe_to_file(int read_from, int write_into);
 
 #endif

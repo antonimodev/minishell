@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+static void	redirect_parent(t_minishell *minishell);
+static void	redirect_child(t_minishell *minishell);
 // ls > hola.txt
 /* static void	foo(t_minishell *minishell, int pipe_fd)
 {
@@ -35,6 +37,30 @@
 	close(file);
 } */
 
+void	pipe_to_file(int read_from, int write_into)
+{
+	char	buffer;
+
+	while (read(read_from, &buffer, 1) > 0)
+	{
+		if (write(write_into, &buffer, 1) != 1)
+		{
+			perror("Error al escribir en la salida estándar");
+			break;
+		}
+	}
+}
+
+/*
+static void clear_file(t_minishell *minishell)        SIRVE PARA LIMPIAR EL ARCHIVO
+{
+	int file;
+
+	file = open(minishell->input_matrix[0], O_TRUNC, 0644);
+	close(file);
+}
+*/
+
 static void ft_redir_out_parent(t_minishell *minishell)
 {
     int     pipe_read;
@@ -48,26 +74,30 @@ static void ft_redir_out_parent(t_minishell *minishell)
         perror("Error al abrir el archivo");
         return;
     }
-	while (read(pipe_read, &c, 1) > 0)
-	{
-		if (write(file, &c, 1) != 1)
-		{
-			perror("Error al escribir en la salida estándar");
-			break;
-		}
-	}
+	pipe_to_file(pipe_read, file);
 	close(file);
 }
 
 void    redirect(t_minishell *minishell)
 {
     if (minishell->pid == CHILD)
+	{
         redirect_child(minishell);
-    else if (minishell->redirection != PIPE)
+		// PROVISIONAL, para evitar el command not found
+		// En el hijo debe hacer exit
+		if (minishell->prev_redir == REDIR_OUT)
+		{
+			free_minishell(minishell);
+			exit(EXIT_SUCCESS);
+		}
+	}
+    else
+	// No he puesto aqui la condicion de fuera del redirect porque debe hacer
+	// return a la altura de execute para volver al minishell.c
         redirect_parent(minishell);
 }
 
-void	redirect_child(t_minishell *minishell)
+static void	redirect_child(t_minishell *minishell)
 {
 	if (minishell->redirection == PIPE)
 		ft_pipe(minishell);
@@ -81,7 +111,7 @@ void	redirect_child(t_minishell *minishell)
 			ft_redir_heredoc(); */
 }
 
-void	redirect_parent(t_minishell *minishell)
+static void	redirect_parent(t_minishell *minishell)
 {
 	if (minishell->redirection == PIPE)
 		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
