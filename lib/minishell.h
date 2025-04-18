@@ -217,7 +217,12 @@ void	ft_redir_append(t_minishell *minishell);
 void	ft_redir_heredoc(t_minishell *minishell);
 
 
-/* --- */
+/* -- TESTING REDIR_OUT, REDIR_APPEND Y UTILS QUE USÉ -- */
 void	pipe_to_file(int read_from, int write_into);
+
+void    ft_redir_out_parent(t_minishell *minishell);
+void    ft_redir_append_parent(t_minishell *minishell);
+
+void	redir_first_cmd(t_minishell *minishell);
 
 #endif

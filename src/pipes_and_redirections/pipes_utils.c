@@ -14,33 +14,16 @@
 
 static void	redirect_parent(t_minishell *minishell);
 static void	redirect_child(t_minishell *minishell);
-// ls > hola.txt
-/* static void	foo(t_minishell *minishell, int pipe_fd)
-{
-	int		file;
-	char	c;
-
-	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (file == -1)
-    {
-        perror("Error al abrir el archivo");
-        return;
-    }
-	while (read(pipe_fd, &c, 1) > 0)
-	{
-		if (write(file, &c, 1) != 1)
-		{
-			perror("Error al escribir en la salida estándar");
-			break;
-		}
-	}
-	close(file);
-} */
 
 void	pipe_to_file(int read_from, int write_into)
 {
 	char	buffer;
 
+	if (read_from < 0 || write_into < 0) // checkea si los FDs llegan validos
+	{
+		perror("Descriptores de archivo inválidos");
+		return;
+	}
 	while (read(read_from, &buffer, 1) > 0)
 	{
 		if (write(write_into, &buffer, 1) != 1)
@@ -51,31 +34,13 @@ void	pipe_to_file(int read_from, int write_into)
 	}
 }
 
-/*
-static void clear_file(t_minishell *minishell)        SIRVE PARA LIMPIAR EL ARCHIVO
+void	redir_first_cmd(t_minishell *minishell)
 {
-	int file;
+    int current_pipe;
 
-	file = open(minishell->input_matrix[0], O_TRUNC, 0644);
-	close(file);
-}
-*/
-
-static void ft_redir_out_parent(t_minishell *minishell)
-{
-    int     pipe_read;
-	int		file;
-	char	c;
-
-    pipe_read = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1].read_pipe;
-	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (file == -1)
-    {
-        perror("Error al abrir el archivo");
-        return;
-    }
-	pipe_to_file(pipe_read, file);
-	close(file);
+    current_pipe = minishell->pipe_tools.redir_count - 1;
+    set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
+    return ;
 }
 
 void    redirect(t_minishell *minishell)
@@ -85,7 +50,8 @@ void    redirect(t_minishell *minishell)
         redirect_child(minishell);
 		// PROVISIONAL, para evitar el command not found
 		// En el hijo debe hacer exit
-		if (minishell->prev_redir == REDIR_OUT)
+		if (minishell->prev_redir == REDIR_OUT
+		||	minishell->prev_redir == REDIR_APPEND)
 		{
 			free_minishell(minishell);
 			exit(EXIT_SUCCESS);
@@ -103,24 +69,24 @@ static void	redirect_child(t_minishell *minishell)
 		ft_pipe(minishell);
 	else if (minishell->redirection == REDIR_OUT)
 		ft_redir_out(minishell);
+	else if (minishell->redirection == REDIR_APPEND)
+		ft_redir_append(minishell);
 	/* 	else if (minishell->redirection == REDIR_IN)
 			ft_redir_in();
-		else if (minishell->redirection == REDIR_APPEND)
-				ft_redir_append(minishell);
 		else if (minishell->redirection == REDIR_HEREDOC)
 			ft_redir_heredoc(); */
 }
 
-static void	redirect_parent(t_minishell *minishell)
+static void	redirect_parent(t_minishell *minishell) // ultimo comando
 {
 	if (minishell->redirection == PIPE)
 		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
 	else if (minishell->redirection == REDIR_OUT) // >
 		ft_redir_out_parent(minishell);
+	else if (minishell->redirection == REDIR_APPEND) // >>
+		ft_redir_append_parent(minishell);
 	/* 	else if (minishell->redirection == REDIR_IN)
 			ft_redir_in();
-		else if (minishell->redirection == REDIR_APPEND)
-				ft_redir_append(minishell);
 		else if (minishell->redirection == REDIR_HEREDOC)
 			ft_redir_heredoc(); */
 }

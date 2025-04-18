@@ -32,7 +32,6 @@ static void	create_empty_file(char *filename)
 
 void    ft_redir_out(t_minishell *minishell)
 {
-    int file;
     int prev_pipe;
     int current_pipe;
 
@@ -41,17 +40,41 @@ void    ft_redir_out(t_minishell *minishell)
     
     // El primer comando:
     if (!minishell->prev_redir)
+        redir_first_cmd(minishell);
+    else
     {
-        // Simplemente configuramos la salida estándar para que vaya a la pipe actual
-        set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
+        if (minishell->prev_redir == PIPE) // Controla la combinacion de pipes ls | wc > hola.txt
+        {
+            ft_pipe(minishell);
+            return ;
+        }
+        if (minishell->prev_redir == REDIR_APPEND)
+        {
+            ft_redir_append(minishell);
+            return ;
+        }
+        // Comandos intermedios:
+        create_empty_file(minishell->input_matrix[0]);
+        
+        pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
+        // No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
+        // Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
+        // close_unused_pipes que la tenemos static en ft_pipe()
+    }
+}
+
+void	ft_redir_out_parent(t_minishell *minishell)
+{
+	int		file;
+    int     pipe_read;
+
+    pipe_read = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1].read_pipe;
+	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (file == -1)
+    {
+        perror("Error al abrir el archivo");
         return;
     }
-    
-	// Comandos intermedios:
-    create_empty_file(minishell->input_matrix[0]);
-    
-    pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
-	// No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
-	// Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
-	// close_unused_pipes que la tenemos static en ft_pipe()
+	pipe_to_file(pipe_read, file);
+	close(file);
 }
