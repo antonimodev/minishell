@@ -37,30 +37,11 @@ void    ft_redir_out(t_minishell *minishell)
 
     prev_pipe = minishell->pipe_tools.redir_count - 2;
     current_pipe = minishell->pipe_tools.redir_count - 1;
-    
-    // El primer comando:
-    if (!minishell->prev_redir)
-        redir_first_cmd(minishell);
-    else
-    {
-        if (minishell->prev_redir == PIPE) // Controla la combinacion de pipes ls | wc > hola.txt
-        {
-            ft_pipe(minishell);
-            return ;
-        }
-        if (minishell->prev_redir == REDIR_APPEND)
-        {
-            ft_redir_append(minishell);
-            return ;
-        }
-        // Comandos intermedios:
-        create_empty_file(minishell->input_matrix[0]);
-        
-        pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
-        // No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
-        // Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
-        // close_unused_pipes que la tenemos static en ft_pipe()
-    }
+    create_empty_file(minishell->input_matrix[0]);
+    pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
+    // No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
+    // Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
+    // close_unused_pipes que la tenemos static en ft_pipe()
 }
 
 void	ft_redir_out_parent(t_minishell *minishell)

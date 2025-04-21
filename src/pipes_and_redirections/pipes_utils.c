@@ -65,11 +65,13 @@ void    redirect(t_minishell *minishell)
 
 static void	redirect_child(t_minishell *minishell)
 {
-	if (minishell->redirection == PIPE)
+	if (!minishell->prev_redir)
+		redir_first_cmd(minishell);
+	if (minishell->prev_redir == PIPE)
 		ft_pipe(minishell);
-	else if (minishell->redirection == REDIR_OUT)
+	else if (minishell->prev_redir == REDIR_OUT)
 		ft_redir_out(minishell);
-	else if (minishell->redirection == REDIR_APPEND)
+	else if (minishell->prev_redir == REDIR_APPEND)
 		ft_redir_append(minishell);
 	/* 	else if (minishell->redirection == REDIR_IN)
 			ft_redir_in();
