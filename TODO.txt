@@ -50,6 +50,9 @@ ARREGLAR:
 cd | exit -> NO deberia de salirse (probablemente mirar algo con minishell->prev_redir en exit)
 ""
 ''
+NO SE SI MANEJAR -> cd - , se va al pwd anterior, y si lo vuelves a usar vuelve al anterior
+cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
+cd -> cuando HOME no existe deberia dar "bash: cd: HOME not set"
 exit 3456 -> deberia de salir con arg[1] % 256
 exit hola -> debería de salirse con el codigo 2 al hacer echo $?
 echo -nnnnnnnnnn "loquesea" debería de funcionar como echo -n
