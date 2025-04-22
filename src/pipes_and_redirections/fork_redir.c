@@ -41,6 +41,8 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 	pid_t	child;
 
 	child = fork();
+	//if (minishell->redirection == REDIR_IN)
+		//minishell->input_matrix = foo(matrix, &current_pos)
 	if (is_child_process(minishell, child))
 	{
 		minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos,

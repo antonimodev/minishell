@@ -26,7 +26,7 @@ void    ft_redir_append(t_minishell *minishell)
 	if (file == -1)
 	{
 		perror("Error al abrir el archivo");
-		return;
+		return ;
 	}
 	close(file);
 
@@ -46,7 +46,7 @@ void    ft_redir_append_parent(t_minishell *minishell)
     if (file == -1)
     {
         perror("Error al abrir el archivo");
-        return;
+        return ;
     }
 	pipe_to_file(pipe_read, file);
 	close(file);

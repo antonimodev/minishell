@@ -45,8 +45,6 @@ void	ft_pipe(t_minishell *minishell)
 
 	cmd_position = minishell->pipe_tools.redir_count - 1;
 	current_pipe = minishell->pipe_tools.pipes[cmd_position];
-	/* if (cmd_position == 0)
-		set_pipe_mode(STDOUT_FILENO, current_pipe); */
 	if (!minishell->prev_redir)
 		redir_first_cmd(minishell);
 	else
