@@ -19,58 +19,89 @@ void	ft_redir_in(t_minishell *minishell)
 	int		current_pipe;
     t_pipe	temp_pipe;
 
-    //if (!check_file_in_matrix)
-        //se sale completamente, escribe msj de error en pantalla y el padre vuelve a pedir el input
+    if (!check_file_in_matrix)
+	{
+		//msj de error
+		free_minishell(minishell);
+		exit(EXIT_FAILURE);
+	}
 	current_pipe = minishell->pipe_tools.redir_count - 1;
     last_fd = matrix_len(minishell->input_matrix);
     fd = open(minishell->input_matrix[last_fd - 1], O_RDONLY);
 
 	pipe_to_file(fd, temp_pipe.write_pipe);
+	close(fd);
+	//set_pipe_mode(STDIN_FILENO, temp_pipe);
+	fd_redirection(STDIN_FILENO, temp_pipe.read_pipe);
+	if (minishell->prev_redir)
+		set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
+}
 
-	set_pipe_mode(STDIN_FILENO, temp_pipe);
-	set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
+void	ft_redir_in_parent(t_minishell *minishell)
+{
+    int		fd;
+    int		last_fd;
+	int		current_pipe;
+
+    if (!check_file_in_matrix)
+	{
+		minishell->valid_file = true;
+		//mensaje de error
+		return ;
+	}
+	current_pipe = minishell->pipe_tools.redir_count - 1;
+    last_fd = matrix_len(minishell->input_matrix);
+    fd = open(minishell->input_matrix[last_fd - 1], O_RDONLY);
+	if (fd == -1)
+    {
+        perror("Error al abrir el archivo");
+        return;
+    }
+	pipe_to_file(fd, minishell->pipe_tools.pipes[current_pipe].write_pipe);
+	close(fd);
+	//set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[current_pipe]);
+	fd_redirection(STDIN_FILENO, minishell->pipe_tools.pipes[current_pipe].read_pipe);
 }
 
 bool   check_file_in_matrix(char **matrix)
 {
     int i;
 
-    i = 2;
+	i = 0;
+	while (matrix[i])
+	{
+		if (is_redirection)
+			break ;
+		i++;
+	}
     while (matrix[i])
     {
-        if (access(matrix[i], F_OK | R_OK) < 0)
+		if (is_redirection(matrix[i], 0))
+			i++;
+        else if (access(matrix[i], F_OK | R_OK) < 0)
+		{
+			//msj de error
             return (false);
-        i = i + 2;
+		}
     }
     return (true);
 }
 
-// if (minishell-redirection == REDIR_IN)
-	//foo();
-
-/* char	**foo(char **matrix, int operator_pos, int *current_pos)
+void	foo(char **matrix, int *current_pos)
 {
-	int		i;
-	char	**new_matrix;
-
-	i = 0;
-	while (matrix[operator_pos])
-	{
-		if (matrix[i] != REDIR_IN)
-			new_matrix = matrix_from_matrix(matrix, 0, i);
-		i = i + 2;
-	}
-	//flag;
-    *current_pos =
-    return (new_matrix);
+    (*current_pos)++;
+    while (matrix[*current_pos])
+    {
+        if (!is_redirection(matrix[*current_pos], 0))
+        {
+		    (*current_pos)++;
+			continue ;
+		}
+        if (matrix[*current_pos] == '<')
+			(*current_pos)++;
+		else if(matrix[*current_pos] != '<')
+			return ;
+    }
+	//flag
+    return ;
 }
-
-void    foo()
-{
-    while (matrix[i])
-	{
-		if (matrix[i] != REDIR_IN)
-			minishell->redir_pos = i;
-		i = i + 2;
-	}
-} */

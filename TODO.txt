@@ -63,7 +63,6 @@ export debe aceptar varias variables (si falla una, las demas se deben hacer)
 Reidirecciones sueltas, mensajes de error
 ls || wc
 echo $
-echo "$127"
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET

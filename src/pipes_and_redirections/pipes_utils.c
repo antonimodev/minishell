@@ -19,11 +19,6 @@ void	pipe_to_file(int read_from, int write_into)
 {
 	char	buffer;
 
-	if (read_from < 0 || write_into < 0) // checkea si los FDs llegan validos
-	{
-		perror("Descriptores de archivo inválidos");
-		return;
-	}
 	while (read(read_from, &buffer, 1) > 0)
 	{
 		if (write(write_into, &buffer, 1) != 1)
@@ -48,8 +43,6 @@ void    redirect(t_minishell *minishell)
     if (minishell->pid == CHILD)
 	{
         redirect_child(minishell);
-		// PROVISIONAL, para evitar el command not found
-		// En el hijo debe hacer exit
 		if (minishell->prev_redir == REDIR_OUT
 		||	minishell->prev_redir == REDIR_APPEND)
 		{
@@ -58,8 +51,6 @@ void    redirect(t_minishell *minishell)
 		}
 	}
     else
-	// No he puesto aqui la condicion de fuera del redirect porque debe hacer
-	// return a la altura de execute para volver al minishell.c
         redirect_parent(minishell);
 }
 
@@ -73,8 +64,9 @@ static void	redirect_child(t_minishell *minishell)
 		ft_redir_out(minishell);
 	else if (minishell->prev_redir == REDIR_APPEND)
 		ft_redir_append(minishell);
-	/* 	else if (minishell->redirection == REDIR_IN)
-			ft_redir_in();
+	else if (minishell->redirection == REDIR_IN)
+		ft_redir_in(minishell);
+	/*
 		else if (minishell->redirection == REDIR_HEREDOC)
 			ft_redir_heredoc(); */
 }
@@ -87,8 +79,9 @@ static void	redirect_parent(t_minishell *minishell) // ultimo comando
 		ft_redir_out_parent(minishell);
 	else if (minishell->redirection == REDIR_APPEND) // >>
 		ft_redir_append_parent(minishell);
-	/* 	else if (minishell->redirection == REDIR_IN)
-			ft_redir_in();
+	else if (minishell->redirection == REDIR_IN) // <
+		ft_redir_in_parent(minishell);
+	/*
 		else if (minishell->redirection == REDIR_HEREDOC)
 			ft_redir_heredoc(); */
 }

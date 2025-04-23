@@ -17,13 +17,12 @@ void	execute(t_minishell *minishell)
 	if (minishell->user_input == NULL)
 		return ;
 	redirect(minishell);
-
-	// Condicion provisional para evitar el "cmd not found"
+	if (minishell->valid_file) // cambiar nombre
+		return ;
 	if (minishell->pid == PARENT && (minishell->redirection == REDIR_OUT
 		|| minishell->redirection == REDIR_APPEND))
 		return ;
-	// 
-
+	//
 	if (is_built_in(minishell))
 	{
 		exec_built_in(minishell);
@@ -38,26 +37,6 @@ void	execute(t_minishell *minishell)
 	}
 	fork_exec(minishell);
 }
-/* void	execute(t_minishell *minishell)
-{
-	if (minishell->user_input == NULL)
-		return ;
-	if (minishell->pid == CHILD)
-		redirect(minishell);
-	if (is_built_in(minishell))
-	{
-		exec_built_in(minishell);
-		return ;
-	}
-	if (!minishell->cmd_path)
-	{
-		printf("minishell: %s: command not found\n",
-			minishell->input_matrix[0]);
-		minishell->exit_status = 127;
-		return ;
-	}
-	fork_exec(minishell);
-} */
 
 void	exec(t_minishell *minishell)
 {

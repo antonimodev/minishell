@@ -91,6 +91,8 @@ typedef struct s_minishell
 	e_built_in		built_in_type;
 	e_process		pid;
 	t_pipe_tools	pipe_tools;
+	bool			return_flag;
+	bool			valid_file;
 }	t_minishell;
 
 
@@ -222,7 +224,9 @@ void	pipe_to_file(int read_from, int write_into);
 
 void    ft_redir_out_parent(t_minishell *minishell);
 void    ft_redir_append_parent(t_minishell *minishell);
+void	ft_redir_in_parent(t_minishell *minishell);
 
 void	redir_first_cmd(t_minishell *minishell);
+bool   check_file_in_matrix(char **matrix);
 
 #endif
