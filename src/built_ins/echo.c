@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:37 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:32:09 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,25 @@
 void	ft_echo(t_minishell *minishell)
 {
 	int		i;
+	int		j;
 	bool	flag;
 
 	i = 1;
+	j = 1;
 	flag = false;
-	while (minishell->input_matrix[i] && !ft_strcmp(minishell->input_matrix[i],
-			"-n"))
+	print_minishell(minishell);
+	while (minishell->input_matrix[i]
+		&& !ft_strcmp(minishell->input_matrix[i], "-"))
 	{
-		flag = true;
-		i++;
+		if (minishell->input_matrix[i][j] == 'n')
+		{
+			flag = true;
+			i++;
+			break;
+		}
 	}
+	printf("Estamos aqui ahora en la matriz: %s\n", minishell->input_matrix[i]);
+	printf("El valor del booleano es: %d\n", flag);
 	while (minishell->input_matrix[i])
 	{
 		printf("%s", minishell->input_matrix[i]);
