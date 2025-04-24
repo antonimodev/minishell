@@ -47,6 +47,9 @@ NOS QUEDAMOS EN:
 problema cuando hacemos redir out que sea ls > hola.txt > adios.txt
 
 ARREGLAR:
+
+ARRGELAR EL STRJOIN_GNL
+
 cd | exit -> NO deberia de salirse (probablemente mirar algo con minishell->prev_redir en exit)
 ""
 ''
