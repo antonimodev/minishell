@@ -128,6 +128,7 @@ pull:
 push: fclean
 	git status
 	git add .
+	git status
 	@git commit -m "updated by makefile"
 	@git push
 	@echo "$(GREEN)╔═════════════════════════════╗$(RESET)"
