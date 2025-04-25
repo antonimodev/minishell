@@ -22,10 +22,14 @@ static void	foo(t_minishell *minishell, char **matrix, int *current_pos)
 		    (*current_pos)++;
 			continue ;
 		}
-        if (matrix[*current_pos] == REDIR_IN)
+        if (matrix[*current_pos][0] == '<')
 			(*current_pos)++;
-		else if(matrix[*current_pos] != REDIR_IN)
+		else if(matrix[*current_pos][0] != '<')
+		{
+			minishell->redirection = matrix[*current_pos][0];
+			minishell->prev_redir = REDIR_IN;
 			return ;
+		}
     }
 	minishell->return_flag = true;
 	(*current_pos)--;
@@ -39,7 +43,8 @@ static void	set_parent_input(t_minishell *minishell)
 	if (minishell->pipe_tools.redir_count <= 0)
 		return ;
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
-	close(pipe.write_pipe);
+	if (!minishell->redirection == REDIR_IN)
+		close(pipe.write_pipe);
 	fd_redirection(STDIN_FILENO, pipe.read_pipe);
 	//close(pipe.read_pipe); No cerrar el pipe de lectura aquí, ya que se necesita para leer el contenido
 	//del pipe en el proceso padre.

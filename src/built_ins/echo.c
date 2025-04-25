@@ -15,7 +15,7 @@
 //para que sea valido tiene que ser -n o -n -n -n -n -n
 //invalido -n-n-n-n-n
 
-static bool is_valid(const char *str)
+static bool is_valid(const char *str) // cambiar nombre
 {
     int i;
 

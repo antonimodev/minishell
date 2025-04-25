@@ -64,7 +64,7 @@ static void	redirect_child(t_minishell *minishell)
 		ft_redir_out(minishell);
 	else if (minishell->prev_redir == REDIR_APPEND)
 		ft_redir_append(minishell);
-	else if (minishell->redirection == REDIR_IN)
+	else if (minishell->prev_redir == REDIR_IN)
 		ft_redir_in(minishell);
 	/*
 		else if (minishell->redirection == REDIR_HEREDOC)

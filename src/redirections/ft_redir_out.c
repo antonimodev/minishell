@@ -56,6 +56,7 @@ void	ft_redir_out_parent(t_minishell *minishell)
         perror("Error al abrir el archivo");
         return;
     }
+    write(1, "Redir_out_parent\n", 16);
 	pipe_to_file(pipe_read, file);
 	close(file);
 }

@@ -42,3 +42,4 @@ char	*get_path(char **input_matrix, char **envp)
 	free_matrix(splitted_paths);
 	return (cmd_path);
 }
+

@@ -42,9 +42,9 @@ typedef enum e_built_in
 typedef enum e_redirection // ls >> grep
 {
 	NONE,
-    PIPE,           // |
-    REDIR_IN,       // <
-    REDIR_OUT,      // >
+    PIPE = 124,     // |
+    REDIR_IN = 60,  // <
+    REDIR_OUT = 62, // >
     REDIR_APPEND,   // >>
     REDIR_HEREDOC   // <<
 }	e_redirection;
