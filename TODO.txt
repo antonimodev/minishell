@@ -1,119 +1,112 @@
+https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
+https://prod.liveshare.vsengsaas.visualstudio.com/join?39CF7E0C5956A88BE9999D9C494F13CBB394
+ğŸ“’ __________ TODO LIST __________ ğŸ“’
+
+-	 [âœ…] Mostrar una entrada mientras esperas comando.
+-	 [âœ…] Tener un historial funcional.
+-	 [âœ…] Buscar y ejecutar basado en la variable PATH.
+-	 [âœ…] Ejecutar mediante ruta relativa/absoluta (incluye minishell).
+-  	 [ â“] Evitar el uso mÃ¡s de 1 variable global para la recepciÃ³n de una seÃ±al.
+-	 [âœ…] No interpretar comillas sin cerrar, \ o ;.
+-	 [âœ…] Gestionar que ' interprete metacaracteres dentro de la secuencia entre ""
+-	 [âœ…] Gestionar que " interprete metacaracteres exceptuando el $.
+4	 [  ] ImplementaciÃ³n de redirecciones (<, >, <<, >>).
+3	 [âœ…] ImplementaciÃ³n de pipes (|).
+		[âœ…] Redireciona pero acaba el proceso.
+		[âœ…] No acepta argumentos entre comillas, hay que hacer clean_input.
+-	 [âœ…] ExpansiÃ³n de variables de entorno.
+-	 [âœ…] GestiÃ³n de $?.
+2    [âœ…] GestiÃ³n de Ctrl-C, Ctrl-D y Ctrl-\, deben funcionar como bash.
+	2.1	[âœ…] Ctrl-C (Imprime salto de linea), Ctrl-D (Termina SHELL) y Ctrl-\ (No hace nada).
+	 [âœ…] Built-ins: echo (-n), cd (Rutas relativas/absolutas), pwd, export, unset, env y exit.
+		[âœ…] Rutas absolutas (cd ~ funciona con /)
+		[âœ…] Export revisarlo para sobreescribir variables (Planteamiento comentado en export.c)
+
+ğŸ“’ __________ NORMINETTE LIST __________ ğŸ“’
+
+ ğŸ“ [â“] src
+	-	 [âœ…] minishell.c
+	-	 [âœ…] update_minishell.c
+	-	 [  ] exec.c
+	-	 [  ] path_utils.c
+	-	 [  ] path.c
+	-	 [  ] signals.c
+	-	 [  ] variable_expansion.c
+	 ğŸ“ [â“] parse
+		-	 [â“] input_utils.c (muchas funciones)
+
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+-	 [  ] archivos
+
+NOS QUEDAMOS EN:
+problema cuando hacemos redir out que sea ls > hola.txt > adios.txt
+
+ARREGLAR:
+
+ARRGELAR EL STRJOIN_GNL
+
+cd | exit -> NO deberia de salirse (probablemente mirar algo con minishell->prev_redir en exit)
+""
+''
+echo -nnnnnnnnnn "loquesea" deberÃ­a de funcionar como echo -n
+NO SE SI MANEJAR -> cd - , se va al pwd anterior, y si lo vuelves a usar vuelve al anterior
+cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
+cd -> cuando HOME no existe deberia dar "bash: cd: HOME not set"
+exit 3456 -> deberia de salir con arg[1] % 256
+exit hola -> deberÃ­a de salirse con el codigo 2 al hacer echo $?
+export a=, deberÃ­a de exportar a=""
+export a, se duplica. Solo manejamos con =, pero sin = se acaba duplicando
+export cuando haces por ej; HOME+=perro serÃ­a como concatenarle perro
+export debe aceptar varias variables (si falla una, las demas se deben hacer)
+Reidirecciones sueltas, mensajes de error
+ls || wc
+echo $
+
+Formato -> [ORDEN] + 2 palabras (como mÃ¡ximo)
+- GET
+- SET
+- EXIT
+- VALID
+- UPDATE
+
+Tipos de errores para exit_status
+- 0: Ã‰xito
+- 1: Error general
+- 2: Error de sintaxis o uso incorrecto
+- 126: El comando existe pero no es ejecutable
+- 127: El comando no fue encontrado
+- 128+n: El programa terminÃ³ debido a una seÃ±al n
 
 
-ttpp:://xxaaiirrwwccmm##oomm66222255995533bb33dd,,KKxxeeOOOODD33__RRNNAAhhttss//ppoo..iieehhrr..ssnnssaa..iiuullttddooccmmjjii??99FFEECC996688BB9999DDCC99FF33BB3344ğğ““  __________TTDD  IITT__________  ŸŸ’’
+PRIMER HIJO = 1759104
+SEGUNDO HIJO = 
 
-		[[œœ]]MMssrrrruuaaeettaaaammeettaa  sseeaa  ooaadd..--  ââ……  eeee  nnhhssooiillffnniinnll
+PRIMERA PIPE = 21447590
+SEGUNDA PIPE = 
 
-		[[œœ]]BBssaa    jjccttrrbbssdd  nnll  aaiibbeePPTT..--  ââ……  jjccttrrmmddaatt  uuaarrllttvv//bboouuaa((nnllyy  iiiihhll))
+- Ver pipes: shell ls -l /proc/PID/fd
+- Procesos que usan la pipe: lsof -nP | grep FD
 
-  		[[ââ““  vvttrree  ss  ÃÃssdd    aaiibbeeggooaa  aaaall  eeeeccÃÃnndd  nn  ee±±ll
 
-		[[œœ]]NN  nneeppeeaa  ooiillssssnnccrraa,,\\oo;;
+ğŸ“ __________ GDB DEBUGGING GUIDE __________ ğŸ“
 
-		[[œœ]]GGssiinnrrqqee''iittrrrrtt  eeaaaaaattrrssddnnrr  eell  eeuunnii  nnrr  ""--  ââ……  eettooaa  uu    nneeppeeeemmttccrrcceeee  xxeettaadd  ll$$
+FORK DEBUGGING:
+- Start GDB: `gdb -tui ./minishell`
+- Follow child process after fork: `set follow-fork-mode child`
+- Set up before running: `set detach-on-fork off`
+- Set initial breakpoints: `b ft_pipe` `b execute_cmd`
+- Run program: `r`
+- List all forked processes: `info inferiors`
+- Switch between processes: `inferior num`
+- Analyze pipes: `p minishell->pipe_tools.pipes[0]`
+- Check FDs: `shell ls -l /proc/$(pid)/fd`
+- Switch process: `inferior 2` (child process)
 
-		[[    mmllmmnnaaii³³  eerrddrrcciinnss((,,>>  <<  >>..33  ââ……  mmllmmnnaaii³³  eeppppss(())
-
-		ââ……  eeiieeiinn  eeooaaaaaaee  rrccss..		[[œœ]]NN  ccppaaaaggmmnnoo  nnrr  ooiillss  aa  uu  aaee  llaa__nnuu..--  ââ……  xxaassÃÃnndd  aaiibbee  eeeettrroo
-
-		[[œœ]]GGssii³³  ee$$..22    ââ……  eettÃÃnndd  ttllCC  ttllDDyyCCrr--,,ddbbnnffnniinnrrccmm  aahh
-
-2211[[œœ]]CCrr--  IIppiieesslloodd  iiee))  ttllDD((eemmnn  HHLL))yyCCrr--  NN  aaeenndd))
-
-  ââ……  uull--nn::eehh  --))  dd((uuaa  eeaaiiaa//bboouuaa))  ww,,eepprr,,uusstt  nn    xxtt
-
-		ââ……  uuaa  bboouuaa  cc    uuccooaaccnn//
-
-		ââ……  xxoottrrvvssrroopprr  oorreecciiii  aaiibbee  PPaattaaiinnooccmmnnaaooee  xxoottcc
-
-ğğ““  __________NNRRIIEETT  IITT__________  ŸŸ’’
-
-ğğ““  ââ““  rr
-
---  ââ……  iiiihhll..
-
---  ââ……  ppaaeemmnnsseellcc				[[    xxcccc				[[    aahhuuiisscc				[[    aahhcc				[[    iinnll..
-
---    ]]vvrraall__xxaassoo..
-
-  ŸŸ[[]]pprree		--  ââ““  nnuu__ttll..  mmccaa  uuccooee))
-
-		[[    rrhhvvss--    ]]aacciioo
-
-		[[    rrhhvvss--    ]]aacciioo
-
-		[[    rrhhvvss--    ]]aacciioo
-
-NNSSQQEEAAOO  NN
-
-rrbbeeaaccaadd  aaeeoo  eeii  uu  uu  ee  ss>>hhll..xx    ddoo..xx
-
-AARRGGAA::
-
-RRGGLLRREE  TTJJII__NN  >>ccmmiirrnnmmrr
-
-xxoottaa,,ddbbrr­­  eeeepprraa  ==""eepprr  ,,ss  uullcc..SSll  aaeeaaoo  oo  ,,pprr  ii    eeaaaaaaddppiiaadd
-
-xxoottccaadd  aaee  oo  jj  OOEE==eerr  eeÃÃaaccmm  ooccttnnrreepprrooeepprr  eeeeaaeettrrvvrraa  aaiibbee  ss  aall  nn,,llssddmmssss  eeee  aaee))
-
-dd||eeii  >>NN  eeeeii  eessllrree((rrbbbbeeeett  iiaa  llooccnnmmnnsseell>>rrvvrrddrree  xxtt
-
-''""
-
-OOSS  IIMMNNJJRR--  dd--,,ss  aaaa  ww  nneeiirr    iill  uullee    ssrrvveevv  llaattrroo
-
-dd--  uunnoonn  eeeeoo  OOEE  llhhccrrcc  ~~  eeeeiiss  llHHMM..SS  OOEEyy  xxssee  ooaaaarr..SS  oo  ooeeee  rrddttrriiaaoo
-
-dd--  uunnooHHMM  ooeeiitt  eeeeii  aa  bbss::cc::HHMM  oo  ee""ll  ||ww
-
-eeiieeccooee  uullaa,,mmnnaaee  eeeerrrreeii  4466--  eeeeii  eessllrrccnnaagg11    55
-
-xxtthhll  >>ddbbrr­­  eessllrreeccnnee  ooiioo22aa  aaee  ccoo$$
-
-ccoo$$[[]]eehh  nnnnnnnnnn  llqqeeee""ddbbrr­­  eeffnniinnrrccmm  ccoo--
-
-FFrraaoo--  OODDNN      aaaarrss((oooomm¡¡iioo
-
-  EE
-
-  EE
-
-  XXTT--VVLLDD--UUDDTT
-
-TTppssdd  rrooee  aaaaeeii__ttttss--00  ‰‰iioo--11  rroo  eeeeaa
-
-  ::EErrrrdd  iittxxssoouuooiiccrreett
-
-  22::EE  ooaadd  xxsseepprr  ooee  jjccttbbee--1177  llccmmnnoonn  uu  nnoottaaoo--1188nn  llppoorrmm  eemmnn³³ddbbdd    nn  ee±±llnn
-
-PPIIEE  IIOO==11551144SSGGNNOOHHJJ    
-
-RRMMRR  IIEE==22447799
-
-EEUUDD  IIEE==
-
---VVrrppppss  hhll  ss--  ppoo//II//dd--PPooeeoo  uu  ssnnll  iiee  ssff--PP||ggee  DD
-
-ğğ““  __________GGBBDDBBGGIIGGGGIIEE__________  ŸŸ
-
-OOKKDDBBGGIIGG
-
-  ttrr  DD::``dd  ttii..mmnnsseell
-
-  oollwwcciiddppooeessaattrrffrr::``ee  oollwwffrr--ooeecciidd
-
-  ee  ppbbffrr  uunnnn::``ee  eeaahhoo--ookkooff
-
-  ee  nnttaa  rraappiitt::``  ttpppp````  xxcctt__mm``--RRnnppoorrmm  rr
-
-  iittaallffrree  rrccssee::``nnooiiffrrooss
-
-  wwtthhbbtteennppooeessss  iiffrroo  uu``--AAaayyeeppppss  ppmmnnsseell>>iieettoossppppss00``--CCeekkFFss  sseellll  ll//rrcc$$ppdd//dd
-
-  wwtthhppooeess  iiffrroo  ``((hhll  rrccss))
-
-SSFFLLVVRRAALLSSTT  AACC::--PPooeessiiff::``  eeppdd))
-
-  ookkrrssll::``  ookkppdd
-
-  iieeFFss  ppmmnnsseell>>iieettoossppppss00..eeddpppp````  iiiihhll--pppp__ooll..iiee[[]]wwiieepppp``
+USEFUL VARIABLES TO WATCH:
+- Process info: `p getpid()`
+- Fork result: `p fork_pid`
+- Pipe FDs: `p minishell->pipe_tools.pipes[0].read_pipe` `p minishell->pipe_tools.pipes[0].write_pipe`

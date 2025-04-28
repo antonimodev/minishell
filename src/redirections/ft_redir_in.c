@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redir_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:10:50 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/11 14:11:10 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:07:04 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	ft_redir_in(t_minishell *minishell)
 	close(fd);
 	//set_pipe_mode(STDIN_FILENO, temp_pipe);
 	fd_redirection(STDIN_FILENO, temp_pipe.read_pipe);
-	if (minishell->prev_redir)
-		set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
 	minishell->input_matrix = clean_redir_in_matrix(minishell);
 }
 

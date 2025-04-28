@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redir_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:11:27 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/11 14:11:29 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:30:07 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ void    ft_redir_out(t_minishell *minishell)
 
 void	ft_redir_out_parent(t_minishell *minishell)
 {
-	int		file;
-    int     pipe_read;
+	int	file;
+    int	current_pipe;
 
-    pipe_read = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1].read_pipe;
+	current_pipe = minishell->pipe_tools.redir_count - 1;
 	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (file == -1)
     {
         perror("Error al abrir el archivo");
         return;
     }
-    write(1, "Redir_out_parent\n", 16);
-	pipe_to_file(pipe_read, file);
+    fprintf(stderr, "input_matrix: %s\n", minishell->input_matrix[0]);
+	pipe_to_file(minishell->pipe_tools.pipes[current_pipe].read_pipe, file);
 	close(file);
 }
