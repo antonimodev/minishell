@@ -6,35 +6,50 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:03 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:50:43 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	redir_exceptions(t_minishell *minishell)
+{
+	if (minishell->pid == CHILD &&
+		(minishell->prev_redir == REDIR_APPEND || 
+		minishell->prev_redir == REDIR_OUT))
+	{
+		free_minishell(minishell);
+		exit(EXIT_SUCCESS);
+	}
+
+	if (minishell->pid == PARENT &&
+		(minishell->redirection == REDIR_OUT ||
+		minishell->redirection == REDIR_APPEND))
+		return (true);
+
+	if (minishell->invalid_file ||
+		minishell->exit_status == INVALID_FILE) // revisar si exit_status lo coge bien
+		return (true);
+
+	return (false);
+}
 
 void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
 	redirect(minishell);
-	if (minishell->valid_file) // cambiar nombre
+
+	if (redir_exceptions(minishell))
 		return ;
-	if (minishell->pid == PARENT && (minishell->redirection == REDIR_OUT
-		|| minishell->redirection == REDIR_APPEND))
-		return ;
-	//
+	
 	if (is_built_in(minishell))
 	{
 		exec_built_in(minishell);
 		return ;
 	}
-	if (!minishell->cmd_path)
-	{
-		printf("minishell: %s: command not found\n",
-			minishell->input_matrix[0]);
-		minishell->exit_status = 127;
+	if (cmd_not_found(minishell))
 		return ;
-	}
 	fork_exec(minishell);
 }
 
@@ -51,14 +66,11 @@ void	exec(t_minishell *minishell)
 
 static void	get_exit_status(t_minishell *minishell, pid_t pid)
 {
-	int	status;
-
-	status = 0;
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		minishell->exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		minishell->exit_status = 128 + WTERMSIG(status);
+	waitpid(pid, &minishell->exit_status, 0);
+	if (WIFEXITED(minishell->exit_status))
+		minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+	else if (WIFSIGNALED(minishell->exit_status))
+		minishell->exit_status = 128 + WTERMSIG(minishell->exit_status);
 }
 
 void	fork_exec(t_minishell *minishell)
@@ -76,4 +88,3 @@ void	fork_exec(t_minishell *minishell)
 			get_exit_status(minishell, pid);
 	}
 }
-

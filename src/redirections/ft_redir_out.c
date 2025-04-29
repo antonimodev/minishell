@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redir_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:11:27 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/28 11:30:07 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:03:37 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_redir_out_parent(t_minishell *minishell)
         perror("Error al abrir el archivo");
         return;
     }
-    fprintf(stderr, "input_matrix: %s\n", minishell->input_matrix[0]);
 	pipe_to_file(minishell->pipe_tools.pipes[current_pipe].read_pipe, file);
 	close(file);
 }

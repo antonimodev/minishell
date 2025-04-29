@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:10:33 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:54:19 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 
 static void	redirect_parent(t_minishell *minishell);
 static void	redirect_child(t_minishell *minishell);
+
+bool	cmd_not_found(t_minishell *minishell)
+{
+	if (!minishell->cmd_path)
+	{
+		printf("minishell: %s: command not found\n",
+			minishell->input_matrix[0]);
+		minishell->exit_status = CMD_NOT_FOUND;
+		return (true);
+	}
+	return (false);
+}
 
 void	pipe_to_file(int read_from, int write_into)
 {
@@ -33,6 +45,8 @@ void	redir_first_cmd(t_minishell *minishell)
 {
     int current_pipe;
 
+	if (cmd_not_found(minishell))
+		exit(CMD_NOT_FOUND);
     current_pipe = minishell->pipe_tools.redir_count - 1;
     set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
     return ;
@@ -41,15 +55,7 @@ void	redir_first_cmd(t_minishell *minishell)
 void    redirect(t_minishell *minishell)
 {
     if (minishell->pid == CHILD)
-	{
         redirect_child(minishell);
-		if (minishell->prev_redir == REDIR_OUT
-		||	minishell->prev_redir == REDIR_APPEND)
-		{
-			free_minishell(minishell);
-			exit(EXIT_SUCCESS);
-		}
-	}
     else
         redirect_parent(minishell);
 }
@@ -85,20 +91,6 @@ static void	redirect_parent(t_minishell *minishell) // ultimo comando
 		else if (minishell->redirection == REDIR_HEREDOC)
 			ft_redir_heredoc(); */
 }
-
-/* void	redirect(t_minishell *minishell)    ESTE ES EL ORIGINAL
-{
-	if (minishell->redirection == PIPE)
-		ft_pipe(minishell);
-	else if (minishell->redirection == REDIR_OUT)
-		ft_redir_out(minishell);
-	/* 	else if (minishell->redirection == REDIR_IN)
-			ft_redir_in();
-		else if (minishell->redirection == REDIR_APPEND)
-				ft_redir_append(minishell);
-		else if (minishell->redirection == REDIR_HEREDOC)
-			ft_redir_heredoc();
-} */
 
 void	fd_redirection(int from, int to)
 {

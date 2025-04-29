@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/11 14:10:37 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:56:52 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,12 @@ void	ft_pipe(t_minishell *minishell)
 	t_pipe	current_pipe;
 	t_pipe	prev_pipe;
 
+	if (cmd_not_found(minishell))
+		exit(CMD_NOT_FOUND);
 	cmd_position = minishell->pipe_tools.redir_count - 1;
 	current_pipe = minishell->pipe_tools.pipes[cmd_position];
-	if (!minishell->prev_redir)
-		redir_first_cmd(minishell);
-	else
-	{
-		prev_pipe = minishell->pipe_tools.pipes[cmd_position - 1];
-		close_unused_pipes(minishell, cmd_position);
-		set_pipe_mode(STDIN_FILENO, prev_pipe);
-		set_pipe_mode(STDOUT_FILENO, current_pipe);
-	}
+	prev_pipe = minishell->pipe_tools.pipes[cmd_position - 1];
+	close_unused_pipes(minishell, cmd_position);
+	set_pipe_mode(STDIN_FILENO, prev_pipe);
+	set_pipe_mode(STDOUT_FILENO, current_pipe);
 }

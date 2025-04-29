@@ -62,8 +62,8 @@ export a=, debería de exportar a=""
 export a, se duplica. Solo manejamos con =, pero sin = se acaba duplicando
 export cuando haces por ej; HOME+=perro sería como concatenarle perro
 export debe aceptar varias variables (si falla una, las demas se deben hacer)
-Reidirecciones sueltas, mensajes de error
 ls || wc
+wc < hola.txt < (redireccion abierta hay que manejarlo)
 echo $
 
 Formato -> [ORDEN] + 2 palabras (como máximo)

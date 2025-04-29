@@ -27,6 +27,13 @@
 #include <fcntl.h>
 
 /* --------------------- ENUMS -----------------------------*/
+
+typedef enum e_error
+{
+	INVALID_FILE = 1,
+	CMD_NOT_FOUND = 127,
+} e_error;
+
 typedef enum e_built_in
 {
 	FT_NULL,
@@ -54,6 +61,8 @@ typedef enum e_process
 	CHILD,
 	PARENT
 }	e_process;
+
+/* -------------------------- STRUCTS ----------------------------*/
 
 typedef struct s_quote
 {
@@ -92,7 +101,7 @@ typedef struct s_minishell
 	e_process		pid;
 	t_pipe_tools	pipe_tools;
 	bool			return_flag;
-	bool			valid_file;
+	bool			invalid_file;
 }	t_minishell;
 
 
@@ -228,5 +237,7 @@ void	ft_redir_in_parent(t_minishell *minishell);
 
 void	redir_first_cmd(t_minishell *minishell);
 bool   check_file_in_matrix(char **matrix);
+
+bool cmd_not_found(t_minishell *minishell);
 
 #endif

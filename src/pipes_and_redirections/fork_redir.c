@@ -22,9 +22,9 @@ static void	foo(t_minishell *minishell, char **matrix, int *current_pos)
 		    (*current_pos)++;
 			continue ;
 		}
-        if (matrix[*current_pos][0] == '<')
+        if (matrix[*current_pos][0] == REDIR_IN)
 			(*current_pos)++;
-		else if(matrix[*current_pos][0] != '<')
+		else if(matrix[*current_pos][0] != REDIR_IN)
 		{
 			minishell->redirection = matrix[*current_pos][0];
 			minishell->prev_redir = REDIR_IN;
@@ -82,7 +82,10 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 		{
 			close(minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count
 				- 1].write_pipe);
-			waitpid(child, NULL, 0);
+			waitpid(child, &minishell->exit_status, 0);
+			if (WIFEXITED(minishell->exit_status))
+				minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+			fprintf(stderr, "exit status: %d\n", minishell->exit_status);
 		}
 		*operator_pos = *current_pos + 1;
 	}
