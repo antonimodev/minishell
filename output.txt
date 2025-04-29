@@ -1,9 +1,0 @@
-LICENSE
-Makefile
-PDF
-TODO.txt
-lib
-minishell
-output.txt
-src
-tester.sh
