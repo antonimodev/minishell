@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/29 12:50:43 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:01:11 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ static bool	redir_exceptions(t_minishell *minishell)
 		minishell->redirection == REDIR_APPEND))
 		return (true);
 
-	if (minishell->invalid_file ||
-		minishell->exit_status == INVALID_FILE) // revisar si exit_status lo coge bien
+ 	if (minishell->invalid_file) // revisar si exit_status lo coge bien
+	{
+		minishell->exit_status = INVALID_FILE;
 		return (true);
-
+	}
 	return (false);
 }
 

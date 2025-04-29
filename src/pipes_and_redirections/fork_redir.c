@@ -85,7 +85,6 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 			waitpid(child, &minishell->exit_status, 0);
 			if (WIFEXITED(minishell->exit_status))
 				minishell->exit_status = WEXITSTATUS(minishell->exit_status);
-			fprintf(stderr, "exit status: %d\n", minishell->exit_status);
 		}
 		*operator_pos = *current_pos + 1;
 	}

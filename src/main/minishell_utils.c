@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/28 11:27:43 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:23:48 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void	print_minishell(t_minishell *minishell)
 		minishell->redirection);
 	printf("\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n",
 		minishell->pipe_tools.redir_count);
+	printf("\033[1m▶ Return flag:\033[0m \033[33m%ld\033[0m\n",
+		minishell->return_flag);
+	printf("\033[1m▶ Invalid_file:\033[0m \033[33m%ld\033[0m\n",
+		minishell->invalid_file);
 	printf("\033[1m▶ Built-in type:\033[0m ");
 	if (minishell->built_in_type == FT_NULL)
 		printf("\033[33mNULL\033[0m\n");

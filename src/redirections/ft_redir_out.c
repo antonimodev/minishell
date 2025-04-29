@@ -17,27 +17,31 @@
 
 // Nombre provisional, la idea es crear un archivo vacio y cerrarlo
 // al cerrarlo en la misma funcion no suele ser muy generica la funcion.
-static void	create_empty_file(char *filename)
+static void	create_empty_file(int *file, char *filename)
 {
-	int	file;
-
-	file = open(filename, O_CREAT | O_TRUNC, 0644);
-    if (file == -1)
+	*file = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+    if (*file == -1)
     {
         perror("Error al abrir el archivo");
         return;
     }
-    close(file);
 }
 
 void    ft_redir_out(t_minishell *minishell)
 {
     int prev_pipe;
     int current_pipe;
+    int file;
 
     prev_pipe = minishell->pipe_tools.redir_count - 2;
     current_pipe = minishell->pipe_tools.redir_count - 1;
-    create_empty_file(minishell->input_matrix[0]);
+    create_empty_file(&file, minishell->input_matrix[0]);
+    if (minishell->redirection != REDIR_OUT)
+    {
+        pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, file);
+        close(file);
+        return ;
+    }
     pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
     // No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
     // Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
