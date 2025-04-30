@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/29 13:23:48 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:24:29 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,64 +54,83 @@ void	free_minishell(t_minishell *minishell)
 // suggest
 void	print_minishell(t_minishell *minishell)
 {
-	int	i;
-	printf("\n\033[1;36m=== MINISHELL PID:%d INFO ===\033[0m\n\n",
-		minishell->pid);
-	printf("\033[1m▶ User:\033[0m \033[33m%s\033[0m\n",
-		minishell->user ? minishell->user : "(null)");
-	printf("\033[1m▶ User input:\033[0m \033[33m%s\033[0m\n",
-		minishell->user_input ? minishell->user_input : "(null)");
-	printf("\033[1m▶ Arguments count:\033[0m \033[33m%d\033[0m\n",
-		minishell->args_num);
-	printf("\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n",
-		minishell->cmd_path ? minishell->cmd_path : "(null)");
-	printf("\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n",
-		minishell->exit_status);
-	printf("\033[1m▶ Redirection:\033[0m \033[33m%d\033[0m\n",
-		minishell->redirection);
-	printf("\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n",
-		minishell->pipe_tools.redir_count);
-	printf("\033[1m▶ Return flag:\033[0m \033[33m%ld\033[0m\n",
-		minishell->return_flag);
-	printf("\033[1m▶ Invalid_file:\033[0m \033[33m%ld\033[0m\n",
-		minishell->invalid_file);
-	printf("\033[1m▶ Built-in type:\033[0m ");
-	if (minishell->built_in_type == FT_NULL)
-		printf("\033[33mNULL\033[0m\n");
-	else if (minishell->built_in_type == FT_EXIT)
-		printf("\033[33mEXIT\033[0m\n");
-	else if (minishell->built_in_type == FT_ECHO)
-		printf("\033[33mECHO\033[0m\n");
-	else if (minishell->built_in_type == FT_CD)
-		printf("\033[33mCD\033[0m\n");
-	else if (minishell->built_in_type == FT_PWD)
-		printf("\033[33mPWD\033[0m\n");
-	else if (minishell->built_in_type == FT_EXPORT)
-		printf("\033[33mEXPORT\033[0m\n");
-	else if (minishell->built_in_type == FT_UNSET)
-		printf("\033[33mUNSET\033[0m\n");
-	else if (minishell->built_in_type == FT_ENV)
-		printf("\033[33mENV\033[0m\n");
-	else
-		printf("\033[33mUNKNOWN (%d)\033[0m\n", minishell->built_in_type);
-	printf("\n\033[1m▶ Input matrix:\033[0m\n");
-	if (minishell->input_matrix)
-	{
-		i = 0;
-		while (minishell->input_matrix[i])
-		{
-			printf("  [%d]: \033[33m%s\033[0m\n", i,
-				minishell->input_matrix[i]);
-			i++;
-		}
-	}
-	else
-		printf("  \033[33m(null)\033[0m\n");
-	printf("\n\033[1m▶ Pipe count: %d\033[0m\n",
-		minishell->pipe_tools.redir_count);
-	printf("\033[1m▶ Saved STDIN:\033[0m \033[33m%d\033[0m\n",
-		minishell->pipe_tools.STDIN);
-	printf("\033[1m▶ Saved STDOUT:\033[0m \033[33m%d\033[0m\n",
-		minishell->pipe_tools.STDOUT);
-	printf("\n\033[1;36m===========================\033[0m\n");
+    int	i;
+    
+    fprintf(stderr, "\n\033[1;36m=== MINISHELL PID:%d INFO ===\033[0m\n\n",
+        minishell->pid);
+    fprintf(stderr, "\033[1m▶ Process type:\033[0m \033[33m%s\033[0m\n",
+        minishell->pid == PARENT ? "PARENT" : "CHILD");
+    fprintf(stderr, "\033[1m▶ User input:\033[0m \033[33m%s\033[0m\n",
+        minishell->user_input ? minishell->user_input : "(null)");
+    fprintf(stderr, "\033[1m▶ Command path:\033[0m \033[33m%s\033[0m\n",
+        minishell->cmd_path ? minishell->cmd_path : "(null)");
+    fprintf(stderr, "\033[1m▶ Built-in type:\033[0m ");
+    if (minishell->built_in_type == FT_NULL)
+        fprintf(stderr, "\033[33mNULL\033[0m\n");
+    else if (minishell->built_in_type == FT_EXIT)
+        fprintf(stderr, "\033[33mEXIT\033[0m\n");
+    else if (minishell->built_in_type == FT_ECHO)
+        fprintf(stderr, "\033[33mECHO\033[0m\n");
+    else if (minishell->built_in_type == FT_CD)
+        fprintf(stderr, "\033[33mCD\033[0m\n");
+    else if (minishell->built_in_type == FT_PWD)
+        fprintf(stderr, "\033[33mPWD\033[0m\n");
+    else if (minishell->built_in_type == FT_EXPORT)
+        fprintf(stderr, "\033[33mEXPORT\033[0m\n");
+    else if (minishell->built_in_type == FT_UNSET)
+        fprintf(stderr, "\033[33mUNSET\033[0m\n");
+    else if (minishell->built_in_type == FT_ENV)
+        fprintf(stderr, "\033[33mENV\033[0m\n");
+    else
+        fprintf(stderr, "\033[33mUNKNOWN (%d)\033[0m\n", minishell->built_in_type);
+    fprintf(stderr, "\033[1m▶ Return flag:\033[0m \033[33m%s\033[0m\n",
+        minishell->return_flag ? "true" : "false");
+    fprintf(stderr, "\033[1m▶ Invalid_file:\033[0m \033[33m%s\033[0m\n",
+        minishell->invalid_file ? "true" : "false");
+    fprintf(stderr, "\n\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n",
+        minishell->pipe_tools.redir_count);
+    fprintf(stderr, "\033[1m▶ Redirection:\033[0m ");
+    if (minishell->redirection == PIPE)
+        fprintf(stderr, "\033[33m|\033[0m\n");
+    else if (minishell->redirection == REDIR_IN)
+        fprintf(stderr, "\033[33m<\033[0m\n");
+    else if (minishell->redirection == REDIR_OUT)
+        fprintf(stderr, "\033[33m>\033[0m\n");
+    else if (minishell->redirection == REDIR_APPEND)
+        fprintf(stderr, "\033[33m>>\033[0m\n");
+    else if (minishell->redirection == REDIR_HEREDOC)
+        fprintf(stderr, "\033[33m<<\033[0m\n");
+    else
+        fprintf(stderr, "\033[33mNONE\033[0m\n");
+    fprintf(stderr, "\033[1m▶ Previous Redirection:\033[0m ");
+    if (minishell->prev_redir == PIPE)
+        fprintf(stderr, "\033[33m|\033[0m\n");
+    else if (minishell->prev_redir == REDIR_IN)
+        fprintf(stderr, "\033[33m<\033[0m\n");
+    else if (minishell->prev_redir == REDIR_OUT)
+        fprintf(stderr, "\033[33m>\033[0m\n");
+    else if (minishell->prev_redir == REDIR_APPEND)
+        fprintf(stderr, "\033[33m>>\033[0m\n");
+    else if (minishell->prev_redir == REDIR_HEREDOC)
+        fprintf(stderr, "\033[33m<<\033[0m\n");
+    else
+        fprintf(stderr, "\033[33mNONE\033[0m\n");
+    fprintf(stderr, "\n\033[1m▶ Input matrix:\033[0m\n");
+    if (minishell->input_matrix)
+    {
+        i = 0;
+        while (minishell->input_matrix[i])
+        {
+            fprintf(stderr, "  [%d]: \033[33m%s\033[0m\n", i,
+                minishell->input_matrix[i]);
+            i++;
+        }
+    }
+    else
+        fprintf(stderr, "  \033[33m(null)\033[0m\n");
+        
+    fprintf(stderr, "\n\033[1m▶ Exit status ($?):\033[0m \033[33m%d\033[0m\n",
+            minishell->exit_status);
+        
+    fprintf(stderr, "\n\033[1;36m===========================\033[0m\n");
 }

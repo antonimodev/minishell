@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/29 12:54:19 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:16:13 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void    redirect(t_minishell *minishell)
         redirect_child(minishell);
     else
         redirect_parent(minishell);
+	//print_minishell(minishell);
 }
 
 static void	redirect_child(t_minishell *minishell)
@@ -72,9 +73,8 @@ static void	redirect_child(t_minishell *minishell)
 		ft_redir_append(minishell);
 	else if (minishell->prev_redir == REDIR_IN)
 		ft_redir_in(minishell);
-	/*
-		else if (minishell->redirection == REDIR_HEREDOC)
-			ft_redir_heredoc(); */
+	//else if (minishell->redirection == REDIR_HEREDOC)
+	//	ft_redir_heredoc(minishell);
 }
 
 static void	redirect_parent(t_minishell *minishell) // ultimo comando
@@ -87,9 +87,8 @@ static void	redirect_parent(t_minishell *minishell) // ultimo comando
 		ft_redir_append_parent(minishell);
 	else if (minishell->redirection == REDIR_IN) // <
 		ft_redir_in_parent(minishell);
-	/*
-		else if (minishell->redirection == REDIR_HEREDOC)
-			ft_redir_heredoc(); */
+	else if (minishell->redirection == REDIR_HEREDOC) // <<
+		ft_redir_heredoc_parent(minishell);
 }
 
 void	fd_redirection(int from, int to)

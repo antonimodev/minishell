@@ -234,10 +234,11 @@ void	pipe_to_file(int read_from, int write_into);
 void    ft_redir_out_parent(t_minishell *minishell);
 void    ft_redir_append_parent(t_minishell *minishell);
 void	ft_redir_in_parent(t_minishell *minishell);
+void	ft_redir_heredoc_parent(t_minishell *minishell);
 
 void	redir_first_cmd(t_minishell *minishell);
-bool   check_file_in_matrix(char **matrix);
+bool	check_file_in_matrix(char **matrix);
 
-bool cmd_not_found(t_minishell *minishell);
+bool	cmd_not_found(t_minishell *minishell);
 
 #endif

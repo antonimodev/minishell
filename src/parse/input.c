@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 11:53:49 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:34:28 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ void	parse_input(t_minishell *minishell)
 		handle_redir(minishell);
 	else
 		minishell->input_matrix = split_input(minishell);
+	if (isatty(STDIN_FILENO))
+		fprintf(stderr, "STDIN es un TTY\n");
+	else
+		fprintf(stderr, "STDIN NO es un TTY\n");
 	minishell->args_num = matrix_len(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }
+
+// CMD NORMAL -> Funciona readline
+// CMD + REDIRECCION (<, <<) -> CAGADON
+
+// ls | wc -> Ejecuta LS, readline coge el primer elemento de LS y le pasa el resto a WC.
