@@ -80,9 +80,10 @@ static void	set_parent_input(t_minishell *minishell)
 	if (minishell->pipe_tools.redir_count <= 0)
 		return ;
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
-	if (!minishell->redirection == REDIR_IN)
+	if (minishell->redirection != REDIR_IN)
 		close(pipe.write_pipe);
-	fd_redirection(STDIN_FILENO, pipe.read_pipe);
+	if (minishell->redirection != REDIR_IN && minishell->redirection != REDIR_HEREDOC)
+		fd_redirection(STDIN_FILENO, pipe.read_pipe);
 	//close(pipe.read_pipe); No cerrar el pipe de lectura aquí, ya que se necesita para leer el contenido
 	//del pipe en el proceso padre.
 }

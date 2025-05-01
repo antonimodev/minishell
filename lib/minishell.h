@@ -236,6 +236,7 @@ void    ft_redir_append_parent(t_minishell *minishell);
 void	ft_redir_in_parent(t_minishell *minishell);
 void	ft_redir_heredoc_parent(t_minishell *minishell);
 
+char	**clean_matrix_redirs(t_minishell *minishell);
 void	redir_first_cmd(t_minishell *minishell);
 bool	check_file_in_matrix(char **matrix);
 

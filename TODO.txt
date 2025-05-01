@@ -65,6 +65,7 @@ export debe aceptar varias variables (si falla una, las demas se deben hacer)
 ls || wc
 wc < hola.txt < (redireccion abierta hay que manejarlo)
 echo $
+revisar funcionamiento de "wc < wc << pejjo"
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET

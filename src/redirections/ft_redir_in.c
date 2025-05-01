@@ -12,17 +12,19 @@
 
 #include "minishell.h"
 
-static char	**clean_redir_in_matrix(t_minishell *minishell) // nombres...
+char	**clean_matrix_redirs(t_minishell *minishell)
 {
-	char	**new_matrix;
-	int		end;
+    char	**new_matrix;
+    int		end;
 
-	end = 0;
-	while (minishell->input_matrix[end] && minishell->input_matrix[end][0] != '<')
-		end++;
-	new_matrix = matrix_from_matrix(minishell->input_matrix, 0, end);
-	free_matrix(minishell->input_matrix);
-	return (new_matrix);
+    end = 0;
+    while (minishell->input_matrix[end] &&
+           ft_strncmp(minishell->input_matrix[end], "<", 2) != 0 &&
+           ft_strncmp(minishell->input_matrix[end], "<<", 3) != 0)
+        end++;
+    new_matrix = matrix_from_matrix(minishell->input_matrix, 0, end);
+    free_matrix(minishell->input_matrix);
+    return (new_matrix);
 }
 
 void	ft_redir_in(t_minishell *minishell)
@@ -50,7 +52,7 @@ void	ft_redir_in(t_minishell *minishell)
 	close(fd);
 	set_pipe_mode(STDIN_FILENO, temp_pipe);
 	set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
-	minishell->input_matrix = clean_redir_in_matrix(minishell);
+	minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
 void	ft_redir_in_parent(t_minishell *minishell)
@@ -75,7 +77,7 @@ void	ft_redir_in_parent(t_minishell *minishell)
 	pipe_to_file(fd, minishell->pipe_tools.pipes[current_pipe].write_pipe);
 	close(fd);
 	set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[current_pipe]);
-	minishell->input_matrix = clean_redir_in_matrix(minishell);
+	minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
 bool   check_file_in_matrix(char **matrix) // comprobacion de existencia de archivos intermedios

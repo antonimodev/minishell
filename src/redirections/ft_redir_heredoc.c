@@ -13,20 +13,12 @@
 #include "minishell.h"
 
 // RECOGER TODO EL BLOQUE, grep "perro" << EOF > output.txt
-void    ft_redir_heredoc(t_minishell *minishell) //grep "perro" << EOF
+/*void    ft_redir_heredoc(t_minishell *minishell) // wc < grep "perro" << EOF > output.txt
 {
-    /*
-    - Creo una pipe temporal
-    - Variable que recoje el valor de un readline
-    - Readline -> para almacenar todo lo que escriba el usuario
-        - Comprobar si strcmp de la variable de readline == delimitador
-            Si lo es, pues rompe el bucle
-    - string -> ft_putendl_fd(string, pipe_temporal.write_pipe)
-    - CMD -> set_pipe_mode(STDIN_FILENO, pipe_temporal)
-    - free(string) por si es buena practica ya que execve deberia de limpiar pero bueno
-    - set_pipe_mode(STDOUT_FILENO, current_pipe)
-    */
-}
+    char    *input_heredoc;
+
+    fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
+}*/
 
 void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
 {
@@ -38,16 +30,14 @@ void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
 	temp_pipe = create_pipe();
 	last_pos = matrix_len(minishell->input_matrix) - 1;
 	//current_pipe = minishell->pipe_tools.redir_count - 1; 
-	input_heredoc = readline("> ");
 	print_minishell(minishell);
-    while (input_heredoc)
+    while (1)
     {
-		printf("input heredoc: %s\n", input_heredoc);
-		free(input_heredoc);
         input_heredoc = readline("> ");
-  		if (!input_heredoc)
+  		if (!input_heredoc) // que ha hecho CTRL + D
 		{
-			perror("ze deberia haber zalido con el delimitadó");
+			printf("minishell: warning: here-document delimited by end-of-file (wanted '%s')\n",
+                minishell->input_matrix[last_pos]);
 			break ;
 		}
         if (ft_strcmp(input_heredoc, minishell->input_matrix[last_pos]) == 0)
@@ -59,5 +49,25 @@ void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
 		free(input_heredoc);
     }
 	set_pipe_mode(STDIN_FILENO, temp_pipe);
+    minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
+bool    ft_test(char *source, char *wanted) // para buscar "<<" en un str
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (source[i])
+	{
+		j = 0;
+		while (wanted[j]
+            && source[i + j]
+            && source[i + j] == wanted[j])
+			j++;
+		if (!wanted[j])
+			return true;
+		i++;
+	}
+	return false;
+}
