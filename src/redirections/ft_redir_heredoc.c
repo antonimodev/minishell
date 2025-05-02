@@ -52,22 +52,3 @@ void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
     minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
-bool    ft_test(char *source, char *wanted) // para buscar "<<" en un str
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (source[i])
-	{
-		j = 0;
-		while (wanted[j]
-            && source[i + j]
-            && source[i + j] == wanted[j])
-			j++;
-		if (!wanted[j])
-			return true;
-		i++;
-	}
-	return false;
-}
