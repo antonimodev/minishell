@@ -146,7 +146,7 @@ void	handle_redir(t_minishell *minishell)
 		//TRATAMOS EL HEREDOC
 	while (matrix[i]) // AQUI LLEGA LIMPIO SIN HEREDOC
 	{
-		if (is_redirection(matrix[i], 0))
+		if (is_redirection(matrix[i], 0)) // if (ft_strchr(matrix[i], '|'))
 		{
 			add_redir(minishell);
 			set_redir_type(minishell, matrix[i]);

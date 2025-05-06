@@ -49,6 +49,7 @@ void	parse_input(t_minishell *minishell)
 	else
 		fprintf(stderr, "STDIN NO es un TTY\n");
 
+	// ls > output.txt
 	minishell->args_num = matrix_len(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }
