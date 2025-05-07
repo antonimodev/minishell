@@ -61,25 +61,58 @@ void    redirect(t_minishell *minishell)
 	//print_minishell(minishell);
 }
 
-static void	redirect_child(t_minishell *minishell) // wc > output.txt > perro.txt << EOF1 << EOF2 << EOF3
+static void	redirect_child(t_minishell *minishell) // caso chungo -> wc > output.txt > perro.txt << EOF1 << EOF2 << EOF3
 {
 	int	i;
 
 	i = 0;
-	while (matrix[i])
+	if (minishell->first_cmd == 1)
+		redir_first_cmd(minishell);
+	else
+		ft_pipe(minishell);
+	while (minishell->input_matrix[i]) // wc > perro.txt
 	{
-		if (is_redirection())
-			set_redir_type(minishell);
+		if (is_redirection(minishell->input_matrix[i], 0))
+		{
+			set_redir_type(minishell, minishell->input_matrix[i]);
 			process_child_block(minishell, &i);
+		}
+		i++;
+	}
+	minishell->input_matrix = clean_matrix_redirs(minishell->input_matrix);
+}
+
+static void	redirect_parent(t_minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	while (minishell->input_matrix[i]) // wc > output.txt
+	{
+		if (is_redirection(minishell->input_matrix[i], 0))
+		{
+			set_redir_type(minishell, minishell->input_matrix[i]);
+			process_parent_block(minishell, &i);
+		}
 		i++;
 	}
 }
 
 void	process_child_block(t_minishell *minishell, int *index)
 {
-	// si en la posicion actual de la matrix soy == a X redireccion, llamas a la funcion
-	// similar a como lo teniamos en redirect_child anterior
+	//contempla todo menos la pipe porque separamos por pipes por defecto
+	if (minishell->input_matrix[*index][0] == REDIR_OUT)
+		ft_redir_out(minishell, index);
 }
+
+void	process_parent_block(t_minishell *minishell, int *index)
+{
+	//contempla todo menos la pipe porque separamos por pipes por defecto
+	if (minishell->input_matrix[*index][0] == REDIR_OUT)
+		ft_redir_out(minishell, index);
+}
+
+/*
 ft_redir_out()
 {
 	int	fd;
@@ -138,18 +171,13 @@ ft_heredoc()
 	escribir ft_putendl_fd(readline, temp_pipe)
 	set_pipe_mode(STDIN_FILENO, temp_pipe) y cogería el input de esa pipe
 	haciendo esto no tendríamos que crear archivo y luego borrarlo tras su uso
-	revisarlo porque justo en la sig. linea he puesto con los heredoc_fds*/ 
+	revisarlo porque justo en la sig. linea he puesto con los heredoc_fds
+	
 	set_pipe_mode(STDIN_FILENO, minishell->heredoc_fds[minishell->heredoc.heredoc_num])
 	minishell->heredoc.heredoc_num++; 
-}
+}*/
 
-ft_pipe()
-{
-	int	current_pipe = minishell->pipe_tools.redir_count - 1;
-	set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe].write_pipe)
-}
-
-static void	redirect_parent(t_minishell *minishell) // ultimo comando
+/*static void	redirect_parent(t_minishell *minishell) // ultimo comando
 {
 	if (minishell->redirection == PIPE)
 		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
@@ -161,7 +189,7 @@ static void	redirect_parent(t_minishell *minishell) // ultimo comando
 		ft_redir_in_parent(minishell);
 	else if (minishell->redirection == REDIR_HEREDOC) // <<
 		ft_redir_heredoc_parent(minishell);
-}
+}*/
 
 void	fd_redirection(int from, int to)
 {

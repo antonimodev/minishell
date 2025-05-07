@@ -27,7 +27,7 @@ static void	create_empty_file(int *file, char *filename)
     }
 }
 
-void    ft_redir_out(t_minishell *minishell)
+/* void    ft_redir_out(t_minishell *minishell)
 {
     int prev_pipe;
     int current_pipe;
@@ -46,7 +46,7 @@ void    ft_redir_out(t_minishell *minishell)
     // No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
     // Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
     // close_unused_pipes que la tenemos static en ft_pipe()
-}
+} */
 
 void	ft_redir_out_parent(t_minishell *minishell)
 {
@@ -62,4 +62,26 @@ void	ft_redir_out_parent(t_minishell *minishell)
     }
 	pipe_to_file(minishell->pipe_tools.pipes[current_pipe].read_pipe, file);
 	close(file);
+}
+
+
+void	ft_redir_out(t_minishell *minishell, int *index) // ls | wc > perro | ls > gator
+{
+	int		file;
+
+	(*index)++;
+	while (minishell->input_matrix[*index])
+	{
+		create_empty_file(&file, minishell->input_matrix[*index]);
+		if (minishell->input_matrix[(*index) + 1] == REDIR_OUT)
+		{
+			close(file);
+			(*index) = (*index) + 2;
+		}
+		else
+		{
+			pipe_to_file(STDOUT_FILENO, file);
+			close(file);
+		}
+	}
 }

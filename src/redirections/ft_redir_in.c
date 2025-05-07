@@ -18,10 +18,12 @@ char	**clean_matrix_redirs(t_minishell *minishell)
     int		end;
 
     end = 0;
-    while (minishell->input_matrix[end] &&
-           ft_strncmp(minishell->input_matrix[end], "<", 2) != 0 &&
-           ft_strncmp(minishell->input_matrix[end], "<<", 3) != 0)
-        end++;
+    while (minishell->input_matrix[end])
+	{
+		if (is_redirection(minishell->input_matrix[end], 0))
+			break ;
+		end++;
+	}
     new_matrix = matrix_from_matrix(minishell->input_matrix, 0, end);
     free_matrix(minishell->input_matrix);
     return (new_matrix);

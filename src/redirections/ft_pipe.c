@@ -46,8 +46,8 @@ void	ft_pipe(t_minishell *minishell)
 	if (cmd_not_found(minishell))
 		exit(CMD_NOT_FOUND);
 	cmd_position = minishell->pipe_tools.redir_count - 1;
-	current_pipe = minishell->pipe_tools.pipes[cmd_position];
-	prev_pipe = minishell->pipe_tools.pipes[cmd_position - 1];
+	current_pipe = minishell->pipe_tools.pipes[cmd_position]; // esto es redir_count - 1
+	prev_pipe = minishell->pipe_tools.pipes[cmd_position - 1]; // esto es redir_count - 2
 	close_unused_pipes(minishell, cmd_position);
 	set_pipe_mode(STDIN_FILENO, prev_pipe);
 	set_pipe_mode(STDOUT_FILENO, current_pipe);

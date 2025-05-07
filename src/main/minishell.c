@@ -25,7 +25,6 @@ int	main(int ac, char **av, char **envp)
 		init_minishell(&minishell, envp);
 		get_input(&minishell);
 		parse_input(&minishell);
-		//print_minishell(&minishell);
 		execute(&minishell);
 		reset_fd(&minishell);
 		free_minishell(&minishell);

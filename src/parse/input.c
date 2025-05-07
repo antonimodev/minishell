@@ -44,10 +44,10 @@ void	parse_input(t_minishell *minishell)
 	else
 		minishell->input_matrix = split_input(minishell);
 
-	if (isatty(STDIN_FILENO))
+	/* if (isatty(STDIN_FILENO))
 		fprintf(stderr, "STDIN es un TTY\n");
 	else
-		fprintf(stderr, "STDIN NO es un TTY\n");
+		fprintf(stderr, "STDIN NO es un TTY\n"); */
 
 	// ls > output.txt
 	minishell->args_num = matrix_len(minishell->input_matrix);

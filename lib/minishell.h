@@ -46,7 +46,7 @@ typedef enum e_built_in
 	FT_EXIT
 }	e_built_in;
 
-typedef enum e_redirection // ls >> grep
+typedef enum e_redirection
 {
 	NONE,
     PIPE = 124,     // |
@@ -102,6 +102,7 @@ typedef struct s_minishell
 	t_pipe_tools	pipe_tools;
 	bool			return_flag;
 	bool			invalid_file;
+	int				first_cmd;
 }	t_minishell;
 
 
@@ -223,7 +224,7 @@ t_pipe	create_pipe(void);
 void	set_pipe_mode(int mode, t_pipe pipe);
 void	ft_pipe(t_minishell *minishell);
 void	ft_redir_in(t_minishell *minishell);
-void	ft_redir_out(t_minishell *minishell);
+void	ft_redir_out(t_minishell *minishell, int *index);
 void	ft_redir_append(t_minishell *minishell);
 void	ft_redir_heredoc(t_minishell *minishell);
 
@@ -239,6 +240,8 @@ void	ft_redir_heredoc_parent(t_minishell *minishell);
 char	**clean_matrix_redirs(t_minishell *minishell);
 void	redir_first_cmd(t_minishell *minishell);
 bool	check_file_in_matrix(char **matrix);
+void	process_child_block(t_minishell *minishell, int *index);
+void	process_parent_block(t_minishell *minishell, int *index);
 
 bool	cmd_not_found(t_minishell *minishell);
 

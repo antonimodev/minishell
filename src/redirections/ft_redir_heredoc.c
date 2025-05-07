@@ -30,7 +30,7 @@ void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
 	temp_pipe = create_pipe();
 	last_pos = matrix_len(minishell->input_matrix) - 1;
 	//current_pipe = minishell->pipe_tools.redir_count - 1; 
-	print_minishell(minishell);
+	//print_minishell(minishell);
     while (1)
     {
         input_heredoc = readline("> ");

@@ -67,13 +67,13 @@ static void	foo(t_minishell *minishell, char **matrix, int *current_pos,
 			minishell->prev_redir = REDIR_IN;
 			return ;
 		}
-    }
+    
 	minishell->return_flag = true;
 	(*current_pos)--;
     return ;
 } */
 
-static void	set_parent_input(t_minishell *minishell)
+static void	set_parent_input(t_minishell *minishell) // revisar para hacerlo más lógico
 {
 	t_pipe	pipe;
 
@@ -103,32 +103,23 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 {
 	pid_t	child;
 
-	if (minishell->redirection == REDIR_IN)
-		foo(minishell, matrix, current_pos, "<");
-	else if (minishell->redirection == REDIR_HEREDOC)
-		foo(minishell, matrix, current_pos, "<<");
-	if (minishell->return_flag)
-		return (false);
-	else
-	{
-		child = fork();
-		if (is_child_process(minishell, child))
-		{
-			minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos,
-					*current_pos);
-			return (true);
-		}
-		else
-		{
-			close(minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count
-				- 1].write_pipe);
-			waitpid(child, &minishell->exit_status, 0);
-			if (WIFEXITED(minishell->exit_status))
-				minishell->exit_status = WEXITSTATUS(minishell->exit_status);
-		}
-		*operator_pos = *current_pos + 1;
-	}
-	return (false);
+    child = fork();
+    if (is_child_process(minishell, child))
+    {
+        minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos,
+                *current_pos);
+        return (true);
+    }
+    else
+    {
+        close(minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count
+            - 1].write_pipe);
+        waitpid(child, &minishell->exit_status, 0);
+        if (WIFEXITED(minishell->exit_status))
+            minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+    }
+    *operator_pos = *current_pos + 1;
+    return (false);
 }
 
 void	handle_redir(t_minishell *minishell)
@@ -136,20 +127,17 @@ void	handle_redir(t_minishell *minishell)
 	int		i;
 	int		operator_pos;
 	char	**matrix;
- 
+
 	i = 0;
 	operator_pos = 0;
-	// HAY HEREDOC EN MI MINISHELL->USER_INPUT?
-		// MINISHELL->HEREDOC.EXIST = TRUE;
 	matrix = split_input(minishell);
-	// IF MINISHELL->HEREDOC.EXIST
-		//TRATAMOS EL HEREDOC
-	while (matrix[i]) // AQUI LLEGA LIMPIO SIN HEREDOC
+
+	while (matrix[i])
 	{
-		if (is_redirection(matrix[i], 0)) // if (ft_strchr(matrix[i], '|'))
+		if (ft_strchr(matrix[i], '|')) // cat > file.txt << EOF
 		{
-			add_redir(minishell);
-			set_redir_type(minishell, matrix[i]);
+            add_redir(minishell);
+			minishell->first_cmd++;
 			if (process_child_cmd(minishell, matrix, &operator_pos, &i))
 			{
 				free_matrix(matrix);
@@ -158,10 +146,10 @@ void	handle_redir(t_minishell *minishell)
 		}
 		i++;
 	}
-	set_parent_input(minishell);
-	minishell->input_matrix = matrix_from_matrix(matrix, operator_pos,
-			matrix_len(matrix));
-	free_matrix(matrix);
+    set_parent_input(minishell);
+    minishell->input_matrix = matrix_from_matrix(matrix, operator_pos,
+        matrix_len(matrix));
+    free_matrix(matrix);
 }
 // APUNTES PARA HEREDOC:
 
