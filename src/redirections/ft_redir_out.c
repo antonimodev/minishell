@@ -48,24 +48,35 @@ static void	create_empty_file(int *file, char *filename)
     // close_unused_pipes que la tenemos static en ft_pipe()
 } */
 
-void	ft_redir_out_parent(t_minishell *minishell)
+void	ft_redir_out_parent(t_minishell *minishell, int *index)
 {
-	int	file;
-    int	current_pipe;
+	//fprintf(stderr, "\nRedir out PARENT:\n"); // ls > test
+	int		file;
 
-	current_pipe = minishell->pipe_tools.redir_count - 1;
-	file = open(minishell->input_matrix[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (file == -1)
-    {
-        perror("Error al abrir el archivo");
-        return;
-    }
-	pipe_to_file(minishell->pipe_tools.pipes[current_pipe].read_pipe, file);
-	close(file);
+	(*index)++;// pasa de ">" a test
+	while (minishell->input_matrix[*index])
+	{
+		create_empty_file(&file, minishell->input_matrix[*index]);
+		(*index)++; // pasa de test a ">"
+		if (minishell->input_matrix[*index] &&
+		minishell->input_matrix[*index][0] == REDIR_OUT)
+		{
+			close(file);
+			(*index)++; // pasa de > a "perro"
+		}
+		else
+		{
+			fd_redirection(STDOUT_FILENO, file);
+			//fprintf(stderr, "\nSe ha redireccionado STDOUT al fd: %d\n", file);
+			close(file);
+		}
+	}
+	//fprintf(stderr, "\nSe han hecho todos los '>':\n"); // ls > test
+	// Cuando esté ">>" hay que reestructurar para que funcione: "ls > empty >> untouch > empty2 >> untouch2 > final"
+	// En ese ejemplo, final tiene el resultado de LS, empty/empty2 se vacian y untouch/untouch2 no se modifican
 }
 
-
-void	ft_redir_out(t_minishell *minishell, int *index) // ls | wc > perro | ls > gator
+void	ft_redir_out(t_minishell *minishell, int *index) // ls > file1 | ls > file2
 {
 	int		file;
 
@@ -73,14 +84,16 @@ void	ft_redir_out(t_minishell *minishell, int *index) // ls | wc > perro | ls > 
 	while (minishell->input_matrix[*index])
 	{
 		create_empty_file(&file, minishell->input_matrix[*index]);
-		if (minishell->input_matrix[(*index) + 1] == REDIR_OUT)
+		(*index)++;
+		if (minishell->input_matrix[*index] &&
+			minishell->input_matrix[*index][0] == REDIR_OUT)
 		{
 			close(file);
-			(*index) = (*index) + 2;
+			(*index)++;
 		}
 		else
 		{
-			pipe_to_file(STDOUT_FILENO, file);
+			fd_redirection(STDOUT_FILENO, file);
 			close(file);
 		}
 	}

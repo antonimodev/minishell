@@ -79,13 +79,10 @@ static void	set_parent_input(t_minishell *minishell) // revisar para hacerlo má
 
 	if (minishell->pipe_tools.redir_count <= 0)
 		return ;
+	
 	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
-	if (minishell->redirection != REDIR_IN)
-		close(pipe.write_pipe);
-	if (minishell->redirection != REDIR_IN && minishell->redirection != REDIR_HEREDOC)
-		fd_redirection(STDIN_FILENO, pipe.read_pipe);
-	//close(pipe.read_pipe); No cerrar el pipe de lectura aquí, ya que se necesita para leer el contenido
-	//del pipe en el proceso padre.
+	if (minishell->first_cmd == 0)
+		return ;
 }
 
 static bool	is_child_process(t_minishell *minishell, pid_t child)
@@ -139,7 +136,7 @@ void	handle_redir(t_minishell *minishell)
             add_redir(minishell);
 			minishell->first_cmd++;
 			if (process_child_cmd(minishell, matrix, &operator_pos, &i))
-			{
+			{	
 				free_matrix(matrix);
 				return ;
 			}
@@ -173,7 +170,7 @@ bool    ft_test(char *source, char *wanted) // para buscar "<<" en un str
 	return false;
 }
 
-typedef struct s_heredoc
+/*typedef struct s_heredoc
 {
 	bool	exist; // si existe
 	int		heredoc_num; // cuantos encuentra
@@ -186,7 +183,7 @@ typedef struct s_heredoc
 // fd_num = 1
 // temp_fd -> se reserva con [fd_num] espacios
 
-/* "INIT_HEREDOC_STRUCT" -> Cambiarle el nombre
+ "INIT_HEREDOC_STRUCT" -> Cambiarle el nombre
 while en cada pos de la matrix
 si encuentro un heredoc, heredoc_num++;
 el siguiente indice al heredoc, es el delimit de ese heredoc, se guarda en la matrix delimits.

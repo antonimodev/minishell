@@ -12,38 +12,11 @@
 
 #include "minishell.h"
 
-static bool	redir_exceptions(t_minishell *minishell)
-{
-	if (minishell->pid == CHILD &&
-		(minishell->prev_redir == REDIR_APPEND || 
-		minishell->prev_redir == REDIR_OUT))
-	{
-		free_minishell(minishell);
-		exit(EXIT_SUCCESS);
-	}
-
-	if (minishell->pid == PARENT &&
-		(minishell->redirection == REDIR_OUT ||
-		minishell->redirection == REDIR_APPEND))
-		return (true);
-
- 	if (minishell->invalid_file) // revisar si exit_status lo coge bien
-	{
-		minishell->exit_status = INVALID_FILE;
-		return (true);
-	}
-	return (false);
-}
-
 void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
 	redirect(minishell);
-
-	if (redir_exceptions(minishell))
-		return ;
-	
 	if (is_built_in(minishell))
 	{
 		exec_built_in(minishell);
@@ -80,7 +53,7 @@ void	fork_exec(t_minishell *minishell)
 
 	if (minishell->pid == CHILD)
 		exec(minishell);
-	else // ultimo comando
+	else
 	{
 		pid = fork();
 		if (pid == 0)

@@ -57,8 +57,7 @@ void    redirect(t_minishell *minishell)
     if (minishell->pid == CHILD)
 		redirect_child(minishell);
     else
-        redirect_parent(minishell);
-	//print_minishell(minishell);
+        redirect_parent(minishell);	
 }
 
 static void	redirect_child(t_minishell *minishell) // caso chungo -> wc > output.txt > perro.txt << EOF1 << EOF2 << EOF3
@@ -67,7 +66,7 @@ static void	redirect_child(t_minishell *minishell) // caso chungo -> wc > output
 
 	i = 0;
 	if (minishell->first_cmd == 1)
-		redir_first_cmd(minishell);
+		redir_first_cmd(minishell); // redirecciona STDOUT a Current_pipe
 	else
 		ft_pipe(minishell);
 	while (minishell->input_matrix[i]) // wc > perro.txt
@@ -76,40 +75,51 @@ static void	redirect_child(t_minishell *minishell) // caso chungo -> wc > output
 		{
 			set_redir_type(minishell, minishell->input_matrix[i]);
 			process_child_block(minishell, &i);
+			i--;
 		}
 		i++;
 	}
-	minishell->input_matrix = clean_matrix_redirs(minishell->input_matrix);
+	if (minishell->redirection)
+		minishell->input_matrix = clean_matrix_redirs(minishell);
 }
-
+/********************************************* */
 static void	redirect_parent(t_minishell *minishell)
 {
 	int	i;
 
 	i = 0;
-	while (minishell->input_matrix[i]) // wc > output.txt
+	if (minishell->first_cmd > 0)
+		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
+	while (minishell->input_matrix[i])
 	{
 		if (is_redirection(minishell->input_matrix[i], 0))
 		{
 			set_redir_type(minishell, minishell->input_matrix[i]);
 			process_parent_block(minishell, &i);
+			//fprintf(stderr, "Al salir del procesado vale: %d\n", i);
+			i--; // PROVISIONAL - Funciona con esto pero sirve solo para casos concretos
+			// Probablemente flag
 		}
-		i++;
+		i++; // SEGFAULT AQUÍ [Ya no lo da, revisar el decremento de arriba]
 	}
+	if (minishell->redirection)
+		minishell->input_matrix = clean_matrix_redirs(minishell);
 }
-
+/************************************************ */
 void	process_child_block(t_minishell *minishell, int *index)
 {
 	//contempla todo menos la pipe porque separamos por pipes por defecto
 	if (minishell->input_matrix[*index][0] == REDIR_OUT)
 		ft_redir_out(minishell, index);
+	//minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
 void	process_parent_block(t_minishell *minishell, int *index)
 {
 	//contempla todo menos la pipe porque separamos por pipes por defecto
 	if (minishell->input_matrix[*index][0] == REDIR_OUT)
-		ft_redir_out(minishell, index);
+		ft_redir_out_parent(minishell, index);
+	//minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
 /*
@@ -166,7 +176,6 @@ ft_heredoc()
 	//bloque de excalidraw1
 	//bloque de excalidraw2
 	//bloque de excalidraw3
-	/*
 	Apunte: podríamos usar TEMP_PIPE en lugar de un .txt, solo hay que hacer:
 	escribir ft_putendl_fd(readline, temp_pipe)
 	set_pipe_mode(STDIN_FILENO, temp_pipe) y cogería el input de esa pipe
@@ -175,9 +184,9 @@ ft_heredoc()
 	
 	set_pipe_mode(STDIN_FILENO, minishell->heredoc_fds[minishell->heredoc.heredoc_num])
 	minishell->heredoc.heredoc_num++; 
-}*/
+}
 
-/*static void	redirect_parent(t_minishell *minishell) // ultimo comando
+static void	redirect_parent(t_minishell *minishell) // ultimo comando
 {
 	if (minishell->redirection == PIPE)
 		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
@@ -211,6 +220,8 @@ void	reset_fd(t_minishell *minishell)
 	if (minishell->redirection)
 	{
 		fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
+		fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); // para resetear la salida ya que si sale con "ls > file" el stdout
+		//se quedaba en file, ya que esto lo hacia antes un hijo pero ahora lo hace el padre
 		close(minishell->pipe_tools.STDIN);
 		close(minishell->pipe_tools.STDOUT);
 	}
