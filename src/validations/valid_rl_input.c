@@ -43,10 +43,6 @@ static bool	check_empty_input(t_minishell *minishell)
 
 bool	valid_rl_input(t_minishell *minishell)
 {
-	if (minishell->user_input)
-		fprintf(stderr, "\nTiene valor\n");
-	else
-		fprintf(stderr, "\nNo tiene valor\n");
 	if (!check_empty_input(minishell)
 	||	!check_quotes_balance(minishell->user_input))
 		return (false);

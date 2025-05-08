@@ -27,27 +27,6 @@ static void	create_empty_file(int *file, char *filename)
     }
 }
 
-/* void    ft_redir_out(t_minishell *minishell)
-{
-    int prev_pipe;
-    int current_pipe;
-    int file;
-
-    prev_pipe = minishell->pipe_tools.redir_count - 2;
-    current_pipe = minishell->pipe_tools.redir_count - 1;
-    create_empty_file(&file, minishell->input_matrix[0]);
-    if (minishell->redirection != REDIR_OUT)
-    {
-        pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, file);
-        close(file);
-        return ;
-    }
-    pipe_to_file(minishell->pipe_tools.pipes[prev_pipe].read_pipe, minishell->pipe_tools.pipes[current_pipe].write_pipe);
-    // No sé si aquí hay que ir cerrando las pipes al igual que en ft_pipe()
-    // Yo he ejecutado y funciona sin cerrarlas aquí, aún así puede ser interesante implementar
-    // close_unused_pipes que la tenemos static en ft_pipe()
-} */
-
 void	ft_redir_out_parent(t_minishell *minishell, int *index)
 {
 	//fprintf(stderr, "\nRedir out PARENT:\n"); // ls > test
@@ -96,5 +75,102 @@ void	ft_redir_out(t_minishell *minishell, int *index) // ls > file1 | ls > file2
 			fd_redirection(STDOUT_FILENO, file);
 			close(file);
 		}
+	}
+}
+
+// TESTING INCORPORANDO LA FUNCION DE ">>"
+
+void	ft_redir_out_parent(t_minishell *minishell, int *index)
+{
+	//fprintf(stderr, "\nRedir out PARENT:\n"); // ls > test
+	int		file;
+
+	(*index)++;// pasa de ">" a test
+	while (minishell->input_matrix[*index])
+	{
+		create_empty_file(&file, minishell->input_matrix[*index]);
+		(*index)++; // pasa de test a ">"
+		if (minishell->input_matrix[*index] &&
+		minishell->input_matrix[*index][0] == REDIR_OUT)
+		{
+			close(file);
+			(*index)++; // pasa de > a "perro"
+		}
+		else
+		{
+			fd_redirection(STDOUT_FILENO, file);
+			//fprintf(stderr, "\nSe ha redireccionado STDOUT al fd: %d\n", file);
+			close(file);
+		}
+	}
+	//fprintf(stderr, "\nSe han hecho todos los '>':\n"); // ls > test
+	// Cuando esté ">>" hay que reestructurar para que funcione: "ls > empty >> untouch > empty2 >> untouch2 > final"
+	// En ese ejemplo, final tiene el resultado de LS, empty/empty2 se vacian y untouch/untouch2 no se modifican
+}
+
+/* testeo fd append para leer todo el bloque e ir creando files */
+void	fd_append(t_minishell *minishell, int fd)
+{
+	int	*array_tmp;
+	int	i;
+
+	array_tmp = malloc((minishell->pipe_tools.fd_count + 1) * sizeof(int));
+	if (!array_tmp)
+	{
+		perror("malloc fd_append");
+		return ;
+	}
+	i = 0;
+	while (i < minishell->pipe_tools.fd_count)
+	{
+		array_tmp[i] = minishell->pipe_tools.array_fd[i];
+		i++;
+	}
+	array_tmp[i] = fd;
+	free(minishell->pipe_tools.array_fd);
+	minishell->pipe_tools.array_fd = array_tmp;
+	minishell->pipe_tools.fd_count++;
+}
+
+void	close_fd(t_minishell *minishell)
+{
+	int	i;
+
+	i = minishell->pipe_tools.fd_count - 1;
+	while (i >= 0)
+	{
+		close(minishell->pipe_tools.array_fd[i]);
+		i--;
+	}
+}
+
+{
+	while (minishell->input_matrix[i])
+	{
+		if (is_redirection(minishell->input_matrix[i], 0))
+		{
+
+		}
+	}
+}
+
+void	redir_out_append(t_minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	while (minishell->input_matrix[i])
+	{
+		if (ft_test(minishell->input_matrix[i] == ">"))
+		{
+			//i++;
+			// create_trunc_file(minishell->input_matrix[i]) tmb se añade a minishell->pipe_tools.array_fd y fd_count++;
+		}
+		else if (ft_test(minishell->input_matrix[i]) == ">>")
+		{
+			//i++;
+			// create_append_file() tmb se añade a minishell->pipe_tools.array_fd y fd_count++;
+		}
+		i++;
 	}
 }

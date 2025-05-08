@@ -109,15 +109,21 @@ static void	redirect_parent(t_minishell *minishell)
 void	process_child_block(t_minishell *minishell, int *index)
 {
 	//contempla todo menos la pipe porque separamos por pipes por defecto
-	if (minishell->input_matrix[*index][0] == REDIR_OUT)
+	if (ft_test(minishell->input_matrix[*index], ">"))
 		ft_redir_out(minishell, index);
+	//if (ft_test(minishell->input_matrix[*index], ">>"))
+		//ft_redir_append(minishell, index);
+	//if (ft_test(minishell->input_matrix[*index], "<"))
+		//ft_redir_in(minishell, index);
+	//if (ft_test(minishell->input_matrix[*index], "<<"))
+		//ft_heredoc(minishell, index);
 	//minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
 void	process_parent_block(t_minishell *minishell, int *index)
 {
 	//contempla todo menos la pipe porque separamos por pipes por defecto
-	if (minishell->input_matrix[*index][0] == REDIR_OUT)
+	if (ft_test(minishell->input_matrix[*index], ">"))
 		ft_redir_out_parent(minishell, index);
 	//minishell->input_matrix = clean_matrix_redirs(minishell);
 }
@@ -217,7 +223,7 @@ void	store_fd(t_minishell *minishell)
 
 void	reset_fd(t_minishell *minishell)
 {
-	if (minishell->redirection)
+	if (minishell->first_cmd > 0)
 	{
 		fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
 		fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); // para resetear la salida ya que si sale con "ls > file" el stdout
@@ -249,3 +255,4 @@ void	pipe_append(t_minishell *minishell, t_pipe *pipe)
 		free(minishell->pipe_tools.pipes);
 	minishell->pipe_tools.pipes = tmp;
 }
+

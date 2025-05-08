@@ -79,7 +79,9 @@ typedef struct s_quote
 typedef struct s_pipe_tools
 {
     t_pipe      *pipes;
-    int         redir_count; 
+    int         redir_count;
+	int			fd_count; // testeo
+	int			*array_fd; // testeo
     int         STDIN;
     int         STDOUT;
 }   t_pipe_tools;

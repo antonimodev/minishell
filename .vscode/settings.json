@@ -4,5 +4,9 @@
         "plaintext": false,
         "markdown": false,
         "scminput": false
+    },
+    "makefile.configureOnOpen": true,
+    "files.associations": {
+        "minishell.h": "c"
     }
 }
