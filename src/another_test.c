@@ -9,7 +9,7 @@ static void	set_last_redirs(t_minishell *minishell, int index);
 
 static bool check_heredoc_presence(t_minishell *minishell);
 static void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc);
-static void handle_child_pipe(t_minishell *minishell);
+static void handle_child_pipe(t_minishell *minishell, bool has_heredoc);
 
 static bool check_heredoc_presence(t_minishell *minishell)
 {
@@ -31,29 +31,31 @@ static void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc)
 	{
 		if (minishell->first_cmd == 1)
 			minishell->first_cmd++;
-			
+
 		if (minishell->first_cmd > 1 && !has_heredoc)
 			set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
 	}
 }
 
-static void handle_child_pipe(t_minishell *minishell)
+static void handle_child_pipe(t_minishell *minishell, bool has_heredoc)
 {
-	if (minishell->first_cmd == 1)
-		redir_first_cmd(minishell);
-	else if (minishell->first_cmd > 1)
-		ft_pipe(minishell);
+	if (minishell->pid == CHILD)
+	{
+		if (minishell->first_cmd == 1 && !has_heredoc)
+			redir_first_cmd(minishell);
+		else if (minishell->first_cmd > 1 && !has_heredoc)
+			ft_pipe(minishell);
+	}
 }
 
 void new_redirect(t_minishell *minishell)
 {
-    int	i;
+    int		i;
 	bool	has_heredoc;
 
-	i = 0;
 	has_heredoc = check_heredoc_presence(minishell);
 	handle_parent_pipe(minishell, has_heredoc);
-    handle_child_pipe(minishell);
+    handle_child_pipe(minishell, has_heredoc);
 	i = 0;
 	while (minishell->input_matrix[i])
 	{
@@ -68,7 +70,6 @@ void new_redirect(t_minishell *minishell)
 	if (minishell->redir_existence)
 		minishell->input_matrix = clean_matrix_redirs(minishell);
 }
-
 static void	set_last_redirs(t_minishell *minishell, int index)
 {
 	int	last_fd;
@@ -99,6 +100,9 @@ static void	process_redir(t_minishell *minishell)
 			redir_heredoc(minishell, i);
 		i++;
 	}
+	if (minishell->first_cmd == 1)
+		set_pipe_mode(STDOUT_FILENO, 
+			minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
 	i = 0;
 	while(minishell->input_matrix[i])
 	{
@@ -185,6 +189,7 @@ static void handle_heredoc_eof(t_minishell *minishell)
     minishell->heredoc.delimit_index++;
 }
 
+// ls << EOF1 > output.txt > output2.txt << EOF2 >> output3.txt | echo "hola" << EOF3 | wc << EOF4
 static void	redir_heredoc(t_minishell *minishell, int index)
 {
 	int		last_fd;
@@ -211,7 +216,3 @@ static void	redir_heredoc(t_minishell *minishell, int index)
 	if (minishell->last_input == last_fd && !minishell->invalid_input)
 		set_pipe_mode(STDIN_FILENO, temp_pipe);
 }
-
-
-
-
