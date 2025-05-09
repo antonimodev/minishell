@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	**clean_matrix_redirs(t_minishell *minishell)
+ char	**clean_matrix_redirs(t_minishell *minishell)
 {
     char	**new_matrix;
     int		end;
@@ -28,6 +28,7 @@ char	**clean_matrix_redirs(t_minishell *minishell)
     free_matrix(minishell->input_matrix);
     return (new_matrix);
 }
+/*
 
 void	ft_redir_in(t_minishell *minishell)
 {
@@ -80,7 +81,7 @@ void	ft_redir_in_parent(t_minishell *minishell)
 	close(fd);
 	set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[current_pipe]);
 	minishell->input_matrix = clean_matrix_redirs(minishell);
-}
+} */
 
 bool   check_file_in_matrix(char **matrix) // comprobacion de existencia de archivos intermedios
 {

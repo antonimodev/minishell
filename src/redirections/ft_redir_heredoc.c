@@ -20,6 +20,7 @@
     fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
 }*/
 
+/*
 void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
 {
 	char    *input_heredoc;
@@ -52,3 +53,4 @@ void    ft_redir_heredoc_parent(t_minishell *minishell) //grep "perro" << EOF
     minishell->input_matrix = clean_matrix_redirs(minishell);
 }
 
+*/

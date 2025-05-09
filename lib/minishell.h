@@ -80,11 +80,15 @@ typedef struct s_pipe_tools
 {
     t_pipe      *pipes;
     int         redir_count;
-	int			fd_count; // testeo
-	int			*array_fd; // testeo
     int         STDIN;
     int         STDOUT;
 }   t_pipe_tools;
+
+typedef struct s_heredoc
+{
+	char	**delimits;
+	int		delimit_index;
+}	heredoc_tools;
 
 typedef struct s_minishell
 {
@@ -105,6 +109,11 @@ typedef struct s_minishell
 	bool			return_flag;
 	bool			invalid_file;
 	int				first_cmd;
+	//another_test.c
+	int				last_input; // indice del ultimo input
+	int				last_output; // indice del ultimo output
+	bool			invalid_input;
+	heredoc_tools	heredoc;
 }	t_minishell;
 
 
@@ -225,26 +234,31 @@ t_pipe	create_pipe(void);
 /*---------------- REDIRECTIONS --------------------*/
 void	set_pipe_mode(int mode, t_pipe pipe);
 void	ft_pipe(t_minishell *minishell);
-void	ft_redir_in(t_minishell *minishell);
-void	ft_redir_out(t_minishell *minishell, int *index);
-void	ft_redir_append(t_minishell *minishell);
-void	ft_redir_heredoc(t_minishell *minishell);
+//void	ft_redir_in(t_minishell *minishell);
+//void	ft_redir_out(t_minishell *minishell, int *index);
+//void	ft_redir_append(t_minishell *minishell);
+//void	ft_redir_heredoc(t_minishell *minishell);
 
 
 /* -- TESTING REDIR_OUT, REDIR_APPEND Y UTILS QUE USÉ -- */
 void	pipe_to_file(int read_from, int write_into);
 
-void    ft_redir_out_parent(t_minishell *minishell, int *index);
-void    ft_redir_append_parent(t_minishell *minishell);
-void	ft_redir_in_parent(t_minishell *minishell);
-void	ft_redir_heredoc_parent(t_minishell *minishell);
+//void    ft_redir_out_parent(t_minishell *minishell, int *index);
+//void    ft_redir_append_parent(t_minishell *minishell);
+//void	ft_redir_in_parent(t_minishell *minishell);
+//void	ft_redir_heredoc_parent(t_minishell *minishell);
 
 char	**clean_matrix_redirs(t_minishell *minishell);
 void	redir_first_cmd(t_minishell *minishell);
-bool	check_file_in_matrix(char **matrix);
-void	process_child_block(t_minishell *minishell, int *index);
-void	process_parent_block(t_minishell *minishell, int *index);
+//bool	check_file_in_matrix(char **matrix);
+//void	process_child_block(t_minishell *minishell, int *index);
+//void	process_parent_block(t_minishell *minishell, int *index);
 
 bool	cmd_not_found(t_minishell *minishell);
+
+// ANOTHER TEST
+
+void	new_redirect(t_minishell *minishell);
+bool    ft_test(char *source, char *wanted);
 
 #endif

@@ -60,7 +60,8 @@ MINISHELL_SRC =	src/main/minishell.c \
 				src/redirections/ft_redir_heredoc.c \
 				src/redirections/ft_redir_in.c \
 				src/redirections/ft_redir_out.c \
-				src/redirections/redirections_utils.c
+				src/redirections/redirections_utils.c \
+				src/another_test.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)

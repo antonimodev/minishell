@@ -5,6 +5,8 @@ int	matrix_len(char **matrix)
 	int	i;
 
 	i = 0;
+	if (!matrix)
+		printf("Error: matrix_len: No existe");
 	while (matrix[i])
 		i++;
 	return (i);

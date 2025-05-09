@@ -49,8 +49,8 @@ void	free_minishell(t_minishell *minishell)
 		free(minishell->shell_prompt);
 	if (minishell->pipe_tools.pipes)
 		free(minishell->pipe_tools.pipes);
-    if (minishell->pipe_tools.array_fd) // testeo
-        free(minishell->pipe_tools.array_fd); // testeo
+    if (minishell->heredoc.delimits)
+        free_matrix(minishell->heredoc.delimits);
 }
 
 // suggest

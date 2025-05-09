@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-static void	redirect_parent(t_minishell *minishell);
-static void	redirect_child(t_minishell *minishell);
+//static void	redirect_parent(t_minishell *minishell);
+//static void	redirect_child(t_minishell *minishell);
 
 bool	cmd_not_found(t_minishell *minishell)
 {
@@ -47,86 +47,18 @@ void	redir_first_cmd(t_minishell *minishell)
 
 	if (cmd_not_found(minishell))
 		exit(CMD_NOT_FOUND);
-    current_pipe = minishell->pipe_tools.redir_count - 1;
-    set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
-    return ;
+	current_pipe = minishell->pipe_tools.redir_count - 1;
+	set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
+	return ;
 }
 
-void    redirect(t_minishell *minishell)
+/* void    redirect(t_minishell *minishell)
 {
     if (minishell->pid == CHILD)
 		redirect_child(minishell);
     else
         redirect_parent(minishell);	
-}
-
-static void	redirect_child(t_minishell *minishell) // caso chungo -> wc > output.txt > perro.txt << EOF1 << EOF2 << EOF3
-{
-	int	i;
-
-	i = 0;
-	if (minishell->first_cmd == 1)
-		redir_first_cmd(minishell); // redirecciona STDOUT a Current_pipe
-	else
-		ft_pipe(minishell);
-	while (minishell->input_matrix[i]) // wc > perro.txt
-	{
-		if (is_redirection(minishell->input_matrix[i], 0))
-		{
-			set_redir_type(minishell, minishell->input_matrix[i]);
-			process_child_block(minishell, &i);
-			i--;
-		}
-		i++;
-	}
-	if (minishell->redirection)
-		minishell->input_matrix = clean_matrix_redirs(minishell);
-}
-/********************************************* */
-static void	redirect_parent(t_minishell *minishell)
-{
-	int	i;
-
-	i = 0;
-	if (minishell->first_cmd > 0)
-		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
-	while (minishell->input_matrix[i])
-	{
-		if (is_redirection(minishell->input_matrix[i], 0))
-		{
-			set_redir_type(minishell, minishell->input_matrix[i]);
-			process_parent_block(minishell, &i);
-			//fprintf(stderr, "Al salir del procesado vale: %d\n", i);
-			i--; // PROVISIONAL - Funciona con esto pero sirve solo para casos concretos
-			// Probablemente flag
-		}
-		i++; // SEGFAULT AQUÍ [Ya no lo da, revisar el decremento de arriba]
-	}
-	if (minishell->redirection)
-		minishell->input_matrix = clean_matrix_redirs(minishell);
-}
-/************************************************ */
-void	process_child_block(t_minishell *minishell, int *index)
-{
-	//contempla todo menos la pipe porque separamos por pipes por defecto
-	if (ft_test(minishell->input_matrix[*index], ">"))
-		ft_redir_out(minishell, index);
-	//if (ft_test(minishell->input_matrix[*index], ">>"))
-		//ft_redir_append(minishell, index);
-	//if (ft_test(minishell->input_matrix[*index], "<"))
-		//ft_redir_in(minishell, index);
-	//if (ft_test(minishell->input_matrix[*index], "<<"))
-		//ft_heredoc(minishell, index);
-	//minishell->input_matrix = clean_matrix_redirs(minishell);
-}
-
-void	process_parent_block(t_minishell *minishell, int *index)
-{
-	//contempla todo menos la pipe porque separamos por pipes por defecto
-	if (ft_test(minishell->input_matrix[*index], ">"))
-		ft_redir_out_parent(minishell, index);
-	//minishell->input_matrix = clean_matrix_redirs(minishell);
-}
+} */
 
 /*
 ft_redir_out()
@@ -223,14 +155,11 @@ void	store_fd(t_minishell *minishell)
 
 void	reset_fd(t_minishell *minishell)
 {
-	if (minishell->first_cmd > 0)
-	{
-		fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
-		fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); // para resetear la salida ya que si sale con "ls > file" el stdout
-		//se quedaba en file, ya que esto lo hacia antes un hijo pero ahora lo hace el padre
-		close(minishell->pipe_tools.STDIN);
-		close(minishell->pipe_tools.STDOUT);
-	}
+	fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
+	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); // para resetear la salida ya que si sale con "ls > file" el stdout
+	//se quedaba en file, ya que esto lo hacia antes un hijo pero ahora lo hace el padre
+	close(minishell->pipe_tools.STDIN);
+	close(minishell->pipe_tools.STDOUT);
 }
 
 void	pipe_append(t_minishell *minishell, t_pipe *pipe)

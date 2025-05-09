@@ -49,30 +49,6 @@ static void	foo(t_minishell *minishell, char **matrix, int *current_pos,
     return;
 }
 
-/* static void	foo(t_minishell *minishell, char **matrix, int *current_pos)
-{
-    (*current_pos)++;
-    while (matrix[*current_pos])
-    {
-        if (!is_redirection(matrix[*current_pos], 0))
-        {
-		    (*current_pos)++;
-			continue ;
-		}
-        if (matrix[*current_pos][0] == REDIR_IN)
-			(*current_pos)++;
-		else if(matrix[*current_pos][0] != REDIR_IN)
-		{
-			minishell->redirection = matrix[*current_pos][0];
-			minishell->prev_redir = REDIR_IN;
-			return ;
-		}
-    
-	minishell->return_flag = true;
-	(*current_pos)--;
-    return ;
-} */
-
 static void	set_parent_input(t_minishell *minishell) // revisar para hacerlo más lógico
 {
 	t_pipe	pipe;
@@ -128,10 +104,9 @@ void	handle_redir(t_minishell *minishell)
 	i = 0;
 	operator_pos = 0;
 	matrix = split_input(minishell);
-
 	while (matrix[i])
 	{
-		if (ft_strchr(matrix[i], '|')) // cat > file.txt << EOF
+		if (ft_strchr(matrix[i], '|'))
 		{
             add_redir(minishell);
 			minishell->first_cmd++;
@@ -143,14 +118,12 @@ void	handle_redir(t_minishell *minishell)
 		}
 		i++;
 	}
-    set_parent_input(minishell);
-    minishell->input_matrix = matrix_from_matrix(matrix, operator_pos,
-        matrix_len(matrix));
-    free_matrix(matrix);
+	minishell->input_matrix = matrix_from_matrix(matrix, operator_pos,
+		matrix_len(matrix));
+	free_matrix(matrix);
 }
-// APUNTES PARA HEREDOC:
 
-bool    ft_test(char *source, char *wanted) // para buscar "<<" en un str
+bool    ft_test(char *source, char *wanted)
 {
 	int i;
 	int j;
@@ -170,80 +143,3 @@ bool    ft_test(char *source, char *wanted) // para buscar "<<" en un str
 	return false;
 }
 
-/*typedef struct s_heredoc
-{
-	bool	exist; // si existe
-	int		heredoc_num; // cuantos encuentra
-	int		*heredoc_fds; // array de fd's con el contenido de cada bloque
-	char	**delimits; // delimitadores de cada heredoc si la idea es eliminarlos desde el principio
-}	heredoc_tools;
-
-// wc << EOF1 << EOF2 | ls | wc << EOF3
-// heredoc_num = 2 -> readline se ejecuta 2 veces
-// fd_num = 1
-// temp_fd -> se reserva con [fd_num] espacios
-
- "INIT_HEREDOC_STRUCT" -> Cambiarle el nombre
-while en cada pos de la matrix
-si encuentro un heredoc, heredoc_num++;
-el siguiente indice al heredoc, es el delimit de ese heredoc, se guarda en la matrix delimits.
-si despues del heredoc la siguiente redireccion es diferente a heredoc, fd_num++;
-se repite hasta terminar de parsearlo
----
-IF (LA REDIRECCION DESPUES DEL HEREDOC ES DIFERENTE A HEREDOC)
-	 "heredoc_fds_append"
-	 PEDIR READLINE GUARDANDO EL CONTENIDO EN POSICION DE [i]
-
-matrix_substract debe hacerse en la posicion de heredoc y su siguiente
----
-Continua handle_redir normal
-
-
-// Planteamiento en bloques:
-
-// PLANTEAMIENTO DE HEREDOC QUE NO ME SIRVE
-if (la siguiente redireccion es heredoc)
-	char *line = readline("> ");
-	if (!line)
-		perror(mensaje de error, se sale con CTRL + D);
-		se sale
-	if (ft_strcmp(line, delimit[i]) == 0)
-		free
-		se sale
-	free(line);
-
-	
-// PLANTEAMIENTO DE HEREDOC QUE SI ME SIRVE
-if (la siguiente redireccion es dif a heredoc o NULL) -> me sirve
-	char *line = readline("> ");
-	if (!line)
-		perror(mensaje de error, se sale con CTRL + D);
-		se sale
-	if (ft_strcmp(line, delimit[i]) == 0)
-		free
-		se sale
-	ft_putendl_fd(line, heredoc_fd[j]);
-	free(line);
-
-
-
-
-// Planteamiento de una:
-
-	if (matrix[i] == HEREDOC)
-	{
-		char *superline;
-		char *line = readline("> ");
-		while(line || strcmpy(EOF))
-		{
-			superline = join(superline, line);
-			free(line);
-			line = readline();
-		}
-
-		if (next_not_heardoc)
-			ft_putendl_fd(superline, fd);
-		else
-			free(superline);
-	}
-*/

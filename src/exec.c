@@ -16,7 +16,8 @@ void	execute(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 		return ;
-	redirect(minishell);
+	//redirect(minishell);
+	new_redirect(minishell);
 	if (is_built_in(minishell))
 	{
 		exec_built_in(minishell);
