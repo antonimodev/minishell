@@ -136,7 +136,7 @@ static void	redir_append(t_minishell *minishell, int index)
 {
 	int	file;
 	int	last_fd;
-	
+
 	last_fd = index + 1;
 	file = open(minishell->input_matrix[last_fd], O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (file < 0)
@@ -157,8 +157,10 @@ static void	redir_in(t_minishell *minishell, int index)
 	last_fd = index + 1;
 	if (access(minishell->input_matrix[last_fd], F_OK | R_OK) < 0)
 	{
-		perror("no existe o no se puede abrir en redir_in");
+		printf("minishell: %s: No such file or directory\n",
+			minishell->input_matrix[last_fd]);
 		minishell->invalid_input = true;
+		return ;
 	}
 	file = open(minishell->input_matrix[last_fd], O_RDONLY, 444);
 	if (file < 0)

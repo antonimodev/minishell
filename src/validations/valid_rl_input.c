@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static bool	spaced_str(char *user_input)
 {
 	int	i;
@@ -26,6 +26,7 @@ static bool	spaced_str(char *user_input)
 	}
 	return (true);
 }
+*/
 
 static bool	check_empty_input(t_minishell *minishell)
 {
@@ -36,7 +37,7 @@ static bool	check_empty_input(t_minishell *minishell)
 		exit(EXIT_SUCCESS);
 	}
 	if (minishell->user_input[0] == '\0'
-		|| spaced_str(minishell->user_input))
+		|| is_empty(minishell))
 		return (false);
 	return (true);
 }

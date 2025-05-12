@@ -12,43 +12,6 @@
 
 #include "minishell.h"
 
-static void foo_util(t_minishell *minishell, char *matrix_pos, char *redir_type)
-{
-	if (ft_strncmp(matrix_pos, ">>", 2) == 0)
-		minishell->redirection = REDIR_APPEND;
-	if (ft_strncmp(matrix_pos, "<<", 2) == 0)
-		minishell->redirection = REDIR_HEREDOC;
-
-	if (ft_strcmp(redir_type, "<<") == 0)
-		minishell->prev_redir = REDIR_HEREDOC;
-	else
-		minishell->prev_redir = REDIR_IN;
-}
-
-static void	foo(t_minishell *minishell, char **matrix, int *current_pos,
-    char *redir_type)
-{
-    (*current_pos)++;
-    while (matrix[*current_pos])
-    {
-        if (!is_redirection(matrix[*current_pos], 0))
-        {
-            (*current_pos)++;
-            continue;
-		}
-        if (ft_strncmp(matrix[*current_pos], redir_type, ft_strlen(redir_type)) == 0)
-            (*current_pos)++;
-        else
-        {
-			foo_util(minishell, matrix[*current_pos], redir_type);
-            return;
-        }
-    }
-    minishell->return_flag = true;
-    (*current_pos)--;
-    return;
-}
-
 static void	set_parent_input(t_minishell *minishell) // revisar para hacerlo más lógico
 {
 	t_pipe	pipe;

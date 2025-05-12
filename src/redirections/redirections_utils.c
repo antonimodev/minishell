@@ -22,12 +22,32 @@ bool	check_redir_existence(t_minishell *minishell)
 	return (true);
 }
 
+
 bool	check_valid_redir(t_minishell *minishell)
 {
-	if (is_redirection(minishell->user_input, 0)
-		|| is_redirection(minishell->user_input,
-			ft_strlen(minishell->user_input) - 1))
+	char	**matrix;
+	int		i;
+
+	matrix = split_input(minishell);
+	i = 0;
+	if (is_redirection(matrix[0], 0) ||
+		is_redirection(matrix[matrix_len(matrix) - 1], 0))
+	{
+		free_matrix(matrix);
+		minishell->invalid_input = true;
 		return (false);
+	}
+	while (matrix[i] && matrix[i + 1])
+	{
+		if ((is_redirection(matrix[i], 0) && is_redirection(matrix[i + 1], 0)))
+		{
+			free_matrix(matrix);
+			minishell->invalid_input = true;
+			return (false);
+		}
+		i++;
+	}
+	free_matrix(matrix);
 	return (true);
 }
 

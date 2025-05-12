@@ -85,8 +85,6 @@ void	print_minishell(t_minishell *minishell)
         fprintf(stderr, "\033[33mENV\033[0m\n");
     else
         fprintf(stderr, "\033[33mUNKNOWN (%d)\033[0m\n", minishell->built_in_type);
-    fprintf(stderr, "\033[1m▶ Return flag:\033[0m \033[33m%s\033[0m\n",
-        minishell->return_flag ? "true" : "false");
     fprintf(stderr, "\033[1m▶ Invalid_file:\033[0m \033[33m%s\033[0m\n",
         minishell->invalid_file ? "true" : "false");
     fprintf(stderr, "\n\033[1m▶ Pipe count:\033[0m \033[33m%d\033[0m\n",

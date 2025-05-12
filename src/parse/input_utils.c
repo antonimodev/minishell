@@ -52,20 +52,43 @@ bool	valid_chr(char c)
 	return (c != '\n' && c != '\t' && c != '\v' && c != '\f' && c != '\r');
 }
 
+bool is_empty_quotes(char *user_input)
+{
+	if (ft_strlen_gnl(user_input) == 2 &&
+		user_input[0] == '\'' &&
+		user_input[1] == '\'')
+		return (true);
+	if (ft_strlen_gnl(user_input) == 2 &&
+		user_input[0] == '"' &&
+		user_input[1] == '"')
+		return (true);
+	return (false);
+}
 
 bool	is_empty(t_minishell *minishell)
 {
-	int	i;
+    int	i;
+    bool is_empty_input;
 
-	i = 0;
-	while (minishell->user_input[i])
-	{
-		if (ft_isspace(minishell->user_input[i]))
-			i++;
-		else
-			return (false);
-	}
-	free(minishell->user_input);
-	minishell->user_input = NULL;
-	return (true);
+    i = 0;
+    is_empty_input = false;
+    if (is_empty_quotes(minishell->user_input))
+        is_empty_input = true;
+    else
+    {
+        while (minishell->user_input[i])
+        {
+            if (ft_isspace(minishell->user_input[i]))
+                i++;
+            else
+                return (false);
+        }
+        is_empty_input = true;
+    }
+    if (is_empty_input)
+    {
+        free(minishell->user_input);
+        minishell->user_input = NULL;
+    }
+    return (is_empty_input);
 }

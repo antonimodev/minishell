@@ -48,7 +48,7 @@ static void	add_spaces(char **clean_input, char *user_input, int *pos)
 
 bool	is_redirection(char *str, int pos)
 {
-	if (!str || str[pos] == '\0')
+	if (!str[pos] || str[pos] == '\0')
 		return (false);
 	if (str[pos] == '|')
 		return (true);

@@ -30,7 +30,10 @@ static char	*set_env_var(t_minishell *minishell, unsigned int *i)
 
 	(*i)++;
 	if (!minishell->user_input[*i])
+	{
+		(*i)--;
 		return (ft_strdup("$"));
+	}
 	if (minishell->user_input[*i] == '?')
 		return (ft_itoa(minishell->exit_status));
 	if (!valid_env_char(minishell->user_input[*i]))

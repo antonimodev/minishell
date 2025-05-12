@@ -100,13 +100,13 @@ typedef struct s_minishell
 	char			**input_matrix;
 	char			*cmd_path;
 	int				args_num;
+	
 	bool			redir_existence;
 	e_redirection	redirection;
 	e_redirection	prev_redir;
 	e_built_in		built_in_type;
 	e_process		pid;
 	t_pipe_tools	pipe_tools;
-	bool			return_flag;
 	bool			invalid_file;
 	int				first_cmd;
 	//another_test.c
@@ -144,6 +144,7 @@ void 	parse_input(t_minishell *minishell);
 void	shell_prompt(t_minishell *minishell);
 bool	valid_chr(char c);
 bool	is_empty(t_minishell *minishell);
+bool	is_empty_quotes(char *user_input);
 
 /* SPLIT.C ----------------------*/
 char	**split_input(t_minishell *minishell);

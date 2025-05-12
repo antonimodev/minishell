@@ -14,10 +14,11 @@
 
 void	execute(t_minishell *minishell)
 {
-	if (minishell->user_input == NULL)
+	if (minishell->invalid_input)
 		return ;
-	//redirect(minishell);
 	new_redirect(minishell);
+	if (minishell->invalid_input)
+		return ;
 	if (is_built_in(minishell))
 	{
 		exec_built_in(minishell);

@@ -42,14 +42,14 @@ void	parse_input(t_minishell *minishell)
 	if (minishell->redir_existence && check_valid_redir(minishell))
 		handle_redir(minishell);
 	else
+	{
+		if (minishell->invalid_input)
+		{
+			printf("minishell: syntax error: invalid redirection\n");
+			return ;
+		}
 		minishell->input_matrix = split_input(minishell);
-
-	/* if (isatty(STDIN_FILENO))
-		fprintf(stderr, "STDIN es un TTY\n");
-	else
-		fprintf(stderr, "STDIN NO es un TTY\n"); */
-
-	// ls > output.txt
+	}
 	minishell->args_num = matrix_len(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }

@@ -1,9 +1,10 @@
 {
     "github.copilot.enable": {
-        "*": false,
+        "*": true,
         "plaintext": false,
         "markdown": false,
-        "scminput": false
+        "scminput": false,
+        "c": true
     },
     "makefile.configureOnOpen": true,
     "files.associations": {
