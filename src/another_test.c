@@ -31,7 +31,6 @@ static void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc)
 	{
 		if (minishell->first_cmd == 1)
 			minishell->first_cmd++;
-
 		if (minishell->first_cmd > 1 && !has_heredoc)
 			set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
 	}
@@ -55,7 +54,7 @@ void new_redirect(t_minishell *minishell)
 
 	has_heredoc = check_heredoc_presence(minishell);
 	handle_parent_pipe(minishell, has_heredoc);
-    handle_child_pipe(minishell, has_heredoc);
+	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
 	while (minishell->input_matrix[i])
 	{
@@ -100,9 +99,9 @@ static void	process_redir(t_minishell *minishell)
 			redir_heredoc(minishell, i);
 		i++;
 	}
-	if (minishell->first_cmd == 1)
-		set_pipe_mode(STDOUT_FILENO, 
-			minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
+	/*if (minishell->first_cmd == 1)
+		set_pipe_mode(STDOUT_FILENO,
+			minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);*/
 	i = 0;
 	while(minishell->input_matrix[i])
 	{

@@ -235,25 +235,15 @@ t_pipe	create_pipe(void);
 /*---------------- REDIRECTIONS --------------------*/
 void	set_pipe_mode(int mode, t_pipe pipe);
 void	ft_pipe(t_minishell *minishell);
-//void	ft_redir_in(t_minishell *minishell);
-//void	ft_redir_out(t_minishell *minishell, int *index);
-//void	ft_redir_append(t_minishell *minishell);
-//void	ft_redir_heredoc(t_minishell *minishell);
 
 
 /* -- TESTING REDIR_OUT, REDIR_APPEND Y UTILS QUE USÉ -- */
 void	pipe_to_file(int read_from, int write_into);
 
-//void    ft_redir_out_parent(t_minishell *minishell, int *index);
-//void    ft_redir_append_parent(t_minishell *minishell);
-//void	ft_redir_in_parent(t_minishell *minishell);
-//void	ft_redir_heredoc_parent(t_minishell *minishell);
 
 char	**clean_matrix_redirs(t_minishell *minishell);
 void	redir_first_cmd(t_minishell *minishell);
-//bool	check_file_in_matrix(char **matrix);
-//void	process_child_block(t_minishell *minishell, int *index);
-//void	process_parent_block(t_minishell *minishell, int *index);
+
 
 bool	cmd_not_found(t_minishell *minishell);
 
@@ -261,5 +251,10 @@ bool	cmd_not_found(t_minishell *minishell);
 
 void	new_redirect(t_minishell *minishell);
 bool    ft_test(char *source, char *wanted);
+int		ft_getenv_index(char **envp, char *env_var);
+
+//
+
+void	cd_replace_env_var(char **envp, char *var_name, char *replace_value);
 
 #endif

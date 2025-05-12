@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 static char	*get_envp_var_name(char *env_var);
-static int	ft_getenv_index(char **envp, char *env_var);
 static void	replace_env_var(t_minishell *minishell, char *var_name);
 static void	process_export_var(t_minishell *minishell);
 
@@ -29,7 +28,7 @@ static char	*get_envp_var_name(char *env_var)
 	return (var_name);
 }
 
-static int	ft_getenv_index(char **envp, char *env_var)
+int	ft_getenv_index(char **envp, char *env_var)
 {
 	int	i;
 	int	len;
@@ -66,7 +65,7 @@ static void	process_export_var(t_minishell *minishell)
 		minishell->exit_status = 1;
 		return ;
 	}
-	if (check_strchr_gnl(minishell->input_matrix[1], '='))
+	if (check_strchr_gnl(minishell->input_matrix[1], '=')) // export casa=valor
 	{
 		var_name = get_envp_var_name(minishell->input_matrix[1]);
 		if (ft_getenv(minishell->envp, var_name))
@@ -80,7 +79,7 @@ static void	process_export_var(t_minishell *minishell)
 		var_name = ft_strjoin(minishell->input_matrix[1], "=");
 		if (!ft_getenv(minishell->envp, var_name))
 			minishell->envp = matrix_append(minishell->envp,
-					minishell->input_matrix[1]);
+					var_name);
 	}
 	free(var_name);
 }
@@ -107,3 +106,10 @@ void	ft_export(t_minishell *minishell)
 	else
 		write(1, "\n", 1);
 }
+
+/*
+casa_manolo=sevilla
+casa_pepe=malaga
+casa=alhaurin de la torre
+export casa -> ft_getenv(casa) -> casa
+*/

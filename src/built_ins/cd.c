@@ -16,6 +16,7 @@ static void	cd_home(t_minishell *minishell);
 static void	cd_error(t_minishell *minishell);
 static char	*expand_tilde(t_minishell *minishell, char *arg);
 static bool	valid_arg(t_minishell *minishell);
+static void update_envp_pwd(t_minishell *minishell);
 
 static char	*expand_tilde(t_minishell *minishell, char *arg)
 {
@@ -42,9 +43,17 @@ static bool	valid_arg(t_minishell *minishell)
 		{
 			if (arg[0] == '~')
 				arg = expand_tilde(minishell, arg);
+			if (arg[0] == '-')
+			{
+				free(arg);
+				arg = ft_strdup(ft_getenv(minishell->envp, "OLDPWD="));
+			}
 		}
 		if (!access(arg, F_OK))
-			chdir(arg);
+		{
+			if (chdir(arg) == 0)
+				update_envp_pwd(minishell);
+		}
 		else
 		{
 			printf("minishell: cd: %s: No such file or directory\n",
@@ -105,6 +114,8 @@ static void	cd_home(t_minishell *minishell)
 		printf("minishell: cd: %s: Failed to change directory\n", home);
 		minishell->exit_status = 1;
 	}
+	else
+		update_envp_pwd(minishell);
 }
 
 static void	cd_error(t_minishell *minishell)
@@ -128,4 +139,36 @@ static void	cd_error(t_minishell *minishell)
 		printf("minishell: cd: %s: %s\n", path, error_msg);
 		minishell->exit_status = 1;
 	}
+	else
+		update_envp_pwd(minishell);
+}
+
+static void update_envp_pwd(t_minishell *minishell)
+{
+    char *pwd;
+    char *new_pwd;
+
+    pwd = ft_getenv(minishell->envp, "PWD=");
+    cd_replace_env_var(minishell->envp, "OLDPWD=", pwd);
+    new_pwd = getcwd(NULL, 0);
+    if (new_pwd)
+    {
+        cd_replace_env_var(minishell->envp, "PWD=", new_pwd);
+        free(new_pwd);
+    }
+}
+
+void cd_replace_env_var(char **envp, char *var_name, char *replace_value)
+{
+	int     index;
+	char    *new_env_var;
+
+	index = ft_getenv_index(envp, var_name);
+	if (index < 0)
+		return;
+	new_env_var = ft_strjoin(var_name, replace_value);
+	if (!new_env_var)
+		return;
+	matrix_replace(envp, index, new_env_var);
+	free(new_env_var);
 }

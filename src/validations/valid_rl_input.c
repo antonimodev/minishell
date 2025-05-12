@@ -44,8 +44,12 @@ static bool	check_empty_input(t_minishell *minishell)
 
 bool	valid_rl_input(t_minishell *minishell)
 {
-	if (!check_empty_input(minishell)
-	||	!check_quotes_balance(minishell->user_input))
+	if (!check_empty_input(minishell))
 		return (false);
+	if (!check_quotes_balance(minishell->user_input))
+	{
+		printf("minishell: syntax error: unclosed quotes\n");
+		return (false);
+	}
 	return (true);
 }

@@ -12,12 +12,9 @@
 
 #include "minishell.h"
 
-//static void	redirect_parent(t_minishell *minishell);
-//static void	redirect_child(t_minishell *minishell);
-
 bool	cmd_not_found(t_minishell *minishell)
 {
-	if (!minishell->cmd_path)
+	if (!minishell->cmd_path && !is_built_in(minishell))
 	{
 		printf("minishell: %s: command not found\n",
 			minishell->input_matrix[0]);
@@ -51,92 +48,6 @@ void	redir_first_cmd(t_minishell *minishell)
 	set_pipe_mode(STDOUT_FILENO, minishell->pipe_tools.pipes[current_pipe]);
 	return ;
 }
-
-/* void    redirect(t_minishell *minishell)
-{
-    if (minishell->pid == CHILD)
-		redirect_child(minishell);
-    else
-        redirect_parent(minishell);	
-} */
-
-/*
-ft_redir_out()
-{
-	int	fd;
-
-	i++;
-	fd = create_empty_file(minishell->input_matrix[i]);
-	if (si la sig no es un redir out o no existe)
-		if (si la sig es ">>")
-			//excepcion
-		pipe_to_file(STDOUT_FILENO, fd);
-	close(fd);
-}
-
-ft_redir_append()
-{
-	int	fd;
-
-	i++;
-	fd = open(minishell->input_matrix[i], O_CREAT | O_APPEND, 0644);
-	if (file == -1)
-	{
-		perror();
-		return ;
-	}
-	if (si la sig no es un redir append o no existe)
-		if (si la sig es ">")
-			//excepcion
-		pipe_to_file(STDOUT_FILENO, fd);
-	close(fd);
-}
-
-ft_redir_in() // wc < hola.txt
-{
-	int	fd;
-
-	if (!check_file_in_matrix(minishell->input_matrix)) // checkea validez de todos los files
-	{
-		//
-	}
-	while (minishell->input_matrix[i])
-	{
-		if (is_redirection(minishell->input_matrix[i], 0))
-			if (si encuentro una redireccion igual)
-		i++;
-	}
-	//fd = open(minishell->input_matrix[], O_RDONLY);
-}
-
-ft_heredoc()
-{
-	//bloque de excalidraw1
-	//bloque de excalidraw2
-	//bloque de excalidraw3
-	Apunte: podríamos usar TEMP_PIPE en lugar de un .txt, solo hay que hacer:
-	escribir ft_putendl_fd(readline, temp_pipe)
-	set_pipe_mode(STDIN_FILENO, temp_pipe) y cogería el input de esa pipe
-	haciendo esto no tendríamos que crear archivo y luego borrarlo tras su uso
-	revisarlo porque justo en la sig. linea he puesto con los heredoc_fds
-	
-	set_pipe_mode(STDIN_FILENO, minishell->heredoc_fds[minishell->heredoc.heredoc_num])
-	minishell->heredoc.heredoc_num++; 
-}
-
-static void	redirect_parent(t_minishell *minishell) // ultimo comando
-{
-	if (minishell->redirection == PIPE)
-		set_pipe_mode(STDIN_FILENO, minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
-	else if (minishell->redirection == REDIR_OUT) // >
-		ft_redir_out_parent(minishell);
-	else if (minishell->redirection == REDIR_APPEND) // >>
-		ft_redir_append_parent(minishell);
-	else if (minishell->redirection == REDIR_IN) // <
-		ft_redir_in_parent(minishell);
-	else if (minishell->redirection == REDIR_HEREDOC) // <<
-		ft_redir_heredoc_parent(minishell);
-}*/
 
 void	fd_redirection(int from, int to)
 {
