@@ -60,7 +60,8 @@ MINISHELL_SRC =	src/main/minishell.c \
 				src/redirections/ft_redir_in.c \
 				src/redirections/ft_redir_out.c \
 				src/redirections/redirections_utils.c \
-				src/another_test.c
+				src/another_test.c \
+				src/export.test.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)
@@ -74,7 +75,7 @@ $(MATRIX_UTILS):
 	@$(MAKE_LIB) -C lib/matrix_utils
 
 src/obj/%.o: src/%.c
-	@clear
+#	@clear
 	@mkdir -p $(dir $@)
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	$(eval PROGRESS=$(shell echo $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))

@@ -62,6 +62,14 @@ ARREGLAR:
 ❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
 ❓ cd -> cuando HOME no existe deberia dar "bash: cd: HOME not set"
 
+EXCEPCIONES A TENER EN CUENTA PARA HACERLO DE 0:
+- No tener permisos
+- Que no exista
+- Que no sea un directorio
+- Si es solo CD se va a $HOME
+- Si haces "cd ~" se va a $HOME
+- Si haces "cd -" se va a $OLD_PWD, si se vuelve a ejecutar, vuelve al anterior
+
 /************************ EXPORT ************************\
 
 export a=, debería de exportar a=""

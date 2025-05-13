@@ -4,7 +4,7 @@
         "plaintext": false,
         "markdown": false,
         "scminput": false,
-        "c": true
+        "c": false
     },
     "makefile.configureOnOpen": true,
     "files.associations": {
