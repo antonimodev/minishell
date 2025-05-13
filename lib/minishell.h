@@ -93,6 +93,7 @@ typedef struct s_heredoc
 typedef struct s_minishell
 {
 	char			**envp;
+	char			**declare_matrix;
 	int				exit_status;
 	char			*user;
 	char			*shell_prompt;
@@ -100,7 +101,6 @@ typedef struct s_minishell
 	char			**input_matrix;
 	char			*cmd_path;
 	int				args_num;
-	
 	bool			redir_existence;
 	e_redirection	redirection;
 	e_redirection	prev_redir;
@@ -169,7 +169,8 @@ void	ft_env(t_minishell *minishell);
 /* EXIT.C -----------------------*/
 void	ft_exit(t_minishell *minishell);
 /* EXPORT.C ---------------------*/
-void	ft_export(t_minishell *minishell);
+//void	ft_export(t_minishell *minishell);
+void	ft_export2(t_minishell *minishell);
 /* PWD.C -----------------------*/
 void	ft_pwd();
 /* UNSET.C ----------------------*/

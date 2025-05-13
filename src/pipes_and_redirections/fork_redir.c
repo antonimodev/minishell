@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-static void	set_parent_input(t_minishell *minishell) // revisar para hacerlo más lógico
-{
-	t_pipe	pipe;
-
-	if (minishell->pipe_tools.redir_count <= 0)
-		return ;
-	
-	pipe = minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1];
-	if (minishell->first_cmd == 0)
-		return ;
-}
-
 static bool	is_child_process(t_minishell *minishell, pid_t child)
 {
 	if (child == 0)

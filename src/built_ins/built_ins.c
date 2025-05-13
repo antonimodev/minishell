@@ -39,7 +39,8 @@ void	exec_built_in(t_minishell *minishell)
 	else if (minishell->built_in_type == FT_ECHO)
 		ft_echo(minishell);
 	else if (minishell->built_in_type == FT_EXPORT)
-		ft_export(minishell);
+		//ft_export(minishell);
+		ft_export2(minishell);
 	else if (minishell->built_in_type == FT_UNSET)
 		ft_unset(minishell);
 	else if (minishell->built_in_type == FT_ENV)
