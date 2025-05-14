@@ -66,9 +66,13 @@ void new_redirect(t_minishell *minishell)
 		i++;
 	}
 	process_redir(minishell);
+	if (minishell->pid == CHILD && has_heredoc)
+		set_pipe_mode(STDOUT_FILENO,
+			minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);
 	if (minishell->redir_existence)
 		minishell->input_matrix = clean_matrix_redirs(minishell);
 }
+
 static void	set_last_redirs(t_minishell *minishell, int index)
 {
 	int	last_fd;
