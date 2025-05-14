@@ -91,7 +91,7 @@ src/obj/%.o: src/%.c
 	@printf "\r$(BAR_COLOR)[%-50s] %s$(RESET)" \
 	    "$$(printf '%*s' $$(($(PROGRESS) / 2)) | tr ' ' '#')$$(printf '%*s' $$((50 - $(PROGRESS) / 2)) | tr ' ' '.')" \
 	    "$(PERCENT_DISPLAY)"
-	@sleep 0.04
+#	@sleep 0.04
 	@$(CC) $(CFLAGS) $(MINISHELL) $(INC) -c $< -o $@
 
 $(NAME): $(MATRIX_UTILS) $(MINISHELL_OBJ)

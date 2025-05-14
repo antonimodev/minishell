@@ -3,13 +3,15 @@
 static void handle_export_case(t_minishell *minishell, char *arg);
 static char	*get_envp_export(char **envp, char *env_var, int *envp_index);
 static void primer_caso(t_minishell *minishell, char *arg);
-static void segundo_caso(t_minishell *minishell, char *arg);
-static void segundo_caso_declare_x(t_minishell *minishell, char *arg);
-static void tercer_caso(t_minishell *minishell, char *arg);
+static void segundo_caso(t_minishell *minishell, char *arg, char *var_name);
+static void segundo_caso_declare_x(t_minishell *minishell, char *arg, char *var_name);
+static void tercer_caso(t_minishell *minishell, char *arg, char *var_name);
 static char	*insert_between_chr(char *str, char chr, int start, int end);
 static int	get_chr_index(char *str, char chr);
 static char *ft_strjoin_at(const char *s1, const char *s2, size_t pos);
 static char	*get_envp_var_name(char *env_var);
+static void show_declare_matrix(char **declare_matrix);
+//static char	*chr_between_str(char *str1, char *chr, char *str2);
 
 // DEBEMOS GUARDAR MINISHELL->DECLARE_MATRIX EN INIT_MINISHELL IGUAL QUE
 // LO HACEMOS CON ENV
@@ -20,14 +22,9 @@ void	ft_export2(t_minishell *minishell) // "perro" "gato=" "perro+="
 	char    **args;
 
 	i = 0;
-	minishell->declare_matrix = matrix_cpy(minishell->envp, 0);
 	if (minishell->args_num == 1)
 	{
-		while(minishell->declare_matrix[i])
-		{
-			printf("declare -x %s\n", minishell->declare_matrix[i]);
-			i++;
-		}
+		show_declare_matrix(minishell->declare_matrix);
 		return ;
 	}
 	args = matrix_from_matrix(minishell->input_matrix, 1,
@@ -40,20 +37,25 @@ void	ft_export2(t_minishell *minishell) // "perro" "gato=" "perro+="
 	free_matrix(args);
 }
 
-static void handle_export_case(t_minishell *minishell, char *arg)
+static void handle_export_case(t_minishell *minishell, char *arg) // perro+=jeje
 {
+	char	*var_name;
+
+	var_name = get_envp_var_name(arg);
+	printf("arg: %s\n", var_name);
 	if (!ft_strchr(arg, '='))
 		primer_caso(minishell, arg);
 	else
 	{
 		if (ft_strchr(arg, '+') && *(ft_strchr(arg, '+') + 1) == '=')
-			tercer_caso(minishell, arg);
+			tercer_caso(minishell, arg, var_name);
 		else
 		{
-			segundo_caso(minishell, arg);
-			segundo_caso_declare_x(minishell, arg);
+			segundo_caso(minishell, arg, var_name);
+			segundo_caso_declare_x(minishell, arg, var_name);
 		}
 	}
+	free(var_name);
 }
 
 static char	*get_envp_export(char **envp, char *env_var, int *envp_index)
@@ -87,17 +89,14 @@ static void primer_caso(t_minishell *minishell, char *arg) // if "PERRO"
 	}
 	minishell->declare_matrix = matrix_append(minishell->declare_matrix, arg);
 	printf("export PRIMER CASO: %s: se ha exportado\n", arg); // debug
-	print_matrix(minishell->declare_matrix); // debug
 }
 
-static void segundo_caso(t_minishell *minishell, char *arg) // if "PERRO="
+static void segundo_caso(t_minishell *minishell, char *arg, char *var_name) // if "PERRO="
 {
 	int		envp_index;
 	char	*envp_pointer;
-	char	*var_name;
 
 	envp_index = 0;
-	var_name = get_envp_var_name(arg);
 	while(minishell->envp[envp_index])
 	{
 		envp_pointer = get_envp_export(minishell->envp, var_name, &envp_index);
@@ -105,86 +104,81 @@ static void segundo_caso(t_minishell *minishell, char *arg) // if "PERRO="
 		{
 			matrix_replace(minishell->envp, envp_index, arg);
 			printf("export SEGUNDO CASO: %s: se ha reemplazado\n", arg); // debug
-			free(var_name);
 			return ;
 		}
 	}
 	minishell->envp = matrix_append(minishell->envp, arg);
-	free(var_name);
 	printf("export SEGUNDO CASO: %s: se ha añadido\n", arg); // debug
 }
 
-static void segundo_caso_declare_x(t_minishell *minishell, char *arg) // export PERRO=valor
+static void segundo_caso_declare_x(t_minishell *minishell, char *arg, char *var_name) // export PERRO=valor
 {
     char    *arg_modified;
     int     start;
     int     envp_index;
-    char    *var_name;
 
     start = get_chr_index(arg, '=');
     envp_index = 0;
-    var_name = get_envp_var_name(arg);
-    if (!var_name)
-        return;
     while (minishell->declare_matrix[envp_index])
     {
 		if (get_envp_export(minishell->declare_matrix, var_name, &envp_index))
 		{
 			arg_modified = insert_between_chr(arg, '"', start, ft_strlen(arg) - 1);
 			if (!arg_modified)
-			{
-				free(var_name);
-				return;
-			}
+				return ;
 			matrix_replace(minishell->declare_matrix, envp_index, arg_modified);
 			printf("export SEGUNDO CASO DECLARE -X: %s: se ha reemplazado\n", arg_modified); // debug
-			print_matrix(minishell->declare_matrix); // debug
 			free(arg_modified);
-			free(var_name);
-			return;
+			return ;
 		}
 	}
 	arg_modified = insert_between_chr(arg, '"', start, ft_strlen(arg) - 1); // export perro= -> perro=""
 	if (!arg_modified)
-	{
-		free(var_name);
 		return;
-	}
 	minishell->declare_matrix = matrix_append(minishell->declare_matrix, arg_modified);
 	printf("export SEGUNDO CASO DECLARE -X: %s: se ha añadido\n", arg_modified); // debug
 	free(arg_modified);
-	free(var_name);
-	print_matrix(minishell->declare_matrix); // debug
 }
 
-static void tercer_caso(t_minishell *minishell, char *arg) // if PERRO+=webo // PERRO="pepe"
+static void tercer_caso(t_minishell *minishell, char *arg, char *var_name) // if PERRO+=webo // PERRO="pepe"
 {
 	int		envp_index;
 	char	*envp_pointer;
 	char	*arg_value;
-	char	*concat_str;
 	char	*arg_modified;
 
 	envp_index = 0;
-	while (minishell->declare_matrix[envp_index])
+	arg_value = ft_substr(arg, get_chr_index(arg, '=') + 1, ft_strlen(arg) - get_chr_index(arg, '='));
+	printf("arg_value: %s\n", arg_value);
+	while (minishell->envp[envp_index])
 	{
-		envp_pointer = get_envp_export(minishell->declare_matrix, arg, &envp_index);
-		if (envp_pointer[0] == '=')
+		envp_pointer = get_envp_export(minishell->envp, var_name, &envp_index);
+		printf("env_pointer: %s\n", envp_pointer); // debug
+		if (envp_pointer)
 		{
-			arg_value = ft_strchr(arg, '=') + 1;
-			concat_str = ft_strjoin_at(minishell->declare_matrix[envp_index], arg_value, ft_strlen(minishell->declare_matrix[envp_index] - 2));
-			matrix_replace(minishell->declare_matrix, envp_index, concat_str);
-			printf("export TERCER CASO: %s: se ha reemplazado\n", arg); // debug
-			free(concat_str);
-			return ;
+			arg_modified = ft_strjoin_at(envp_pointer, arg_value, ft_strlen(envp_pointer));
+			arg_modified = ft_strjoin(var_name, arg_modified);
+			matrix_replace(minishell->envp, envp_index, arg_modified);
+			printf("export TERCER CASO: %s: se ha reemplazado\n", arg_modified); // debug
+			free(arg_modified);
+			return;
 		}
-		envp_index++;
 	}
-	arg_modified = insert_between_chr(minishell->declare_matrix[envp_index], '"', get_chr_index(arg, '=') + 1, ft_strlen(arg));
-	matrix_replace(minishell->declare_matrix, envp_index, arg_modified);
-	printf("export TERCER CASO: %s: se ha reemplazado\n", arg); // debug
-	free(arg_modified);
 }
+
+/* static char	*chr_between_str(char *str1, char *chr, char *str2)
+{
+	char	*new_str;
+
+	new_str = ft_strdup("");
+	new_str = strjoin_and_free(new_str, str1);
+	printf("str1: %s\n", new_str);
+	new_str = strjoin_and_free(new_str, chr);
+	printf("str1 + chr: %s\n", new_str);
+	new_str = strjoin_and_free(new_str, str2);
+	printf("new_str terminado: %s\n", new_str);
+	return (new_str);
+} */
 
 /* utils */
 static char	*insert_between_chr(char *str, char chr, int start, int end) // MODULARIZAR
@@ -258,8 +252,33 @@ static char	*get_envp_var_name(char *env_var)
 	int		i;
 
 	i = 0;
-	while (env_var[i] && env_var[i] != '=')
+	while (env_var[i] && env_var[i] != '+' && env_var[i] != '=')
 		i++;
 	var_name = ft_substr(env_var, 0, i);
 	return (var_name);
+}
+
+static void show_declare_matrix(char **declare_matrix) // para modificar el original de minishell->declare_matrix[i]
+{
+	int		i;
+	int		pos;
+	char	*new_str;
+	char	**matrix_copy;
+
+	i = 0;
+	matrix_copy = matrix_cpy(declare_matrix, 0);
+	while(matrix_copy[i])
+	{
+		pos = get_chr_index(matrix_copy[i], '=');
+		if (pos != (int)ft_strlen(matrix_copy[i]))
+		{
+			new_str = insert_between_chr(matrix_copy[i], '"', pos, ft_strlen(matrix_copy[i]) - 1);
+			free(matrix_copy[i]);
+			matrix_copy[i] = ft_strdup(new_str);
+			free(new_str);
+		}
+		printf("declare -x %s\n", matrix_copy[i]);
+		i++;
+	}
+	free_matrix(matrix_copy);
 }
