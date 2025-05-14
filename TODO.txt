@@ -56,7 +56,10 @@ ARREGLAR:
 ✅ cd | exit -> NO deberia de salirse
 ✅"ls -> mensaje de quotes abiertas
 
-/************************ CD ************************\
+/******************* HEREDOC *******************\
+wc << EOF1 | grep hola << EOF2 -> actualmente wc sale a pantalla en lugar de la pipe
+
+/******************** CD ************************\
 
 ❓ LIMPIAR CD, hay que reformularlo más legible y con más sentido (variables, funciones, etc.)
 ❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
@@ -72,10 +75,11 @@ EXCEPCIONES A TENER EN CUENTA PARA HACERLO DE 0:
 
 /************************ EXPORT ************************\
 
-export a=, debería de exportar a=""
-❓ export a, se duplica. Solo manejamos con =, pero sin = se acaba duplicando -> hemos hecho que si exporta "casa" se exporte como "casa=", valido?
-export cuando haces por ej; HOME+=perro sería como concatenarle perro
-export debe aceptar varias variables (si falla una, las demas se deben hacer)
+✅export a=, debería de exportar a=""
+✅ export a, se duplica. Solo manejamos con =, pero sin = se acaba duplicando -> hemos hecho que si exporta "casa" se exporte como "casa=", valido?
+✅export cuando haces por ej; HOME+=perro sería como concatenarle perro
+✅export debe aceptar varias variables (si falla una, las demas se deben hacer)
+export jojo y luego export jojo+=jiji, en declare_matrix se duplica, debería de existir solo jojo=jiji
 
 Formato -> [ORDEN] + 2 palabras (como máximo)
 - GET
