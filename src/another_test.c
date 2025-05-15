@@ -56,6 +56,8 @@ void new_redirect(t_minishell *minishell)
 	handle_parent_pipe(minishell, has_heredoc);
 	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
+	//printf("Al llegar a redirect\n");
+	//print_matrix(minishell->input_matrix); // debug de "aspas->'  jeje"
 	while (minishell->input_matrix[i])
 	{
 		if (is_redirection(minishell->input_matrix[i], 0))

@@ -12,163 +12,164 @@
 
 #include "minishell.h"
 
+void	    ft_cd(t_minishell *minishell);
+static void	cd_path(t_minishell *minishell, char *arg);
+static void cd_error_check(t_minishell *minishell, char *path);
+static void	cd_old_pwd(t_minishell *minishell);
 static void	cd_home(t_minishell *minishell);
-static void	cd_error(t_minishell *minishell);
-static char	*expand_tilde(t_minishell *minishell, char *arg);
-static bool	valid_arg(t_minishell *minishell);
-static void update_envp_pwd(t_minishell *minishell);
+static void	update_pwd(t_minishell *minishell, char *old_pwd);
+static void set_env(t_minishell *minishell, char *env_var, char *value);
+static bool find_in_matrix(char **matrix, char *var_name, int *index);
 
-static char	*expand_tilde(t_minishell *minishell, char *arg)
+static bool find_in_matrix(char **matrix, char *var_name, int *index)
 {
-	char	*home;
-	char	*new_path;
-
-	home = ft_getenv(minishell->envp, "HOME=");
-	if (!home)
-		return (NULL);
-	new_path = ft_strjoin(home, arg + 1);
-	free(arg);
-	return (new_path);
+    *index = 0;
+    while (matrix && matrix[*index])
+    {
+        if (!ft_strncmp(matrix[*index], var_name, ft_strlen(var_name)) && 
+            (matrix[*index][ft_strlen(var_name)] == '=' || 
+             matrix[*index][ft_strlen(var_name)] == '\0'))
+            return (true);
+        (*index)++;
+    }
+    return (false);
 }
 
-static bool	valid_arg(t_minishell *minishell)
+static void set_env(t_minishell *minishell, char *env_var, char *value)
 {
-	char	*arg;
-
-	arg = NULL;
-	if (minishell->args_num == 2)
+    char	*new_var;
+    int		i;
+	
+    i = 0;
+	if (find_in_matrix(minishell->envp, env_var, &i))
 	{
-		arg = ft_strdup(minishell->input_matrix[1]);
-		if (access(arg, F_OK))
-		{
-			if (arg[0] == '~')
-				arg = expand_tilde(minishell, arg);
-			if (arg[0] == '-')
-			{
-				free(arg);
-				arg = ft_strdup(ft_getenv(minishell->envp, "OLDPWD="));
-			}
-		}
-		if (!access(arg, F_OK))
-		{
-			if (chdir(arg) == 0)
-				update_envp_pwd(minishell);
-		}
-		else
-		{
-			printf("minishell: cd: %s: No such file or directory\n",
-				minishell->input_matrix[1]);
-			minishell->exit_status = 1;
-		}
-		free(arg);
-		return (true);
+		env_var = ft_strjoin(env_var, "=");
+		new_var = ft_strjoin(env_var, value);
+		matrix_replace(minishell->envp, i, new_var);
+		free(env_var);
+		free(new_var);
 	}
-	return (false);
 }
 
-/**
- * @brief Changes the current working directory.
- *
- * This function handles the `cd` command in the minishell. It changes the
- * current working directory based on the arguments provided. If no arguments
- * are given, it changes to the home directory. It also handles various error
- * cases such as too many arguments, non-existent directories, non-directory
- * paths, and permission issues.
- *
-
-	* @param minishell A pointer to the minishell structure containing the 
-	input matrix and argument count.
- */
-void	ft_cd(t_minishell *minishell)
+static void	update_pwd(t_minishell *minishell, char *old_pwd)
 {
-	const char	*cmd;
+	char	*new_pwd;
 
-	cmd = minishell->input_matrix[0];
-	if (valid_arg(minishell))
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
 		return ;
-	if (minishell->args_num > 2)
-	{
-		printf("minishell: %s: too many arguments\n", cmd);
-		minishell->exit_status = 150;
-		return ;
-	}
-	if (minishell->args_num == 1)
-		cd_home(minishell);
-	else
-		cd_error(minishell);
+	set_env(minishell, "OLDPWD", old_pwd);
+	set_env(minishell, "PWD", new_pwd);
+	free(new_pwd);
 }
 
 static void	cd_home(t_minishell *minishell)
 {
-	const char	*home;
+	char	*home;
+	char	*old_pwd;
 
 	home = ft_getenv(minishell->envp, "HOME=");
 	if (!home || home[0] == '\0')
 	{
-		printf("minishell: cd: No such file or directory\n");
+		printf("minishell: cd: HOME not set\n");
 		minishell->exit_status = 1;
 		return ;
 	}
-	if (chdir(home))
-	{
-		printf("minishell: cd: %s: Failed to change directory\n", home);
-		minishell->exit_status = 1;
-	}
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return ;
+	if (chdir(home) == 0)
+		update_pwd(minishell, old_pwd);
 	else
-		update_envp_pwd(minishell);
+		printf("minishell: cd: Failed to change directory %s\n", home);
+	free(old_pwd);
 }
 
-static void	cd_error(t_minishell *minishell)
+static void	cd_old_pwd(t_minishell *minishell)
 {
-	struct stat	buffer;
-	const char	*path;
-	char		*error_msg;
+	char	*old_pwd;
+	char	*pwd;
 
-	error_msg = NULL;
-	path = minishell->input_matrix[1];
-	if (access(path, F_OK))
-		error_msg = "No such file or directory";
-	else if (stat(path, &buffer) || !S_ISDIR(buffer.st_mode))
-		error_msg = "Not a directory";
-	else if (access(path, X_OK))
-		error_msg = "Permission denied";
-	else if (chdir(path))
-		error_msg = "Failed to change directory";
-	if (error_msg)
+	old_pwd = ft_getenv(minishell->envp, "OLDPWD=");
+	if (!old_pwd)
 	{
-		printf("minishell: cd: %s: %s\n", path, error_msg);
+		printf("minishell: cd: OLDPWD not set\n");
 		minishell->exit_status = 1;
+		return ;
 	}
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return ;
+	if (chdir(old_pwd) == 0)
+		update_pwd(minishell, pwd);
 	else
-		update_envp_pwd(minishell);
+		printf("minishell: cd: Failed to change directory %s\n", old_pwd);
+	free(pwd);
 }
 
-static void update_envp_pwd(t_minishell *minishell)
+static void cd_error_check(t_minishell *minishell, char *path)
 {
-    char *pwd;
-    char *new_pwd;
+    struct stat info;
 
-    pwd = ft_getenv(minishell->envp, "PWD=");
-    cd_replace_env_var(minishell->envp, "OLDPWD=", pwd);
-    new_pwd = getcwd(NULL, 0);
-    if (new_pwd)
+    if (access(path, F_OK))
     {
-        cd_replace_env_var(minishell->envp, "PWD=", new_pwd);
-        free(new_pwd);
+        printf("minishell: cd: %s: No such file or directory\n", path);
+        minishell->exit_status = 1;
+    }
+    else if (stat(path, &info) != 0 || !S_ISDIR(info.st_mode))
+    {
+        printf("minishell: cd: %s: Not a directory\n", path);
+        minishell->exit_status = 1;
+    }
+    else if (access(path, X_OK))
+    {
+        printf("minishell: cd: %s: Permission denied\n", path);
+        minishell->exit_status = 1;
+    }
+    else
+    {
+        printf("minishell: cd: %s: Failed to change directory\n", path);
+        minishell->exit_status = 1;
     }
 }
 
-void cd_replace_env_var(char **envp, char *var_name, char *replace_value)
+static void	cd_path(t_minishell *minishell, char *arg)
 {
-	int     index;
-	char    *new_env_var;
+	char	*old_pwd;
 
-	index = ft_getenv_index(envp, var_name);
-	if (index < 0)
-		return;
-	new_env_var = ft_strjoin(var_name, replace_value);
-	if (!new_env_var)
-		return;
-	matrix_replace(envp, index, new_env_var);
-	free(new_env_var);
+	if (arg[0] == '~')
+	{
+		cd_home(minishell);
+		return ;
+	}
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return ;
+	if (chdir(arg) == 0)
+		update_pwd(minishell, old_pwd);
+	else
+		cd_error_check(minishell, arg);
+	free(old_pwd);
+}
+
+void	ft_cd(t_minishell *minishell)
+{
+	char	*arg;
+
+	if (minishell->args_num > 2)
+	{
+		printf("minishell: cd: too many arguments\n");
+		minishell->exit_status = 150;
+		return ;
+	}
+	if (minishell->args_num == 1)
+	{
+		cd_home(minishell);
+		return ;
+	}
+	arg = minishell->input_matrix[1];
+	if (arg[0] == '-' && arg[1] == '\0')
+		cd_old_pwd(minishell);
+	else
+		cd_path(minishell, arg);
 }

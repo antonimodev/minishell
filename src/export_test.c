@@ -21,30 +21,26 @@ static char *clean_chr_from_str(char *str, char chr);
 void	ft_export2(t_minishell *minishell) // "perro" "gato=" "perro+="
 {
 	int     i;
-	char    **args;
 
-	i = 0;
+	i = 1;
 	if (minishell->args_num == 1)
 	{
 		show_declare_matrix(minishell->declare_matrix);
 		return ;
 	}
-	args = matrix_from_matrix(minishell->input_matrix, 1,
-		matrix_len(minishell->input_matrix));
-	while (args[i])
+	while (minishell->input_matrix[i])
 	{
-		if (!valid_symbols(args[i]))
+		if (!valid_symbols(minishell->input_matrix[i])) 
 		{
 			printf("minishell: export: '%s': not a valid identifier\n",
-				args[i]);
+				minishell->input_matrix[i]);
 			minishell->exit_status = 1;
 			i++;
 			continue ;
 		}
-		handle_export_case(minishell, args[i]);
+		handle_export_case(minishell, minishell->input_matrix[i]);
 		i++;
 	}
-	free_matrix(args);
 }
 
 static void handle_export_case(t_minishell *minishell, char *arg) // perro+=jeje
@@ -92,11 +88,11 @@ static void primer_caso(t_minishell *minishell, char *arg)
 
 	if (find_in_matrix(minishell->declare_matrix, arg, &index))
 	{
-		printf("export PRIMER CASO: %s: ya existía\n", arg); // debug
+		//printf("export PRIMER CASO: %s: ya existía\n", arg); // debug
 		return;
 	}
 	minishell->declare_matrix = matrix_append(minishell->declare_matrix, arg);
-	printf("export PRIMER CASO: %s: se ha exportado\n", arg); // debug
+	//printf("export PRIMER CASO: %s: se ha exportado\n", arg); // debug
 }
 
 /* static void segundo_caso(t_minishell *minishell, char *arg, char *var_name) // if "PERRO="
@@ -338,12 +334,12 @@ static char **apply_segundo_caso(char **matrix, char *arg, char *var_name)
 	if (found)
 	{
 		matrix_replace(matrix, index, arg);
-		printf("export SEGUNDO CASO %s: se ha reemplazado\n", arg); // debug
+		//printf("export SEGUNDO CASO %s: se ha reemplazado\n", arg); // debug
 	}
 	else
 	{
 		matrix = matrix_append(matrix, arg);
-		printf("export SEGUNDO CASO %s: se ha añadido\n", arg); // debug
+		//printf("export SEGUNDO CASO %s: se ha añadido\n", arg); // debug
 	}
     return (matrix);
 }
@@ -356,6 +352,7 @@ static char **apply_tercer_caso(char **matrix, char *arg, char *var_name)
 	// Extraer el valor después del '='
 	arg_value = ft_substr(arg, get_chr_index(arg, '=') + 1, 
 							ft_strlen(arg) - get_chr_index(arg, '='));
+	printf("arg_value en += %s\n", arg_value);
 	found = find_in_matrix(matrix, var_name, &index);
 	if (found)
 		matrix = process_found_var(matrix, index, var_name, arg_value);
@@ -365,10 +362,11 @@ static char **apply_tercer_caso(char **matrix, char *arg, char *var_name)
 	return (matrix);
 }
 
-static char **process_found_var(char **matrix, int index, char *var_name, char *arg_value)
+static char **process_found_var(char **matrix, int index, char *var_name, char *arg_value) // PWD+=jiji
 {
 	char *value_ptr;
 	char *temp_str;
+	char *temp_str2;
 	char *final_str;
 
 	// Obtenemos el valor original después del '='
@@ -377,10 +375,11 @@ static char **process_found_var(char **matrix, int index, char *var_name, char *
 		value_ptr++;
 	// Concatenar el nuevo valor al existente
 	temp_str = ft_strjoin_at(value_ptr, arg_value, ft_strlen(value_ptr));
-	final_str = ft_strjoin(ft_strjoin(var_name, "="), temp_str);
-	matrix_replace(matrix, index, final_str);
-	printf("export TERCER CASO: %s: se ha reemplazado\n", final_str);
+	temp_str2 = ft_strjoin(var_name, "=");
+	final_str = strjoin_and_free(temp_str2, temp_str);
 	free(temp_str);
+	matrix_replace(matrix, index, final_str);
+	//printf("export TERCER CASO: %s: se ha reemplazado\n", final_str);
 	free(final_str);
 	return (matrix);
 }
@@ -391,7 +390,7 @@ static char **process_new_var(char **matrix, char *arg)
 	
 	arg_modified = clean_chr_from_str(arg, '+');
 	matrix = matrix_append(matrix, arg_modified);
-	printf("export TERCER CASO: %s: se ha añadido\n", arg_modified);
+	//printf("export TERCER CASO: %s: se ha añadido\n", arg_modified);
 	free(arg_modified);
 	return (matrix);
 }
