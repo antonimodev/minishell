@@ -43,11 +43,11 @@ void	parse_input(t_minishell *minishell)
 		handle_redir(minishell);
 	else
 	{
-		if (minishell->invalid_input)
+/* 		if (minishell->invalid_input)
 		{
 			printf("minishell: syntax error: invalid redirection\n");
 			return ;
-		}
+		} */
 		minishell->input_matrix = split_input(minishell);
 	}
 	minishell->args_num = matrix_len(minishell->input_matrix);
