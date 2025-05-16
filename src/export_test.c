@@ -176,7 +176,7 @@ static void primer_caso(t_minishell *minishell, char *arg)
 	printf("export TERCER CASO: %s: se ha añadido\n", arg_modified); // debug
 } */
 
-static char *clean_chr_from_str(char *str, char chr)
+static char *clean_chr_from_str(char *str, char chr) // cambiar nombre a: export_rm_chr
 {
 	char	*new_str;
 	bool	copy;

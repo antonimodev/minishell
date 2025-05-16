@@ -29,17 +29,17 @@ Lista de excepciones con echo + redirecciones:
 - BASH: Crea el archivo "hola" y lo deja vacío.
 - MINISHELL: Crea el archivo "hola" y lo deja vacío.
 
-[2] EJEMPLO: echo ">hola"
+✅ [2] EJEMPLO: echo ">hola"
 - BASH: Imprime ">hola" en la salida estándar.
 - MINISHELL: No imprime nada.
 
-[3] EJEMPLO: echo "hola >"
+✅ [3] EJEMPLO: echo "hola >"
 - BASH: Imprime "hola >" en la salida estándar.
-- MINISHELL: No imprime nada.
+- MINISHELL: Imprime "hola >" en la salida estándar.
 
-[4] EJEMPLO: echo "hola >" > archivo
+✅ [4] EJEMPLO: echo "hola >" > archivo
 - BASH: Crea el archivo "archivo" y le introduce "hola >".
-- MINISHELL: No crea el archivo.
+- MINISHELL: Crea el archivo "archivo" y le introduce "hola >".
 
 [5] EJEMPLO: echo hola>
 - BASH: bash: syntax error near unexpected token `newline'
@@ -49,9 +49,9 @@ Lista de excepciones con echo + redirecciones:
 - BASH: bash: jeje: command not found
 - MINISHELL: minishell: jeje: command not found
 
-[7] EJEMPLO: echo "ho > la" | wc
+✅ [7] EJEMPLO: echo "ho > la" | wc
 - BASH: Devuelve 1 3 8, resultado de wc.
-- MINISHELL: No hace nada.
+- MINISHELL: Devuelve 1 3 8, resultado de wc.
 
 ✅ [8] EJEMPLO: echo hola < TODO.txt
 - BASH: Imprime "hola" en la salida estándar.
@@ -61,16 +61,61 @@ Lista de excepciones con echo + redirecciones:
 - BASH: Imprime "hola" en la salida estándar.
 - MINISHELL: Imprime "hola" en la salida estándar.
 
+✅ [10] EJEMPLO: echo ">" (también ">>", "<<" y "<")
+- BASH: Imprime > en la salida estándar.
+- MINISHELL: Imprime ">" en la salida estándar.
+
+✅ [11] EJEMPLO: echo "|"
+- BASH: Imprime | en la salida estándar.
+- MINISHELL: Imprime | en la salida estándar.
+
+[12] EJEMPLO: echo <
+- BASH: bash: syntax error near unexpected token `newline'
+- MINISHELL: ==165240== Syscall param access(pathname) points to unaddressable byte(s)
+==165240==    at 0x49B235B: access (access.c:27)
+==165240==    by 0x10E77E: redir_in (another_test.c:164)
+==165240==    by 0x10E602: process_redir (another_test.c:120)
+==165240==    by 0x10E2F5: new_redirect (another_test.c:68)
+==165240==    by 0x10A069: execute (exec.c:17)
+==165240==    by 0x10959E: main (minishell.c:28)
+==165240==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==165240== 
+minishell: (null): No such file or directory
+
+[13] EJEMPLO: echo >
+- BASH: bash: syntax error near unexpected token `newline'
+- MINISHELL: ==167633== Syscall param openat(filename) points to unaddressable byte(s)
+==167633==    at 0x49B1F5B: open (open64.c:48)
+==167633==    by 0x10E676: redir_out (another_test.c:130)
+==167633==    by 0x10E5C4: process_redir (another_test.c:117)
+==167633==    by 0x10E2F5: new_redirect (another_test.c:68)
+==167633==    by 0x10A069: execute (exec.c:17)
+==167633==    by 0x10959E: main (minishell.c:28)
+==167633==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==167633== 
+error al abrir en redir_out: Bad address
+
+mini output = ("aspas ->'")
+bash output = (aspas ->')
+Test  10: ❌ echo "aspas -> ' " 
+mini output = ("aspas -> ' ")
+bash output = (aspas -> ' )
+Test  11: ❌ echo 'aspas ->"' 
+mini output = ('aspas ->"')
+bash output = (aspas ->")
+Test  12: ❌ echo 'aspas -> " ' 
+mini output = ('aspas -> " ')
+bash output = (aspas -> " )
 */
 
-/*bool	check_valid_redir(t_minishell *minishell)
+bool	check_valid_redir(t_minishell *minishell)
 {
 	char	**matrix;
 	int		i;
 
  
-	matrix = split_input(minishell);
-	print_matrix(matrix); // debug
+	matrix = foo_split(minishell);
+	//dirty_to_clean(minishell, matrix);
 	i = 0;
 	while (matrix[i] && matrix[i + 1])
 	{
@@ -87,22 +132,6 @@ Lista de excepciones con echo + redirecciones:
 	}
 	free_matrix(matrix);
 	return (true);
-}*/
-
-void	set_redir_type(t_minishell *minishell, char *str)
-{
-	if (minishell->redirection)
-		minishell->prev_redir = minishell->redirection;
-	if (str[0] == '|' && !str[1])
-		minishell->redirection = PIPE;
-	else if (str[0] == '<' && !str[1])
-		minishell->redirection = REDIR_IN;
-	else if (str[0] == '>' && !str[1])
-		minishell->redirection = REDIR_OUT;
-	else if (str[0] == '>' && str[1] == '>' && !str[2])
-		minishell->redirection = REDIR_APPEND;
-	else if (str[0] == '<' && str[1] == '<' && !str[2])
-		minishell->redirection = REDIR_HEREDOC;
 }
 
 void	add_redir(t_minishell *minishell)
@@ -115,101 +144,3 @@ void	add_redir(t_minishell *minishell)
 }
 
 /* --------- TESTING CHECK VALID REDIRS ----------- */
-
-// Comprueba si una cadena contiene un operador de redirección
-static bool has_redirection_char(char *str)
-{
-    return (ft_strchr(str, '>') || ft_strchr(str, '<') || ft_strchr(str, '|'));
-}
-
-// Verifica si es un operador de redirección válido por sí solo
-static bool is_valid_operator(char *str)
-{
-    return ((str[0] == '>' && !str[1]) ||                   // >
-            (str[0] == '<' && !str[1]) ||                   // <
-            (str[0] == '|' && !str[1]) ||                   // |
-            (str[0] == '>' && str[1] == '>' && !str[2]) ||  // >>
-            (str[0] == '<' && str[1] == '<' && !str[2]));   // <<
-}
-
-// Verifica si hay un operador de redirección incrustado en una palabra
-static bool has_embedded_operator(char *str)
-{
-    int i = 1; // Empezamos desde el segundo carácter
-    
-    if (!str || !*str)
-        return false;
-        
-    // Verificamos si hay un carácter de redirección incrustado en el medio
-    while (str[i])
-    {
-        if (str[i] == '>' || str[i] == '<' || str[i] == '|')
-            return true;
-        i++;
-    }
-    return false;
-}
-
-// Función principal para comprobar si las redirecciones son válidas
-bool check_valid_redir(t_minishell *minishell)
-{
-	char **matrix;
-	int i = 0;
-	bool valid = true;
-
-	matrix = split_input(minishell);
-	if (!matrix)
-		return false;
-
-	//print_matrix(matrix); // debug
-
-	// Verificamos cada token
-	while (matrix[i])
-	{
-		// Caso 1: Si es un operador válido por sí mismo, continuamos
-		if (is_valid_operator(matrix[i]))
-		{
-			i++;
-			continue;
-		}
-		
-		// Caso 2: Si empieza con un operador pero tiene más caracteres, es inválido
-		// Ejemplo: ">file" o "|wc"
-		if ((matrix[i][0] == '>' || matrix[i][0] == '<' || matrix[i][0] == '|') && matrix[i][1])
-		{
-			minishell->invalid_input = true;
-			valid = false;
-			break;
-		}
-		
-		// Caso 3: Si contiene un operador incrustado en medio, marcamos como inválido
-		// Ejemplo: "hola>file" o "cat<file"
-		if (has_embedded_operator(matrix[i]))
-		{
-			minishell->invalid_input = true;
-			valid = true; // Retornamos true para que se ejecute como echo
-			break;
-		}
-		
-		// Caso 4: Si un operador no es seguido por un argumento
-		if (is_valid_operator(matrix[i]) && !matrix[i+1])
-		{
-			minishell->invalid_input = true;
-			valid = false;
-			break;
-		}
-		
-		// Caso 5: Si hay dos operadores seguidos
-		if (i > 0 && is_valid_operator(matrix[i-1]) && is_valid_operator(matrix[i]))
-		{
-			minishell->invalid_input = true;
-			valid = false;
-			break;
-		}
-		
-		i++;
-	}
-
-	free_matrix(matrix);
-	return valid;
-}

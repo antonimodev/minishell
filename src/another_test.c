@@ -56,11 +56,9 @@ void new_redirect(t_minishell *minishell)
 	handle_parent_pipe(minishell, has_heredoc);
 	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
-	//printf("Al llegar a redirect\n");
-	//print_matrix(minishell->input_matrix); // debug de "aspas->'  jeje"
 	while (minishell->input_matrix[i])
 	{
-		if (is_redirection(minishell->input_matrix[i], 0))
+		if (new_is_redirection(minishell->input_matrix[i]))
 		{
 			minishell->redir_existence = true;
 			set_last_redirs(minishell, i);
@@ -114,7 +112,10 @@ static void	process_redir(t_minishell *minishell)
 		if (ft_test(minishell->input_matrix[i], ">>"))
 			redir_append(minishell, i);
 		else if (ft_test(minishell->input_matrix[i], ">"))
+		{
+			printf("\nHemos entrado a redir_out con: %s\n", minishell->input_matrix[i]);
 			redir_out(minishell, i);
+		}
 		else if (ft_strcmp(minishell->input_matrix[i], "<") == 0) // así para que no ocurra con el de arriba
 			redir_in(minishell, i);
 		i++;

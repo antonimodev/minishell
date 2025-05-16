@@ -14,10 +14,7 @@
 
 void	execute(t_minishell *minishell)
 {
-	if (minishell->invalid_input)
-		return ;
-	if (!minishell->invalid_input) // Revisar check_valid_redir, esta flag es para que no haga redireccion
-		new_redirect(minishell);
+	new_redirect(minishell);
 	if (minishell->invalid_input)
 		return ;
 	if (is_built_in(minishell))

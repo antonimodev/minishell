@@ -186,7 +186,6 @@ void	set_expand_var(t_minishell *minishell);
 /* REDIRECTIONS_UTILS.C --------*/
 bool	check_valid_redir(t_minishell *minishell);
 bool	check_redir_existence(t_minishell *minishell);
-void	set_redir_type(t_minishell *minishell, char *str);
 void	add_redir(t_minishell *minishell); // nombre rarete
 
 /* EXEC.C ----------------------*/
@@ -257,5 +256,9 @@ int		ft_getenv_index(char **envp, char *env_var);
 //
 
 void	cd_replace_env_var(char **envp, char *var_name, char *replace_value);
+bool	new_is_redirection(char *str);
+bool 	is_quoted_redir_or_pipe(char *str);
+char	**foo_split(t_minishell *minishell);
+void dirty_to_clean(t_minishell *minishell, char **matrix_sucia);
 
 #endif

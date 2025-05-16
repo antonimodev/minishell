@@ -35,6 +35,7 @@ void    ft_echo(t_minishell *minishell)
 
     i = 1;
     flag = false;
+    //print_matrix(minishell->input_matrix);
     while (minishell->input_matrix[i] && is_valid(minishell->input_matrix[i])) // si es correcto continua y flg true
     {
         flag = true;

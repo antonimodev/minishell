@@ -55,9 +55,11 @@ void	handle_redir(t_minishell *minishell)
 	i = 0;
 	operator_pos = 0;
 	matrix = split_input(minishell);
+    matrix = foo_split(minishell);
 	while (matrix[i])
 	{
-		if (ft_strchr(matrix[i], '|'))
+		//if (ft_strchr(matrix[i], '|'))
+        if (ft_test(matrix[i], "|"))
 		{
             add_redir(minishell);
 			minishell->first_cmd++;
@@ -76,21 +78,22 @@ void	handle_redir(t_minishell *minishell)
 
 bool    ft_test(char *source, char *wanted)
 {
-	int i;
-	int j;
+    int i;
 
-	i = 0;
-	while (source[i])
-	{
-		j = 0;
-		while (wanted[j]
-            && source[i + j]
-            && source[i + j] == wanted[j])
-			j++;
-		if (!wanted[j])
-			return true;
-		i++;
-	}
-	return false;
+    i = 0;
+    // Primero comprobamos que ambas cadenas tienen la misma longitud
+    if (ft_strlen(source) != ft_strlen(wanted))
+        return false;
+    
+    // Si las longitudes son iguales, comparamos carácter a carácter
+    while (source[i] && wanted[i])
+    {
+        if (source[i] != wanted[i])
+            return false;
+        i++;
+    }
+    
+    // Si llegamos aquí, ambas cadenas son iguales
+    return true;
 }
 

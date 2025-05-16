@@ -1,5 +1,52 @@
 https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
 https://prod.liveshare.vsengsaas.visualstudio.com/join?39CF7E0C5956A88BE9999D9C494F13CBB394
+
+
+
+
+
+
+ARREGLAR:
+
+- EN GENERAL TENER EN CUENTA CODIGOS DE ERROR Y MENSAJES
+
+/****************** CD *****************\
+❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
+
+/**************** EXPORT ***************\
+export GHOST=123 | env | grep GHOST -> da leaks y además, parece no crear la variable
+
+/************* REDIRECTIONS ************\
+ls >"./outfiles/outfile""1""2""3""4""5"
+
+
+Tipos de errores para exit_status
+- 0: Éxito
+- 1: Error general
+- 2: Error de sintaxis o uso incorrecto
+- 126: El comando existe pero no es ejecutable
+- 127: El comando no fue encontrado
+- 128+n: El programa terminó debido a una señal n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 📒 __________ TODO LIST __________ 📒
 
 -	 [✅] Mostrar una entrada mientras esperas comando.
@@ -42,8 +89,6 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?39CF7E0C5956A88BE9999D9C4
 -	 [  ] archivos
 -	 [  ] archivos
 
-ARREGLAR:
-
 ✅ ""
 ✅ ''
 ✅ echo $
@@ -60,50 +105,10 @@ ARREGLAR:
 ✅export cuando haces por ej; HOME+=perro sería como concatenarle perro
 ✅export debe aceptar varias variables (si falla una, las demas se deben hacer)
 ✅ wc << EOF1 | grep hola << EOF2 -> actualmente wc sale a pantalla en lugar de la pipe
-
-/********************** CD ************************\
-
-❓ LIMPIAR CD, hay que reformularlo más legible y con más sentido (variables, funciones, etc.)
-❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
-❓ cd -> cuando HOME no existe deberia dar "bash: cd: HOME not set"
-
-EXCEPCIONES A TENER EN CUENTA PARA HACERLO DE 0:
-- No tener permisos
-- Que no exista
-- Que no sea un directorio
-- Si es solo CD se va a $HOME
-- Si haces "cd ~" se va a $HOME
-- Si haces "cd -" se va a $OLD_PWD, si se vuelve a ejecutar, vuelve al anterior
-
-/************************ EXPORT ************************\
-
-en el parseo, si ponemos export hola="que pasa illo" deberia de exportarlo como hola=que pasa illo, ya que es un bloque
 ✅ export jojo y luego export jojo+=jiji, en declare_matrix se duplica, debería de existir solo jojo=jiji
+✅ LIMPIAR CD, hay que reformularlo más legible y con más sentido (variables, funciones, etc.)
+✅ cd -> cuando HOME no existe deberia dar "bash: cd: HOME not set"
 
-Formato -> [ORDEN] + 2 palabras (como máximo)
-- GET
-- SET
-- EXIT
-- VALID
-- UPDATE
-
-Tipos de errores para exit_status
-- 0: Éxito
-- 1: Error general
-- 2: Error de sintaxis o uso incorrecto
-- 126: El comando existe pero no es ejecutable
-- 127: El comando no fue encontrado
-- 128+n: El programa terminó debido a una señal n
-
-
-PRIMER HIJO = 1759104
-SEGUNDO HIJO = 
-
-PRIMERA PIPE = 21447590
-SEGUNDA PIPE = 
-
-- Ver pipes: shell ls -l /proc/PID/fd
-- Procesos que usan la pipe: lsof -nP | grep FD
 
 
 📝 __________ GDB DEBUGGING GUIDE __________ 📝
