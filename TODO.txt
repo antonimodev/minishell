@@ -12,7 +12,7 @@ ARREGLAR:
 ❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
 
 /**************** EXPORT ***************\
-export GHOST=123 | env | grep GHOST -> da leaks y además, parece no crear la variable
+export GHOST=123 | env | grep GHOST -> parece no crear la variable
 
 /************* REDIRECTIONS ************\
 ls >"./outfiles/outfile""1""2""3""4""5"

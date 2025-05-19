@@ -26,6 +26,13 @@ void	ft_export2(t_minishell *minishell) // "perro" "gato=" "perro+="
 	if (minishell->args_num == 1)
 	{
 		show_declare_matrix(minishell->declare_matrix);
+		if (minishell->pid == CHILD) // añadido abajo tmb, pero no exporta
+		{
+			free_minishell(minishell);
+			free_matrix(minishell->envp);
+			free_matrix(minishell->declare_matrix);
+			exit(EXIT_SUCCESS);
+		}
 		return ;
 	}
 	while (minishell->input_matrix[i])
@@ -41,6 +48,13 @@ void	ft_export2(t_minishell *minishell) // "perro" "gato=" "perro+="
 		handle_export_case(minishell, minishell->input_matrix[i]);
 		i++;
 	}
+	if (minishell->pid == CHILD)
+		{
+			free_minishell(minishell);
+			free_matrix(minishell->envp);
+			free_matrix(minishell->declare_matrix);
+			exit(EXIT_SUCCESS);
+		}
 }
 
 static void handle_export_case(t_minishell *minishell, char *arg) // perro+=jeje
