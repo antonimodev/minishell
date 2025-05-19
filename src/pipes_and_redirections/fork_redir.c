@@ -30,6 +30,7 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
     child = fork();
     if (is_child_process(minishell, child))
     {
+		free_matrix(minishell->input_matrix);
         minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos,
                 *current_pos);
         return (true);
@@ -54,8 +55,7 @@ void	handle_redir(t_minishell *minishell)
 
 	i = 0;
 	operator_pos = 0;
-	matrix = split_input(minishell);
-    matrix = foo_split(minishell);
+	matrix = matrix_cpy(minishell->input_matrix, 0);
 	while (matrix[i])
 	{
 		//if (ft_strchr(matrix[i], '|'))
@@ -71,6 +71,7 @@ void	handle_redir(t_minishell *minishell)
 		}
 		i++;
 	}
+    free_matrix(minishell->input_matrix);
 	minishell->input_matrix = matrix_from_matrix(matrix, operator_pos,
 		matrix_len(matrix));
 	free_matrix(matrix);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:32 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:35 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:20:01 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,11 @@ void	ft_env(t_minishell *minishell)
 		return ;
 	}
 	print_matrix(minishell->envp);
+	if (minishell->pid == CHILD)
+	{
+		free_minishell(minishell);
+		free_matrix(minishell->envp);
+		free_matrix(minishell->declare_matrix);
+		exit(EXIT_SUCCESS);
+	}
 }

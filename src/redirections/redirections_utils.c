@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+static bool redir_in_first(t_minishell *minishell);
+static bool consecutive_redirs(t_minishell *minishell);
+static bool redir_in_last(t_minishell *minishell);
+
 bool	check_redir_existence(t_minishell *minishell)
 {
 	if (!ft_strchr_gnl(minishell->user_input, '|')
@@ -41,9 +45,9 @@ Lista de excepciones con echo + redirecciones:
 - BASH: Crea el archivo "archivo" y le introduce "hola >".
 - MINISHELL: Crea el archivo "archivo" y le introduce "hola >".
 
-[5] EJEMPLO: echo hola>
+✅ [5] EJEMPLO: echo hola>
 - BASH: bash: syntax error near unexpected token `newline'
-- MINISHELL: No imprime nada.
+- MINISHELL: minishell: syntax error near unexpected token `newline'
 
 ✅ [6] EJEMPLO: echo |jeje
 - BASH: bash: jeje: command not found
@@ -69,31 +73,18 @@ Lista de excepciones con echo + redirecciones:
 - BASH: Imprime | en la salida estándar.
 - MINISHELL: Imprime | en la salida estándar.
 
-[12] EJEMPLO: echo <
+✅ [12] EJEMPLO: echo <
 - BASH: bash: syntax error near unexpected token `newline'
-- MINISHELL: ==165240== Syscall param access(pathname) points to unaddressable byte(s)
-==165240==    at 0x49B235B: access (access.c:27)
-==165240==    by 0x10E77E: redir_in (another_test.c:164)
-==165240==    by 0x10E602: process_redir (another_test.c:120)
-==165240==    by 0x10E2F5: new_redirect (another_test.c:68)
-==165240==    by 0x10A069: execute (exec.c:17)
-==165240==    by 0x10959E: main (minishell.c:28)
-==165240==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==165240== 
-minishell: (null): No such file or directory
+- MINISHELL: minishell: syntax error near unexpected token `newline'
 
-[13] EJEMPLO: echo >
+✅ [13] EJEMPLO: echo >
 - BASH: bash: syntax error near unexpected token `newline'
-- MINISHELL: ==167633== Syscall param openat(filename) points to unaddressable byte(s)
-==167633==    at 0x49B1F5B: open (open64.c:48)
-==167633==    by 0x10E676: redir_out (another_test.c:130)
-==167633==    by 0x10E5C4: process_redir (another_test.c:117)
-==167633==    by 0x10E2F5: new_redirect (another_test.c:68)
-==167633==    by 0x10A069: execute (exec.c:17)
-==167633==    by 0x10959E: main (minishell.c:28)
-==167633==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==167633== 
-error al abrir en redir_out: Bad address
+- MINISHELL: minishell: syntax error near unexpected token `newline'
+
+✅ [14] EJEMPLO: echo |
+- BASH: Abre un heredoc
+- MINISHELL: minishell: syntax error cmd after pipe
+
 
 mini output = ("aspas ->'")
 bash output = (aspas ->')
@@ -110,28 +101,69 @@ bash output = (aspas -> " )
 
 bool	check_valid_redir(t_minishell *minishell)
 {
-	char	**matrix;
-	int		i;
+	minishell->matrix_sucia = foo_split(minishell);
+	minishell->input_matrix = split_input(minishell);
+	dirty_to_clean(minishell, minishell->matrix_sucia);
 
- 
-	matrix = foo_split(minishell);
-	//dirty_to_clean(minishell, matrix);
+	if (redir_in_first(minishell) || 
+		consecutive_redirs(minishell) ||
+		redir_in_last(minishell))
+		return (false);
+	return (true);
+}
+
+static bool consecutive_redirs(t_minishell *minishell)
+{
+	int i;
+
 	i = 0;
-	while (matrix[i] && matrix[i + 1])
+	while(minishell->input_matrix[i])
 	{
-		if (is_redirection(matrix[i], 0))
+		if (new_is_redirection(minishell->input_matrix[i]) &&
+			new_is_redirection(minishell->input_matrix[i + 1]))
 		{
-			if (!is_redirection(matrix[i], 1) && matrix[i][1])
-			{
-				free_matrix(matrix);
-				minishell->invalid_input = true;
-				return (false);
-			}
+			printf("minishell: syntax error near unexpected token `%s'\n",
+				minishell->input_matrix[i + 1]);
+			minishell->invalid_input = true;
+			return (true);
 		}
 		i++;
 	}
-	free_matrix(matrix);
-	return (true);
+	return (false);
+}
+
+static bool redir_in_first(t_minishell *minishell)
+{
+	if (minishell->matrix_sucia[0][0] == '|')
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		minishell->invalid_input = true;
+		return (true);
+	}
+	return (false);
+}
+
+static bool redir_in_last(t_minishell *minishell)
+{
+	int		len;
+	int		len2;
+
+	len = matrix_len(minishell->input_matrix) - 1;
+	len2 = ft_strlen(minishell->matrix_sucia[len]) - 1;
+	if (minishell->matrix_sucia[len][len2] == '>' ||
+		minishell->matrix_sucia[len][len2] == '<')
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		minishell->invalid_input = true;
+		return (true);
+	}
+	if (minishell->matrix_sucia[len][len2] == '|')
+	{
+		printf("minishell: syntax error needs cmd after pipe\n");
+		minishell->invalid_input = true;
+		return (true);
+	}
+	return (false);
 }
 
 void	add_redir(t_minishell *minishell)

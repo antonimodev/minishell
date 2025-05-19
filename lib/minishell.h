@@ -99,6 +99,7 @@ typedef struct s_minishell
 	char			*shell_prompt;
 	char			*user_input;
 	char			**input_matrix;
+	char			**matrix_sucia;
 	char			*cmd_path;
 	int				args_num;
 	bool			redir_existence;

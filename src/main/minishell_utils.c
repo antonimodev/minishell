@@ -45,6 +45,8 @@ void	free_minishell(t_minishell *minishell)
 		free(minishell->cmd_path);
 	if (minishell->input_matrix)
 		free_matrix(minishell->input_matrix);
+	if (minishell->matrix_sucia)
+		free_matrix(minishell->matrix_sucia);
 	if (minishell->shell_prompt)
 		free(minishell->shell_prompt);
 	if (minishell->pipe_tools.pipes)

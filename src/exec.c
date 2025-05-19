@@ -14,6 +14,8 @@
 
 void	execute(t_minishell *minishell)
 {
+	if (minishell->invalid_input)
+		return ;
 	new_redirect(minishell);
 	if (minishell->invalid_input)
 		return ;

@@ -56,6 +56,7 @@ void new_redirect(t_minishell *minishell)
 	handle_parent_pipe(minishell, has_heredoc);
 	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
+
 	while (minishell->input_matrix[i])
 	{
 		if (new_is_redirection(minishell->input_matrix[i]))
@@ -103,20 +104,14 @@ static void	process_redir(t_minishell *minishell)
 			redir_heredoc(minishell, i);
 		i++;
 	}
-	/*if (minishell->first_cmd == 1)
-		set_pipe_mode(STDOUT_FILENO,
-			minishell->pipe_tools.pipes[minishell->pipe_tools.redir_count - 1]);*/
 	i = 0;
 	while(minishell->input_matrix[i])
 	{
 		if (ft_test(minishell->input_matrix[i], ">>"))
 			redir_append(minishell, i);
 		else if (ft_test(minishell->input_matrix[i], ">"))
-		{
-			printf("\nHemos entrado a redir_out con: %s\n", minishell->input_matrix[i]);
 			redir_out(minishell, i);
-		}
-		else if (ft_strcmp(minishell->input_matrix[i], "<") == 0) // así para que no ocurra con el de arriba
+		else if (ft_test(minishell->input_matrix[i], "<")) // antes ft_strcmp == 0
 			redir_in(minishell, i);
 		i++;
 	}
@@ -125,8 +120,9 @@ static void	process_redir(t_minishell *minishell)
 static void	redir_out(t_minishell *minishell, int index)
 {
 	int	file;
-	int	last_fd = index + 1;
+	int	last_fd;
 
+	last_fd = index + 1;
 	file = open(minishell->input_matrix[last_fd], O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (file < 0)
 	{

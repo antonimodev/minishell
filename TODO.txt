@@ -1,6 +1,4 @@
 https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
-https://prod.liveshare.vsengsaas.visualstudio.com/join?39CF7E0C5956A88BE9999D9C494F13CBB394
-
 
 
 
@@ -100,10 +98,10 @@ Tipos de errores para exit_status
 ✅ NO SE SI MANEJAR -> cd - , se va al pwd anterior, y si lo vuelves a usar vuelve al anterior
 ✅ cd | exit -> NO deberia de salirse
 ✅"ls -> mensaje de quotes abiertas
-✅export a=, debería de exportar a=""
+✅ export a=, debería de exportar a=""
 ✅ export a, se duplica. Solo manejamos con =, pero sin = se acaba duplicando -> hemos hecho que si exporta "casa" se exporte como "casa=", valido?
-✅export cuando haces por ej; HOME+=perro sería como concatenarle perro
-✅export debe aceptar varias variables (si falla una, las demas se deben hacer)
+✅ export cuando haces por ej; HOME+=perro sería como concatenarle perro
+✅ export debe aceptar varias variables (si falla una, las demas se deben hacer)
 ✅ wc << EOF1 | grep hola << EOF2 -> actualmente wc sale a pantalla en lugar de la pipe
 ✅ export jojo y luego export jojo+=jiji, en declare_matrix se duplica, debería de existir solo jojo=jiji
 ✅ LIMPIAR CD, hay que reformularlo más legible y con más sentido (variables, funciones, etc.)

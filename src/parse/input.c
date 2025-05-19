@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -43,17 +44,16 @@ void	parse_input(t_minishell *minishell)
 	set_expand_var(minishell);
 	if (check_redir_existence(minishell))
 		minishell->user_input = expand_pipe(minishell);
-	char **matrix_sucia = foo_split(minishell); // debe estar en minishell
 	if (minishell->redir_existence && check_valid_redir(minishell))
 		handle_redir(minishell);
 	else
 	{
+		if (minishell->input_matrix)
+			free_matrix(minishell->input_matrix);
 		minishell->input_matrix = split_input(minishell);
 	}
-	dirty_to_clean(minishell, matrix_sucia);
 	minishell->args_num = matrix_len(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
-	free_matrix(matrix_sucia); // se tendra que quitar
 }
 
 char **foo_split(t_minishell *minishell)
@@ -105,6 +105,8 @@ void dirty_to_clean(t_minishell *minishell, char **matrix_sucia)
 	print_matrix(minishell->input_matrix);
 	printf("\nMatrix sucia matrix en dirty: \n");
 	print_matrix(matrix_sucia); */
+	/* printf("La wea susia:\n");
+	print_matrix(matrix_sucia); */
 	while (matrix_sucia[i])
 	{
 		if (is_quoted_redir_or_pipe(matrix_sucia[i]))
@@ -113,6 +115,8 @@ void dirty_to_clean(t_minishell *minishell, char **matrix_sucia)
 		}
 		i++;
 	}
+	/* printf("\nMatriz limpita:\n");
+	print_matrix(minishell->input_matrix); */
 }
 
 bool is_quoted_redir_or_pipe(char *str)
@@ -133,7 +137,7 @@ bool is_quoted_redir_or_pipe(char *str)
             return (false);
         if (new_is_redirection(content))
             result = true;
-        free(content);
+		free(content);
     }
     return (result);
 }
@@ -156,11 +160,11 @@ static bool	is_double_redir(char *str)
 
 static bool is_single_redir(char *str)
 {
-        if (ft_strlen(str) == 1
-        && ((ft_strncmp(str, ">", 1) == 0
-        || ft_strncmp(str, "<", 1) == 0)
-        || ft_strncmp(str, "|", 1) == 0))
-                return (true);
+	if (ft_strlen(str) == 1
+	&& ((ft_strncmp(str, ">", 1) == 0
+	|| ft_strncmp(str, "<", 1) == 0)
+	|| ft_strncmp(str, "|", 1) == 0))
+			return (true);
         return (false);
 }
 
