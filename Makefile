@@ -43,7 +43,6 @@ MINISHELL_SRC =	src/main/minishell.c \
                 src/built_ins/echo.c \
                 src/built_ins/env.c \
                 src/built_ins/exit.c \
-                src/built_ins/export.c \
                 src/built_ins/pwd.c \
                 src/built_ins/unset.c \
 				src/built_ins/built_ins.c \
@@ -56,9 +55,7 @@ MINISHELL_SRC =	src/main/minishell.c \
 				src/pipes_and_redirections/pipe_libft.c \
 				src/pipes_and_redirections/pipes_utils.c \
 				src/redirections/ft_pipe.c \
-				src/redirections/ft_redir_append.c \
 				src/redirections/ft_redir_in.c \
-				src/redirections/ft_redir_out.c \
 				src/redirections/redirections_utils.c \
 				src/another_test.c \
 				src/export_test.c

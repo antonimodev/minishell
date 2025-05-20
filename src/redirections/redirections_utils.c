@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:31:53 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 13:36:58 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:44:33 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

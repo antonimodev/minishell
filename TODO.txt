@@ -12,10 +12,11 @@ ARREGLAR:
 ❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
 
 /**************** EXPORT ***************\
-export GHOST=123 | env | grep GHOST -> parece no crear la variable
+❓ export GHOST=123 | env | grep GHOST -> parece no crear la variable
+Este caso en concreto parecía que funcionaba al principio y ahora no (BASH)
 
 /************* REDIRECTIONS ************\
-ls >"./outfiles/outfile""1""2""3""4""5"
+✅ ls >"./outfiles/outfile""1""2""3""4""5"
 
 
 Tipos de errores para exit_status
@@ -25,16 +26,6 @@ Tipos de errores para exit_status
 - 126: El comando existe pero no es ejecutable
 - 127: El comando no fue encontrado
 - 128+n: El programa terminó debido a una señal n
-
-
-
-
-
-
-
-
-
-
 
 
 

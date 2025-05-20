@@ -126,7 +126,10 @@ static void	redir_out(t_minishell *minishell, int index)
 	file = open(minishell->input_matrix[last_fd], O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (file < 0)
 	{
-		perror("error al abrir en redir_out");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(minishell->input_matrix[last_fd], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		minishell->invalid_input = true;
 		return ;
 	}
 	if (minishell->last_output == last_fd)
@@ -143,7 +146,10 @@ static void	redir_append(t_minishell *minishell, int index)
 	file = open(minishell->input_matrix[last_fd], O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (file < 0)
 	{
-		perror("error al abrir en redir_append");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(minishell->input_matrix[last_fd], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		minishell->invalid_input = true;
 		return ;
 	}
 	if (minishell->last_output == last_fd)
@@ -159,8 +165,9 @@ static void	redir_in(t_minishell *minishell, int index)
 	last_fd = index + 1;
 	if (access(minishell->input_matrix[last_fd], F_OK | R_OK) < 0)
 	{
-		printf("minishell: %s: No such file or directory\n",
-			minishell->input_matrix[last_fd]);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(minishell->input_matrix[last_fd], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		minishell->invalid_input = true;
 		return ;
 	}

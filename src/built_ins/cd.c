@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/24 12:55:37 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:22:33 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,11 @@ static void	cd_home(t_minishell *minishell)
 
 	home = ft_getenv(minishell->envp, "HOME=");
 	if (!home || home[0] == '\0')
-	{
-		printf("minishell: cd: HOME not set\n");
-		minishell->exit_status = 1;
-		return ;
-	}
+		home = minishell->env_home;
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
 		return ;
+	printf("valor de HOME: %s\n", home);
 	if (chdir(home) == 0)
 		update_pwd(minishell, old_pwd);
 	else
@@ -168,8 +165,11 @@ void	ft_cd(t_minishell *minishell)
 		return ;
 	}
 	arg = minishell->input_matrix[1];
-	if (arg[0] == '-' && arg[1] == '\0')
+	if (ft_test(arg, "-"))
+	{
+		printf("%s\n", ft_getenv(minishell->envp, "OLDPWD="));
 		cd_old_pwd(minishell);
+	}
 	else
 		cd_path(minishell, arg);
 }

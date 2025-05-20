@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/30 13:16:13 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:19:47 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ bool	cmd_not_found(t_minishell *minishell)
 {
 	if (!minishell->cmd_path && !is_built_in(minishell))
 	{
-		printf("minishell: %s: command not found\n",
-			minishell->input_matrix[0]);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(minishell->input_matrix[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		minishell->exit_status = CMD_NOT_FOUND;
 		return (true);
 	}
@@ -67,8 +68,7 @@ void	store_fd(t_minishell *minishell)
 void	reset_fd(t_minishell *minishell)
 {
 	fd_redirection(STDIN_FILENO, minishell->pipe_tools.STDIN);
-	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT); // para resetear la salida ya que si sale con "ls > file" el stdout
-	//se quedaba en file, ya que esto lo hacia antes un hijo pero ahora lo hace el padre
+	fd_redirection(STDOUT_FILENO, minishell->pipe_tools.STDOUT);
 	close(minishell->pipe_tools.STDIN);
 	close(minishell->pipe_tools.STDOUT);
 }
@@ -82,7 +82,7 @@ void	pipe_append(t_minishell *minishell, t_pipe *pipe)
 	tmp = malloc((minishell->pipe_tools.redir_count) * sizeof(t_pipe));
 	if (!tmp)
 	{
-		perror("malloc");
+		perror("pipe_append: malloc");
 		return ;
 	}
 	while (i < minishell->pipe_tools.redir_count - 1)

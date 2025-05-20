@@ -30,7 +30,6 @@
 
 typedef enum e_error
 {
-	INVALID_FILE = 1,
 	CMD_NOT_FOUND = 127,
 } e_error;
 
@@ -46,7 +45,7 @@ typedef enum e_built_in
 	FT_EXIT
 }	e_built_in;
 
-typedef enum e_redirection
+/* typedef enum e_redirection
 {
 	NONE,
     PIPE = 124,     // |
@@ -54,7 +53,7 @@ typedef enum e_redirection
     REDIR_OUT = 62, // >
     REDIR_APPEND,   // >>
     REDIR_HEREDOC   // <<
-}	e_redirection;
+}	e_redirection; */
 
 typedef enum e_process
 {
@@ -92,24 +91,25 @@ typedef struct s_heredoc
 
 typedef struct s_minishell
 {
+	char			*env_home;
 	char			**envp;
 	char			**declare_matrix;
-	int				exit_status;
-	char			*user;
 	char			*shell_prompt;
+	char			*user;
 	char			*user_input;
 	char			**input_matrix;
 	char			**matrix_sucia;
+	int				first_cmd;
 	char			*cmd_path;
 	int				args_num;
 	bool			redir_existence;
-	e_redirection	redirection;
-	e_redirection	prev_redir;
+	//e_redirection	redirection;
+	//e_redirection	prev_redir;
 	e_built_in		built_in_type;
 	e_process		pid;
 	t_pipe_tools	pipe_tools;
-	bool			invalid_file;
-	int				first_cmd;
+	// bool			invalid_file;
+	int				exit_status;
 	//another_test.c
 	int				last_input; // indice del ultimo input
 	int				last_output; // indice del ultimo output
@@ -220,12 +220,12 @@ void 	handle_sign(int sign);
 
 /* EXPAND_REDIR.C --------------*/
 void	handle_redir(t_minishell *minishell);
-bool	is_redirection(char *str, int pos);
+bool	is_redirection(char *str, int pos); // es para la pos especifica
 char 	*expand_pipe(t_minishell *minishell);
 
 /* PIPE_UTILS.C ----------------*/
 void	fd_redirection(int from, int to);
-void	redirect(t_minishell *minishell);
+// void	redirect(t_minishell *minishell);
 void	store_fd(t_minishell *minishell);
 void	reset_fd(t_minishell *minishell);
 void	pipe_append(t_minishell *minishell, t_pipe *pipe);
@@ -260,6 +260,6 @@ void	cd_replace_env_var(char **envp, char *var_name, char *replace_value);
 bool	new_is_redirection(char *str);
 bool 	is_quoted_redir_or_pipe(char *str);
 char	**foo_split(t_minishell *minishell);
-void dirty_to_clean(t_minishell *minishell, char **matrix_sucia);
+void	dirty_to_clean(t_minishell *minishell, char **matrix_sucia);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/30 11:24:29 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:18:00 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	free_minishell(t_minishell *minishell)
 }
 
 // suggest
-void	print_minishell(t_minishell *minishell)
+/* void	print_minishell(t_minishell *minishell)
 {
     int	i;
     
@@ -105,18 +105,6 @@ void	print_minishell(t_minishell *minishell)
     else
         fprintf(stderr, "\033[33mNONE\033[0m\n");
     fprintf(stderr, "\033[1m▶ Previous Redirection:\033[0m ");
-    if (minishell->prev_redir == PIPE)
-        fprintf(stderr, "\033[33m|\033[0m\n");
-    else if (minishell->prev_redir == REDIR_IN)
-        fprintf(stderr, "\033[33m<\033[0m\n");
-    else if (minishell->prev_redir == REDIR_OUT)
-        fprintf(stderr, "\033[33m>\033[0m\n");
-    else if (minishell->prev_redir == REDIR_APPEND)
-        fprintf(stderr, "\033[33m>>\033[0m\n");
-    else if (minishell->prev_redir == REDIR_HEREDOC)
-        fprintf(stderr, "\033[33m<<\033[0m\n");
-    else
-        fprintf(stderr, "\033[33mNONE\033[0m\n");
     fprintf(stderr, "\n\033[1m▶ Input matrix:\033[0m\n");
     if (minishell->input_matrix)
     {
@@ -135,4 +123,4 @@ void	print_minishell(t_minishell *minishell)
             minishell->exit_status);
         
     fprintf(stderr, "\n\033[1;36m===========================\033[0m\n");
-}
+} */

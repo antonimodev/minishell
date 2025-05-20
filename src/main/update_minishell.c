@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_minishell.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:49:01 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/14 11:24:46 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:14:19 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,18 @@ static void	update_exit_status(t_minishell *minishell, int temp_exit_status)
 		minishell->exit_status = temp_exit_status;
 }
 
+static void update_env_home(t_minishell *minishell, char *temp_home)
+{
+	if (temp_home)
+		minishell->env_home = temp_home;
+		
+}
+
 void	update_minishell(t_minishell *minishell, char **system_envp)
 {
 	char	**temp_envp;
 	char	**temp_declare;
+	char	*temp_home;
 	int		temp_exit_status;
 	bool	flag;
 
@@ -72,7 +80,12 @@ void	update_minishell(t_minishell *minishell, char **system_envp)
 	check_last_envp(minishell, &flag, &temp_envp, &temp_declare);
 	if (minishell->exit_status)
 		store_exit_status(minishell, &temp_exit_status);
+	if (minishell->env_home)
+		temp_home = minishell->env_home;
+	else
+		temp_home = ft_getenv(system_envp, "HOME=");
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	set_last_envp(minishell, &temp_envp, &temp_declare, system_envp, flag);
+	update_env_home(minishell, temp_home);
 	update_exit_status(minishell, temp_exit_status);
 }
