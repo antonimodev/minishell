@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:10:50 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/20 11:39:06 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:11:35 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char *remove_chr_from_str(char *str, char chr);
 
- char	**clean_matrix_redirs(t_minishell *minishell)
+char	**clean_matrix_redirs(t_minishell *minishell)
 {
     char	**new_matrix;
     int		end;

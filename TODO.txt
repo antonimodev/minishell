@@ -118,3 +118,63 @@ USEFUL VARIABLES TO WATCH:
 - Process info: `p getpid()`
 - Fork result: `p fork_pid`
 - Pipe FDs: `p minishell->pipe_tools.pipes[0].read_pipe` `p minishell->pipe_tools.pipes[0].write_pipe`
+
+
+
+Lista de excepciones con echo + redirecciones:
+
+✅ [1] EJEMPLO: echo >hola
+- BASH: Crea el archivo "hola" y lo deja vacío.
+- MINISHELL: Crea el archivo "hola" y lo deja vacío.
+
+✅ [2] EJEMPLO: echo ">hola"
+- BASH: Imprime ">hola" en la salida estándar.
+- MINISHELL: No imprime nada.
+
+✅ [3] EJEMPLO: echo "hola >"
+- BASH: Imprime "hola >" en la salida estándar.
+- MINISHELL: Imprime "hola >" en la salida estándar.
+
+✅ [4] EJEMPLO: echo "hola >" > archivo
+- BASH: Crea el archivo "archivo" y le introduce "hola >".
+- MINISHELL: Crea el archivo "archivo" y le introduce "hola >".
+
+✅ [5] EJEMPLO: echo hola>
+- BASH: bash: syntax error near unexpected token `newline'
+- MINISHELL: minishell: syntax error near unexpected token `newline'
+
+✅ [6] EJEMPLO: echo |jeje
+- BASH: bash: jeje: command not found
+- MINISHELL: minishell: jeje: command not found
+
+✅ [7] EJEMPLO: echo "ho > la" | wc
+- BASH: Devuelve 1 3 8, resultado de wc.
+- MINISHELL: Devuelve 1 3 8, resultado de wc.
+
+✅ [8] EJEMPLO: echo hola < TODO.txt
+- BASH: Imprime "hola" en la salida estándar.
+- MINISHELL: Imprime "hola" en la salida estándar.
+
+✅ [9] EJEMPLO: echo hola << jeje
+- BASH: Imprime "hola" en la salida estándar.
+- MINISHELL: Imprime "hola" en la salida estándar.
+
+✅ [10] EJEMPLO: echo ">" (también ">>", "<<" y "<")
+- BASH: Imprime > en la salida estándar.
+- MINISHELL: Imprime ">" en la salida estándar.
+
+✅ [11] EJEMPLO: echo "|"
+- BASH: Imprime | en la salida estándar.
+- MINISHELL: Imprime | en la salida estándar.
+
+✅ [12] EJEMPLO: echo <
+- BASH: bash: syntax error near unexpected token `newline'
+- MINISHELL: minishell: syntax error near unexpected token `newline'
+
+✅ [13] EJEMPLO: echo >
+- BASH: bash: syntax error near unexpected token `newline'
+- MINISHELL: minishell: syntax error near unexpected token `newline'
+
+✅ [14] EJEMPLO: echo |
+- BASH: Abre un heredoc
+- MINISHELL: minishell: syntax error cmd after pipe

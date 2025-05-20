@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:09:00 by jortiz-m          #+#    #+#             */
+/*   Updated: 2025/05/20 14:06:443 by jortiz-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -39,8 +49,7 @@ void	exec_built_in(t_minishell *minishell)
 	else if (minishell->built_in_type == FT_ECHO)
 		ft_echo(minishell);
 	else if (minishell->built_in_type == FT_EXPORT)
-		//ft_export(minishell);
-		ft_export2(minishell);
+		ft_export(minishell);
 	else if (minishell->built_in_type == FT_UNSET)
 		ft_unset(minishell);
 	else if (minishell->built_in_type == FT_ENV)

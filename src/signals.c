@@ -3,31 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:43 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:59:12 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-Manejar CTRL + C -> (SIGINT) - DETIENE EJECUCION
-Manejar CTRL + D -> (EOF) La condición que maneja es si user_input == NULL
-	- EXIT TERMINAL
-Manejar CTRL + \ -> NADA
-*/
-
-/**
- * @brief Signal handler for SIGINT (Ctrl+C).
- *
- * This function handles the SIGINT signal, which is typically triggered by
- * pressing Ctrl+C. It stops the current execution, moves to a new line,
- * and redisplays the prompt.
- *
- * @param sign The signal number (unused).
- */
 void	handle_sign(int sign)
 {
 	UNUSED(sign);
@@ -37,12 +21,6 @@ void	handle_sign(int sign)
 	rl_redisplay();
 }
 
-/**
- * @brief Sets up signal handling for the minishell.
- *
- * This function sets up the signal handler for SIGINT using `sigaction`.
- * It configures the signal action to use the `handle_sign` function.
- */
 void	setup_signals(void)
 {
 	struct sigaction	sa;

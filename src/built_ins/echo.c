@@ -6,20 +6,20 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:29 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/24 13:29:01 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:57:41 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool is_valid(const char *str) // cambiar nombre
+static bool is_valid(const char *str)
 {
     int i;
 
 	i = 1;
-    if (str[0] != '-' || str[1] == '\0') // no es valido false
+    if (str[0] != '-' || str[1] == '\0')
         return (false);
-    while (str[i]) //mientras que sea n continua "-nnnnnn"
+    while (str[i])
     {
         if (str[i] != 'n')
             return (false);
@@ -35,19 +35,18 @@ void    ft_echo(t_minishell *minishell)
 
     i = 1;
     flag = false;
-    //print_matrix(minishell->input_matrix);
-    while (minishell->input_matrix[i] && is_valid(minishell->input_matrix[i])) // si es correcto continua y flg true
+    while (minishell->input_matrix[i] && is_valid(minishell->input_matrix[i]))
     {
         flag = true;
         i++;
     }
-    while (minishell->input_matrix[i]) //imprimir siguiente de -n
+    while (minishell->input_matrix[i])
     {
         printf("%s", minishell->input_matrix[i]);
-        if (minishell->input_matrix[i + 1]) //si hay siguiente
-            printf(" "); //imprime espacio
+        if (minishell->input_matrix[i + 1])
+            printf(" ");
         i++;
     }
-    if (!flag) //no hay -n que sea valido
+    if (!flag)
         printf("\n");
 }

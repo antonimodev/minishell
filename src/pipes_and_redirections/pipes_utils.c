@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/20 12:19:47 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:50:35 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	pipe_to_file(int read_from, int write_into)
 	{
 		if (write(write_into, &buffer, 1) != 1)
 		{
-			perror("Error al escribir en la salida estándar");
+			ft_putstr_fd("Error al escribir en la salida estándar\n", STDERR_FILENO);
 			break;
 		}
 	}
@@ -54,7 +54,7 @@ void	fd_redirection(int from, int to)
 {
 	if (dup2(to, from) == -1)
 	{
-		perror("dup2: error duplicating fd");
+		ft_putstr_fd("dup2: error duplicating fd\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -82,7 +82,7 @@ void	pipe_append(t_minishell *minishell, t_pipe *pipe)
 	tmp = malloc((minishell->pipe_tools.redir_count) * sizeof(t_pipe));
 	if (!tmp)
 	{
-		perror("pipe_append: malloc");
+		ft_putstr_fd("pipe_append: malloc\n", STDERR_FILENO);
 		return ;
 	}
 	while (i < minishell->pipe_tools.redir_count - 1)
@@ -96,3 +96,11 @@ void	pipe_append(t_minishell *minishell, t_pipe *pipe)
 	minishell->pipe_tools.pipes = tmp;
 }
 
+void	add_redir(t_minishell *minishell)
+{
+	t_pipe	pipe;
+
+	pipe = create_pipe();
+	minishell->pipe_tools.redir_count++;
+	pipe_append(minishell, &pipe);
+}

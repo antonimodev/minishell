@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/07 12:5:57 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:37:53 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	valid_chr(char c)
 	return (c != '\n' && c != '\t' && c != '\v' && c != '\f' && c != '\r');
 }
 
-bool is_empty_quotes(char *user_input)
+bool	is_empty_quotes(char *user_input)
 {
 	if (ft_strlen_gnl(user_input) == 2 &&
 		user_input[0] == '\'' &&

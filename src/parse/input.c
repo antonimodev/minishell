@@ -13,7 +13,6 @@
 
 #include "minishell.h"
 
-
 static bool	is_double_redir(char *str);
 static bool is_single_redir(char *str);
 
@@ -58,13 +57,6 @@ void	parse_input(t_minishell *minishell)
 
 char **foo_split(t_minishell *minishell)
 {
-	/*
-	
-		conseguimos una matriz separada por espacios pero aguantando las comillas
-		necesita despues de dirty_to_clean ya que necesitamos quitarle las "
-
-	*/
-
 	int        i;
 	t_quote    quote;
 	char    *word;
@@ -75,10 +67,9 @@ char **foo_split(t_minishell *minishell)
 	quote.closed = true;
 	word = ft_strdup("");
 	matrix = create_matrix(0);
-
 	while (minishell->user_input[i])
 	{
-		quote_state(minishell->user_input[i], &quote); // e"ch"o ">>>"      hol'a'
+		quote_state(minishell->user_input[i], &quote);
 		if (minishell->user_input[i] == ' ' && quote.closed)
 		{
 			skip_middle_spaces(minishell->user_input, &i);
@@ -95,28 +86,17 @@ char **foo_split(t_minishell *minishell)
 	return (matrix);
 }
 
-
-void dirty_to_clean(t_minishell *minishell, char **matrix_sucia)
+void process_final_matrix(t_minishell *minishell)
 {
 	int		i;
 
 	i = 0;
-	/* printf("Input matrix en dirty: \n");
-	print_matrix(minishell->input_matrix);
-	printf("\nMatrix sucia matrix en dirty: \n");
-	print_matrix(matrix_sucia); */
-	/* printf("La wea susia:\n");
-	print_matrix(matrix_sucia); */
-	while (matrix_sucia[i])
+	while (minishell->quoted_matrix[i])
 	{
-		if (is_quoted_redir_or_pipe(matrix_sucia[i]))
-		{
-			matrix_replace(minishell->input_matrix, i, matrix_sucia[i]);
-		}
+		if (is_quoted_redir_or_pipe(minishell->quoted_matrix[i]))
+			matrix_replace(minishell->input_matrix, i, minishell->quoted_matrix[i]);
 		i++;
 	}
-	/* printf("\nMatriz limpita:\n");
-	print_matrix(minishell->input_matrix); */
 }
 
 bool is_quoted_redir_or_pipe(char *str)
@@ -125,9 +105,8 @@ bool is_quoted_redir_or_pipe(char *str)
     int     len;
     bool    result;
 
-    if (!str || ft_strlen(str) < 3)  // Necesitamos al menos 3 caracteres: comilla+operador+comilla
+    if (!str || ft_strlen(str) < 3)
         return (false);
-    // Verificar si empieza y termina con comillas (dobles o simples)
     len = ft_strlen(str);
     result = false;
     if ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\''))
@@ -167,20 +146,3 @@ static bool is_single_redir(char *str)
 			return (true);
         return (false);
 }
-
-/* ------------- PARSEAR PARA OBTENER MATRIZ OBJETIVO -------------*/
-
-// EJEMPLO: echo "hola      >perro"que"" | wc ">>>" > archivo ">>" > final
-/* OBJETIVO:	[echo, 
-				hola     >perroque
-				|
-				wc
-				>>>
-				>
-				archivo
-				">>"
-				>
-				final]
-
-LA MATRIX LIMPIA DEVUELVE LO QUE HAY ENTRE COMILLAS COMO UN STRING, QUITA LAS COMILLAS (ACTUALMENTE)
-*/

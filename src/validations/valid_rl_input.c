@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   valid_rl_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:43:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:04:16 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:36:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-static bool	spaced_str(char *user_input)
-{
-	int	i;
-
-	i = 0;
-	while (user_input[i])
-	{
-		if (ft_isspace(user_input[i]))
-			i++;
-		else
-			return (false);
-	}
-	return (true);
-}
-*/
 
 static bool	check_empty_input(t_minishell *minishell)
 {
@@ -48,7 +32,8 @@ bool	valid_rl_input(t_minishell *minishell)
 		return (false);
 	if (!check_quotes_balance(minishell->user_input))
 	{
-		printf("minishell: syntax error: unclosed quotes\n");
+		ft_putstr_fd("minishell: syntax error: unclosed quotes\n",
+			 STDERR_FILENO);
 		return (false);
 	}
 	return (true);

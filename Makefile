@@ -42,6 +42,7 @@ MINISHELL_SRC =	src/main/minishell.c \
                 src/built_ins/cd.c \
                 src/built_ins/echo.c \
                 src/built_ins/env.c \
+				src/built_ins/export.c \
                 src/built_ins/exit.c \
                 src/built_ins/pwd.c \
                 src/built_ins/unset.c \
@@ -58,7 +59,6 @@ MINISHELL_SRC =	src/main/minishell.c \
 				src/redirections/ft_redir_in.c \
 				src/redirections/redirections_utils.c \
 				src/another_test.c \
-				src/export_test.c
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:28 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:45 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:10:46 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ char	*get_path(char **input_matrix, char **envp)
 	free_matrix(splitted_paths);
 	return (cmd_path);
 }
-

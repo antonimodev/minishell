@@ -47,7 +47,7 @@ static void handle_child_pipe(t_minishell *minishell, bool has_heredoc)
 	}
 }
 
-void new_redirect(t_minishell *minishell)
+void redirect(t_minishell *minishell)
 {
     int		i;
 	bool	has_heredoc;
