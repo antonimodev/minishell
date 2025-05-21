@@ -1,15 +1,12 @@
 https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
 
 
-
-
-
 ARREGLAR:
 
 - EN GENERAL TENER EN CUENTA CODIGOS DE ERROR Y MENSAJES
 
 /****************** CD *****************\
-❓ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
+✅ cd -> cuando no tenemos HOME, al hacer cd "~" debe irse al HOME. Si HOME ya existe, lo agarra. Si no, coge el predeterminado.
 
 /**************** EXPORT ***************\
 ❓ export GHOST=123 | env | grep GHOST -> parece no crear la variable
@@ -17,7 +14,8 @@ Este caso en concreto parecía que funcionaba al principio y ahora no (BASH)
 
 /************* REDIRECTIONS ************\
 ✅ ls >"./outfiles/outfile""1""2""3""4""5"
-
+/************* UNSET ************\
+unset 1231 -> BASH: unset `1231': not a valid identifier
 
 Tipos de errores para exit_status
 - 0: Éxito
@@ -26,14 +24,6 @@ Tipos de errores para exit_status
 - 126: El comando existe pero no es ejecutable
 - 127: El comando no fue encontrado
 - 128+n: El programa terminó debido a una señal n
-
-
-
-
-
-
-
-
 
 
 📒 __________ TODO LIST __________ 📒
@@ -178,3 +168,68 @@ Lista de excepciones con echo + redirecciones:
 ✅ [14] EJEMPLO: echo |
 - BASH: Abre un heredoc
 - MINISHELL: minishell: syntax error cmd after pipe
+
+
+REVISADO NÚMERO FUNCIONES POR ARCHIVOS
+
+/*------built-in-----*/
+
+✅ built (2)
+✅ ft_cd (4)
+	✅ cd_utils (5)
+✅ echo (2)
+✅ env (1)
+✅ exit (3)
+✅ export (2)
+	✅ export_cases (5)
+	✅ export_declare (3)
+	✅ export_utils (5)
+✅ pwd (1)
+✅ unset (4)
+
+/*--------MAIN--------*/
+
+✅minishell_utils.c (3)
+✅ update_minishell (4)
+
+/*------PARSE--------*/
+
+✅ input.c (3)
+✅ input_utils (4)
+✅ prompt.c (2)
+✅ is_redirection.c (4)
+✅ split.c (5) 
+✅ split_utils (5)
+✅ path_utils (3)
+✅ path (2)
+✅ QUOTE_UTILS (2)
+✅ set_expand_var (5)
+✅ expand_redir (4)
+
+/*-------REDIRECTION_UTILS--------*/
+
+✅ fork_redir (3)
+✅ pipe_libft (1)
+✅ pipe_utils (3)
+✅ redir_cmd_cleaner (2)
+✅ fd_utils (5)
+
+/*---------REDIRECTIONS-------------*/
+
+✅ redir_in (4)
+✅ redir_out (2)
+✅ redir_pipe (2)
+✅ redirect (3)
+✅ redirect_utils (3)
+
+/*-----------VALIDATIONS------------*/
+
+✅ valid_cmd (2)
+✅ valid_env_char (1)
+✅ valid_rl_input (2)
+✅ valid_symbols (1)
+✅ valid_redir (5)
+
+
+✅ exec (4)
+✅ signals (2)

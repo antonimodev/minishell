@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/20 14:07:30 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:45:54 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_minishell(t_minishell *minishell, char **envp)
 {
 	update_minishell(minishell, envp);
-	store_fd(minishell);
+	minishell_store_fd(minishell);
 	minishell->pid = PARENT;
 	minishell->user = ft_getenv(minishell->envp, "USER=");
 	minishell->user_input = ft_strdup("");
@@ -49,8 +49,8 @@ void	free_minishell(t_minishell *minishell)
 		free_matrix(minishell->quoted_matrix);
 	if (minishell->shell_prompt)
 		free(minishell->shell_prompt);
-	if (minishell->pipe_tools.pipes)
-		free(minishell->pipe_tools.pipes);
+	if (minishell->fd_tools.pipes)
+		free(minishell->fd_tools.pipes);
     if (minishell->heredoc.delimits)
         free_matrix(minishell->heredoc.delimits);
 }

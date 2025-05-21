@@ -26,39 +26,55 @@ LIBFT = lib/libft/libft.a
 MATRIX_UTILS = lib/matrix_utils/matrix_utils.a
 
 # Minishell sources #
-MINISHELL_SRC =	src/main/minishell.c \
-				src/main/minishell_utils.c \
-				src/main/update_minishell.c \
-                src/exec.c	\
-                src/signals.c \
-                src/parse/path.c \
-                src/parse/path_utils.c \
-				src/parse/quote_utils.c \
-                src/parse/input.c \
-				src/parse/input_utils.c \
-                src/parse/split.c \
-				src/parse/split_utils.c \
-				src/parse/var_expansion.c \
-                src/built_ins/cd.c \
+MINISHELL_SRC = src/built_ins/cd/cd_utils.c \
+				src/built_ins/cd/cd.c \
+				src/built_ins/export/export_cases.c \
+				src/built_ins/export/export_declare.c \
+				src/built_ins/export/export_utils.c \
+				src/built_ins/export/export.c \
+				src/built_ins/built_ins.c \
                 src/built_ins/echo.c \
                 src/built_ins/env.c \
-				src/built_ins/export.c \
                 src/built_ins/exit.c \
                 src/built_ins/pwd.c \
                 src/built_ins/unset.c \
-				src/built_ins/built_ins.c \
+				\
+				src/main/minishell_utils.c \
+				src/main/minishell.c \
+				src/main/update_minishell.c \
+				\
+				src/parse/expand_redir.c \
+				src/parse/input_utils.c \
+                src/parse/input.c \
+                src/parse/path.c \
+                src/parse/path_utils.c \
+				src/parse/quote_utils.c \
+                src/parse/split.c \
+				src/parse/split_utils.c \
+				src/parse/var_expansion.c \
+				src/parse/prompt.c \
+				src/parse/is_redirection.c \
+				\
+				src/redirection/redir_in.c \
+				src/redirection/redir_out.c \
+				src/redirection/redir_pipe.c \
+				src/redirection/redirect.c \
+				\
+				src/redirection_utils/fork_redir.c \
+				src/redirection_utils/fd_utils.c \
+				src/redirection_utils/pipe_libft.c \
+				src/redirection_utils/pipe_utils.c \
+				src/redirection_utils/redirect_utils.c \
+				src/redirection_utils/redir_cmd_cleaner.c \
+				\
 				src/validations/valid_cmd.c \
 				src/validations/valid_rl_input.c \
 				src/validations/valid_symbols.c \
 				src/validations/valid_env_char.c \
-				src/pipes_and_redirections/expand_redir.c \
-				src/pipes_and_redirections/fork_redir.c \
-				src/pipes_and_redirections/pipe_libft.c \
-				src/pipes_and_redirections/pipes_utils.c \
-				src/redirections/ft_pipe.c \
-				src/redirections/ft_redir_in.c \
-				src/redirections/redirections_utils.c \
-				src/another_test.c \
+				src/validations/valid_redir.c \
+				\
+				src/exec.c	\
+                src/signals.c 
 
 # Minishell objects #
 MINISHELL_OBJ = $(MINISHELL_SRC:src/%.c=src/obj/%.o)

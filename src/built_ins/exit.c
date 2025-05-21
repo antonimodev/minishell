@@ -6,14 +6,11 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:34 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:52:55 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	exit_is_number(t_minishell *minishell);
-static void	quit(t_minishell *minishell, int exit_code);
 
 static bool	exit_is_number(t_minishell *minishell)
 {
@@ -32,7 +29,7 @@ static bool	exit_is_number(t_minishell *minishell)
 	return (true);
 }
 
-void	quit(t_minishell *minishell, int exit_code)
+static void	quit(t_minishell *minishell, int exit_code)
 {
 	if (minishell->first_cmd == 0)
 	{
@@ -53,14 +50,15 @@ void	ft_exit(t_minishell *minishell)
 	{
 		if (!exit_is_number(minishell))
 		{
-			printf("minishell: exit: %s: numeric argument required\n",
-				minishell->input_matrix[1]);
+			ft_putstr_fd("minishell: exit:", STDERR_FILENO);
+			ft_putstr_fd(minishell->input_matrix[1], STDERR_FILENO);
+			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 			minishell->exit_status = 2;
 			exit_code = 2;
 		}
 		else if (minishell->args_num > 2)
 		{
-			printf("minishell: exit: too many arguments\n");
+			ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 			minishell->exit_status = 1;
 			exit_code = 2;
 		}

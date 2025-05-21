@@ -6,7 +6,7 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/20 14:13:25 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:47:56 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	execute(t_minishell *minishell)
 {
-	if (minishell->invalid_input)
+	if (minishell->redir.invalid_input)
 		return ;
 	redirect(minishell);
-	if (!minishell->input_matrix || minishell->invalid_input)
+	if (!minishell->input_matrix || minishell->redir.invalid_input)
 		return ;
 	if (is_built_in(minishell))
 	{

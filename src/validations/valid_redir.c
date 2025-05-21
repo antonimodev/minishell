@@ -1,42 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_utils.c                               :+:      :+:    :+:   */
+/*   check_valid_redir.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:31:53 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/20 14:07:28 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:06:10 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool redir_in_first(t_minishell *minishell);
-static bool consecutive_redirs(t_minishell *minishell);
-static bool redir_in_last(t_minishell *minishell);
-
-bool	check_redir_existence(t_minishell *minishell)
-{
-	if (!ft_strchr_gnl(minishell->user_input, '|')
-		&& !ft_strchr_gnl(minishell->user_input, '<')
-		&& !ft_strchr_gnl(minishell->user_input, '>'))
-		return (false);
-	minishell->redir_existence = true;
-	return (true);
-}
-
-bool	check_valid_redir(t_minishell *minishell)
-{
-	minishell->quoted_matrix = foo_split(minishell);
-	minishell->input_matrix = split_input(minishell);
-	process_final_matrix(minishell);
-	if (redir_in_first(minishell) ||
-		consecutive_redirs(minishell) ||
-		redir_in_last(minishell))
-		return (false);
-	return (true);
-}
 
 static bool consecutive_redirs(t_minishell *minishell)
 {
@@ -45,14 +19,14 @@ static bool consecutive_redirs(t_minishell *minishell)
 	i = 0;
 	while (minishell->input_matrix[i])
 	{
-		if (new_is_redirection(minishell->input_matrix[i]) &&
-			new_is_redirection(minishell->input_matrix[i + 1]))
+		if (is_redirection(minishell->input_matrix[i]) &&
+			is_redirection(minishell->input_matrix[i + 1]))
 		{
 			ft_putstr_fd("minishell: syntax error near unexpexted token `",
 				STDERR_FILENO);
 			ft_putstr_fd(minishell->input_matrix[i + 1], STDERR_FILENO);
 			ft_putstr_fd("'\n", STDERR_FILENO);
-			minishell->invalid_input = true;
+			minishell->redir.invalid_input = true;
 			return (true);
 		}
 		i++;
@@ -66,7 +40,7 @@ static bool redir_in_first(t_minishell *minishell)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
 		STDERR_FILENO);
-		minishell->invalid_input = true;
+		minishell->redir.invalid_input = true;
 		return (true);
 	}
 	return (false);
@@ -84,15 +58,37 @@ static bool redir_in_last(t_minishell *minishell)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
 		STDERR_FILENO);
-		minishell->invalid_input = true;
+		minishell->redir.invalid_input = true;
 		return (true);
 	}
 	if (minishell->quoted_matrix[input_matrix_len][str_len] == '|')
 	{
 		ft_putstr_fd("minishell: syntax error needs cmd after pipe\n",
 		STDERR_FILENO);
-		minishell->invalid_input = true;
+		minishell->redir.invalid_input = true;
 		return (true);
 	}
 	return (false);
+}
+
+bool	check_redir_existence(t_minishell *minishell)
+{
+	if (!ft_strchr_gnl(minishell->user_input, '|')
+		&& !ft_strchr_gnl(minishell->user_input, '<')
+		&& !ft_strchr_gnl(minishell->user_input, '>'))
+		return (false);
+	minishell->redir.redir_exist = true;
+	return (true);
+}
+
+bool	check_valid_redir(t_minishell *minishell)
+{
+	minishell->quoted_matrix = split_with_quotes(minishell);
+	minishell->input_matrix = split_without_quotes(minishell);
+	process_final_matrix(minishell);
+	if (redir_in_first(minishell) ||
+		consecutive_redirs(minishell) ||
+		redir_in_last(minishell))
+		return (false);
+	return (true);
 }

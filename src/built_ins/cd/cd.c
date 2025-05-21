@@ -1,0 +1,106 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
+/*   Updated: 2025/05/21 12:51:31 by frmarian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static void	cd_home(t_minishell *minishell)
+{
+	char	*home;
+	char	*old_pwd;
+
+	home = ft_getenv(minishell->envp, "HOME=");
+	if (!home || home[0] == '\0')
+		home = minishell->env_home;
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return ;
+	if (chdir(home) == 0)
+		update_pwd(minishell, old_pwd);
+	else
+	{
+		ft_putstr_fd("minishell: cd: Failed to change directory ", STDERR_FILENO);
+		ft_putstr_fd(home, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	free(old_pwd);
+}
+
+static void	cd_old_pwd(t_minishell *minishell)
+{
+	char	*old_pwd;
+	char	*pwd;
+
+	old_pwd = ft_getenv(minishell->envp, "OLDPWD=");
+	if (!old_pwd)
+	{
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+		minishell->exit_status = 1;
+		return ;
+	}
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return ;
+	if (chdir(old_pwd) == 0)
+		update_pwd(minishell, pwd);
+	else
+	{
+		ft_putstr_fd("minishell: cd: Failed to change directory ", STDERR_FILENO);
+		ft_putstr_fd(old_pwd, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	free(pwd);
+}
+
+static void	cd_path(t_minishell *minishell, char *arg)
+{
+	char	*old_pwd;
+
+	if (arg[0] == '~')
+	{
+		cd_home(minishell);
+		return ;
+	}
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return ;
+	if (chdir(arg) == 0)
+		update_pwd(minishell, old_pwd);
+	else
+		cd_error(minishell, arg);
+	free(old_pwd);
+}
+
+void	ft_cd(t_minishell *minishell)
+{
+	char	*arg;
+
+	if (minishell->args_num > 2)
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		minishell->exit_status = 150;
+		return ;
+	}
+	if (minishell->args_num == 1)
+	{
+		cd_home(minishell);
+		return ;
+	}
+	arg = minishell->input_matrix[1];
+	if (str_equal(arg, "-"))
+	{
+		ft_putstr_fd(ft_getenv(minishell->envp, "OLDPWD="), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		cd_old_pwd(minishell);
+	}
+	else
+		cd_path(minishell, arg);
+}

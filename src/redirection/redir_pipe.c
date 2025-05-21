@@ -6,35 +6,19 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/29 12:56:52 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:48:27 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void close_unused_pipes(t_minishell *minishell, int cmd_position)
+static void	close_unused_pipes(t_minishell *minishell, int cmd_position)
 {
     int	i;
 
     i = 0;
     while (i < (cmd_position - 1))
-        close(minishell->pipe_tools.pipes[i++].read_pipe);
-}
-
-void set_pipe_mode(int mode, t_pipe pipe) // cambio de nombre??
-{
-	if (mode == STDIN_FILENO)
-	{
-		close(pipe.write_pipe);
-		fd_redirection(STDIN_FILENO, pipe.read_pipe);
-		close(pipe.read_pipe);
-	}
-	else if (mode == STDOUT_FILENO)
-	{
-		close(pipe.read_pipe);
-		fd_redirection(STDOUT_FILENO, pipe.write_pipe);
-		close(pipe.write_pipe);
-	}
+        close(minishell->fd_tools.pipes[i++].read_pipe);
 }
 
 void	ft_pipe(t_minishell *minishell)
@@ -45,10 +29,10 @@ void	ft_pipe(t_minishell *minishell)
 
 	if (cmd_not_found(minishell))
 		exit(CMD_NOT_FOUND);
-	cmd_position = minishell->pipe_tools.redir_count - 1;
-	current_pipe = minishell->pipe_tools.pipes[cmd_position]; // esto es redir_count - 1
-	prev_pipe = minishell->pipe_tools.pipes[cmd_position - 1]; // esto es redir_count - 2
+	cmd_position = minishell->redir.redir_count - 1;
+	current_pipe = minishell->fd_tools.pipes[cmd_position];
+	prev_pipe = minishell->fd_tools.pipes[cmd_position - 1];
 	close_unused_pipes(minishell, cmd_position);
-	set_pipe_mode(STDIN_FILENO, prev_pipe);
-	set_pipe_mode(STDOUT_FILENO, current_pipe);
+	set_fd_mode(STDIN_FILENO, prev_pipe);
+	set_fd_mode(STDOUT_FILENO, current_pipe);
 }

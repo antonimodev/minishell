@@ -6,51 +6,61 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:45 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:26:21 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:29:31 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_unset(t_minishell *minishell)
+static bool	var_matches(char *var, char *var_name, unsigned int var_name_len)
+{
+    return (!ft_strncmp(var, var_name, var_name_len) && 
+            (var[var_name_len] == '=' || var[var_name_len] == '\0'));
+}
+
+static void	remove_var_from_matrix(char ***matrix, char *var_name,
+                                        unsigned int var_name_len)
 {
     unsigned int	i;
-    unsigned int	arg_i;
+
+    i = 0;
+    while ((*matrix)[i])
+    {
+        if (var_matches((*matrix)[i], var_name, var_name_len))
+        {
+            *matrix = matrix_substract(*matrix, i);
+            break;
+        }
+        i++;
+    }
+}
+
+static void	unset_var(t_minishell *minishell, char *var_name)
+{
     unsigned int	var_len;
 
-    arg_i = 1;
+    var_len = ft_strlen(var_name);
+    remove_var_from_matrix(&minishell->envp, var_name, var_len);
+    remove_var_from_matrix(&minishell->declare_matrix, var_name, var_len);
+}
+
+void	ft_unset(t_minishell *minishell)
+{
+    unsigned int	arg_i;
+
     if (minishell->args_num <= 1)
-        return ;
+        return;
+    arg_i = 1;
     while (arg_i < (unsigned int)minishell->args_num)
     {
-        var_len = ft_strlen(minishell->input_matrix[arg_i]);
-        i = 0;
-        // Eliminar de envp si existe
-        while (minishell->envp[i])
+        if (!valid_symbols(minishell->input_matrix[arg_i])) 
         {
-            if (!ft_strncmp(minishell->envp[i], minishell->input_matrix[arg_i],
-                    var_len) && (minishell->envp[i][var_len] == '='
-                || minishell->envp[i][var_len] == '\0'))
-            {
-                minishell->envp = matrix_substract(minishell->envp, i);
-                break ;
-            }
-            i++;
+            ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+            ft_putstr_fd(minishell->input_matrix[arg_i], STDERR_FILENO);
+            ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+            minishell->exit_status = 1;
         }
-        
-        // Eliminar de declare_matrix si existe
-        i = 0;
-        while (minishell->declare_matrix[i])
-        {
-            if (!ft_strncmp(minishell->declare_matrix[i], minishell->input_matrix[arg_i],
-                    var_len) && (minishell->declare_matrix[i][var_len] == '='
-                || minishell->declare_matrix[i][var_len] == '\0'))
-            {
-                minishell->declare_matrix = matrix_substract(minishell->declare_matrix, i);
-                break ;
-            }
-            i++;
-        }
+        unset_var(minishell, minishell->input_matrix[arg_i]);
         arg_i++;
     }
 }

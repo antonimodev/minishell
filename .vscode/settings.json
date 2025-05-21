@@ -10,5 +10,8 @@
     "makefile.configureOnOpen": true,
     "files.associations": {
         "minishell.h": "c"
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
     }
 }

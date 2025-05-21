@@ -6,13 +6,42 @@
 /*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:02:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:25:56 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:39:20 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**split_input(t_minishell *minishell)
+char **split_with_quotes(t_minishell *minishell)
+{
+	int i;
+	t_quote quote;
+	char *word;
+	char **matrix;
+
+	i = -1;
+	quote.type = '\0';
+	quote.closed = true;
+	word = ft_strdup("");
+	matrix = create_matrix(0);
+	while (minishell->user_input[++i])
+	{
+		quote_state(minishell->user_input[i], &quote);
+		if (minishell->user_input[i] == ' ' && quote.closed)
+		{
+			skip_middle_spaces(minishell->user_input, &i);
+			matrix = addmatrix(matrix, &word);
+		}
+		else
+			word = str_append_char(word, minishell->user_input[i]);
+	}
+	if (ft_strlen(word) > 0)
+		matrix = addmatrix(matrix, &word);
+	free(word);
+	return (matrix);
+}
+
+char	**split_without_quotes(t_minishell *minishell)
 {
 	char	**matrix;
 	char	*word;
@@ -79,9 +108,7 @@ char	**addmatrix(char **matrix, char **word)
 char	**finalize_parsing(char **matrix, char **word)
 {
 	if (*word && (*word)[0] != '\0')
-	{
 		matrix = addmatrix(matrix, word);
-	}
 	free(*word);
 	return (matrix);
 }

@@ -58,47 +58,51 @@ typedef struct s_quote
 	bool	closed;
 }	t_quote;
 
-typedef struct s_pipe_tools
+typedef struct s_fd_tools
 {
     t_pipe      *pipes;
-    int         redir_count;
     int         STDIN;
     int         STDOUT;
-}   t_pipe_tools;
+}   t_fd;
 
 typedef struct s_heredoc
 {
 	char	**delimits;
 	int		delimit_index;
-}	heredoc_tools;
+}	t_heredoc;
+
+typedef struct s_redir
+{
+	bool	redir_exist;
+	bool	invalid_input;
+	int		redir_count;
+	int		last_input;
+	int		last_output;
+} t_redir;
 
 typedef struct s_minishell
 {
-	char			*env_home;
+	char			*user_input;
+	char			*user;
+	char			*shell_prompt;
 	char			**envp;
 	char			**declare_matrix;
-	char			*shell_prompt;
-	char			*user;
-	char			*user_input;
+	char			*env_home;
 	char			**input_matrix;
 	char			**quoted_matrix;
-	int				first_cmd;
 	char			*cmd_path;
 	int				args_num;
-	bool			redir_existence;
+	int				first_cmd;
 	e_built_in		built_in_type;
 	e_process		pid;
-	t_pipe_tools	pipe_tools;
+	t_fd			fd_tools;
+	t_redir			redir;
+	t_heredoc		heredoc;
 	int				exit_status;
-	//another_test.c
-	int				last_input;
-	int				last_output;
-	bool			invalid_input;
-	heredoc_tools	heredoc;
 }	t_minishell;
 
 
-/*-------------------------  SRC ------------------------*/
+/*-------------------------  MAIN ------------------------*/
 
 
 /* MINISHELL_UTILS.C------------*/
@@ -113,44 +117,49 @@ void	update_minishell(t_minishell *minishell, char **envp);
 /*-----------------------  PARSE -----------------------*/
 
 
+/* INPUT.C ---------------------*/
+void    get_input(t_minishell *minishell);
+void 	parse_input(t_minishell *minishell);
+
 /* INPUT_UTILS.C ---------------*/
-void	shell_prompt(t_minishell *minishell);
 bool	valid_chr(char c);
 bool	is_empty(t_minishell *minishell);
 bool	is_empty_quotes(char *user_input);
+bool    str_equal(char *source, char *wanted);
 
-/* INPUT.C ---------------------*/
-bool	new_is_redirection(char *str);
+/* PROMPT.C --------------------*/
+void	shell_prompt(t_minishell *minishell);
+
+/* IS_REDIRECTION.C ------------*/
+bool	is_redirection(char *str);
 bool 	is_quoted_redir_or_pipe(char *str);
-char	**foo_split(t_minishell *minishell);
-void	process_final_matrix(t_minishell *minishell);
-void    get_input(t_minishell *minishell);
-void 	parse_input(t_minishell *minishell);
+
+/* PATH.C ----------------------*/
+char	**set_raw(char **envp);
+char    *get_path(char **input_matrix, char **envp);
 
 /* PATH_UTILS.C ----------------*/
 char	**concat_paths(char **splitted_path, char *cmd);
 char	*cmdcat(char *path, char *cmd);
 char 	*get_cmd_path(char **splitted_paths);
 
-/* PATH.C ----------------------*/
-char	**set_raw(char **envp);
-char    *get_path(char **input_matrix, char **envp);
-
 /* QUOTE_UTILS.C ---------------*/
 void	quote_state(char current_char, t_quote *quote);
 bool	check_quotes_balance(char *str);
+
+/* SPLIT.C ----------------------*/
+char	**split_with_quotes(t_minishell *minishell);
+char	**split_without_quotes(t_minishell *minishell);
+char	**process_character(char current_char, char **matrix, char **word, t_quote *quote);
+char	**addmatrix(char **matrix, char **word);
+char 	**finalize_parsing(char **matrix, char **word);
 
 /* SPLIT_UTILS.C ---------------*/
 bool	init_vars(char ***matrix, char **word, t_quote *quote);
 char	*str_append_char(char *word, char c);
 char	*strtrim_and_free(char *str, char *c);
 void	skip_middle_spaces(char *user_input, int *i);
-
-/* SPLIT.C ----------------------*/
-char	**split_input(t_minishell *minishell);
-char	**process_character(char current_char, char **matrix, char **word, t_quote *quote);
-char	**addmatrix(char **matrix, char **word);
-char 	**finalize_parsing(char **matrix, char **word);
+void	process_final_matrix(t_minishell *minishell);
 
 /* VAR_EXPANSION.C --------*/
 void	set_expand_var(t_minishell *minishell);
@@ -159,61 +168,93 @@ void	set_expand_var(t_minishell *minishell);
 /*------------------- BUILT-INS ---------------------*/
 
 
-/* CD.C -------------------------*/
-void	ft_cd(t_minishell *minishell);
-/* ECHO.C -----------------------*/
-void	ft_echo(t_minishell *minishell);
-/* ENV.C ------------------------*/
-void	ft_env(t_minishell *minishell);
-/* EXIT.C -----------------------*/
-void	ft_exit(t_minishell *minishell);
+/*------------------- EXPORT ---------------------*/
+
+
 /* EXPORT.C ---------------------*/
 void	ft_export(t_minishell *minishell);
-/* PWD.C ------------------------*/
-void	ft_pwd(void);
-/* UNSET.C ----------------------*/
-void	ft_unset(t_minishell *minishell);
+
+/* EXPORT_CASES.C ---------------*/
+void	export_no_equal(t_minishell *minishell, char *arg);
+char	**export_equal(char **matrix, char *arg, char *var_name);
+char	**export_plus_equal(char **matrix, char *arg, char *var_name);
+
+/* EXPORT_DECLARE.C -------------*/
+void	show_declare_matrix (char **declare_matrix);
+void	free_declare_matrix(t_minishell *minishell);
+
+/* EXPORT_UTILS.C ---------------*/
+int		get_chr_index(char *str, char chr);
+char	*ft_strjoin_at(const char *s1, const char *s2, size_t pos);
+char	*get_envp_var_name(char *env_var);
+char	*clean_chr_from_str(char *str, char chr);
+
+
+/*------------------- CD ---------------------*/
+
+
+/* CD.C -------------------------*/
+void	ft_cd(t_minishell *minishell);
+
+/* CD_UTILS.C -------------------*/
+bool	find_in_matrix(char **matrix, char *var_name, int *index);
+void    set_env(t_minishell *minishell, char *env_var, char *value);
+void	update_pwd(t_minishell *minishell, char *old_pwd);
+bool    cd_access_error(t_minishell *minishell, char *path);
+void    cd_error(t_minishell *minishell, char *path);
+
 
 /* BUILT-INS.C ----------------- */
 bool	is_built_in(t_minishell *minishell);
 void	exec_built_in(t_minishell *minishell);
+
+/* ECHO.C -----------------------*/
+void	ft_echo(t_minishell *minishell);
+
+/* ENV.C ------------------------*/
+void	ft_env(t_minishell *minishell);
+
+/* EXIT.C -----------------------*/
+void	ft_exit(t_minishell *minishell);
+
+/* PWD.C ------------------------*/
+void	ft_pwd(void);
+
+/* UNSET.C ----------------------*/
+void	ft_unset(t_minishell *minishell);
 
 
 /*------------------- REDIRECTIONS ---------------------*/
 
 
 /*FT_PIPE.C --------------------*/
-void	set_pipe_mode(int mode, t_pipe pipe);
 void	ft_pipe(t_minishell *minishell);
 
-/* FT_REDIR_IN.C ---------------*/
+/* REDIR_CMD_CLEANER.C ---------*/
 char	**clean_matrix_redirs(t_minishell *minishell);
 
 /* REDIRECTIONS_UTILS.C --------*/
 bool	check_valid_redir(t_minishell *minishell);
 bool	check_redir_existence(t_minishell *minishell);
-void	add_redir(t_minishell *minishell); // nombre rarete
+void	minishell_add_redir(t_minishell *minishell);
 
 
 /*--------------- PIPES_AND_REDIRECTION -----------------*/
 
 
 /* EXPAND_REDIR.C --------------*/
-bool	is_redirection(char *str, int pos); // es para la pos especifica
+bool	redir_at_pos(char *str, int pos);
 char 	*expand_pipe(t_minishell *minishell);
 
 /* PIPE_UTILS.C ----------------*/
-bool	cmd_not_found(t_minishell *minishell);
-void	pipe_to_file(int read_from, int write_into);
 void	redir_first_cmd(t_minishell *minishell);
-void	fd_redirection(int from, int to);
-void	store_fd(t_minishell *minishell);
-void	reset_fd(t_minishell *minishell);
-void	pipe_append(t_minishell *minishell, t_pipe *pipe);
+
+
+void	minishell_pipe_append(t_minishell *minishell, t_pipe *pipe);
 
 /* FORK_REDIR.C ----------------*/
 void	handle_redir(t_minishell *minishell);
-bool    ft_test(char *source, char *wanted);
+
 
 /* PIPE_LIBFT.C ----------------*/
 t_pipe	create_pipe(void);
@@ -231,20 +272,43 @@ void 	exec(t_minishell *minishell);
 
 /* VALID_CMD.C ---------------*/
 bool	valid_cmd(char *cmd_path);
+bool	cmd_not_found(t_minishell *minishell);
+
 /* VALID_ENV_CHAR.C ----------*/
 bool	valid_env_char(char c);
+
 /* VALID_RL_INPUT.C ----------*/
 bool	valid_rl_input(t_minishell *minishell);
+
 /* VALID_SYMBOLS.C -----------*/
 bool	valid_symbols(char *str);
 
 
 /*----------------- SUELTOS EN SRC ------------ */
 
+/* FD_UTILS.C ------------------*/
+void	fd_redirection(int from, int to);
+void	minishell_store_fd(t_minishell *minishell);
+void	minishell_reset_fd(t_minishell *minishell);
+void	write_from_fd(int read_from, int write_into);
+void	set_fd_mode(int fd, t_pipe pipe);
 
-/* ANOTHER_TEST.C-------------*/
+/* REDIRECT.C-------------*/
 
 void redirect(t_minishell *minishell);
+
+/* REDIR_IN.C ------*/
+void	redir_in(t_minishell *minishell, int index);
+void	redir_heredoc(t_minishell *minishell, int index);
+
+/* REDIR_OUT.C ------*/
+void	redir_out(t_minishell *minishell, int index);
+void	redir_append(t_minishell *minishell, int index);
+
+/* REDIRECT_UTILS.C ------*/
+bool	check_heredoc_presence(t_minishell *minishell);
+void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc);
+void	handle_child_pipe(t_minishell *minishell, bool has_heredoc);
 
 /* EXEC.C---------------------*/
 
