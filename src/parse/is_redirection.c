@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:56:29 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:32:15 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	is_single_redir(char *str)
 {
 	if (!str)
 		return (false);
-	if (ft_strlen(str) == 1 
+	if (ft_strlen(str) == 1
 		&& (ft_strncmp(str, ">", 1) == 0
 			|| ft_strncmp(str, "<", 1) == 0
 			|| ft_strncmp(str, "|", 1) == 0))
