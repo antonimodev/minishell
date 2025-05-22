@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "matrix_utils.h"
 
 char	**matrix_substract(char **matrix, unsigned int index)
 {

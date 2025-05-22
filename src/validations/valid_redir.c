@@ -56,7 +56,7 @@ static bool	redir_in_last(t_minishell *minishell)
 	if (minishell->quoted_matrix[input_matrix_len][str_len] == '>' ||
 		minishell->quoted_matrix[input_matrix_len][str_len] == '<')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token 
+		ft_putstr_fd("minishell: syntax error near unexpected token\
 			`newline'\n", STDERR_FILENO);
 		minishell->redir.invalid_input = true;
 		return (true);

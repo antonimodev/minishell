@@ -26,9 +26,10 @@ static bool	is_single_redir(char *str)
 {
 	if (!str)
 		return (false);
-	if (ft_strlen(str) == 1 && ((ft_strncmp(str, ">", 1)) == 0
-			|| (ft_strncmp(str, "<", 1)) == 0)
-		|| (ft_strncmp(str, "|", 1)) == 0)
+	if (ft_strlen(str) == 1 
+		&& (ft_strncmp(str, ">", 1) == 0
+			|| ft_strncmp(str, "<", 1) == 0
+			|| ft_strncmp(str, "|", 1) == 0))
 		return (true);
 	return (false);
 }
