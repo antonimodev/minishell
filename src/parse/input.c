@@ -47,6 +47,12 @@ void	parse_input(t_minishell *minishell)
 			free_matrix(minishell->input_matrix);
 		minishell->input_matrix = split_without_quotes(minishell);
 	}
+	if (!minishell->input_matrix || !*minishell->input_matrix)
+	{
+		free_matrix(minishell->input_matrix);
+		minishell->input_matrix = NULL;
+		return ;
+	}
 	minishell->args_num = matrix_len(minishell->input_matrix);
 	minishell->cmd_path = get_path(minishell->input_matrix, minishell->envp);
 }

@@ -227,7 +227,9 @@ void	ft_unset(t_minishell *minishell);
 
 /*------------------- REDIRECTIONS ---------------------*/
 
-/*FT_PIPE.C --------------------*/
+
+/* REDIR_PIPE.C --------------------*/
+void	close_unused_pipes(t_minishell *minishell);
 void	ft_pipe(t_minishell *minishell);
 
 /* REDIR_CMD_CLEANER.C ---------*/
@@ -263,6 +265,7 @@ void	exec(t_minishell *minishell);
 
 /*-------------------- VALIDATIONS ----------------------*/
 
+
 /* VALID_CMD.C ---------------*/
 bool	valid_cmd(char *cmd_path);
 bool	cmd_not_found(t_minishell *minishell);
@@ -277,6 +280,7 @@ bool	valid_rl_input(t_minishell *minishell);
 bool	valid_symbols(char *str);
 
 /*----------------- SUELTOS EN SRC ------------ */
+
 
 /* FD_UTILS.C ------------------*/
 void	fd_redirection(int from, int to);

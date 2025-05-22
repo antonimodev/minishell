@@ -12,13 +12,19 @@
 
 #include "minishell.h"
 
-static void	close_unused_pipes(t_minishell *minishell, int cmd_position)
+void	close_unused_pipes(t_minishell *minishell)
 {
 	int	i;
 
-	i = 0;
-	while (i < (cmd_position - 1))
-		close(minishell->fd_tools.pipes[i++].read_pipe);
+    i = 0;
+    while (i < (minishell->redir.redir_count - 1))
+	{
+		if (minishell->fd_tools.pipes[i].read_pipe > 2)
+        	close(minishell->fd_tools.pipes[i].read_pipe);
+		if (minishell->fd_tools.pipes[i].write_pipe > 2)
+			close(minishell->fd_tools.pipes[i].write_pipe);
+		i++;
+	}
 }
 
 void	ft_pipe(t_minishell *minishell)
@@ -32,7 +38,6 @@ void	ft_pipe(t_minishell *minishell)
 	cmd_position = minishell->redir.redir_count - 1;
 	current_pipe = minishell->fd_tools.pipes[cmd_position];
 	prev_pipe = minishell->fd_tools.pipes[cmd_position - 1];
-	close_unused_pipes(minishell, cmd_position);
 	set_fd_mode(STDIN_FILENO, prev_pipe);
 	set_fd_mode(STDOUT_FILENO, current_pipe);
 }

@@ -38,7 +38,7 @@ bool	is_built_in(t_minishell *minishell)
 
 void	exec_built_in(t_minishell *minishell)
 {
-	minishell->exit_status = 0;
+	//minishell->exit_status = 0; Esto reestablecia a 0 el exit status, checkear
 	if (minishell->built_in_type == FT_PWD)
 	{
 		ft_pwd();

@@ -233,5 +233,70 @@ PROBLEMA CON EL INCLUDE EN TODOS LOS ARCHIVOS
 ✅ ✅ valid_redir (5)
 
 
-✅ ✅ exec (4)
-✅ ✅ signals (2)
+✅ exec (4)
+✅ signals (2)
+
+/* ---------- TODO 22/05/2025 --------- */
+
+❓ 1.- Si se ejecuta minishell sin variables de entorno debe estar controlado -> if (!env || !*env)
+
+2.- Redir in debe redirigir el input independientemente de si está antes o después, si es el último debe hacerlo.
+Ejemplo: <archivo cat
+cmd | < redir = syntax error
+
+✅3.- SHLVL debe aumentarse cuando ejecutas shell dentro de minishell
+❓ Hay que implementarlo, función hecha con condición, ver el sitio
+
+✅ 4.- ""''"" da segfault, """", ''''
+
+✅ 5.- Si una carpeta se llama ls, al hacer ls ls, debe ejecutar el comando dentro de la carpeta, eso quiere decir que el comando tiene prioridad frente al archivo que esté en la ruta actual.
+
+ touch cat
+ chmod 755 cat
+ cat file
+Esto no hace cat del file, hay que asegurarse de que si el cmd no contiene "/" busque en el PATH
+
+6.- cat saliendose con ctrl +c deberia de dar 130 en el echo $?
+
+✅ 7.- cd algo, unset OLDPWD, cd - -> nos da segfault, debe escribir un mensaje que sea minishell: cd: OLDPWD not set
+❓¿Se vuelve a setear OLDPWD al cambiar de directorio?
+
+✅ 8.- Cuando hace exit sin arg, usa el ultimo codigo de salida. Con arg numerico el modulo del argumento de 256
+❓ Chequear el resto de codigos de salida para ver si salen correctos
+
+9.- < Makefile cat < popo debe redireccionar el archivo popo a cat, e imprime su contenido
+
+10.- << popo cat << lala | cat << lala2 -> Deberia ser popo, lala y luego lala2, pero no funciona
+
+✅ ejecutarlo con ./leaks, es para ver fds abiertos y still reachables
+❓ Aparentemente el unico still reachable es la estática de shell_prompt
+❓ Al cerrar pipes los inputs parecen haberse trastocado
+
+if (str_equal(minishell->input_matrix[0], "./minishell") ||
+	(minishell->cmd_path && ft_strstr(minishell->cmd_path, "/minishell")))
+
+static void increment_shell_level(t_minishell *minishell)
+{
+	char	*shlvl_str;
+	char	*new_shlvl_str;
+	int		shlvl_value;
+	int		i;
+	char	*var_with_equal;
+
+	shlvl_str = ft_getenv(minishell->envp, "SHLVL=");
+	if (!shlvl_str)
+		shlvl_value = 1; // O el que sea por defecto que no se cual es
+	else
+		shlvl_value = ft_atoi(shlvl_str) + 1;
+	new_shlvl_str = ft_itoa(shlvl_value);
+	var_with_equal = ft_strjoin("SHLVL=", new_shlvl_str);
+	i = 0;
+	if (find_in_matrix(minishell->envp, "SHLVL", &i))
+		matrix_replace(minishell->envp, i, var_with_equal);
+	else
+		minishell->envp = matrix_append(minishell->envp, var_with_equal);
+	free(new_shlvl_str);
+	free(var_with_equal);
+}
+
+La idea es que si hace la ruta absoluta tambien haga shlvl++

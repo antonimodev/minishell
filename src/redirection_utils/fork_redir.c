@@ -25,27 +25,26 @@ static bool	is_child_process(t_minishell *minishell, pid_t child)
 static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 							int *operator_pos, int *current_pos)
 {
-	pid_t	child;
-	int		index;
+    pid_t	child;
 
-	index = minishell->redir.redir_count - 1;
-	child = fork();
-	if (is_child_process(minishell, child))
-	{
-		free_matrix(minishell->input_matrix);
-		minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos,
-				*current_pos);
-		return (true);
-	}
-	else
-	{
-		close(minishell->fd_tools.pipes[index].write_pipe);
-		waitpid(child, &minishell->exit_status, 0);
-		if (WIFEXITED(minishell->exit_status))
-			minishell->exit_status = WEXITSTATUS(minishell->exit_status);
-	}
-	*operator_pos = *current_pos + 1;
-	return (false);
+    child = fork();
+    if (is_child_process(minishell, child))
+    {
+        free_matrix(minishell->input_matrix);
+        minishell->input_matrix = matrix_from_matrix(matrix, *operator_pos,
+                                                     *current_pos);
+        return (true);
+    }
+    else
+    {
+        close_unused_pipes(minishell);
+        //close(minishell->fd_tools.pipes[minishell->redir.redir_count - 1].write_pipe);
+        waitpid(child, &minishell->exit_status, 0);
+        if (WIFEXITED(minishell->exit_status))
+            minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+    }
+    *operator_pos = *current_pos + 1;
+    return (false);
 }
 
 void	handle_redir(t_minishell *minishell)

@@ -18,7 +18,7 @@ int	matrix_len(char **matrix)
 
 	i = 0;
 	if (!matrix)
-		printf("Error: matrix_len: No existe\n");
+		return (0);
 	while (matrix[i])
 		i++;
 	return (i);

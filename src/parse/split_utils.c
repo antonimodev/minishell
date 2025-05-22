@@ -14,7 +14,7 @@
 
 bool	init_vars(char ***matrix, char **word, t_quote *quote)
 {
-	*matrix = malloc(sizeof(char *));
+	*matrix = malloc(1 * sizeof(char *));
 	if (!*matrix)
 		return (false);
 	ft_bzero(*matrix, sizeof(char *));

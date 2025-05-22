@@ -1,0 +1,79 @@
+{
+   <ignore_readline>
+   Memcheck:Leak
+   ...
+   fun:readline
+   ...
+}
+
+{
+   <ignore_add_history>
+   Memcheck:Leak
+   ...
+   fun:add_history
+   ...
+}
+
+{
+   <ignore_all_grep_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/grep
+   ...
+}
+
+{
+   <ignore_all_gawk_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/gawk
+   ...
+}
+
+{
+   <ignore_all_sort_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/sort
+   ...
+}
+
+{
+   <ignore_all_ls_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/ls
+   ...
+}
+
+{
+   <ignore_all_date_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/date
+   ...
+}
+
+{
+   <ignore_all_clear_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/clear
+   ...
+}
+
+{
+   <ignore_all_cat_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/cat
+   ...
+}
+
+{
+   <ignore_all_head_errors>
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/head
+   ...
+}

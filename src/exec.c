@@ -14,7 +14,7 @@
 
 void	execute(t_minishell *minishell)
 {
-	if (minishell->redir.invalid_input)
+	if (minishell->redir.invalid_input || !minishell->input_matrix)
 		return ;
 	redirect(minishell);
 	if (!minishell->input_matrix || minishell->redir.invalid_input)

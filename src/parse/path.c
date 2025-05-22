@@ -29,16 +29,15 @@ char	*get_path(char **input_matrix, char **envp)
 
 	if (!input_matrix)
 		return (NULL);
-	if (valid_cmd(input_matrix[0]))
-	{
-		cmd_path = ft_strdup(input_matrix[0]);
-		return (cmd_path);
-	}
+	if (ft_strchr(input_matrix[0], '/'))
+		return (ft_strdup(input_matrix[0]));
 	splitted_paths = set_raw(envp);
 	if (!splitted_paths)
 		return (NULL);
 	splitted_paths = concat_paths(splitted_paths, input_matrix[0]);
 	cmd_path = get_cmd_path(splitted_paths);
 	free_matrix(splitted_paths);
+	if (!cmd_path && valid_cmd(input_matrix[0]))
+		cmd_path = ft_strdup(input_matrix[0]);
 	return (cmd_path);
 }

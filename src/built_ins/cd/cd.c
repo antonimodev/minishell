@@ -51,7 +51,10 @@ static void	cd_old_pwd(t_minishell *minishell)
 	if (!pwd)
 		return ;
 	if (chdir(old_pwd) == 0)
+	{
+		printf("%s\n", old_pwd);
 		update_pwd(minishell, pwd);
+	}
 	else
 	{
 		ft_putstr_fd("minishell: cd: Failed to change directory ",
@@ -88,7 +91,7 @@ void	ft_cd(t_minishell *minishell)
 	if (minishell->args_num > 2)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
-		minishell->exit_status = 150;
+		minishell->exit_status = 1;
 		return ;
 	}
 	if (minishell->args_num == 1)
@@ -99,8 +102,6 @@ void	ft_cd(t_minishell *minishell)
 	arg = minishell->input_matrix[1];
 	if (str_equal(arg, "-"))
 	{
-		ft_putstr_fd(ft_getenv(minishell->envp, "OLDPWD="), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
 		cd_old_pwd(minishell);
 	}
 	else

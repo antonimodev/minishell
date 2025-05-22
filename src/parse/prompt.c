@@ -26,6 +26,11 @@ static char	*mount_prompt(char **user, char **pwd, char **arrow, char **prompt)
 	return (*prompt);
 }
 
+// En Shell_prompt hay un still reachable ya que al usar
+// last_prompt como static no se libera nunca, ni siquiera cuando hacemos
+// exit, que debería de liberarse, prob. tengamos que hacerla como parámetro
+// y no liberarla hasta que sea necesario en casos específicos.
+
 void	shell_prompt(t_minishell *minishell)
 {
 	char		*pwd;
