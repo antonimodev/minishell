@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:32 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 12:10:25 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:38:21 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_env(t_minishell *minishell)
 {
 	if (minishell->args_num > 1)
 	{
-		ft_putstr_fd("This command executes without arguments\n", STDERR_FILENO);
+		ft_putstr_fd("This command executes without arguments\n",
+			STDERR_FILENO);
 		minishell->exit_status = 1;
 		return ;
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe.c                                          :+:      :+:    :+:   */
+/*   redir_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/21 13:48:27 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:52:15 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	close_unused_pipes(t_minishell *minishell, int cmd_position)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-    while (i < (cmd_position - 1))
-        close(minishell->fd_tools.pipes[i++].read_pipe);
+	i = 0;
+	while (i < (cmd_position - 1))
+		close(minishell->fd_tools.pipes[i++].read_pipe);
 }
 
 void	ft_pipe(t_minishell *minishell)

@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:49:01 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/20 13:35:07 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:44:47 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,20 @@ static void	save_last_envp(t_minishell *minishell,
 	{
 		*temp_envp = matrix_cpy(minishell->envp, 0);
 		free_matrix(minishell->envp);
-	} else
+	}
+	else
 		*temp_envp = matrix_cpy(system_envp, 0);
-
 	if (minishell->declare_matrix)
 	{
 		*temp_declare = matrix_cpy(minishell->declare_matrix, 0);
 		free_matrix(minishell->declare_matrix);
-	} else
+	}
+	else
 		*temp_declare = matrix_cpy(system_envp, 0);
 }
 
-static void	save_env_home(t_minishell *minishell, char **temp_home, char **system_envp)
+static void	save_env_home(t_minishell *minishell, char **temp_home,
+			char **system_envp)
 {
 	if (minishell->env_home)
 		*temp_home = minishell->env_home;
@@ -38,7 +40,8 @@ static void	save_env_home(t_minishell *minishell, char **temp_home, char **syste
 		*temp_home = ft_getenv(system_envp, "HOME=");
 }
 
-static void	set_last_envp(t_minishell *minishell, char ***temp_envp, char ***temp_declare)
+static void	set_last_envp(t_minishell *minishell, char ***temp_envp,
+			char ***temp_declare)
 {
 	minishell->envp = matrix_cpy(*temp_envp, 0);
 	minishell->declare_matrix = matrix_cpy(*temp_declare, 0);

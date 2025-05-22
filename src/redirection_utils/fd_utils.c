@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 13:50:53 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:53:10 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -40,16 +39,16 @@ void	fd_redirection(int from, int to)
 
 void	minishell_store_fd(t_minishell *minishell)
 {
-	minishell->fd_tools.STDIN = dup(STDIN_FILENO);
-	minishell->fd_tools.STDOUT = dup(STDOUT_FILENO);
+	minishell->fd_tools.stdin = dup(STDIN_FILENO);
+	minishell->fd_tools.stdout = dup(STDOUT_FILENO);
 }
 
 void	minishell_reset_fd(t_minishell *minishell)
 {
-	fd_redirection(STDIN_FILENO, minishell->fd_tools.STDIN);
-	fd_redirection(STDOUT_FILENO, minishell->fd_tools.STDOUT);
-	close(minishell->fd_tools.STDIN);
-	close(minishell->fd_tools.STDOUT);
+	fd_redirection(STDIN_FILENO, minishell->fd_tools.stdin);
+	fd_redirection(STDOUT_FILENO, minishell->fd_tools.stdout);
+	close(minishell->fd_tools.stdin);
+	close(minishell->fd_tools.stdout);
 }
 
 void	write_from_fd(int read_from, int write_into)
@@ -60,8 +59,8 @@ void	write_from_fd(int read_from, int write_into)
 	{
 		if (write(write_into, &buffer, 1) != 1)
 		{
-			ft_putstr_fd("Error al escribir en la salida estándar\n", STDERR_FILENO);
-			break;
+			ft_putstr_fd("Error al escribir en la salida estándar\n", 2);
+			break ;
 		}
 	}
 }

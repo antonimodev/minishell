@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrix_from_matrix.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 11:08:25 by jortiz-m          #+#    #+#             */
+/*   Updated: 2025/05/22 11:08:30 by jortiz-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "matrix_utils.h"
 
-char **matrix_from_matrix(char **src_matrix, int start, int end)
+char	**matrix_from_matrix(char **src_matrix, int start, int end)
 {
-	char **new_matrix;
-	int len;
-	int i;
+	char	**new_matrix;
+	int		len;
+	int		i;
 
 	len = end - start;
 	if (len <= 0)

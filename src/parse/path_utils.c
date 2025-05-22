@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/20 12:52:08 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:56:57 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*cmdcat(char *path, char *cmd)
 	return (filepath);
 }
 
-char 	*get_cmd_path(char **splitted_paths)
+char	*get_cmd_path(char **splitted_paths)
 {
 	int	i;
 

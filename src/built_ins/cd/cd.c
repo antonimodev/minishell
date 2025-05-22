@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 12:51:31 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:19:28 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	cd_home(t_minishell *minishell)
 		update_pwd(minishell, old_pwd);
 	else
 	{
-		ft_putstr_fd("minishell: cd: Failed to change directory ", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: Failed to change directory ",
+			STDERR_FILENO);
 		ft_putstr_fd(home, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
@@ -53,7 +54,8 @@ static void	cd_old_pwd(t_minishell *minishell)
 		update_pwd(minishell, pwd);
 	else
 	{
-		ft_putstr_fd("minishell: cd: Failed to change directory ", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: Failed to change directory ",
+			STDERR_FILENO);
 		ft_putstr_fd(old_pwd, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}

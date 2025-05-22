@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_out.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:22:32 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:52:01 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	redir_out(t_minishell *minishell, int index)
 	int	last_fd;
 
 	last_fd = index + 1;
-	file = open(minishell->input_matrix[last_fd], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	file = open(minishell->input_matrix[last_fd], O_CREAT | O_TRUNC | O_WRONLY,
+			0644);
 	if (file < 0)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -38,7 +39,8 @@ void	redir_append(t_minishell *minishell, int index)
 	int	last_fd;
 
 	last_fd = index + 1;
-	file = open(minishell->input_matrix[last_fd], O_CREAT | O_APPEND | O_WRONLY, 0644);
+	file = open(minishell->input_matrix[last_fd], O_CREAT | O_APPEND | O_WRONLY,
+			0644);
 	if (file < 0)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);

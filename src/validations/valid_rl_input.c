@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:43:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/20 13:36:17 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:05:43 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	valid_rl_input(t_minishell *minishell)
 	if (!check_quotes_balance(minishell->user_input))
 	{
 		ft_putstr_fd("minishell: syntax error: unclosed quotes\n",
-			 STDERR_FILENO);
+			STDERR_FILENO);
 		return (false);
 	}
 	return (true);

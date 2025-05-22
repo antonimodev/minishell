@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:22:57 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:51:39 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	redir_in(t_minishell *minishell, int index)
 {
 	int	last_fd;
 	int	file;
-	
+
 	last_fd = index + 1;
 	if (access(minishell->input_matrix[last_fd], F_OK | R_OK) < 0)
 	{
@@ -37,22 +37,28 @@ void	redir_in(t_minishell *minishell, int index)
 	close(file);
 }
 
-static bool is_delimiter(t_minishell *minishell, char *line)
+static bool	is_delimiter(t_minishell *minishell, char *line)
 {
-    if (ft_strcmp(line, minishell->heredoc.delimits[minishell->heredoc.delimit_index]) == 0)
-    {
-        free(line);
-        minishell->heredoc.delimit_index++;
-        return (true);
-    }
-    return (false);
+	int	index;
+
+	index = minishell->heredoc.delimit_index;
+	if (ft_strcmp(line, minishell->heredoc.delimits[index]) == 0)
+	{
+		free(line);
+		minishell->heredoc.delimit_index++;
+		return (true);
+	}
+	return (false);
 }
 
-static void handle_heredoc_eof(t_minishell *minishell)
+static void	handle_heredoc_eof(t_minishell *minishell)
 {
-    printf("minishell: warning: here-document delimited by end-of-file (wanted '%s')\n", 
-            minishell->heredoc.delimits[minishell->heredoc.delimit_index]);
-    minishell->heredoc.delimit_index++;
+	int	index;
+
+	index = minishell->heredoc.delimit_index;
+	printf("minishell: warning: here-document delimited by end-of-file
+		 (wanted '%s')\n", minishell->heredoc.delimits[index]);
+	minishell->heredoc.delimit_index++;
 }
 
 void	redir_heredoc(t_minishell *minishell, int index)
@@ -74,10 +80,12 @@ void	redir_heredoc(t_minishell *minishell, int index)
 		}
 		else if (is_delimiter(minishell, line))
 			break ;
-		if (minishell->redir.last_input == last_fd && !minishell->redir.invalid_input)
+		if (minishell->redir.last_input == last_fd
+			&& !minishell->redir.invalid_input)
 			ft_putendl_fd(line, temp_pipe.write_pipe);
 		free(line);
 	}
-	if (minishell->redir.last_input == last_fd && !minishell->redir.invalid_input)
+	if (minishell->redir.last_input == last_fd
+		&& !minishell->redir.invalid_input)
 		set_fd_mode(STDIN_FILENO, temp_pipe);
 }

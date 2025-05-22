@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_valid_redir.c                                :+:      :+:    :+:   */
+/*   valid_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:31:53 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:06:10 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:06:41 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool consecutive_redirs(t_minishell *minishell)
+static	bool	consecutive_redirs(t_minishell *minishell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (minishell->input_matrix[i])
 	{
-		if (is_redirection(minishell->input_matrix[i]) &&
-			is_redirection(minishell->input_matrix[i + 1]))
+		if (is_redirection(minishell->input_matrix[i])
+			&& is_redirection(minishell->input_matrix[i + 1]))
 		{
 			ft_putstr_fd("minishell: syntax error near unexpexted token `",
 				STDERR_FILENO);
@@ -34,19 +34,19 @@ static bool consecutive_redirs(t_minishell *minishell)
 	return (false);
 }
 
-static bool redir_in_first(t_minishell *minishell)
+static bool	redir_in_first(t_minishell *minishell)
 {
 	if (minishell->quoted_matrix[0][0] == '|')
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
-		STDERR_FILENO);
+			STDERR_FILENO);
 		minishell->redir.invalid_input = true;
 		return (true);
 	}
 	return (false);
 }
 
-static bool redir_in_last(t_minishell *minishell)
+static bool	redir_in_last(t_minishell *minishell)
 {
 	int		input_matrix_len;
 	int		str_len;
@@ -56,15 +56,15 @@ static bool redir_in_last(t_minishell *minishell)
 	if (minishell->quoted_matrix[input_matrix_len][str_len] == '>' ||
 		minishell->quoted_matrix[input_matrix_len][str_len] == '<')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-		STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token 
+			`newline'\n", STDERR_FILENO);
 		minishell->redir.invalid_input = true;
 		return (true);
 	}
 	if (minishell->quoted_matrix[input_matrix_len][str_len] == '|')
 	{
 		ft_putstr_fd("minishell: syntax error needs cmd after pipe\n",
-		STDERR_FILENO);
+			STDERR_FILENO);
 		minishell->redir.invalid_input = true;
 		return (true);
 	}
@@ -86,9 +86,9 @@ bool	check_valid_redir(t_minishell *minishell)
 	minishell->quoted_matrix = split_with_quotes(minishell);
 	minishell->input_matrix = split_without_quotes(minishell);
 	process_final_matrix(minishell);
-	if (redir_in_first(minishell) ||
-		consecutive_redirs(minishell) ||
-		redir_in_last(minishell))
+	if (redir_in_first(minishell)
+		|| consecutive_redirs(minishell)
+		|| redir_in_last(minishell))
 		return (false);
 	return (true);
 }

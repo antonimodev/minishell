@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_utils.c                                      :+:      :+:    :+:   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:09:12 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:00:23 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	redir_first_cmd(t_minishell *minishell)
 {
-    int current_pipe;
+	int	current_pipe;
 
 	if (cmd_not_found(minishell))
 		exit(CMD_NOT_FOUND);

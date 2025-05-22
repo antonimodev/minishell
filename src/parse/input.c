@@ -1,19 +1,18 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/04/30 14:34:28 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:58:55 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void free_last_input(t_minishell *minishell)
+static void	free_last_input(t_minishell *minishell)
 {
 	if (minishell->user_input)
 	{
@@ -22,7 +21,7 @@ static void free_last_input(t_minishell *minishell)
 	}
 }
 
-void get_input(t_minishell *minishell)
+void	get_input(t_minishell *minishell)
 {
 	while (!valid_rl_input(minishell))
 	{
@@ -35,7 +34,7 @@ void get_input(t_minishell *minishell)
 	}
 }
 
-void parse_input(t_minishell *minishell)
+void	parse_input(t_minishell *minishell)
 {
 	set_expand_var(minishell);
 	if (check_redir_existence(minishell))

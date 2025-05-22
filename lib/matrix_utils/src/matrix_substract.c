@@ -1,4 +1,16 @@
-#include "matrix_utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrix_substract.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 11:08:43 by jortiz-m          #+#    #+#             */
+/*   Updated: 2025/05/22 11:09:05 by jortiz-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 char	**matrix_substract(char **matrix, unsigned int index)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 13:45:54 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:44:00 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ void	free_minishell(t_minishell *minishell)
 		free(minishell->shell_prompt);
 	if (minishell->fd_tools.pipes)
 		free(minishell->fd_tools.pipes);
-    if (minishell->heredoc.delimits)
-        free_matrix(minishell->heredoc.delimits);
+	if (minishell->heredoc.delimits)
+		free_matrix(minishell->heredoc.delimits);
 }

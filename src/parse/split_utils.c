@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:47:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 12:40:22 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:58:00 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,17 @@ void	skip_middle_spaces(char *user_input, int *i)
 	else if (*i > start_i)
 		(*i)--;
 }
+
 void	process_final_matrix(t_minishell *minishell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (minishell->quoted_matrix[i])
 	{
 		if (is_quoted_redir_or_pipe(minishell->quoted_matrix[i]))
-			matrix_replace(minishell->input_matrix, i, minishell->quoted_matrix[i]);
+			matrix_replace(minishell->input_matrix, i,
+				minishell->quoted_matrix[i]);
 		i++;
 	}
 }

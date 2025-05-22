@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 12:52:55 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:39:24 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_exit(t_minishell *minishell)
 		}
 		else if (minishell->args_num > 2)
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			minishell->exit_status = 1;
 			exit_code = 2;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:48 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/21 13:21:07 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:28:25 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*clean_chr_from_str(char *str, char chr)
 	i = 0;
 	j = 0;
 	copy = false;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] != chr || copy)
 		{
@@ -54,22 +54,22 @@ int	get_chr_index(char *str, char chr)
 
 char	*ft_strjoin_at(const char *s1, const char *s2, size_t pos)
 {
-    size_t  len1;
-    size_t  len2;
-    char    *new_str;
+	size_t		len1;
+	size_t		len2;
+	char		*new_str;
 
-    len1 = (size_t)ft_strlen(s1);
-    len2 = (size_t)ft_strlen(s2);
-    if (pos > len1)
-        pos = len1;
-    new_str = malloc(len1 + len2 + 1);
-    if (new_str == NULL)
-        return (NULL);
-    ft_memcpy(new_str, s1, pos);
-    ft_memcpy(new_str + pos, s2, len2);
-    ft_memcpy(new_str + pos + len2, s1 + pos, len1 - pos);
-    new_str[len1 + len2] = '\0';
-    return (new_str);
+	len1 = (size_t)ft_strlen(s1);
+	len2 = (size_t)ft_strlen(s2);
+	if (pos > len1)
+		pos = len1;
+	new_str = malloc(len1 + len2 + 1);
+	if (new_str == NULL)
+		return (NULL);
+	ft_memcpy(new_str, s1, pos);
+	ft_memcpy(new_str + pos, s2, len2);
+	ft_memcpy(new_str + pos + len2, s1 + pos, len1 - pos);
+	new_str[len1 + len2] = '\0';
+	return (new_str);
 }
 
 char	*get_envp_var_name(char *env_var)
@@ -86,14 +86,14 @@ char	*get_envp_var_name(char *env_var)
 
 bool	find_in_matrix(char **matrix, char *var_name, int *index)
 {
-    *index = 0;
-    while (matrix && matrix[*index])
-    {
-        if (!ft_strncmp(matrix[*index], var_name, ft_strlen(var_name)) && 
-            (matrix[*index][ft_strlen(var_name)] == '=' || 
-             matrix[*index][ft_strlen(var_name)] == '\0'))
-            return (true);
-        (*index)++;
-    }
-    return (false);
+	*index = 0;
+	while (matrix && matrix[*index])
+	{
+		if (!ft_strncmp(matrix[*index], var_name, ft_strlen(var_name))
+			&& (matrix[*index][ft_strlen(var_name)] == '='
+			|| matrix[*index][ft_strlen(var_name)] == '\0'))
+			return (true);
+		(*index)++;
+	}
+	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:44 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 13:45:09 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:32:56 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 
-	UNUSED(ac);
-	UNUSED(av);
+	(void)(ac);
+	(void)(av);
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	setup_signals();
 	while (1)

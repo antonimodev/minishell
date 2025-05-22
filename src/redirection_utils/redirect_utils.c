@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:24:19 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:04:12 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 bool	check_heredoc_presence(t_minishell *minishell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (minishell->input_matrix[i])
 	{
 		if (str_equal(minishell->input_matrix[i], "<<"))
-			return true;
+			return (true);
 		i++;
 	}
-	return false;
+	return (false);
 }
 
 void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc)
@@ -33,7 +33,8 @@ void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc)
 		if (minishell->first_cmd == 1)
 			minishell->first_cmd++;
 		if (minishell->first_cmd > 1 && !has_heredoc)
-			set_fd_mode(STDIN_FILENO, minishell->fd_tools.pipes[minishell->redir.redir_count - 1]);
+			set_fd_mode(STDIN_FILENO,
+				minishell->fd_tools.pipes[minishell->redir.redir_count - 1]);
 	}
 }
 

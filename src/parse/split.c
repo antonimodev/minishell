@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:02:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 12:39:20 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:59:13 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **split_with_quotes(t_minishell *minishell)
+char	**split_with_quotes(t_minishell *minishell)
 {
-	int i;
-	t_quote quote;
-	char *word;
-	char **matrix;
+	int		i;
+	t_quote	quote;
+	char	*word;
+	char	**matrix;
 
 	i = -1;
 	quote.type = '\0';

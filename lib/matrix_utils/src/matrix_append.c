@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrix_append.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 11:08:09 by jortiz-m          #+#    #+#             */
+/*   Updated: 2025/05/22 11:08:12 by jortiz-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "matrix_utils.h"
 
 char	**matrix_append(char **matrix, char *new_str)
 {
 	char	**new_matrix;
 	int		len;
-	
+
 	new_matrix = matrix_cpy(matrix, 1);
 	if (!new_matrix)
 		return (NULL);

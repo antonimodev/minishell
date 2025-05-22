@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:06:26 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:00:27 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:47:01 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,22 @@ static bool	is_surrounded(char *str, int index, bool *flag)
 		*flag = false;
 		return (true);
 	}
-    if (index == 0 && !str[index + 1])
-        return (false);
-    if (index > 0 && !ft_isspace(str[index - 1]))
-        return (true);
-    if (str[index + 1] && !ft_isspace(str[index + 1]))
-        return (true);
-    return (false);
+	if (index == 0 && !str[index + 1])
+		return (false);
+	if (index > 0 && !ft_isspace(str[index - 1]))
+		return (true);
+	if (str[index + 1] && !ft_isspace(str[index + 1]))
+		return (true);
+	return (false);
 }
 
-static void	add_spaces(char **clean_input, char *user_input, int *pos, bool *flag)
+static void	add_spaces(char **clean_input, char *user_input,
+			int *pos, bool *flag)
 {
-	char current_char;
-	char prev_char;
-	char next_char;
-	
+	char	current_char;
+	char	prev_char;
+	char	next_char;
+
 	current_char = user_input[*pos];
 	next_char = user_input[*pos + 1];
 	if (*flag)
@@ -72,7 +73,7 @@ char	*expand_pipe(t_minishell *minishell)
 	int		i;
 	char	*clean_input;
 	t_quote	quote;
-	bool 	flag;
+	bool	flag;
 
 	i = 0;
 	flag = true;
@@ -86,7 +87,7 @@ char	*expand_pipe(t_minishell *minishell)
 		if (redir_at_pos(minishell->user_input, i)
 			&& is_surrounded(minishell->user_input, i, &flag)
 			&& quote.closed)
-				add_spaces(&clean_input, minishell->user_input, &i, &flag);
+			add_spaces(&clean_input, minishell->user_input, &i, &flag);
 		else
 			clean_input = str_append_char(clean_input,
 					minishell->user_input[i]);

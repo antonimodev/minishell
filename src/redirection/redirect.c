@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:23:47 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:52:52 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ static void	set_last_redirs(t_minishell *minishell, int index)
 		minishell->redir.last_input = last_fd;
 		if (!minishell->heredoc.delimits)
 			minishell->heredoc.delimits = create_matrix(0);
-		minishell->heredoc.delimits = matrix_append(minishell->heredoc.delimits, minishell->input_matrix[last_fd]);
+		minishell->heredoc.delimits = matrix_append(minishell->heredoc.delimits,
+				minishell->input_matrix[last_fd]);
 	}
 	if (str_equal(minishell->input_matrix[index], ">")
-	||	str_equal(minishell->input_matrix[index], ">>"))
+		|| str_equal(minishell->input_matrix[index], ">>"))
 		minishell->redir.last_output = last_fd;
 }
 
@@ -36,14 +37,14 @@ static void	process_redir(t_minishell *minishell)
 	int	i;
 
 	i = 0;
-	while(minishell->input_matrix[i])
+	while (minishell->input_matrix[i])
 	{
 		if (str_equal(minishell->input_matrix[i], "<<"))
 			redir_heredoc(minishell, i);
 		i++;
 	}
 	i = 0;
-	while(minishell->input_matrix[i])
+	while (minishell->input_matrix[i])
 	{
 		if (str_equal(minishell->input_matrix[i], ">>"))
 			redir_append(minishell, i);
@@ -57,14 +58,13 @@ static void	process_redir(t_minishell *minishell)
 
 void	redirect(t_minishell *minishell)
 {
-    int		i;
+	int		i;
 	bool	has_heredoc;
 
 	has_heredoc = check_heredoc_presence(minishell);
 	handle_parent_pipe(minishell, has_heredoc);
 	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
-
 	while (minishell->input_matrix[i])
 	{
 		if (is_redirection(minishell->input_matrix[i]))
@@ -81,4 +81,3 @@ void	redirect(t_minishell *minishell)
 	if (minishell->redir.redir_exist)
 		minishell->input_matrix = clean_matrix_redirs(minishell);
 }
-
