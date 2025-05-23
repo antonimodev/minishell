@@ -96,6 +96,7 @@ typedef struct s_minishell
 	char			*user_input;
 	char			*user;
 	char			*shell_prompt;
+	char			*last_prompt;
 	char			**envp;
 	char			**declare_matrix;
 	char			*env_home;
@@ -316,5 +317,6 @@ void	fork_exec(t_minishell *minishell);
 
 void	setup_signals(void);
 void	handle_sign(int sign);
+void increment_shlvl(t_minishell *minishell);
 
 #endif

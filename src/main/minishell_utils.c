@@ -52,8 +52,8 @@ void	free_minishell(t_minishell *minishell)
 		free_matrix(minishell->input_matrix);
 	if (minishell->quoted_matrix)
 		free_matrix(minishell->quoted_matrix);
-	if (minishell->shell_prompt)
-		free(minishell->shell_prompt);
+	/* if (minishell->shell_prompt)
+		free(minishell->shell_prompt); */
 	if (minishell->fd_tools.pipes)
 		free(minishell->fd_tools.pipes);
 	if (minishell->heredoc.delimits)

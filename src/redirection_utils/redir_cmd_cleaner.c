@@ -52,9 +52,9 @@ char	**clean_matrix_redirs(t_minishell *minishell)
 		if (is_quoted_redir_or_pipe(minishell->input_matrix[end]))
 		{
 			minishell->input_matrix[end] = remove_chr_from_str(minishell->\
-input_matrix[end], '"');
+								input_matrix[end], '"');
 			minishell->input_matrix[end] = remove_chr_from_str(minishell->\
-input_matrix[end], '\'');
+								input_matrix[end], '\'');
 		}
 		end++;
 	}

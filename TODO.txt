@@ -238,14 +238,14 @@ PROBLEMA CON EL INCLUDE EN TODOS LOS ARCHIVOS
 
 /* ---------- TODO 22/05/2025 --------- */
 
-❓ 1.- Si se ejecuta minishell sin variables de entorno debe estar controlado -> if (!env || !*env)
+✅ 1.- Si se ejecuta minishell sin variables de entorno debe estar controlado -> if (!env || !*env)
 
 2.- Redir in debe redirigir el input independientemente de si está antes o después, si es el último debe hacerlo.
 Ejemplo: <archivo cat
 cmd | < redir = syntax error
 
 ✅3.- SHLVL debe aumentarse cuando ejecutas shell dentro de minishell
-❓ Hay que implementarlo, función hecha con condición, ver el sitio
+✅ Hay que implementarlo, función hecha con condición, ver el sitio
 
 ✅ 4.- ""''"" da segfault, """", ''''
 
@@ -270,33 +270,4 @@ Esto no hace cat del file, hay que asegurarse de que si el cmd no contiene "/" b
 
 ✅ ejecutarlo con ./leaks, es para ver fds abiertos y still reachables
 ❓ Aparentemente el unico still reachable es la estática de shell_prompt
-❓ Al cerrar pipes los inputs parecen haberse trastocado
-
-if (str_equal(minishell->input_matrix[0], "./minishell") ||
-	(minishell->cmd_path && ft_strstr(minishell->cmd_path, "/minishell")))
-
-static void increment_shell_level(t_minishell *minishell)
-{
-	char	*shlvl_str;
-	char	*new_shlvl_str;
-	int		shlvl_value;
-	int		i;
-	char	*var_with_equal;
-
-	shlvl_str = ft_getenv(minishell->envp, "SHLVL=");
-	if (!shlvl_str)
-		shlvl_value = 1; // O el que sea por defecto que no se cual es
-	else
-		shlvl_value = ft_atoi(shlvl_str) + 1;
-	new_shlvl_str = ft_itoa(shlvl_value);
-	var_with_equal = ft_strjoin("SHLVL=", new_shlvl_str);
-	i = 0;
-	if (find_in_matrix(minishell->envp, "SHLVL", &i))
-		matrix_replace(minishell->envp, i, var_with_equal);
-	else
-		minishell->envp = matrix_append(minishell->envp, var_with_equal);
-	free(new_shlvl_str);
-	free(var_with_equal);
-}
-
-La idea es que si hace la ruta absoluta tambien haga shlvl++
+✅ Al cerrar pipes los inputs parecen haberse trastocado
