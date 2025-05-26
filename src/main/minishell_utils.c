@@ -14,11 +14,6 @@
 
 void	init_minishell(t_minishell *minishell, char **envp)
 {
-	/*if (!envp || !*envp)
-	{
-		Seguramente función para inicializar un entorno personalizado de minishell
-		Es importante que con el entorno personalizado funcione como hasta ahora.
-	}*/
 	update_minishell(minishell, envp);
 	minishell_store_fd(minishell);
 	minishell->pid = PARENT;

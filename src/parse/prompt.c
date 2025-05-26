@@ -40,6 +40,8 @@ void	shell_prompt(t_minishell *minishell)
 	static char	*last_prompt;
 
 	user = minishell->user;
+	if (!user)
+		user = "undefined";
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
