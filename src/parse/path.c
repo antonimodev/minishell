@@ -27,7 +27,7 @@ char	*get_path(char **input_matrix, char **envp)
 	char	*cmd_path;
 	char	**splitted_paths;
 
-	if (!input_matrix)
+	if (!input_matrix || !*input_matrix || !envp)
 		return (NULL);
 	if (ft_strchr(input_matrix[0], '/'))
 		return (ft_strdup(input_matrix[0]));

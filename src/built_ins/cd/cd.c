@@ -101,9 +101,7 @@ void	ft_cd(t_minishell *minishell)
 	}
 	arg = minishell->input_matrix[1];
 	if (str_equal(arg, "-"))
-	{
 		cd_old_pwd(minishell);
-	}
 	else
 		cd_path(minishell, arg);
 }

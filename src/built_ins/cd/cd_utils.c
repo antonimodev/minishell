@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	set_env(t_minishell *minishell, char *env_var, char *value)
+/* void	set_env(t_minishell *minishell, char *env_var, char *value)
 {
 	char	*new_var;
 	int		i;
@@ -26,6 +26,32 @@ void	set_env(t_minishell *minishell, char *env_var, char *value)
 		free(env_var);
 		free(new_var);
 	}
+} */
+
+void	set_env(t_minishell *minishell, char *env_var, char *value)
+{
+	char	*env_with_equal;
+	char	*new_var;
+	int		i;
+
+	i = 0;
+	env_with_equal = ft_strjoin(env_var, "=");
+	new_var = ft_strjoin(env_with_equal, value);
+	free(env_with_equal);
+	if (find_in_matrix(minishell->envp, env_var, &i))
+	{
+		matrix_replace(minishell->envp, i, new_var);
+		i = 0;
+		if (minishell->declare_matrix && find_in_matrix(minishell->declare_matrix, env_var, &i))
+			matrix_replace(minishell->declare_matrix, i, new_var);
+	}
+	else
+	{
+		minishell->envp = matrix_append(minishell->envp, new_var);
+		if (minishell->declare_matrix)
+			minishell->declare_matrix = matrix_append(minishell->declare_matrix, new_var);
+	}
+	free(new_var);
 }
 
 void	update_pwd(t_minishell *minishell, char *old_pwd)

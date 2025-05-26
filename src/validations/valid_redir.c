@@ -20,7 +20,7 @@ static	bool	consecutive_redirs(t_minishell *minishell)
 	while (minishell->input_matrix[i])
 	{
 		if (is_redirection(minishell->input_matrix[i])
-			&& is_redirection(minishell->input_matrix[i + 1]))
+			&& str_equal(minishell->input_matrix[i + 1], "|"))
 		{
 			ft_putstr_fd("minishell: syntax error near unexpexted token `",
 				STDERR_FILENO);
@@ -47,8 +47,6 @@ static bool	redir_in_first(t_minishell *minishell)
 		minishell->redir.invalid_input = true;
 		return (true);
 	}
-		return (false);
-
 	if (minishell->quoted_matrix[0][0] == '|')
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",

@@ -1,5 +1,6 @@
 https://excalidraw.com/#room=682b2c5c9c5835bb3fd2,5KFxse5OeORDs3z__RSN_A
 
+https://prod.liveshare.vsengsaas.visualstudio.com/join?94B3E8A1C9D934695EEEAF50B59D1A369F29
 
 ARREGLAR:
 
@@ -241,7 +242,10 @@ PROBLEMA CON EL INCLUDE EN TODOS LOS ARCHIVOS
 ✅ 1.- Si se ejecuta minishell sin variables de entorno debe estar controlado -> if (!env || !*env)
 
 ✅ 2.- Redir in debe redirigir el input independientemente de si está antes o después, si es el último debe hacerlo. Ejemplo: <archivo cat
-❓ cmd | < redir = syntax error
+✅| >
+✅| <
+✅| <<
+✅| >>
 
 ✅3.- SHLVL debe aumentarse cuando ejecutas shell dentro de minishell
 ✅ Hay que implementarlo, función hecha con condición, ver el sitio
@@ -258,7 +262,7 @@ Esto no hace cat del file, hay que asegurarse de que si el cmd no contiene "/" b
 ✅ 6.- cat saliendose con ctrl +c deberia de dar 130 en el echo $?
 
 ✅ 7.- cd algo, unset OLDPWD, cd - -> nos da segfault, debe escribir un mensaje que sea minishell: cd: OLDPWD not set
-❓¿Se vuelve a setear OLDPWD al cambiar de directorio? SI
+✅ ¿Se vuelve a setear OLDPWD al cambiar de directorio? SI
 
 ✅ 8.- Cuando hace exit sin arg, usa el ultimo codigo de salida. Con arg numerico el modulo del argumento de 256
 ❓ Chequear el resto de codigos de salida para ver si salen correctos

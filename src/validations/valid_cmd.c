@@ -24,6 +24,8 @@ bool	valid_cmd(char *cmd_path)
 
 bool	cmd_not_found(t_minishell *minishell)
 {
+	if (!minishell->input_matrix || !*minishell->input_matrix)
+		return (true);
 	if (!minishell->cmd_path && !is_built_in(minishell))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);

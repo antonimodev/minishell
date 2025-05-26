@@ -14,6 +14,8 @@
 
 bool	is_built_in(t_minishell *minishell)
 {
+	if (!minishell->input_matrix ||!*minishell->input_matrix)
+		return (false);
 	if (ft_strcmp(minishell->input_matrix[0], "exit") == 0)
 		minishell->built_in_type = FT_EXIT;
 	else if (ft_strcmp(minishell->input_matrix[0], "echo") == 0)

@@ -65,7 +65,6 @@ void	redirect(t_minishell *minishell)
 	handle_parent_pipe(minishell, has_heredoc);
 	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
-	printf("flag: %d\n", minishell->redir.redir_exist);
 	while (minishell->input_matrix[i])
 	{
 		if (is_redirection(minishell->input_matrix[i]))
