@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 11:00:23 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:23:55 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	redir_first_cmd(t_minishell *minishell)
 {
 	int	current_pipe;
 
-	if (cmd_not_found(minishell))
-		exit(CMD_NOT_FOUND);
 	current_pipe = minishell->redir.redir_count - 1;
 	set_fd_mode(STDOUT_FILENO, minishell->fd_tools.pipes[current_pipe]);
 	return ;

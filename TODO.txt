@@ -240,9 +240,8 @@ PROBLEMA CON EL INCLUDE EN TODOS LOS ARCHIVOS
 
 ✅ 1.- Si se ejecuta minishell sin variables de entorno debe estar controlado -> if (!env || !*env)
 
-2.- Redir in debe redirigir el input independientemente de si está antes o después, si es el último debe hacerlo.
-Ejemplo: <archivo cat
-cmd | < redir = syntax error
+✅ 2.- Redir in debe redirigir el input independientemente de si está antes o después, si es el último debe hacerlo. Ejemplo: <archivo cat
+❓ cmd | < redir = syntax error
 
 ✅3.- SHLVL debe aumentarse cuando ejecutas shell dentro de minishell
 ✅ Hay que implementarlo, función hecha con condición, ver el sitio
@@ -256,18 +255,20 @@ cmd | < redir = syntax error
  cat file
 Esto no hace cat del file, hay que asegurarse de que si el cmd no contiene "/" busque en el PATH
 
-6.- cat saliendose con ctrl +c deberia de dar 130 en el echo $?
+✅ 6.- cat saliendose con ctrl +c deberia de dar 130 en el echo $?
 
 ✅ 7.- cd algo, unset OLDPWD, cd - -> nos da segfault, debe escribir un mensaje que sea minishell: cd: OLDPWD not set
-❓¿Se vuelve a setear OLDPWD al cambiar de directorio?
+❓¿Se vuelve a setear OLDPWD al cambiar de directorio? SI
 
 ✅ 8.- Cuando hace exit sin arg, usa el ultimo codigo de salida. Con arg numerico el modulo del argumento de 256
 ❓ Chequear el resto de codigos de salida para ver si salen correctos
 
-9.- < Makefile cat < popo debe redireccionar el archivo popo a cat, e imprime su contenido
+✅ 9.- < Makefile cat < popo debe redireccionar el archivo popo a cat, e imprime su contenido
 
-10.- << popo cat << lala | cat << lala2 -> Deberia ser popo, lala y luego lala2, pero no funciona
+✅ 10.- << popo cat << lala | cat << lala2 -> Deberia ser popo, lala y luego lala2, pero no funciona
+❓ Probamos a hacerlo el 26/05 e iba bien, rarete
 
 ✅ ejecutarlo con ./leaks, es para ver fds abiertos y still reachables
 ❓ Aparentemente el unico still reachable es la estática de shell_prompt
+
 ✅ Al cerrar pipes los inputs parecen haberse trastocado

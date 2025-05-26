@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:40 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/22 11:11:42 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:50:59 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,11 +230,12 @@ void	ft_unset(t_minishell *minishell);
 
 
 /* REDIR_PIPE.C --------------------*/
-void	close_unused_pipes(t_minishell *minishell);
+void	close_read_pipes(t_minishell *minishell);
+void	close_write_pipes(t_minishell *minishell);
 void	ft_pipe(t_minishell *minishell);
 
 /* REDIR_CMD_CLEANER.C ---------*/
-char	**clean_matrix_redirs(t_minishell *minishell);
+void	clean_matrix_redirs(t_minishell *minishell);
 
 /* REDIRECTIONS_UTILS.C --------*/
 bool	check_valid_redir(t_minishell *minishell);

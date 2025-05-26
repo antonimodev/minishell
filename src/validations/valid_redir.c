@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:31:53 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 11:06:41 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:07:46 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@ static	bool	consecutive_redirs(t_minishell *minishell)
 
 static bool	redir_in_first(t_minishell *minishell)
 {
+	if (matrix_len(minishell->input_matrix) == 1
+		&& (str_equal(minishell->input_matrix[0], "<")
+		|| str_equal(minishell->input_matrix[0], "<<") 
+		|| str_equal(minishell->input_matrix[0], ">") 
+		|| str_equal(minishell->input_matrix[0], ">>")))
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+			STDERR_FILENO);
+		minishell->redir.invalid_input = true;
+		return (true);
+	}
+		return (false);
+
 	if (minishell->quoted_matrix[0][0] == '|')
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
@@ -86,6 +99,7 @@ bool	check_valid_redir(t_minishell *minishell)
 	minishell->quoted_matrix = split_with_quotes(minishell);
 	minishell->input_matrix = split_without_quotes(minishell);
 	process_final_matrix(minishell);
+		
 	if (redir_in_first(minishell)
 		|| consecutive_redirs(minishell)
 		|| redir_in_last(minishell))

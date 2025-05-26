@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 11:04:12 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:25:56 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	handle_parent_pipe(t_minishell *minishell, bool has_heredoc)
 		if (minishell->first_cmd == 1)
 			minishell->first_cmd++;
 		if (minishell->first_cmd > 1 && !has_heredoc)
+		{
 			set_fd_mode(STDIN_FILENO,
 				minishell->fd_tools.pipes[minishell->redir.redir_count - 1]);
+			close_read_pipes(minishell);
+		}
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:39:24 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:56:36 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void	quit(t_minishell *minishell)
 		if (minishell->declare_matrix)
 			free_matrix(minishell->declare_matrix);
 		minishell_reset_fd(minishell);
-		close_unused_pipes(minishell);
+		close_write_pipes(minishell);
+		close_read_pipes(minishell);
 		free_minishell(minishell);
 		exit(minishell->exit_status);
 	}

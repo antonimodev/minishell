@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:52:52 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:20:20 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	redirect(t_minishell *minishell)
 	handle_parent_pipe(minishell, has_heredoc);
 	handle_child_pipe(minishell, has_heredoc);
 	i = 0;
+	printf("flag: %d\n", minishell->redir.redir_exist);
 	while (minishell->input_matrix[i])
 	{
 		if (is_redirection(minishell->input_matrix[i]))
@@ -79,5 +80,5 @@ void	redirect(t_minishell *minishell)
 		set_fd_mode(STDOUT_FILENO,
 			minishell->fd_tools.pipes[minishell->redir.redir_count - 1]);
 	if (minishell->redir.redir_exist)
-		minishell->input_matrix = clean_matrix_redirs(minishell);
+		clean_matrix_redirs(minishell);
 }

@@ -23,7 +23,7 @@ static bool	is_child_process(t_minishell *minishell, pid_t child)
 }
 
 static bool	process_child_cmd(t_minishell *minishell, char **matrix,
-							int *operator_pos, int *current_pos)
+                            int *operator_pos, int *current_pos)
 {
     pid_t	child;
 
@@ -37,8 +37,7 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
     }
     else
     {
-        close_unused_pipes(minishell);
-        //close(minishell->fd_tools.pipes[minishell->redir.redir_count - 1].write_pipe);
+    	close(minishell->fd_tools.pipes[minishell->redir.redir_count - 1].write_pipe);
         waitpid(child, &minishell->exit_status, 0);
         if (WIFEXITED(minishell->exit_status))
             minishell->exit_status = WEXITSTATUS(minishell->exit_status);

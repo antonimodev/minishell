@@ -22,6 +22,7 @@ void	print_matrix(char **matrix)
 	while (matrix[x])
 	{
 		y = 0;
+		printf("[%d]. ", x);
 		while (matrix[x][y])
 		{
 			printf("%c", matrix[x][y]);
