@@ -119,6 +119,8 @@ typedef struct s_minishell
 void	init_minishell(t_minishell *minishell, char **envp);
 char	*ft_getenv(char **envp, char *env_var);
 void	free_minishell(t_minishell *minishell);
+void	increment_shlvl(t_minishell *minishell);
+void	default_env(char ***system_envp);
 
 /* UPDATE_MINISHELL.C ----------*/
 void	update_minishell(t_minishell *minishell, char **envp);
@@ -318,6 +320,5 @@ void	fork_exec(t_minishell *minishell);
 
 void	setup_signals(void);
 void	handle_sign(int sign);
-void increment_shlvl(t_minishell *minishell);
 
 #endif

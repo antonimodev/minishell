@@ -53,3 +53,26 @@ void	shell_prompt(t_minishell *minishell)
 	minishell->shell_prompt = mount_prompt(&user, &pwd, &arrow, &prompt);
 	last_prompt = ft_strdup(minishell->shell_prompt);
 }
+
+/* void	shell_prompt(t_minishell *minishell)
+{
+	char		*pwd;
+	char		*user;
+	char		*arrow;
+	char		*prompt;
+	static char	*last_prompt;
+
+	user = minishell->user;
+	if (!user)
+		user = "undefined";
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		minishell->shell_prompt = ft_strdup(minishell->last_prompt);
+		return ;
+	}
+	if (minishell->last_prompt)
+		free(minishell->last_prompt);
+	minishell->shell_prompt = mount_prompt(&user, &pwd, &arrow, &prompt);
+	minishell->last_prompt = ft_strdup(minishell->shell_prompt);
+} */
