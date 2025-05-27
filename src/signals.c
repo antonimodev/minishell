@@ -12,22 +12,45 @@
 
 #include "minishell.h"
 
-void	handle_sign(int sign)
+static void		handle_sign(int signal)
 {
-	(void)(sign);
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (signal == SIGINT)
+	{
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
+		g_signal = 1;
+	}
+	else if (signal == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	return ;
 }
 
-void	setup_signals(void)
+static void		child_sign(int signal)
+{
+	if (signal == SIGINT)
+		g_signal = 130;
+	else if(signal == SIGQUIT)
+	{
+		write(1, "Quit: 3\n", 10);
+		g_signal = 131;
+	}
+	return ;
+}
+
+void	setup_signals(int signal)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = &handle_sign;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		perror("sigaction");
+	if(signal)
+		sa.sa_handler = &handle_sign;
+	else
+		sa.sa_handler = &child_sign;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
 }

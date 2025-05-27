@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **envp)
 		default_env(&my_envp);
 	update_minishell(&minishell, my_envp);
 	increment_shlvl(&minishell);
-	setup_signals();
+	setup_signals(g_signal);
 	while (1)
 	{
 		init_minishell(&minishell, my_envp);

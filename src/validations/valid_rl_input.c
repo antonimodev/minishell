@@ -18,7 +18,7 @@ static bool	check_empty_input(t_minishell *minishell)
 	{
 		free_minishell(minishell);
 		write(STDOUT_FILENO, "exit\n", 5);
-		exit(EXIT_SUCCESS);
+		exit(minishell->exit_status);
 	}
 	if (minishell->user_input[0] == '\0'
 		|| is_empty(minishell))
@@ -34,6 +34,7 @@ bool	valid_rl_input(t_minishell *minishell)
 	{
 		ft_putstr_fd("minishell: syntax error: unclosed quotes\n",
 			2);
+		minishell->exit_status = 2;
 		return (false);
 	}
 	return (true);

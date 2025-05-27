@@ -275,3 +275,94 @@ PROBLEMA CON EL INCLUDE EN TODOS LOS ARCHIVOS
 
 ✅ exec (4)
 ✅ signals (2)
+----
+
+-------- FERNANDO -------
+
+HEREDOC -> no se puede salir con CTRL + C, en bash SÍ se sale
+
+✅ _ ✅CMD cat, cuando hacemos CTRL + C se sale sin el salto de línea
+
+Los syntax error deben dar el codigo de error correcto
+
+-------- VÍCTOR -------
+
+problema:	Cuando hay un error de sintaxis no se pone el codigo de salida
+solucion:	Establecerlo en 2 o un valor diferente a 0
+necesario:	No, pero no cuesta mucho hacerlo
+
+✅ problema:	Espacio muy grande en mensaje (ls >)
+solucion:	Quitar el espacio. lol
+necesario:	No
+
+problema:	2 o mas tokens de redireccion juntos se tratan como input (< < cat o < < < cat)
+solucion:	Si el input de una redireccion es un token de redireccion mostrar error de sintaxis
+necesario:	No
+
+BUILT-IN
+--------
+
+problema:	Cuando se esta en una carpeta invalida (borrada) deja de funcionar cd. (mkdir -p a/b/c), (cd a/b/c), (rm -rf ../../../a)
+solucion:	No sabria decir, no me he puesto a ver el codigo, pero no es importante. Probablemente no estais ejecutando chdir
+necesario:	No, son casos extremos. Aunque no creo que sea complicado de solucionar.
+❓ Esto se controla haciendo un chdir al home predeterminado
+
+SEÑALES
+-------
+
+OJO!!!		Creo que no teneis una variable global para las señales. Es necesaria para poder saber si se ha producido un SIGINT y cancelar la ejecucion (heredoc, etc.)
+
+problema:	CTRL + \ (SIGQUIT) no se ignora
+solucion:	Establecer SIGQUIT en SIG_IGN y al ejecutar un hijo, establecerlo en SIG_DFL
+necesario:	Si, especificado en el subject
+
+problema:	CTRL + C no pone el last status a 130 (128 + signal)
+solucion:	En algun momento comprobar si la variable de las señales es diferente de 0 y asignar 128 mas esa variable a las status (suponiendo que la variable sea el valor de la señal)
+necesario:	Quizas, aunque si el evaluador no es muy cerrado, lo puede dejar pasar
+
+problema:	CTRL + C se ejecuta en los hijos (cat y CTRL + C) y sale doble prompt
+solucion:	En los hijos poner SIGINT a SIG_DFL
+necesario:	Quizas, aunque si el evaluador no es muy cerrado, lo puede dejar pasar
+
+problema:	CTRL + C no funciona en heredoc (<< a cat y CTRL + C) y cuando hay varios juntos hace cosas mas extrañas aun ( << a cat << b <<c | <<a cat y CTRL + C)
+solucion:	Detectar la variable de señales en el heredoc y salir. Si se hacen en los hijos, teneis que poder determinar que se ha hecho CTRL + C y que no continue creando mas hijos
+necesario:	Si, especificado en el subject
+
+✅ problema:	Espacio muy grande en mensaje en el heredoc al hacer CTRL + D (<< a cat y CTRL + D)
+solucion:	Quitar el espacio. lol
+necesario:	No
+
+✅ problema:	Linea extra al hacer CTRL + C despues de un CTRL + D en un heredoc
+solucion:	No sabria decir donde, es por cosas de señales
+necesario:	No, eso le ha pasado a mas gente y dudo que un evaluador lo tenga en cuenta
+
+✅ _ ✅problema:	Al salir con CTRL + D no se sale con el ultimo codigo de salido
+solucion:	Cuando readline devuelve NULL dependiendo de como se salga, hacer return (last_code) o exit(last_code)
+necesario:	Quizas, no se si se dice explicitamente, pero no deberia ser dificil de implementar
+
+LEAKS
+-----
+
+Al parecer en los hijos hay 2 FD que se quedan abiertos (aparte de los standars)
+Pueden ser backups de STDIN y STDOUT si los haceis en el padre, ya que el hijo los hereda o
+puede que sean otros. Se crean en minishell_store_fd() al parecer
+
+Luego "leaks" tambien hay algunos. No son leaks, pero para 42 todo lo que no se libere se considera leak...
+Y en el padre tambien hay algo de leak
+
+kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo popo
+
+==81991== FILE DESCRIPTORS: 5 open (3 std) at exit.
+==81991== Open file descriptor 4: /dev/pts/0
+==81991==    at 0x49CB93B: dup (syscall-template.S:120)
+==81991==    by 0x10DFF1: minishell_store_fd (fd_utils.c:43)
+==81991==    by 0x10B13B: init_minishell (minishell_utils.c:18)
+==81991==    by 0x10B5C0: main (minishell.c:31)
+==81991==
+==81991== Open file descriptor 3: /dev/pts/0
+==81991==    at 0x49CB93B: dup (syscall-template.S:120)
+==81991==    by 0x10DFE0: minishell_store_fd (fd_utils.c:42)
+==81991==    by 0x10B13B: init_minishell (minishell_utils.c:18)
+==81991==    by 0x10B5C0: main (minishell.c:31)
+==81991==
+==81991==

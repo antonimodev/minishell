@@ -36,6 +36,8 @@
 # include <signal.h>
 # include <fcntl.h>
 
+int		g_signal;
+
 /* --------------------- ENUMS -----------------------------*/
 
 typedef enum t_error
@@ -315,7 +317,6 @@ void	fork_exec(t_minishell *minishell);
 
 /* SIGNALS.C -----------------*/
 
-void	setup_signals(void);
-void	handle_sign(int sign);
+void	setup_signals(int signal);
 
 #endif
