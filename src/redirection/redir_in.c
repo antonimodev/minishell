@@ -57,7 +57,7 @@ static void	handle_heredoc_eof(t_minishell *minishell)
 
 	index = minishell->heredoc.delimit_index;
 	printf("minishell: warning: here-document delimited by end-of-file ");
-	printf("wanted '%s')\n", minishell->heredoc.delimits[index]);
+	printf("wanted ('%s')\n", minishell->heredoc.delimits[index]);
 	minishell->heredoc.delimit_index++;
 }
 

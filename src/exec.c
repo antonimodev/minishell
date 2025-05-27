@@ -31,6 +31,8 @@ void	execute(t_minishell *minishell)
 
 void	exec(t_minishell *minishell)
 {
+	close(minishell->fd_tools.stdin);
+	close(minishell->fd_tools.stdout);
 	if (execve(minishell->cmd_path, minishell->input_matrix,
 			minishell->envp) != 0)
 	{

@@ -12,7 +12,9 @@
 
 #include "minishell.h"
 
-static void		handle_sign(int signal)
+/* SEÑALES JULIA */
+
+/* static void		handle_sign(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -53,4 +55,27 @@ void	setup_signals(int signal)
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	sigaction(SIGTERM, &sa, NULL);
+}
+*/
+
+/* SEÑAL QUE HABIA DE ANTES */
+
+void	handle_sign(int sign)
+{
+	(void)sign;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	setup_signals (void)
+{
+	struct sigaction sa;
+
+	sa.sa_handler = &handle_sign;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		perror("sigaction");
 }

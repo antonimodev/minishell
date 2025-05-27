@@ -14,8 +14,8 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	char		**my_envp;
 	t_minishell	minishell;
+	char		**my_envp;
 
 	(void)(ac);
 	(void)(av);
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **envp)
 		default_env(&my_envp);
 	update_minishell(&minishell, my_envp);
 	increment_shlvl(&minishell);
-	setup_signals(g_signal);
+	setup_signals();
 	while (1)
 	{
 		init_minishell(&minishell, my_envp);

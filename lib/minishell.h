@@ -36,6 +36,8 @@
 # include <signal.h>
 # include <fcntl.h>
 
+/* ------------------------ GLOBAL -------------------------*/
+
 int		g_signal;
 
 /* --------------------- ENUMS -----------------------------*/
@@ -317,6 +319,6 @@ void	fork_exec(t_minishell *minishell);
 
 /* SIGNALS.C -----------------*/
 
-void	setup_signals(int signal);
+void	setup_signals(void);
 
 #endif

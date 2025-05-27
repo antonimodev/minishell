@@ -59,6 +59,10 @@ void	exec_built_in(t_minishell *minishell)
 		ft_exit(minishell);
 	if (minishell->pid == CHILD)
 	{
+		close(minishell->fd_tools.stdin);
+		close(minishell->fd_tools.stdout);
+		free_matrix(minishell->envp);
+		free_matrix(minishell->declare_matrix);
 		free_minishell(minishell);
 		exit(EXIT_SUCCESS);
 	}

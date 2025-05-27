@@ -281,13 +281,13 @@ PROBLEMA CON EL INCLUDE EN TODOS LOS ARCHIVOS
 
 HEREDOC -> no se puede salir con CTRL + C, en bash SÍ se sale
 
-✅ _ ✅CMD cat, cuando hacemos CTRL + C se sale sin el salto de línea
+✅ CMD cat, cuando hacemos CTRL + C se sale sin el salto de línea
 
-Los syntax error deben dar el codigo de error correcto
+✅ Los syntax error deben dar el codigo de error correcto
 
 -------- VÍCTOR -------
 
-problema:	Cuando hay un error de sintaxis no se pone el codigo de salida
+✅ problema:	Cuando hay un error de sintaxis no se pone el codigo de salida
 solucion:	Establecerlo en 2 o un valor diferente a 0
 necesario:	No, pero no cuesta mucho hacerlo
 
@@ -295,7 +295,7 @@ necesario:	No, pero no cuesta mucho hacerlo
 solucion:	Quitar el espacio. lol
 necesario:	No
 
-problema:	2 o mas tokens de redireccion juntos se tratan como input (< < cat o < < < cat)
+✅ problema:	2 o mas tokens de redireccion juntos se tratan como input (< < cat o < < < cat)
 solucion:	Si el input de una redireccion es un token de redireccion mostrar error de sintaxis
 necesario:	No
 
@@ -309,6 +309,8 @@ necesario:	No, son casos extremos. Aunque no creo que sea complicado de solucion
 
 SEÑALES
 -------
+
+repo guay: https://github.dev/zafraedu/minishell/tree/main/src
 
 OJO!!!		Creo que no teneis una variable global para las señales. Es necesaria para poder saber si se ha producido un SIGINT y cancelar la ejecucion (heredoc, etc.)
 
@@ -336,18 +338,18 @@ necesario:	No
 solucion:	No sabria decir donde, es por cosas de señales
 necesario:	No, eso le ha pasado a mas gente y dudo que un evaluador lo tenga en cuenta
 
-✅ _ ✅problema:	Al salir con CTRL + D no se sale con el ultimo codigo de salido
+✅ problema:	Al salir con CTRL + D no se sale con el ultimo codigo de salido
 solucion:	Cuando readline devuelve NULL dependiendo de como se salga, hacer return (last_code) o exit(last_code)
 necesario:	Quizas, no se si se dice explicitamente, pero no deberia ser dificil de implementar
 
-LEAKS
+✅ LEAKS
 -----
 
-Al parecer en los hijos hay 2 FD que se quedan abiertos (aparte de los standars)
+✅ Al parecer en los hijos hay 2 FD que se quedan abiertos (aparte de los standars)
 Pueden ser backups de STDIN y STDOUT si los haceis en el padre, ya que el hijo los hereda o
 puede que sean otros. Se crean en minishell_store_fd() al parecer
 
-Luego "leaks" tambien hay algunos. No son leaks, pero para 42 todo lo que no se libere se considera leak...
+✅ Luego "leaks" tambien hay algunos. No son leaks, pero para 42 todo lo que no se libere se considera leak...
 Y en el padre tambien hay algo de leak
 
 kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo popo
@@ -366,3 +368,183 @@ kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo
 ==81991==    by 0x10B5C0: main (minishell.c:31)
 ==81991==
 ==81991==
+
+
+
+----
+
+
+CHECKEAR AMBOS PARA LOGICA
+
+
+
+
+
+typedef enum e_signal
+{
+	S_BASE,        // señal Base
+	S_HEREDOC,     // entra en el heredoc
+	S_HEREDOC_END, // finalización del heredoc
+	S_SIGINT,      // Ctrl + C
+	S_SIGINT_CMD,  // Ctrl + C en medio de una comando
+	S_CMD,         // se ejecuta un comando
+	S_CANCEL_EXEC, // Ctrl + D en heredoc
+	S_SIZE
+}			t_signal;
+
+
+
+#include "minishell.h"
+
+int			g_signal;
+
+static void	sigint_handler(int sig);
+static void	sigint_handler_aux(void);
+
+/**
+ * @brief Inicializa la gestión de señales en el shell.
+ *
+ * Esta función inicializa la gestión de señales en el shell, estableciendo los
+ * manejadores de señales para SIGINT y SIGQUIT. Además, inicializa la variable
+ * global `g_signal` en el estado base.
+ */
+void	signal_init(void)
+{
+	g_signal = S_BASE;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+/**
+ * @brief Manejador de señales para SIGINT y SIGQUIT.
+ *
+ * Esta función maneja las señales SIGINT y SIGQUIT. Dependiendo del estado
+ * actual de la señal global `g_signal`, realiza acciones específicas, como
+ * interrumpir la ejecución de un comando, cancelar un comando en ejecución
+ * o finalizar un here document.
+ *
+ * @param sig El número de la señal recibida.
+ */
+static void	sigint_handler(int sig)
+{
+	(void)sig;
+	if (g_signal == S_BASE || g_signal == S_SIGINT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr_fd("\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	else if (g_signal == S_CMD)
+	{
+		g_signal = S_SIGINT_CMD;
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+	}
+	else if (g_signal == S_HEREDOC)
+	{
+		ioctl(0, TIOCSTI, '\n');
+		exit(0);
+	}
+	sigint_handler_aux();
+}
+
+/**
+ * @brief Función auxiliar para manejar situaciones adicionales de SIGINT.
+ *
+ * Esta función maneja situaciones adicionales de SIGINT que no están cubiertas
+ * directamente en el manejador principal. Por ejemplo, cancela la ejecución de
+ * un here document o establece la señal `S_SIGINT` en estado base o heredoc.
+ */
+static void	sigint_handler_aux(void)
+{
+	if (g_signal == S_HEREDOC_END)
+	{
+		ft_putstr_fd("\n", 1);
+		g_signal = S_CANCEL_EXEC;
+	}
+	else if (g_signal == S_BASE || g_signal == S_HEREDOC)
+		g_signal = S_SIGINT;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------- TESTEAR ----------- */
+
+g_signal = 0;
+
+/*
+* sig_handler:
+*  - Captura SIGINT, guarda señal y escribe nueva línea.
+*/
+
+static void sig_handler(int signo)
+{
+    g_signal = signo;
+    write(STDOUT_FILENO, "\n", 1);
+}
+
+/*
+* init_signals:
+*  - En el padre, capturar SIGINT y evitar SIGQUIT.
+*/
+
+void	init_signals(void)
+{
+    struct sigaction sa;
+
+    sa.sa_handler = sig_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGQUIT, &(struct sigaction){ .sa_handler = SIG_IGN}, NULL);
+}
+
+/*
+* reset_signals_in_child:
+*  - En proceso hijo, restaurar acciones por defecto.
+*/
+
+void	reset_signals_in_child(void)
+{
+	sigaction(SIGINT,  &(struct sigaction){ .sa_handler = SIG_DFL }, NULL);
+	sigaction(SIGQUIT, &(struct sigaction){ .sa_handler = SIG_DFL }, NULL);
+}
+
+/*
+* wait_and_set_status:
+*  - Espera a hijo, ajusta status si hubo SIGINT.
+*  - Devuelve código de salida.
+*/
+
+despues de wait_pid
+if (g_signal == SIGINT)
+	return 128 + SIGINT;
+
+/*
+* read_heredoc:
+*  - Lee líneas hasta LIMITER o Ctrl +C.
+*  - Retorna NULL si se interrumpe.
+*/
+
+heredoc readline ->
+if (g_signal == SIGINT)
+{
+	free(line);
+	return NULL;
+}
