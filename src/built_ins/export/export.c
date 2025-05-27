@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:48 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/22 10:31:37 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	ft_export(t_minishell *minishell)
 	{
 		if (!valid_symbols(minishell->input_matrix[i]))
 		{
-			ft_putstr_fd("minishell: export: '", STDERR_FILENO);
-			ft_putstr_fd(minishell->input_matrix[i], STDERR_FILENO);
-			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(minishell->input_matrix[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			minishell->exit_status = 1;
 			i++;
 			continue ;

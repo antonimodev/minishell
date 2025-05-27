@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/26 14:24:07 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:56:03 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,21 @@ void	close_read_pipes(t_minishell *minishell)
 {
 	int	i;
 
-    i = 0;
-    while (i < (minishell->redir.redir_count - 1))
+	i = 0;
+	while (i < (minishell->redir.redir_count - 1))
 	{
 		if (minishell->fd_tools.pipes[i].read_pipe > 2)
-        	close(minishell->fd_tools.pipes[i].read_pipe);
+			close(minishell->fd_tools.pipes[i].read_pipe);
 		i++;
 	}
 }
+
 void	close_write_pipes(t_minishell *minishell)
 {
 	int	i;
 
-    i = 0;
-    while (i < (minishell->redir.redir_count - 1))
+	i = 0;
+	while (i < (minishell->redir.redir_count - 1))
 	{
 		if (minishell->fd_tools.pipes[i].write_pipe > 2)
 			close(minishell->fd_tools.pipes[i].write_pipe);

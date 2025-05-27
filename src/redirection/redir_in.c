@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:51:39 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	redir_in(t_minishell *minishell, int index)
 	last_fd = index + 1;
 	if (access(minishell->input_matrix[last_fd], F_OK | R_OK) < 0)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(minishell->input_matrix[last_fd], STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(minishell->input_matrix[last_fd], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		minishell->redir.invalid_input = true;
 		return ;
 	}

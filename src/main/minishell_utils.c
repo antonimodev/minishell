@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:50:46 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:44:00 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:54:38 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,13 @@ void	free_minishell(t_minishell *minishell)
 		free_matrix(minishell->input_matrix);
 	if (minishell->quoted_matrix)
 		free_matrix(minishell->quoted_matrix);
-	/* if (minishell->shell_prompt)
-		free(minishell->shell_prompt); */
 	if (minishell->fd_tools.pipes)
 		free(minishell->fd_tools.pipes);
 	if (minishell->heredoc.delimits)
 		free_matrix(minishell->heredoc.delimits);
 }
 
-void increment_shlvl(t_minishell *minishell)
+void	increment_shlvl(t_minishell *minishell)
 {
 	char	*shlvl_str;
 	char	*new_shlvl_str;
@@ -86,7 +84,7 @@ void	default_env(char ***system_envp)
 {
 	*system_envp = create_matrix(5);
 	if (!*system_envp)
-		return;
+		return ;
 	(*system_envp)[0] = ft_strdup("HOME=/");
 	(*system_envp)[1] = ft_strdup("USER=minishell");
 	(*system_envp)[2] = ft_strdup("SHLVL=1");

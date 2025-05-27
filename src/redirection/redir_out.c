@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:52:01 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	redir_out(t_minishell *minishell, int index)
 			0644);
 	if (file < 0)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(minishell->input_matrix[last_fd], STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(minishell->input_matrix[last_fd], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		minishell->redir.invalid_input = true;
 		return ;
 	}
@@ -43,9 +43,9 @@ void	redir_append(t_minishell *minishell, int index)
 			0644);
 	if (file < 0)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(minishell->input_matrix[last_fd], STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(minishell->input_matrix[last_fd], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		minishell->redir.invalid_input = true;
 		return ;
 	}

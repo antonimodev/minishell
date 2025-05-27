@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/26 13:44:52 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	fd_redirection(int from, int to)
 {
 	if (dup2(to, from) == -1)
 	{
-		ft_putstr_fd("dup2: error duplicating fd\n", STDERR_FILENO);
+		ft_putstr_fd("dup2: error duplicating fd\n", 2);
 		exit(EXIT_FAILURE);
 	}
 }

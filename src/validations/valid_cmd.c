@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:03:56 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/21 14:05:09 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ bool	cmd_not_found(t_minishell *minishell)
 		return (true);
 	if (!minishell->cmd_path && !is_built_in(minishell))
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(minishell->input_matrix[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(minishell->input_matrix[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		minishell->exit_status = CMD_NOT_FOUND;
 		return (true);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:46:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/26 14:23:55 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	minishell_pipe_append(t_minishell *minishell, t_pipe *pipe)
 	tmp = malloc((minishell->redir.redir_count) * sizeof(t_pipe));
 	if (!tmp)
 	{
-		ft_putstr_fd("minishell_pipe_append: malloc\n", STDERR_FILENO);
+		ft_putstr_fd("minishell_pipe_append: malloc\n", 2);
 		return ;
 	}
 	i = 0;

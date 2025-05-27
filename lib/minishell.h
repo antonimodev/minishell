@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:40 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/26 12:50:59 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:20:20 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,6 @@ void	ft_unset(t_minishell *minishell);
 
 /*------------------- REDIRECTIONS ---------------------*/
 
-
 /* REDIR_PIPE.C --------------------*/
 void	close_read_pipes(t_minishell *minishell);
 void	close_write_pipes(t_minishell *minishell);
@@ -269,7 +268,6 @@ void	exec(t_minishell *minishell);
 
 /*-------------------- VALIDATIONS ----------------------*/
 
-
 /* VALID_CMD.C ---------------*/
 bool	valid_cmd(char *cmd_path);
 bool	cmd_not_found(t_minishell *minishell);
@@ -284,7 +282,6 @@ bool	valid_rl_input(t_minishell *minishell);
 bool	valid_symbols(char *str);
 
 /*----------------- SUELTOS EN SRC ------------ */
-
 
 /* FD_UTILS.C ------------------*/
 void	fd_redirection(int from, int to);

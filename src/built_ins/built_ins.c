@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:00 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/22 10:32:15 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:54:04 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ bool	is_built_in(t_minishell *minishell)
 
 void	exec_built_in(t_minishell *minishell)
 {
-	//minishell->exit_status = 0; Esto reestablecia a 0 el exit status, checkear
 	if (minishell->built_in_type == FT_PWD)
 	{
 		ft_pwd();

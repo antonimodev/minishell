@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:40:18 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:19:28 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:14:06 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ static void	cd_home(t_minishell *minishell)
 		update_pwd(minishell, old_pwd);
 	else
 	{
-		ft_putstr_fd("minishell: cd: Failed to change directory ",
-			STDERR_FILENO);
-		ft_putstr_fd(home, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: Failed to change directory ", 2);
+		ft_putstr_fd(home, 2);
+		ft_putstr_fd("\n", 2);
 	}
 	free(old_pwd);
 }
@@ -43,7 +42,7 @@ static void	cd_old_pwd(t_minishell *minishell)
 	old_pwd = ft_getenv(minishell->envp, "OLDPWD=");
 	if (!old_pwd)
 	{
-		ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		minishell->exit_status = 1;
 		return ;
 	}
@@ -57,10 +56,9 @@ static void	cd_old_pwd(t_minishell *minishell)
 	}
 	else
 	{
-		ft_putstr_fd("minishell: cd: Failed to change directory ",
-			STDERR_FILENO);
-		ft_putstr_fd(old_pwd, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: Failed to change directory ", 2);
+		ft_putstr_fd(old_pwd, 2);
+		ft_putstr_fd("\n", 2);
 	}
 	free(pwd);
 }
@@ -90,7 +88,7 @@ void	ft_cd(t_minishell *minishell)
 
 	if (minishell->args_num > 2)
 	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		minishell->exit_status = 1;
 		return ;
 	}

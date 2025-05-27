@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/26 12:56:36 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void	ft_exit(t_minishell *minishell)
 	{
 		if (!exit_is_number(minishell))
 		{
-			ft_putstr_fd("minishell: exit:", STDERR_FILENO);
-			ft_putstr_fd(minishell->input_matrix[1], STDERR_FILENO);
-			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: exit:", 2);
+			ft_putstr_fd(minishell->input_matrix[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			minishell->exit_status = 2;
 		}
 		else if (minishell->args_num > 2)
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			minishell->exit_status = 2;
 		}
 		else

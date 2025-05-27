@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/21 12:41:47 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:43:19 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,12 @@ static char	*mount_prompt(char **user, char **pwd, char **arrow, char **prompt)
 	return (*prompt);
 }
 
-// En Shell_prompt hay un still reachable ya que al usar
-// last_prompt como static no se libera nunca, ni siquiera cuando hacemos
-// exit, que debería de liberarse, prob. tengamos que hacerla como parámetro
-// y no liberarla hasta que sea necesario en casos específicos.
-
 void	shell_prompt(t_minishell *minishell)
 {
 	char		*pwd;
 	char		*user;
 	char		*arrow;
 	char		*prompt;
-	static char	*last_prompt;
 
 	user = minishell->user;
 	if (!user)
@@ -45,34 +39,13 @@ void	shell_prompt(t_minishell *minishell)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		minishell->shell_prompt = ft_strdup(last_prompt);
-		return ;
+		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot",
+			2);
+		ft_putstr_fd(" access parent directories: No such file or directory\n",
+			2);
+		pwd = ft_strdup(minishell->env_home);
+		if (chdir(minishell->env_home))
+			ft_putstr_fd("error jeje\n", 2);
 	}
-	if (last_prompt)
-		free(last_prompt);
 	minishell->shell_prompt = mount_prompt(&user, &pwd, &arrow, &prompt);
-	last_prompt = ft_strdup(minishell->shell_prompt);
 }
-
-/* void	shell_prompt(t_minishell *minishell)
-{
-	char		*pwd;
-	char		*user;
-	char		*arrow;
-	char		*prompt;
-	static char	*last_prompt;
-
-	user = minishell->user;
-	if (!user)
-		user = "undefined";
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-	{
-		minishell->shell_prompt = ft_strdup(minishell->last_prompt);
-		return ;
-	}
-	if (minishell->last_prompt)
-		free(minishell->last_prompt);
-	minishell->shell_prompt = mount_prompt(&user, &pwd, &arrow, &prompt);
-	minishell->last_prompt = ft_strdup(minishell->shell_prompt);
-} */
