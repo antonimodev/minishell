@@ -63,6 +63,9 @@ void	setup_signals(int signal)
 /* READLINE NO SE CIERRA NUNCA, RL_REDISPLAY SOLAMENTE MUESTRA LO QUE CONTENIA
 EL ULTIMO READLINE, NUNCA LO CIERRA NI TE PIDE UN SEGUNDO READLINE, ES COMO REPETIR
 UN PRINTF DEL ULTIMO PROMPT */
+
+/* CUANDO ENVÍAS UNA SEÑAL, SE ENVÍA A TODOS LOS PROCESOS, ES DECIR, SI TENEMOS UN HIJO
+QUE RECIBE UNA SEÑAL DE SIGINT, EL PADRE TAMBIEN LA RECIBE */
 static void	handle_sign(int sign)
 {
 	if (sign == SIGINT)
@@ -73,6 +76,13 @@ static void	handle_sign(int sign)
 		rl_replace_line("", 0);
 		printf("soy el SIGINT:\n");
 		rl_redisplay();
+	}
+	else
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		g_signal = SIGINT;
 	}
 }
 
