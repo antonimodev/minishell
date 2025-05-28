@@ -60,22 +60,48 @@ void	setup_signals(int signal)
 
 /* SEÑAL QUE HABIA DE ANTES */
 
-void	handle_sign(int sign)
+/* READLINE NO SE CIERRA NUNCA, RL_REDISPLAY SOLAMENTE MUESTRA LO QUE CONTENIA
+EL ULTIMO READLINE, NUNCA LO CIERRA NI TE PIDE UN SEGUNDO READLINE, ES COMO REPETIR
+UN PRINTF DEL ULTIMO PROMPT */
+static void	handle_sign(int sign)
 {
-	(void)sign;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (sign == SIGINT)
+	{
+		g_signal = SIGINT;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		printf("soy el SIGINT:\n");
+		rl_redisplay();
+	}
 }
 
 void	setup_signals (void)
 {
-	struct sigaction sa;
+	struct sigaction sa_int;
+	struct sigaction sa_quit;
 
-	sa.sa_handler = &handle_sign;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGINT, &sa, NULL) == -1)
+	sa_int.sa_handler = &handle_sign;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	if (sigaction(SIGINT, &sa_int, NULL) == -1)
 		perror("sigaction");
+
+	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_flags = 0;
+	sigemptyset(&sa_quit.sa_mask);
+	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
+		perror("sigaction");
+}
+
+
+void	set_std_signals(void)
+{
+	struct sigaction sa_child;
+
+	sa_child.sa_handler = SIG_DFL;
+	sa_child.sa_flags = 0;
+	sigemptyset(&sa_child.sa_mask);
+	sigaction(SIGINT, &sa_child, NULL);
+	sigaction(SIGQUIT, &sa_child, NULL);
 }

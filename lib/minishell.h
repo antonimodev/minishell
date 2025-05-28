@@ -316,9 +316,11 @@ void	handle_child_pipe(t_minishell *minishell, bool has_heredoc);
 void	execute(t_minishell *minishell);
 void	exec(t_minishell *minishell);
 void	fork_exec(t_minishell *minishell);
+void	get_exit_status(t_minishell *minishell, pid_t pid);
 
 /* SIGNALS.C -----------------*/
 
 void	setup_signals(void);
+void	set_std_signals(void);
 
 #endif

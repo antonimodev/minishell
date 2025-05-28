@@ -49,4 +49,5 @@ void	ft_echo(t_minishell *minishell)
 	}
 	if (!flag)
 		printf("\n");
+	minishell->exit_status = 0;
 }

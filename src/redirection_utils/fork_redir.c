@@ -40,9 +40,7 @@ static bool	process_child_cmd(t_minishell *minishell, char **matrix,
 	else
 	{
 		close(minishell->fd_tools.pipes[pipe_pos].write_pipe);
-		waitpid(child, &minishell->exit_status, 0);
-		if (WIFEXITED(minishell->exit_status))
-			minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+		get_exit_status(minishell, child);
 	}
 	*operator_pos = *current_pos + 1;
 	return (false);

@@ -31,6 +31,7 @@ void	execute(t_minishell *minishell)
 
 void	exec(t_minishell *minishell)
 {
+	set_std_signals();
 	close(minishell->fd_tools.stdin);
 	close(minishell->fd_tools.stdout);
 	if (execve(minishell->cmd_path, minishell->input_matrix,
@@ -42,9 +43,15 @@ void	exec(t_minishell *minishell)
 	}
 }
 
-static void	get_exit_status(t_minishell *minishell, pid_t pid)
+void	get_exit_status(t_minishell *minishell, pid_t pid)
 {
 	waitpid(pid, &minishell->exit_status, 0);
+	if (g_signal == SIGINT)
+	{
+		minishell->exit_status = 130;
+		g_signal = 0;
+		return ;
+	}
 	if (WIFEXITED(minishell->exit_status))
 		minishell->exit_status = WEXITSTATUS(minishell->exit_status);
 	else if (WIFSIGNALED(minishell->exit_status))

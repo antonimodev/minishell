@@ -27,7 +27,13 @@ void	get_input(t_minishell *minishell)
 	{
 		shell_prompt(minishell);
 		free_last_input(minishell);
+		printf("soy el readline:\n");
 		minishell->user_input = readline(minishell->shell_prompt);
+		if (g_signal == SIGINT)
+		{
+			minishell->exit_status = 130;
+			g_signal = 0;
+		}
 		add_history(minishell->user_input);
 		free(minishell->shell_prompt);
 		minishell->shell_prompt = NULL;

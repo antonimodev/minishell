@@ -314,20 +314,18 @@ repo guay: https://github.dev/zafraedu/minishell/tree/main/src
 
 OJO!!!		Creo que no teneis una variable global para las señales. Es necesaria para poder saber si se ha producido un SIGINT y cancelar la ejecucion (heredoc, etc.)
 
-problema:	CTRL + \ (SIGQUIT) no se ignora
-solucion:	Establecer SIGQUIT en SIG_IGN y al ejecutar un hijo, establecerlo en SIG_DFL
+✅ problema:	CTRL + \ (SIGQUIT) no se ignora
+✅ solucion:	Establecer SIGQUIT en SIG_IGN y al ejecutar un hijo, establecerlo en SIG_DFL
 necesario:	Si, especificado en el subject
 
-problema:	CTRL + C no pone el last status a 130 (128 + signal)
+✅ problema:	CTRL + C no pone el last status a 130 (128 + signal)
 solucion:	En algun momento comprobar si la variable de las señales es diferente de 0 y asignar 128 mas esa variable a las status (suponiendo que la variable sea el valor de la señal)
 necesario:	Quizas, aunque si el evaluador no es muy cerrado, lo puede dejar pasar
 
 problema:	CTRL + C se ejecuta en los hijos (cat y CTRL + C) y sale doble prompt
-solucion:	En los hijos poner SIGINT a SIG_DFL
 necesario:	Quizas, aunque si el evaluador no es muy cerrado, lo puede dejar pasar
 
 problema:	CTRL + C no funciona en heredoc (<< a cat y CTRL + C) y cuando hay varios juntos hace cosas mas extrañas aun ( << a cat << b <<c | <<a cat y CTRL + C)
-solucion:	Detectar la variable de señales en el heredoc y salir. Si se hacen en los hijos, teneis que poder determinar que se ha hecho CTRL + C y que no continue creando mas hijos
 necesario:	Si, especificado en el subject
 
 ✅ problema:	Espacio muy grande en mensaje en el heredoc al hacer CTRL + D (<< a cat y CTRL + D)
