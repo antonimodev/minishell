@@ -5,7 +5,7 @@
         "markdown": false,
         "scminput": false,
         "javascriptreact": false,
-        "c": false
+        "c": true
     },
     "makefile.configureOnOpen": true,
     "files.associations": {

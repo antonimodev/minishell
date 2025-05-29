@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:00 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/27 12:54:04 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:45:31 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ bool	is_built_in(t_minishell *minishell)
 	return (true);
 }
 
+static void	cleanup_child_process(t_minishell *minishell)
+{
+	close(minishell->fd_tools.stdin);
+	close(minishell->fd_tools.stdout);
+	free_matrix(minishell->envp);
+	free_matrix(minishell->declare_matrix);
+	free_minishell(minishell);
+	exit(EXIT_SUCCESS);
+}
+
 void	exec_built_in(t_minishell *minishell)
 {
 	if (minishell->built_in_type == FT_PWD)
@@ -58,12 +68,5 @@ void	exec_built_in(t_minishell *minishell)
 	else if (minishell->built_in_type == FT_EXIT)
 		ft_exit(minishell);
 	if (minishell->pid == CHILD)
-	{
-		close(minishell->fd_tools.stdin);
-		close(minishell->fd_tools.stdout);
-		free_matrix(minishell->envp);
-		free_matrix(minishell->declare_matrix);
-		free_minishell(minishell);
-		exit(EXIT_SUCCESS);
-	}
+		cleanup_child_process(minishell);
 }

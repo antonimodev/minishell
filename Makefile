@@ -71,7 +71,8 @@ MINISHELL_SRC = src/built_ins/cd/cd_utils.c \
 				src/validations/valid_rl_input.c \
 				src/validations/valid_symbols.c \
 				src/validations/valid_env_char.c \
-				src/validations/valid_redir.c \
+				src/validations/valid_redir/valid_redir.c \
+				src/validations/valid_redir/valid_redir_utils.c \
 				\
 				src/exec.c	\
                 src/signals.c 

@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/27 12:55:01 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:49:49 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	get_input(t_minishell *minishell)
 	{
 		shell_prompt(minishell);
 		free_last_input(minishell);
-		printf("soy el readline:\n");
 		minishell->user_input = readline(minishell->shell_prompt);
 		if (g_signal == SIGINT)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:40 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/27 11:20:20 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:51:37 by frmarian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 /* ------------------------ GLOBAL -------------------------*/
 
-int		g_signal;
+extern int		g_signal;
 
 /* --------------------- ENUMS -----------------------------*/
 
@@ -276,6 +276,16 @@ void	exec(t_minishell *minishell);
 bool	valid_cmd(char *cmd_path);
 bool	cmd_not_found(t_minishell *minishell);
 
+/*----- VALID_REDIR------------*/
+
+bool	check_redir_existence(t_minishell *minishell);
+bool	check_valid_redir(t_minishell *minishell);
+
+/*-------VALID_REDIR_UTILS-----*/
+
+bool	consecutive_redirs(t_minishell *minishell);
+bool	pipe_after_redir(char **input_matrix, int index);
+
 /* VALID_ENV_CHAR.C ----------*/
 bool	valid_env_char(char c);
 
@@ -322,5 +332,6 @@ void	get_exit_status(t_minishell *minishell, pid_t pid);
 
 void	setup_signals(void);
 void	set_std_signals(void);
+void	set_parent_signals(void);
 
 #endif
