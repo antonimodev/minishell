@@ -78,7 +78,7 @@ void	handle_redir(t_minishell *minishell)
 	matrix = matrix_cpy(minishell->input_matrix, 0);
 	while (matrix[i])
 	{
-		if (!minishell->input_matrix)
+		if (minishell->redir.invalid_input)
 		{
 			free_matrix(matrix);
 			return ;
