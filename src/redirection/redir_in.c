@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/29 13:50:34 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:36:39 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 static void	heredoc_handle_sign(int sign)
 {
 	if (sign == SIGINT)
+	{
 		g_signal = 42; // custom
+		write(STDOUT_FILENO, "\n", 1);
+		close(STDIN_FILENO);
+	}
 }
 
 static void	setup_heredoc_signs(void)
@@ -28,6 +32,10 @@ static void	setup_heredoc_signs(void)
 	sigemptyset(&sa_heredoc.sa_mask);
 	if (sigaction(SIGINT, &sa_heredoc, NULL) == -1)
 		perror("sigaction");
+	
+	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_flags = 0;
+	sigemptyset(&sa_quit.sa_mask);
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
 		perror("sigaction");
 }
@@ -112,6 +120,13 @@ static void	handle_heredoc_eof(t_minishell *minishell)
 		set_fd_mode(STDIN_FILENO, temp_pipe);
 } */
 
+
+/*
+
+Heredoc ahora se hace con HIJO, eso quiere decir que se debe salir y liberar
+no solamente con CTRL + C sino también de manera habitual.
+
+*/
 void	redir_heredoc(t_minishell *minishell, int index)
 {
 	int		last_fd;
@@ -128,17 +143,19 @@ void	redir_heredoc(t_minishell *minishell, int index)
 		child = fork();
 	if (child == 0 || minishell->pid == CHILD)
 	{
-		setup_heredoc_signs();
 		while (1)
 		{
+			setup_heredoc_signs();
 			line = readline("> ");
 			if (g_signal == 42)
 			{
 				minishell_reset_fd(minishell);
 				free(line);
-				free_minishell(minishell);
 				free_matrix(minishell->envp);
 				free_matrix(minishell->declare_matrix);
+				close(minishell->fd_tools.pipes[minishell->redir.redir_count - 1].read_pipe);
+				close(minishell->fd_tools.pipes[minishell->redir.redir_count - 1].write_pipe);
+				free_minishell(minishell);
 				close(temp_pipe.write_pipe);
 				close(temp_pipe.read_pipe);
 				exit(SIGINT);
@@ -167,5 +184,6 @@ void	redir_heredoc(t_minishell *minishell, int index)
 	if (minishell->redir.last_input == last_fd
 		&& !minishell->redir.invalid_input)
 		set_fd_mode(STDIN_FILENO, temp_pipe);
+	//if (minishell->pid == CHILD)
 }
 

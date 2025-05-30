@@ -369,180 +369,64 @@ kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo
 
 
 
-----
+<< eof : no se queda ninguna abierta
 
 
-CHECKEAR AMBOS PARA LOGICA
-
-
-
-
-
-typedef enum e_signal
-{
-	S_BASE,        // señal Base
-	S_HEREDOC,     // entra en el heredoc
-	S_HEREDOC_END, // finalización del heredoc
-	S_SIGINT,      // Ctrl + C
-	S_SIGINT_CMD,  // Ctrl + C en medio de una comando
-	S_CMD,         // se ejecuta un comando
-	S_CANCEL_EXEC, // Ctrl + D en heredoc
-	S_SIZE
-}			t_signal;
-
-
-
-#include "minishell.h"
-
-int			g_signal;
-
-static void	sigint_handler(int sig);
-static void	sigint_handler_aux(void);
-
-/**
- * @brief Inicializa la gestión de señales en el shell.
- *
- * Esta función inicializa la gestión de señales en el shell, estableciendo los
- * manejadores de señales para SIGINT y SIGQUIT. Además, inicializa la variable
- * global `g_signal` en el estado base.
- */
-void	signal_init(void)
-{
-	g_signal = S_BASE;
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-/**
- * @brief Manejador de señales para SIGINT y SIGQUIT.
- *
- * Esta función maneja las señales SIGINT y SIGQUIT. Dependiendo del estado
- * actual de la señal global `g_signal`, realiza acciones específicas, como
- * interrumpir la ejecución de un comando, cancelar un comando en ejecución
- * o finalizar un here document.
- *
- * @param sig El número de la señal recibida.
- */
-static void	sigint_handler(int sig)
-{
-	(void)sig;
-	if (g_signal == S_BASE || g_signal == S_SIGINT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else if (g_signal == S_CMD)
-	{
-		g_signal = S_SIGINT_CMD;
-		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
-	}
-	else if (g_signal == S_HEREDOC)
-	{
-		ioctl(0, TIOCSTI, '\n');
-		exit(0);
-	}
-	sigint_handler_aux();
-}
-
-/**
- * @brief Función auxiliar para manejar situaciones adicionales de SIGINT.
- *
- * Esta función maneja situaciones adicionales de SIGINT que no están cubiertas
- * directamente en el manejador principal. Por ejemplo, cancela la ejecución de
- * un here document o establece la señal `S_SIGINT` en estado base o heredoc.
- */
-static void	sigint_handler_aux(void)
-{
-	if (g_signal == S_HEREDOC_END)
-	{
-		ft_putstr_fd("\n", 1);
-		g_signal = S_CANCEL_EXEC;
-	}
-	else if (g_signal == S_BASE || g_signal == S_HEREDOC)
-		g_signal = S_SIGINT;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* -------------- TESTEAR ----------- */
-
-g_signal = 0;
-
+<< eof | ls : se quedan abiertas las 5 y 6
 /*
-* sig_handler:
-*  - Captura SIGINT, guarda señal y escribe nueva línea.
+
+0: STDIN	3: COPIA DE STDIN	6: PIPE DE ESCRITURA CREADA EN HANDLE_REDIR
+1: STDOUT	4: COPIA STDOUT
+2: STDERR	5: PIPE DE LECTURA CREADA EN HANDLE REDIR
+
+
+APUNTE DE PIPES:
+STANDARD
+0 - 1
+COPIA STANDARD
+3 - 4
+
+1 PIPE CREADA
+5 - 6
+
+PADRE:
+* Cierra 6
+
+HIJO:
+* Crea una temp_pipe: 7 - 8
+* Cierra 3 - 4
+* Cierra 5 - 6
+* Cierra 7 - 8
+
 */
 
-static void sig_handler(int signo)
-{
-    g_signal = signo;
-    write(STDOUT_FILENO, "\n", 1);
-}
+
+ls | << eof : se queda abierta la 5
 
 /*
-* init_signals:
-*  - En el padre, capturar SIGINT y evitar SIGQUIT.
+APUNTE DE PIPES:
+STANDARD
+0 - 1
+COPIA STANDARD
+3 - 4
+
+1 PIPE CREADA
+5 - 6
+
+PADRE:
+* Cierra 6
+* Cierra 7 - 8
+
+HIJO DE HEREDOC:
+* Cierra 3 - 4
+* Cierra 5 - 6
+* Cierra 7 - 8
+
+HIJO:
+* Cierra 5 - 6
+
+
 */
 
-void	init_signals(void)
-{
-    struct sigaction sa;
+cat << eof | ls | cat << eof2 (SALIR SIN CONTROL + C, HACERLO DE MANERA TRADICIONAL)
 
-    sa.sa_handler = sig_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGQUIT, &(struct sigaction){ .sa_handler = SIG_IGN}, NULL);
-}
-
-/*
-* reset_signals_in_child:
-*  - En proceso hijo, restaurar acciones por defecto.
-*/
-
-void	reset_signals_in_child(void)
-{
-	sigaction(SIGINT,  &(struct sigaction){ .sa_handler = SIG_DFL }, NULL);
-	sigaction(SIGQUIT, &(struct sigaction){ .sa_handler = SIG_DFL }, NULL);
-}
-
-/*
-* wait_and_set_status:
-*  - Espera a hijo, ajusta status si hubo SIGINT.
-*  - Devuelve código de salida.
-*/
-
-despues de wait_pid
-if (g_signal == SIGINT)
-	return 128 + SIGINT;
-
-/*
-* read_heredoc:
-*  - Lee líneas hasta LIMITER o Ctrl +C.
-*  - Retorna NULL si se interrumpe.
-*/
-
-heredoc readline ->
-if (g_signal == SIGINT)
-{
-	free(line);
-	return NULL;
-}
