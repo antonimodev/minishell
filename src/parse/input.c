@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:15:12 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/29 11:49:49 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:28:13 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	parse_input(t_minishell *minishell)
 			free_matrix(minishell->input_matrix);
 		minishell->input_matrix = split_without_quotes(minishell);
 	}
+	if (minishell->exit_status == 42)
+		return ;
 	if (!minishell->input_matrix || !*minishell->input_matrix)
 	{
 		free_matrix(minishell->input_matrix);

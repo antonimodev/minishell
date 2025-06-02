@@ -369,64 +369,39 @@ kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo
 
 
 
-<< eof : no se queda ninguna abierta
+cat << eof
+
+*eof -> ✅
+*SIGINT -> ✅
 
 
-<< eof | ls : se quedan abiertas las 5 y 6
-/*
+cat << eof | ls
 
-0: STDIN	3: COPIA DE STDIN	6: PIPE DE ESCRITURA CREADA EN HANDLE_REDIR
-1: STDOUT	4: COPIA STDOUT
-2: STDERR	5: PIPE DE LECTURA CREADA EN HANDLE REDIR
+*eof -> ✅
+*SIGINT -> ✅
 
+ls | cat << eof
 
-APUNTE DE PIPES:
-STANDARD
-0 - 1
-COPIA STANDARD
-3 - 4
+*eof -> ✅ Se queda abierta la 5
+*SIGINT -> ✅
 
-1 PIPE CREADA
-5 - 6
-
-PADRE:
-* Cierra 6
-
-HIJO:
-* Crea una temp_pipe: 7 - 8
-* Cierra 3 - 4
-* Cierra 5 - 6
-* Cierra 7 - 8
-
-*/
-
-
-ls | << eof : se queda abierta la 5
-
-/*
-APUNTE DE PIPES:
-STANDARD
-0 - 1
-COPIA STANDARD
-3 - 4
-
-1 PIPE CREADA
-5 - 6
-
-PADRE:
-* Cierra 6
-* Cierra 7 - 8
-
-HIJO DE HEREDOC:
-* Cierra 3 - 4
-* Cierra 5 - 6
-* Cierra 7 - 8
-
-HIJO:
-* Cierra 5 - 6
-
-
-*/
 
 cat << eof | ls | cat << eof2 (SALIR SIN CONTROL + C, HACERLO DE MANERA TRADICIONAL)
 
+*eof, eof2 -> ✅ Se queda abierta la número 5
+*eof, SIGINT -> ✅ Se queda abierta la número 5
+*SIGINT -> ✅
+
+ls | cat << eof | ls | cat << eof2
+
+*eof, eof2 ✅
+*eof, SIGINT ✅
+*SIGINT -> ❓ Se queda abierto el 5
+
+----
+
+PARA EVITAR EL ERROR DEL CLOSE STDIN EN COMANDOS QUE LEEN DE STDIN, REESTABLECER
+USANDO LAS COPIAS DE STDIN QUE TENEMOS, LA IDEA ES QUE USEMOS CLOSE STDIN PARA
+TERMINAR EL READLINE, Y DESPUES REESTABLECER UN STDIN ESTANDAR
+
+(TAMBIEN PUEDE QUE SIMPLEMENTE ROMPAMOS ANTES DE EJECUTAR EXECVE)

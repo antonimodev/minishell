@@ -6,7 +6,7 @@
 /*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:43:25 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:16:03 by jortiz-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ static bool	check_empty_input(t_minishell *minishell)
 {
 	if (minishell->user_input == NULL)
 	{
-		free_minishell(minishell);
 		write(STDOUT_FILENO, "exit\n", 5);
+		close(minishell->fd_tools.stdin);
+		close(minishell->fd_tools.stdout);
+		free_matrix(minishell->envp);
+		free_matrix(minishell->declare_matrix);
+		free_minishell(minishell);
 		exit(minishell->exit_status);
 	}
 	if (minishell->user_input[0] == '\0'

@@ -55,12 +55,14 @@ MINISHELL_SRC = src/built_ins/cd/cd_utils.c \
 				src/parse/prompt.c \
 				src/parse/is_redirection.c \
 				\
-				src/redirection/redir_in.c \
+				src/redirection/redir_in/redir_in.c \
+				src/redirection/redir_in/redir_in_utils.c \
 				src/redirection/redir_out.c \
 				src/redirection/redir_pipe.c \
 				src/redirection/redirect.c \
 				\
-				src/redirection_utils/fork_redir.c \
+				src/redirection_utils/fork_redir/fork_redir.c \
+				src/redirection_utils/fork_redir/fork_redir_utils.c \
 				src/redirection_utils/fd_utils.c \
 				src/redirection_utils/pipe_libft.c \
 				src/redirection_utils/pipe_utils.c \
