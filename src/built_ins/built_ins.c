@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:00 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/29 13:45:31 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:15:11 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void	cleanup_child_process(t_minishell *minishell)
 	free_matrix(minishell->envp);
 	free_matrix(minishell->declare_matrix);
 	free_minishell(minishell);
+	if (minishell->exit_status)
+		exit(minishell->exit_status);
 	exit(EXIT_SUCCESS);
 }
 

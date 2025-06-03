@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:31:24 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/06/02 15:23:27 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:01:55 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,7 @@ void	handle_heredoc_sigint(t_minishell *minishell, t_pipe *temp_pipe)
 	close(temp_pipe->read_pipe);
 	close(temp_pipe->write_pipe);
 	if (minishell->first_cmd)
-	{
-		close_read_pipes(minishell);
-		close(minishell->fd_tools.pipes
-		[minishell->redir.redir_count - 1].read_pipe);
-	}
+		close_all_read_pipes(minishell);
 	if (minishell->pid == CHILD)
 	{
 		close(minishell->fd_tools.stdin);
@@ -74,11 +70,7 @@ bool	check_eof_or_delimiter(t_minishell *minishell, char *line)
 	else if (is_delimiter(minishell, line))
 	{
 		if (minishell->pid == PARENT && minishell->first_cmd)
-		{
-			close_read_pipes(minishell);
-			close(minishell->fd_tools.pipes
-			[minishell->redir.redir_count - 1].read_pipe);
-		}
+			close_all_read_pipes(minishell);
 		return (true);
 	}
 	return (false);

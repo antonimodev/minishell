@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_declare.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:48 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/05/22 10:25:04 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:11:48 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,3 @@ void	show_declare_matrix(char **declare_matrix)
 	free_matrix(matrix_copy);
 }
 
-void	free_declare_matrix(t_minishell *minishell)
-{
-	if (minishell->pid == CHILD)
-	{
-		free_minishell(minishell);
-		free_matrix(minishell->envp);
-		free_matrix(minishell->declare_matrix);
-		exit(EXIT_SUCCESS);
-	}
-}

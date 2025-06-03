@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   redir_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:00:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/27 12:56:03 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:01:03 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_all_read_pipes(t_minishell *minishell)
+{
+	int	last_pipe;
+
+	last_pipe = minishell->redir.redir_count - 1;
+	close_read_pipes(minishell);
+	close(minishell->fd_tools.pipes[last_pipe].read_pipe);
+}
+
+void	close_unused_pipes(t_minishell *minishell)
+{
+	close_read_pipes(minishell);
+	close_write_pipes(minishell);
+}
 
 void	close_read_pipes(t_minishell *minishell)
 {

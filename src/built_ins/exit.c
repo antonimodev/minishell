@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:41:33 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/27 10:53:17 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:07:40 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,15 @@ static bool	exit_is_number(t_minishell *minishell)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (minishell->args_num == 2)
 	{
+		if (minishell->input_matrix[1][0] == '-'
+			|| minishell->input_matrix[1][0] == '+')
+		{
+			if (!ft_isdigit(minishell->input_matrix[1][1]))
+				return (false);
+		}
 		while (minishell->input_matrix[1][i])
 		{
 			if (!ft_isdigit(minishell->input_matrix[1][i]))
@@ -39,8 +45,7 @@ static void	quit(t_minishell *minishell)
 		if (minishell->declare_matrix)
 			free_matrix(minishell->declare_matrix);
 		minishell_reset_fd(minishell);
-		close_write_pipes(minishell);
-		close_read_pipes(minishell);
+		close_unused_pipes(minishell);
 		free_minishell(minishell);
 		exit(minishell->exit_status);
 	}

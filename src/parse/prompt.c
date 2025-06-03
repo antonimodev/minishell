@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/27 12:43:19 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:09:41 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static char	*mount_prompt(char **user, char **pwd, char **arrow, char **prompt)
 {
 	*user = ft_strjoin("\001" BOLD_TURQUOISE "\002", *user);
 	*user = strjoin_and_free(*user, "\001" RESET "\002");
-	*arrow = ft_strdup("\001" BOLD_GREEN "\002 ➜ \001" RESET "\002");
+	*arrow = ft_strdup("\001" BOLD_GREEN "\002 > \001" RESET "\002");
 	*prompt = strjoin_and_free(*user, *arrow);
 	*prompt = strjoin_and_free(*prompt, *pwd);
 	*prompt = strjoin_and_free(*prompt,
-			"\001" BOLD_YELLOW "\002 ✦ \001" RESET "\002");
+			"\001" BOLD_YELLOW "\002 $ \001" RESET "\002");
 	free(*arrow);
 	free(*pwd);
 	return (*prompt);
@@ -45,7 +45,7 @@ void	shell_prompt(t_minishell *minishell)
 			2);
 		pwd = ft_strdup(minishell->env_home);
 		if (chdir(minishell->env_home))
-			ft_putstr_fd("error jeje\n", 2);
+			ft_putstr_fd("Cannot access directory\n", 2);
 	}
 	minishell->shell_prompt = mount_prompt(&user, &pwd, &arrow, &prompt);
 }

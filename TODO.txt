@@ -350,7 +350,7 @@ puede que sean otros. Se crean en minishell_store_fd() al parecer
 ✅ Luego "leaks" tambien hay algunos. No son leaks, pero para 42 todo lo que no se libere se considera leak...
 Y en el padre tambien hay algo de leak
 
-kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo popo
+✅ kobayashi ➜ /mnt/d/Programas/Mis Programas/42/Active/mini ✦ echo popo | echo popo
 
 ==81991== FILE DESCRIPTORS: 5 open (3 std) at exit.
 ==81991== Open file descriptor 4: /dev/pts/0
@@ -396,12 +396,5 @@ ls | cat << eof | ls | cat << eof2
 
 *eof, eof2 ✅
 *eof, SIGINT ✅
-*SIGINT -> ❓ Se queda abierto el 5
+*SIGINT -> ✅ Se queda abierto el 5
 
-----
-
-PARA EVITAR EL ERROR DEL CLOSE STDIN EN COMANDOS QUE LEEN DE STDIN, REESTABLECER
-USANDO LAS COPIAS DE STDIN QUE TENEMOS, LA IDEA ES QUE USEMOS CLOSE STDIN PARA
-TERMINAR EL READLINE, Y DESPUES REESTABLECER UN STDIN ESTANDAR
-
-(TAMBIEN PUEDE QUE SIMPLEMENTE ROMPAMOS ANTES DE EJECUTAR EXECVE)

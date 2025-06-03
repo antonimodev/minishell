@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:40 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/06/02 15:23:47 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:01:18 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ char	**export_plus_equal(char **matrix, char *arg, char *var_name);
 
 /* EXPORT_DECLARE.C -------------*/
 void	show_declare_matrix(char **declare_matrix);
-void	free_declare_matrix(t_minishell *minishell);
 
 /* EXPORT_UTILS.C ---------------*/
 int		get_chr_index(char *str, char chr);
@@ -264,6 +263,8 @@ void	redir_out(t_minishell *minishell, int index);
 void	redir_append(t_minishell *minishell, int index);
 
 /* REDIR_PIPE.C -----------------*/
+void	close_all_read_pipes(t_minishell *minishell);
+void    close_unused_pipes(t_minishell *minishell);
 void	close_read_pipes(t_minishell *minishell);
 void	close_write_pipes(t_minishell *minishell);
 void	ft_pipe(t_minishell *minishell);

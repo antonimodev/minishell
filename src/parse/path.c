@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:56:28 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/26 12:31:52 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:47:34 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ char	*get_path(char **input_matrix, char **envp)
 	if (!input_matrix || !*input_matrix || !envp)
 		return (NULL);
 	if (ft_strchr(input_matrix[0], '/'))
+	{
+		if (access(input_matrix[0], F_OK | X_OK))
+			return (NULL);
 		return (ft_strdup(input_matrix[0]));
+	}
 	splitted_paths = set_raw(envp);
 	if (!splitted_paths)
 		return (NULL);
