@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 13:44:47 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/22 10:50:29 by jortiz-m         ###   ########.fr       */
+/*   Created: 2025/06/03 15:29:22 by antonimo          #+#    #+#             */
+/*   Updated: 2025/06/03 15:29:24 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

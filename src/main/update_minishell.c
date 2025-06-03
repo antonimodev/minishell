@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_minishell.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 11:49:01 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/22 10:44:47 by jortiz-m         ###   ########.fr       */
+/*   Created: 2025/06/03 15:29:06 by antonimo          #+#    #+#             */
+/*   Updated: 2025/06/03 15:33:45 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

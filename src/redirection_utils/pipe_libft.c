@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_libft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:52:07 by antonimo          #+#    #+#             */
-/*   Updated: 2025/03/27 10:46:51 by frmarian         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:30:51 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

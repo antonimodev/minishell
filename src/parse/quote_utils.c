@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 14:23:48 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/11 14:25:39 by frmarian         ###   ########.fr       */
+/*   Created: 2025/06/03 15:29:59 by antonimo          #+#    #+#             */
+/*   Updated: 2025/06/03 15:30:01 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

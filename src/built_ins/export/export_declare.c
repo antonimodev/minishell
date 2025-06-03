@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:09:48 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/06/03 12:11:48 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:35:13 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,3 @@ void	show_declare_matrix(char **declare_matrix)
 	}
 	free_matrix(matrix_copy);
 }
-

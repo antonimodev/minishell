@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_symbols.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 14:05:37 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/22 11:06:46 by jortiz-m         ###   ########.fr       */
+/*   Created: 2025/06/03 15:31:40 by antonimo          #+#    #+#             */
+/*   Updated: 2025/06/03 15:31:41 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

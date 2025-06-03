@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:40 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/06/03 13:01:18 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:38:15 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,77 +44,77 @@ extern int		g_signal;
 
 typedef enum t_error
 {
-    CMD_NOT_FOUND = 127,
+	CMD_NOT_FOUND = 127,
 }	t_error;
 
 typedef enum t_built_in
 {
-    FT_NULL,
-    FT_ECHO,
-    FT_CD,
-    FT_PWD,
-    FT_EXPORT,
-    FT_UNSET,
-    FT_ENV,
-    FT_EXIT
+	FT_NULL,
+	FT_ECHO,
+	FT_CD,
+	FT_PWD,
+	FT_EXPORT,
+	FT_UNSET,
+	FT_ENV,
+	FT_EXIT
 }	t_built_in;
 
 typedef enum t_process
 {
-    CHILD,
-    PARENT
+	CHILD,
+	PARENT
 }	t_process;
 
 /* -------------------------- STRUCTS ----------------------------*/
 
 typedef struct s_quote
 {
-    char	type;
-    bool	closed;
+	char	type;
+	bool	closed;
 }	t_quote;
 
 typedef struct s_fd_tools
 {
-    t_pipe	*pipes;
-    int		stdin;
-    int		stdout;
+	t_pipe	*pipes;
+	int		stdin;
+	int		stdout;
 }	t_fd;
 
 typedef struct s_heredoc
 {
-    char	**delimits;
-    int		delimit_index;
+	char	**delimits;
+	int		delimit_index;
 }	t_heredoc;
 
 typedef struct s_redir
 {
-    bool	redir_exist;
-    bool	invalid_input;
-    int		redir_count;
-    int		last_input;
-    int		last_output;
+	bool	redir_exist;
+	bool	invalid_input;
+	int		redir_count;
+	int		last_input;
+	int		last_output;
 }	t_redir;
 
 typedef struct s_minishell
 {
-    char			*user_input;
-    char			*user;
-    char			*shell_prompt;
-    char			*last_prompt;
-    char			**envp;
-    char			**declare_matrix;
-    char			*env_home;
-    char			**input_matrix;
-    char			**quoted_matrix;
-    char			*cmd_path;
-    int				args_num;
-    int				first_cmd;
-    t_built_in		built_in_type;
-    t_process		pid;
-    t_fd			fd_tools;
-    t_redir			redir;
-    t_heredoc		heredoc;
-    int				exit_status;
+	char			*user_input;
+	char			*user;
+	char			*shell_prompt;
+	char			*last_prompt;
+	char			**envp;
+	char			**declare_matrix;
+	char			*env_home;
+	char			**input_matrix;
+	char			**quoted_matrix;
+	char			*cmd_path;
+	int				args_num;
+	int				first_cmd;
+	t_built_in		built_in_type;
+	t_process		pid;
+	t_fd			fd_tools;
+	t_redir			redir;
+	t_heredoc		heredoc;
+	int				exit_status;
 }	t_minishell;
 
 /*-------------------------  MAIN ------------------------*/
@@ -165,7 +165,7 @@ bool	check_quotes_balance(char *str);
 char	**split_with_quotes(t_minishell *minishell);
 char	**split_without_quotes(t_minishell *minishell);
 char	**process_character(char current_char, char **matrix, char **word,
-            t_quote *quote);
+			t_quote *quote);
 char	**addmatrix(char **matrix, char **word);
 char	**finalize_parsing(char **matrix, char **word);
 
@@ -264,7 +264,7 @@ void	redir_append(t_minishell *minishell, int index);
 
 /* REDIR_PIPE.C -----------------*/
 void	close_all_read_pipes(t_minishell *minishell);
-void    close_unused_pipes(t_minishell *minishell);
+void	close_unused_pipes(t_minishell *minishell);
 void	close_read_pipes(t_minishell *minishell);
 void	close_write_pipes(t_minishell *minishell);
 void	ft_pipe(t_minishell *minishell);
@@ -293,7 +293,7 @@ void	handle_redir(t_minishell *minishell);
 /* FORK_REDIR_UTILS.C -----------*/
 bool	is_child_process(t_minishell *minishell, pid_t child);
 bool	process_child_cmd(t_minishell *minishell, char **matrix,
-            int *operator_pos, int *current_pos);
+			int *operator_pos, int *current_pos);
 
 /* PIPE_LIBFT.C -----------------*/
 t_pipe	create_pipe(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_cmd_cleaner.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 14:10:50 by frmarian          #+#    #+#             */
-/*   Updated: 2025/05/27 13:10:09 by jortiz-m         ###   ########.fr       */
+/*   Created: 2025/06/03 15:31:02 by antonimo          #+#    #+#             */
+/*   Updated: 2025/06/03 15:31:03 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

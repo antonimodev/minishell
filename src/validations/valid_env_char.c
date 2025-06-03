@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_env_char.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frmarian <frmarian@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 12:11:22 by frmarian          #+#    #+#             */
-/*   Updated: 2025/04/11 14:04:04 by frmarian         ###   ########.fr       */
+/*   Created: 2025/06/03 15:31:23 by antonimo          #+#    #+#             */
+/*   Updated: 2025/06/03 15:31:23 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
