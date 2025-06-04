@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:31:53 by antonimo          #+#    #+#             */
-/*   Updated: 2025/05/29 13:48:03 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:29:40 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static bool	redir_in_last(t_minishell *minishell)
 	if (minishell->quoted_matrix[input_matrix_len][str_len] == '>' ||
 		minishell->quoted_matrix[input_matrix_len][str_len] == '<')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token\
-			`newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
+		ft_putstr_fd("`newline'\n", 2);
 		minishell->exit_status = 2;
 		minishell->redir.invalid_input = true;
 		return (true);

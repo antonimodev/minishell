@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:31:24 by jortiz-m          #+#    #+#             */
-/*   Updated: 2025/06/03 13:01:55 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:23:35 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void	handle_heredoc_eof(t_minishell *minishell)
 
 void	handle_heredoc_sigint(t_minishell *minishell, t_pipe *temp_pipe)
 {
-	close(temp_pipe->read_pipe);
-	close(temp_pipe->write_pipe);
+	if (temp_pipe->read_pipe != -1)
+	{
+		close(temp_pipe->read_pipe);
+		close(temp_pipe->write_pipe);
+	}
 	if (minishell->first_cmd)
 		close_all_read_pipes(minishell);
 	if (minishell->pid == CHILD)
@@ -68,11 +71,7 @@ bool	check_eof_or_delimiter(t_minishell *minishell, char *line)
 		return (true);
 	}
 	else if (is_delimiter(minishell, line))
-	{
-		if (minishell->pid == PARENT && minishell->first_cmd)
-			close_all_read_pipes(minishell);
 		return (true);
-	}
 	return (false);
 }
 
@@ -89,7 +88,7 @@ int	heredoc_loop(t_minishell *minishell, int last_fd, t_pipe temp_pipe)
 			if (line)
 				free(line);
 			handle_heredoc_sigint(minishell, &temp_pipe);
-			g_signal = 0;
+			//g_signal = 0; comentario
 			return (-1);
 		}
 		if (check_eof_or_delimiter(minishell, line))

@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/06/03 15:30:45 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:23:16 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@ static void	process_redir(t_minishell *minishell)
 	while (minishell->input_matrix[i])
 	{
 		if (str_equal(minishell->input_matrix[i], "<<"))
+		{
 			redir_heredoc(minishell, i);
+			if (g_signal == 42)
+			{
+				g_signal = 0;
+				return ;
+			}
+		}
 		i++;
 	}
 	i = 0;

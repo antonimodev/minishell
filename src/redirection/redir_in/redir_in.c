@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jortiz-m <jortiz-m@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:42:51 by antonimo          #+#    #+#             */
-/*   Updated: 2025/06/02 15:09:06 by jortiz-m         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:21:45 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,18 @@ void	redir_heredoc(t_minishell *minishell, int index)
 	last_fd = index + 1;
 	if (minishell->redir.last_input == last_fd)
 		temp_pipe = create_pipe();
+	else
+	{
+		temp_pipe.read_pipe = -1;
+		temp_pipe.write_pipe = -1;
+	}
 	if (heredoc_loop(minishell, last_fd, temp_pipe) == -1)
 		return ;
 	if (minishell->redir.last_input == last_fd
 		&& !minishell->redir.invalid_input)
+	{
 		set_fd_mode(STDIN_FILENO, temp_pipe);
+		if (minishell->pid == PARENT && minishell->first_cmd)
+			close_all_read_pipes(minishell);
+	}
 }

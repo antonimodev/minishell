@@ -6,7 +6,7 @@
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:31:02 by antonimo          #+#    #+#             */
-/*   Updated: 2025/06/03 15:31:03 by antonimo         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:24:57 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*remove_chr_from_str(char *str, char chr)
 	return (new_str);
 }
 
-static void	foo(t_minishell *minishell, int *index)
+static void	process_clean_matrix(t_minishell *minishell, int *index)
 {
 	if (is_redirection(minishell->input_matrix[*index]))
 	{
@@ -68,7 +68,7 @@ void	clean_matrix_redirs(t_minishell *minishell)
 
 	i = 0;
 	while (minishell->input_matrix[i])
-		foo(minishell, &i);
+		process_clean_matrix(minishell, &i);
 	if (!minishell->cmd_path)
 		minishell->cmd_path = get_path
 			(minishell->input_matrix, minishell->envp);
