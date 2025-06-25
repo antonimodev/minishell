@@ -88,7 +88,6 @@ int	heredoc_loop(t_minishell *minishell, int last_fd, t_pipe temp_pipe)
 			if (line)
 				free(line);
 			handle_heredoc_sigint(minishell, &temp_pipe);
-			//g_signal = 0; comentario
 			return (-1);
 		}
 		if (check_eof_or_delimiter(minishell, line))
